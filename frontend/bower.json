@@ -1,0 +1,23 @@
+{
+  "name": "Duel",
+  "description": "game",
+  "main": "src/index.html",
+  "authors": [
+    "findoss"
+  ],
+  "license": "todo MIT",
+  "moduleType": [
+    "amd"
+  ],
+  "homepage": "todo",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "normalize-css": "^7.0.0",
+    "phaser-ce": "^2.7.9"
+  }
+}
