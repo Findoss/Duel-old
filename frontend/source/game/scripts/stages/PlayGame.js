@@ -1,7 +1,7 @@
 //
 var sprite ;
 var counter = 0 ;
-var step = Math.PI * 2 / 360 ;
+var step = Math.PI * 2 / 250 ;
 
 
 var PlayGame = function(game){}
@@ -19,8 +19,6 @@ PlayGame.prototype = {
   },
   create: function(){
     //
-    keyFullScrin = game.input.keyboard.addKey(Phaser.Keyboard.Q);
-    //
     sprite = game.add.sprite(0, 0, 'sprite');
     sprite.x = game.width / 2 ;
     sprite.anchor.x = sprite.anchor.y = 0.5 ;
@@ -29,18 +27,11 @@ PlayGame.prototype = {
   update: function(){
     //
     var tStep = Math.sin( counter ) ;
-    sprite.y = (game.height/2) + tStep * 30 ;
-    sprite.rotation += Phaser.Math.degToRad( 0.1 * tStep ) ;
+    sprite.y = (game.height/2) + tStep * 50 ;
+    sprite.rotation += Phaser.Math.degToRad( 0.3 * tStep ) ;
     counter += step ;
     //
     util.resizeGame(game);
-    /*
-    if (keyFullScrin.isDown) {
-      console.log("x = ");
-      if (game.scale.isFullScreen) game.scale.stopFullScreen();
-      else game.scale.startFullScreen(false);
-    }*/
-
   },
   render: function(){
     game.debug.text('FPS: ' + game.time.fps || 'FPS: --', 30, 30, "#00ff00",50);
