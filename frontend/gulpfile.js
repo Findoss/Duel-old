@@ -10,5 +10,6 @@ gulp.task('reload', function() {
 gulp.task('default', function() {
   livereload.listen();
   gulp.watch('source/game/scripts/*.js', ['reload']);
+  gulp.watch('source/game/scripts/*/*.js', ['reload']);
   gulp.watch('source/game/*.html', ['reload']);
 });
