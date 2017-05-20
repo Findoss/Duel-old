@@ -8,8 +8,9 @@ var PlayGame = function(game){}
 PlayGame.prototype = {
   init: function(){
     //
+    game.time.advancedTiming = true;
+    //
     game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
-    
     //
     console.log("param = "+param.key);
   },
@@ -31,10 +32,12 @@ PlayGame.prototype = {
     sprite.rotation += Phaser.Math.degToRad( 0.3 * tStep ) ;
     counter += step ;
     //
-    util.resizeGame(game);
+    utils.resizeGame(game);
   },
   render: function(){
-    game.debug.text('FPS: ' + game.time.fps || 'FPS: --', 30, 30, "#00ff00",50);
+
+    DEBUG && game.debug.text('FPS: ' + game.time.fps || 'FPS: --', 20, 50, DEBUG_color, DEBUG_font);
+    DEBUG && game.debug.pixel( 200, 280, 'rgba(0,255,255,1)' ) ;
     /*
     game.debug.inputInfo(32, 32);
     game.debug.spriteInputInfo(sprite, 32, 130);
