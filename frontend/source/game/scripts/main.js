@@ -6,7 +6,7 @@ var param = {
 class game extends Phaser.Game {
 
   constructor() {
-    super(1920, 1080, Phaser.AUTO);
+    super(configPhaser);
  
     //this.state.add('Boot', Boot);
     //this.state.add('Preloader', Preloader);
