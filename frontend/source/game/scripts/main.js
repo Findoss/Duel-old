@@ -2,11 +2,10 @@ var param = {
   key: true
 };
 
-
-class game extends Phaser.Game {
+class Game extends Phaser.Game {
 
   constructor() {
-    super(1920, 1080, Phaser.AUTO);
+    super(configPhaser);
  
     //this.state.add('Boot', Boot);
     //this.state.add('Preloader', Preloader);
@@ -15,7 +14,8 @@ class game extends Phaser.Game {
  
     //this.state.start('Boot');
     this.state.start('PlayGame', true, false, param);
+
   }
 }
 
-new game();
+var game = new Game();

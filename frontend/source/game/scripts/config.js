@@ -1,4 +1,4 @@
-var config = {
+var configPhaser = {
   width :  1920,
   height : 1080,
   renderer : Phaser.AUTO,
