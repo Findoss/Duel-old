@@ -17,21 +17,22 @@ class PlayGame extends Phaser.State {
   }
 
   create() {
-    for (var i = 0; i < 6; i++) {
-      for (var j = 0; j < 6; j++) {
-        new Rune(i+3, j+3, i, "wait", "sprite_");
-      }
-    }
+    //
+    var q = new Board();
+    q.load(testBoard_1);
+    q.viewCreate();
+
+    var w = new Board();
+    w.load(testBoard_1);
+    w.viewCreate(900);
   }
 
 
   update() {
-    //
     utils.resizeGame(this.game);
   }
 
   render() {
-    //
     DEBUG && this.game.debug.text('FPS: ' + this.game.time.fps || 'FPS: --', 20, 50, DEBUG_color, DEBUG_font);
     /*
     game.debug.inputInfo(32, 32);
@@ -40,5 +41,3 @@ class PlayGame extends Phaser.State {
   }
  
 }
- 
-//export default PlayGame;
