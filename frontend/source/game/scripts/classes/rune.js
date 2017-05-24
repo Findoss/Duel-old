@@ -20,15 +20,21 @@ class Rune {
       this.texture.visible = false;
     }
     this.texture.inputEnabled = inputEnabled || false;
+
+    game.add.text(x-10, y-15, this.type, {
+      font: "30px Arial",
+      fill: "#fff",
+      align: "center" 
+    });
+
   }
 };
 
 
 
   //this.texture.animations.play(state, textureRune.animations[state].length, true);
-    //this.onNewType = new Phaser.Signal();
-    //this.onNewType.dispatch(this);
-
+  //this.onNewType = new Phaser.Signal();
+  //this.onNewType.dispatch(this);
 
 /*
     game.add.tween(this.texture).to({
@@ -38,4 +44,5 @@ class Rune {
     4, Phaser.Easing.Linear.None, true)
     .onComplete.add(function(){
       //
-    });*/
+    });
+*/
