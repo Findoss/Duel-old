@@ -40,19 +40,19 @@ class Board {
     }
   }
 
-  viewCreate(marginBoardX, marginBoardY, marginRune) {
+  viewCreate(configSpriteRune, marginBoardX, marginBoardY, marginRune) {
     this.marginBoardX = marginBoardX || 150;
     this.marginBoardY = marginBoardY || 150;
-    this.marginRune = marginRune || 10;
+    this.marginRune = marginRune || textureRune.size.width/10;
     if (this.board) {
       for (let i = 0; i < this.rows; i++) {
         for (let j = 0; j < this.columns; j++) {
           this.board[i][j].viewCreate(
             this.marginBoardX + j * (textureRune.size.width+ this.marginRune),
             this.marginBoardY + i * (textureRune.size.height + this.marginRune),
-            textureRune,
+            configSpriteRune,
             true,
-            false
+            true
           );
         }
       }
