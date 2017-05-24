@@ -4,17 +4,18 @@ class Rune {
     this.type = type;
   }
 
-  viewCreate(x, y, sprite, state, inputEnabled) {
-    this.texture = game.add.sprite(x, y, sprite);
+  viewCreate(x, y, configSprite, visible, inputEnabled) {
+    this.texture = game.add.sprite(x, y, configSprite.fileName+this.type);
     this.texture.anchor.set(0.5);
-    this.texture.width = textureRune.size.width;
-    this.texture.height = textureRune.size.height;
-    for (let animationName in textureRune.animations) {
-      this.texture.animations.add(animationName, textureRune.animations[animationName]);
+    this.texture.width = configSprite.size.width;
+    this.texture.height = configSprite.size.height;
+    for (let animationName in configSprite.animations) {
+      this.texture.animations.add(animationName, configSprite.animations[animationName]);
     }
-    if (state) {
+    if (visible) {
       this.texture.visible = true;
-      this.texture.animations.play(state, textureRune.animations[state].length, true);
+      let firstAnimation = Object.keys(configSprite.animations)[0];
+      this.texture.animations.play(firstAnimation, configSprite.animations[firstAnimation].length, true);
     } else {
       this.texture.visible = false;
     }

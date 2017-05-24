@@ -12,7 +12,7 @@ class PlayGame extends Phaser.State {
   preload() {
     //
     for (var i = 0; i < 6; i++) {
-      this.game.load.spritesheet("sprite_"+i, textureRune.fileName+i+".png", textureRune.size.width, textureRune.size.height, 12);
+      this.game.load.spritesheet(textureRune.fileName+i, texturePath+textureRune.fileName+i+".png", textureRune.size.width, textureRune.size.height, 12);
     }
   }
 
