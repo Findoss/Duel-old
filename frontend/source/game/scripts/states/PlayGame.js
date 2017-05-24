@@ -10,26 +10,23 @@ class PlayGame extends Phaser.State {
   }
 
   preload() {
-    //
-    for (var i = 0; i < 6; i++) {
-      this.game.load.spritesheet("sprite_"+i, textureRune.fileName+i+".png", textureRune.size.width, textureRune.size.height, 12);
+    // загрузка текстур рун
+    for (let i = 0; i < 6; i++) {
+      this.game.load.spritesheet(textureRune.fileName+i, texturePath+textureRune.fileName+i+".png", textureRune.size.width, textureRune.size.height, 12);
     }
   }
 
   create() {
     //
-    var q = new Board();
-    q.load(testBoard_1);
-    q.viewCreate();
-
-    var w = new Board();
-    w.load(testBoard_1);
-    w.viewCreate(900);
+    var board = new Board();
+    board.load(testBoard_1);
+    board.viewCreate(textureRune);
   }
 
 
   update() {
     utils.resizeGame(this.game);
+
   }
 
   render() {

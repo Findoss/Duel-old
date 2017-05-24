@@ -1,7 +1,7 @@
-var path = "./images/";
+const texturePath = "./images/";
 
-var textureRune = {
-  fileName: path+"rune_",
+const textureRune = {
+  fileName: "rune_",
   size: {
     width :  100,
     height : 100
