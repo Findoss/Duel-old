@@ -13,9 +13,9 @@ class Board {
 
   generation() {
     /*do {
-      for (var i = 0; i < this.rows; i++) {
+      for (let i = 0; i < this.rows; i++) {
         this.board[i] = [];
-        for (var j = 0; j < this.columns; j++) {
+        for (let j = 0; j < this.columns; j++) {
           do {
             newRune = randomIntegers(this.countRunes)+1;
           }
@@ -32,9 +32,9 @@ class Board {
     this.board.length = 0;
     this.rows = savedBoard.length;
     this.columns = savedBoard[0].length;
-    for (var i = 0; i < this.rows; i++) {
+    for (let i = 0; i < this.rows; i++) {
       this.board[i] = [];
-      for (var j = 0; j < this.columns; j++) {
+      for (let j = 0; j < this.columns; j++) {
         this.board[i][j] = new Rune(savedBoard[i][j]);
       }
     }
@@ -45,13 +45,13 @@ class Board {
     this.marginBoardY = marginBoardY || 150;
     this.marginRune = marginRune || 10;
     if (this.board) {
-      for (var i = 0; i < this.rows; i++) {
-        for (var j = 0; j < this.columns; j++) {
+      for (let i = 0; i < this.rows; i++) {
+        for (let j = 0; j < this.columns; j++) {
           this.board[i][j].viewCreate(
             this.marginBoardX + j * (textureRune.size.width+ this.marginRune),
             this.marginBoardY + i * (textureRune.size.height + this.marginRune),
-            "sprite_"+this.board[i][j].type,
-            "pick",
+            textureRune,
+            true,
             false
           );
         }
@@ -61,8 +61,8 @@ class Board {
 };
 
 /*
-for (var i = 0; i < this.rows; i++) {
-  for (var j = 0; j < this.columns; j++) {
+for (let i = 0; i < this.rows; i++) {
+  for (let j = 0; j < this.columns; j++) {
     new Rune();
   }
 }
