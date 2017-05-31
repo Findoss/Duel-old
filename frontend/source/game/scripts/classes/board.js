@@ -1,6 +1,7 @@
 class Board {
 
   constructor(rows, columns, countGenerateRunes, minMoveCount) {
+
     this.rows = rows || 6;
     this.columns = columns || 6;
     this.countGenerateRunes = countGenerateRunes || 6;
@@ -9,6 +10,24 @@ class Board {
     this.board = [];
     this.moves = [];
     this.clusters = [];
+
+    // signal
+  }
+
+  load(savedBoard, /*isRendering*/) {
+    if (savedBoard.length && savedBoard[0].length) {
+      this.board.length = 0;
+      this.rows = savedBoard.length;
+      this.columns = savedBoard[0].length;
+      for (let i = 0; i < this.rows; i++) {
+        this.board[i] = [];
+        for (let j = 0; j < this.columns; j++) {
+          this.board[i][j] = new Rune(savedBoard[i][j]);
+        }
+      }
+      return this.board;
+    } 
+    else return false;
   }
 
   generation() {
@@ -27,37 +46,6 @@ class Board {
     while (this.findMoves() < this.minMoveCount);*/
   }
 
-
-  load(savedBoard) {
-    this.board.length = 0;
-    this.rows = savedBoard.length;
-    this.columns = savedBoard[0].length;
-    for (let i = 0; i < this.rows; i++) {
-      this.board[i] = [];
-      for (let j = 0; j < this.columns; j++) {
-        this.board[i][j] = new Rune(savedBoard[i][j]);
-      }
-    }
-  }
-
-  viewCreate(configSpriteRune, marginBoardX, marginBoardY, marginRune) {
-    this.marginBoardX = marginBoardX || 150;
-    this.marginBoardY = marginBoardY || 150;
-    this.marginRune = marginRune || textureRune.size.width/10;
-    if (this.board) {
-      for (let i = 0; i < this.rows; i++) {
-        for (let j = 0; j < this.columns; j++) {
-          this.board[i][j].viewCreate(
-            this.marginBoardX + j * (textureRune.size.width+ this.marginRune),
-            this.marginBoardY + i * (textureRune.size.height + this.marginRune),
-            configSpriteRune,
-            true,
-            true
-          );
-        }
-      }
-    }
-  }
 };
 
 /*
