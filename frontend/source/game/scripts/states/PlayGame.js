@@ -20,10 +20,18 @@ class PlayGame extends Phaser.State {
     //
     var board = new Board();
     var view = new View(this);
+    DEBUG && new Debug(board);
 
     board.load(testBoard_1);
-    var qwe = view.renderBoard(board.board, textureRune, 10, 150, 150);
-    console.log(qwe);
+    view.renderBoard(board.board, textureRune);
+
+    board.findClusters();
+    board.findMoves();
+    //var qwww = board.swapRune({i:0, j:0}, {i:3, j:1});
+    //view.renderSwapRune(qwww[0],qwww[1]);
+    //view.renderBoard(board.board, textureRune);
+
+
   }
 
   update() {
@@ -37,5 +45,4 @@ class PlayGame extends Phaser.State {
   runeClick(rune, param, coord) {
     console.log(coord);
   }
- 
 }
