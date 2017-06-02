@@ -19,22 +19,30 @@ class PlayGame extends Phaser.State {
   create() {
     //
     var board = new Board();
-    board.load(testBoard_1);
-    board.viewCreate(textureRune);
-  }
+    var view = new View(this);
+    DEBUG && new Debug(board);
 
+    board.load(testBoard_1);
+    view.renderBoard(board.board, textureRune);
+
+    board.findClusters();
+    board.findMoves();
+    //var qwww = board.swapRune({i:0, j:0}, {i:3, j:1});
+    //view.renderSwapRune(qwww[0],qwww[1]);
+    //view.renderBoard(board.board, textureRune);
+
+
+  }
 
   update() {
     utils.resizeGame(this.game);
-
   }
 
   render() {
     DEBUG && this.game.debug.text('FPS: ' + this.game.time.fps || 'FPS: --', 20, 50, DEBUG_color, DEBUG_font);
-    /*
-    game.debug.inputInfo(32, 32);
-    game.debug.spriteInputInfo(sprite, 32, 130);
-    game.debug.pointer( game.input.activePointer );*/
   }
- 
+
+  runeClick(rune, param, coord) {
+    console.log(coord);
+  }
 }

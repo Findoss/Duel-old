@@ -11,5 +11,11 @@ const textureRune = {
     focus: [4],
     pick: [5, 6, 7],
     destroy: [8, 9, 10, 11]
+  },
+  events: {
+    onInputDown: "runeClick"
+    //onInputOver: "runeClick",
+    //onInputOut: ""
   }
-}
+};
+
