@@ -34,8 +34,7 @@ class View {
     return rune;
   }
 
-  renderBoard(board, configSpriteRune, marginRune, marginBoardX, marginBoardY) {
-    this.linkGame.ANIM = false;
+  renderBoard(board, configSpriteRune, inputEnabled, marginRune, marginBoardX, marginBoardY) {
 
     this.board = [];
     this.groupBoard = this.linkGame.add.group();
@@ -53,11 +52,13 @@ class View {
             this.marginBoardX + j * (configSpriteRune.size.width + this.marginRune),
             this.marginBoardY + i * (configSpriteRune.size.height + this.marginRune),
             configSpriteRune,
-            true
+            inputEnabled
           );
-          for (let eventName in configSpriteRune.events) {
-            this.board[i][j].events[eventName].add(this.linkGame[ configSpriteRune.events[eventName] ], this.linkGame, 0, {i:i, j:j});
-          };
+          if (inputEnabled) {
+            for (let eventName in configSpriteRune.events) {
+              this.board[i][j].events[eventName].add(this.linkGame[ configSpriteRune.events[eventName] ], this.linkGame, 0, {i:i, j:j});
+            };
+          }
           this.groupBoard.add(this.board[i][j]);
           this.groupBoard.alpha = 0;
 

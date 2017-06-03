@@ -1,8 +1,13 @@
-var utils = {};
+class Utils {
 
-//
-utils.resizeGame = function(game){
-  game.scale.scaleMode = 2;
-  game.scale.setShowAll();
-  game.scale.refresh();
+  constructor() {}
+
+  resizeGame(game) {
+    game.scale.scaleMode = 2;
+    game.scale.setShowAll();
+    game.scale.refresh();
+  }
+
 }
+
+var utils = new Utils();

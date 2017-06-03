@@ -17,6 +17,7 @@ class Board {
     this.onFindMoves = new Phaser.Signal();
     this.onFindCluster = new Phaser.Signal();
     this.onFindClusters = new Phaser.Signal();
+    this.onDrop = new Phaser.Signal();
   }
 
   load(savedBoard) {
@@ -39,8 +40,8 @@ class Board {
     }
   }
 
-  // swapRune ( {i:0, j:0}, {i:1, j:1} )
-  swapRune(coordRuneOne, coordRuneTwo) {
+  // swap ( {i:0, j:0}, {i:1, j:1} )
+  swap(coordRuneOne, coordRuneTwo) {
     this.preSwap.dispatch([coordRuneOne, coordRuneTwo]);
 
     let tmp = this.board[coordRuneOne.i][coordRuneOne.j];
@@ -56,27 +57,27 @@ class Board {
     // HORIZONT
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.columns-1; j++) {
-        this.swapRune({i:i, j:j}, {i:i, j:j+1});
+        this.swap({i:i, j:j}, {i:i, j:j+1});
         this.findClusters();
         if (this.clusters.length > 0) {
           let objCoordMove = [{i:i, j:j}, {i:i, j:j+1}];
           this.onFindMove.dispatch( objCoordMove );
           this.moves.push( objCoordMove );
         }
-        this.swapRune({i:i, j:j}, {i:i, j:j+1});
+        this.swap({i:i, j:j}, {i:i, j:j+1});
       }
     }
     // VERTICAL
     for (let i = 0; i < this.rows-1; i++) {
       for (let j = 0; j < this.columns; j++) {
-        this.swapRune({i:i, j:j}, {i:i+1, j:j});
+        this.swap({i:i, j:j}, {i:i+1, j:j});
         this.findClusters();
         if (this.clusters.length > 0) {
           let objCoordMove = [{i:i, j:j}, {i:i+1, j:j}];
           this.onFindMove.dispatch( objCoordMove );
           this.moves.push( objCoordMove );
         }
-        this.swapRune({i:i, j:j}, {i:i+1, j:j});
+        this.swap({i:i, j:j}, {i:i+1, j:j});
       }
     }
 
@@ -136,15 +137,21 @@ class Board {
     this.onFindClusters.dispatch( this.clusters );
     return this.clusters;
   }
-
-
-
 };
 
 /*
+СЛЕВА НА ПРАВО + СВЕРХУ ВНИЗ
 for (let i = 0; i < this.rows; i++) {
   for (let j = 0; j < this.columns; j++) {
     new Rune();
   }
 }
+
+СЛЕВА НА ПРАВО + СНИЗУ ВВЕРХ
+for (let i = this.rows-1; i > 0; i--) {
+  for (let j = 0; j < this.columns; j++) {
+    new Rune();
+  }
+}
+
 */
