@@ -25,7 +25,6 @@ class Debug {
       console.log("board.onSwap");
       console.log(argument);
     }, this);
-*/
 
     this.linkBoard.onFindClusters.add(function (argument) {
       if (argument.length) {
@@ -39,6 +38,15 @@ class Debug {
       console.log("board.onFindMoves");
       console.log(argument);
     }, this);
+
+*/
+    this.linkBoard.onDrop.add(function (argument) {
+      console.log("board.onDrop");
+      console.log(argument);
+    }, this);
+
+
+
 
 
   }
