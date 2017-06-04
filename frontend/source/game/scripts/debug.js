@@ -39,16 +39,34 @@ class Debug {
       console.log(argument);
     }, this);
 
-*/
+
     this.linkBoard.onDrop.add(function (argument) {
       console.log("board.onDrop");
       console.log(argument);
     }, this);
 
+    
+    this.linkBoard.onDeleteClusters.add(function (argument) {
+      console.log("board.onDeleteClusters");
+      console.log(argument);
+    }, this);
+*/
 
+  }
 
+  test(name, savedBoard) {
+    console.log(name+" test = " + this.comparisonBoards(savedBoard));
+  }
 
-
+  comparisonBoards(savedBoard) {
+    for (let i = 0; i < savedBoard.length; i++) {
+      for (let j = 0; j < savedBoard[i].length; j++) {
+        if (savedBoard[i][j] != this.linkBoard.board[i][j].type) {
+          return false
+        }
+      }
+    }
+    return true
   }
 
 }

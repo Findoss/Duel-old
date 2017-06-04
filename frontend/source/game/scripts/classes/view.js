@@ -43,37 +43,35 @@ class View {
     this.marginBoardX = marginBoardX || 150;
     this.marginBoardY = marginBoardY || 150;
 
-    if (board.length && board[0].length) {
-      for (let i = 0; i < board.length; i++) {
-        this.board[i] = [];
-        for (let j = 0; j < board[i].length; j++) {
-          this.board[i][j] = this.renderRune(
-            board[i][j].type,
-            this.marginBoardX + j * (configSpriteRune.size.width + this.marginRune),
-            this.marginBoardY + i * (configSpriteRune.size.height + this.marginRune),
-            configSpriteRune,
-            inputEnabled
-          );
-          if (inputEnabled) {
-            for (let eventName in configSpriteRune.events) {
-              this.board[i][j].events[eventName].add(this.linkGame[ configSpriteRune.events[eventName] ], this.linkGame, 0, {i:i, j:j});
-            };
-          }
-          this.groupBoard.add(this.board[i][j]);
-          this.groupBoard.alpha = 0;
-
-          // del +++
-          DEBUG && this.linkGame.add.text(
-            this.marginBoardX + j * (configSpriteRune.size.width + this.marginRune)-40, 
-            this.marginBoardY + i * (configSpriteRune.size.height + this.marginRune)-45, 
-            i+"x"+j, {
-              font: "20px Arial",
-              fill: "#fff",
-              align: "center" 
-            }
-          );
-          // del ---
+    for (let i = 0; i < board.length; i++) {
+      this.board[i] = [];
+      for (let j = 0; j < board[i].length; j++) {
+        this.board[i][j] = this.renderRune(
+          board[i][j].type,
+          this.marginBoardX + j * (configSpriteRune.size.width + this.marginRune),
+          this.marginBoardY + i * (configSpriteRune.size.height + this.marginRune),
+          configSpriteRune,
+          inputEnabled
+        );
+        if (inputEnabled) {
+          for (let eventName in configSpriteRune.events) {
+            this.board[i][j].events[eventName].add(this.linkGame[ configSpriteRune.events[eventName] ], this.linkGame, 0, {i:i, j:j});
+          };
         }
+        this.groupBoard.add(this.board[i][j]);
+        this.groupBoard.alpha = 0;
+
+        // del +++
+        DEBUG && this.linkGame.add.text(
+          this.marginBoardX + j * (configSpriteRune.size.width + this.marginRune)-40, 
+          this.marginBoardY + i * (configSpriteRune.size.height + this.marginRune)-45, 
+          i+"x"+j, {
+            font: "20px Arial",
+            fill: "#fff",
+            align: "center" 
+          }
+        );
+        // del ---
       }
     }
 
@@ -85,10 +83,7 @@ class View {
       2000, 
       Phaser.Easing.Linear.None, 
       true
-    ).onComplete.add(() => {
-      //this.linkGame.ANIM = true;
-      //this.groupBoard.destroy();
-    });
+    )
     // del ---
 
     return this;
@@ -120,15 +115,3 @@ class View {
   }
 
 };
-
-
-  /*
-      game.add.tween(this.texture).to({
-        x: this.col*110,
-        y: this.row*110,
-      }, 
-      4, Phaser.Easing.Linear.None, true)
-      .onComplete.add(function(){
-        //
-      });
-  */

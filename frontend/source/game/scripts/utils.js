@@ -11,3 +11,11 @@ class Utils {
 }
 
 var utils = new Utils();
+
+
+/*
+let t0 = performance.now();
+  //  function() {}
+let t1 = performance.now();
+console.log((t1 - t0).toFixed(4), "ms");
+*/
