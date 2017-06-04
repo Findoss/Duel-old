@@ -17,20 +17,34 @@ class PlayGame extends Phaser.State {
   }
 
   create() {
-    //
+    let testBoard = testBoard_5;
+
     var board = new Board();
     var view = new View(this);
-    DEBUG && new Debug(board);
-
-    board.load(testBoard_1);
-    board.drop();
-    view.renderBoard(board.board, textureRune, true, 10, 900);
-    console.log("drop test = " + comparisonBoard(testBoard_1_drop, board.board));
+    board.load(testBoard);
+    view.renderBoard(board.board, textureRune, false);
 
     var board2 = new Board();
     var view2 = new View(this);
-    board2.load(testBoard_1);
-    view2.renderBoard(board2.board, textureRune, false);
+    var debug = new Debug(board2, view2);
+
+    board2.load(testBoard);
+    view.renderBoard(board2.board, textureRune, true, 10, 900);
+
+    board2.swap({i:2, j:4},{i:3, j:4});
+    debug.test("swap", testBoard_5_swap);
+
+    while (board2.findClusters().length) {
+      board2.deleteClusters();
+      debug.test("del", testBoard_5_del);
+      board2.drop();
+      debug.test("drop", testBoard_5_drop);
+    }
+    debug.test("drop_2", testBoard_5_drop_2);
+    
+    //board2.fill();
+    view.renderBoard(board2.board, textureRune, true, 10, 900);
+    
 
   }
 
