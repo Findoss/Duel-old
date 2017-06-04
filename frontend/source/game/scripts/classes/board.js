@@ -20,8 +20,25 @@ class Board {
     this.onDrop = new Phaser.Signal();
   }
 
+  getColumn(index) {
+    let column = [];
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.columns; j++) {
+        if (j === index) {
+          column.push(this.board[i][j]);
+          break;
+        }
+      }
+    }
+    return column
+  }
+
+  getRow(index) {
+    return this.board[index];
+  }
+
   load(savedBoard) {
-    if (savedBoard.length && savedBoard[0].length) {
+    if (savedBoard.length & savedBoard[0].length) {
       this.board.length = 0;
       this.rows = savedBoard.length;
       this.columns = savedBoard[0].length;
@@ -52,6 +69,7 @@ class Board {
     return [ coordRuneOne, coordRuneTwo ];
   }
 
+  // TODO ПЕРЕОСМЫСЛИТЬ
   findMoves() {
     this.moves = [];
     // HORIZONT
@@ -85,6 +103,7 @@ class Board {
     return this.moves;
   }
 
+  // TODO ПЕРЕОСМЫСЛИТЬ
   findClusters() {
     this.clusters = [];
     // HORIZONT
@@ -137,21 +156,20 @@ class Board {
     this.onFindClusters.dispatch( this.clusters );
     return this.clusters;
   }
+
+  // TODO !!! ПЕРЕПИСАТЬ !!!
+  drop() {
+    for (var l = 0; l < 6; l++) {
+    for (var j = 0; j < this.columns; j++) {
+      for (var i = this.rows-1; i > 0; i--) {
+        if ( this.board[i][j].type == 0 ) {
+          this.swap({i:i, j:j}, {i:i-1, j:j});
+        }
+      }
+    }
+    }
+    this.onDrop.dispatch( "qwer" );
+    return "this.onDrop.dispatch";
+  }
+
 };
-
-/*
-СЛЕВА НА ПРАВО + СВЕРХУ ВНИЗ
-for (let i = 0; i < this.rows; i++) {
-  for (let j = 0; j < this.columns; j++) {
-    new Rune();
-  }
-}
-
-СЛЕВА НА ПРАВО + СНИЗУ ВВЕРХ
-for (let i = this.rows-1; i > 0; i--) {
-  for (let j = 0; j < this.columns; j++) {
-    new Rune();
-  }
-}
-
-*/
