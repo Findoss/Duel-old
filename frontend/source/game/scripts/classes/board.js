@@ -3,7 +3,7 @@ class Board {
   constructor(rows, columns, countGenerateRunes, minMoveCount) {
     this.rows = rows || 6;
     this.columns = columns || 6;
-    this.countGenerateRunes = countGenerateRunes || 6;
+    this.countGenerateRunes = countGenerateRunes || 5;
     this.minMoveCount = minMoveCount || 3;
 
     this.board = [];
@@ -18,6 +18,8 @@ class Board {
     this.onFindCluster = new Phaser.Signal();
     this.onFindClusters = new Phaser.Signal();
     this.onDrop = new Phaser.Signal();
+    this.onDeleteClusters = new Phaser.Signal();
+    this.onFill = new Phaser.Signal();
   }
 
   getColumn(index) {
@@ -157,11 +159,48 @@ class Board {
     return this.clusters;
   }
 
-  // TODO !!! ПЕРЕПИСАТЬ !!!
+  // TODO ПЕРЕОСМЫСЛИТЬ
+  deleteClusters() {
+    for (let l = 0; l < this.clusters.length; l++) {
+      let i = this.clusters[l][0].i;
+      let j = this.clusters[l][0].j;
+      let countCluster = (this.clusters[l][1].j-j)+(this.clusters[l][1].i-i)+1;
+      // HORIZONT
+      if (this.clusters[l][0].i == this.clusters[l][1].i) {
+        for (let t = j; t < j+countCluster; t++) {
+          if (this.board[i][t].type > 0) this.board[i][t].type = 0;
+        }
+      }
+      // VERTICAL
+      else {
+        for (let t = i; t < i+countCluster; t++) {
+          if (this.board[t][j].type > 0) this.board[t][j].type = 0;
+        }
+      }
+    }
+    this.clusters = [];
+    this.onDeleteClusters.dispatch( "qwer" );
+    return "this.onDeleteClusters.dispatch";
+  }
+
+  // TODO ПЕРЕОСМЫСЛИТЬ
+  fill() {
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.columns; j++) {
+        if (this.board[i][j].type == 0) {
+          this.board[i][j].newRandomType(this.countGenerateRunes);
+        } 
+      }
+    }
+    this.onFill.dispatch( "qwer" );
+    return "this.onFill.dispatch";
+  }
+
+  // TODO ПЕРЕОСМЫСЛИТЬ
   drop() {
-    for (var l = 0; l < 6; l++) {
-    for (var j = 0; j < this.columns; j++) {
-      for (var i = this.rows-1; i > 0; i--) {
+    for (let l = 0; l < 6; l++) {
+    for (let j = 0; j < this.columns; j++) {
+      for (let i = this.rows-1; i > 0; i--) {
         if ( this.board[i][j].type == 0 ) {
           this.swap({i:i, j:j}, {i:i-1, j:j});
         }
