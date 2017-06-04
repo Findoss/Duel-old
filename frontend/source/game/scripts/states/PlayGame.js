@@ -23,13 +23,9 @@ class PlayGame extends Phaser.State {
     DEBUG && new Debug(board);
 
     board.load(testBoard_1);
+    board.drop();
     view.renderBoard(board.board, textureRune, true, 10, 900);
-
-    var qwe = board.swap({i:0, j:0}, {i:5, j:3});
-    view.renderSwapRune(qwe[0], qwe[1]);
-    //board.drop();
-    //console.log("drop = " + comparisonBoard(testBoard_1_drop, board.board));
-
+    console.log("drop test = " + comparisonBoard(testBoard_1_drop, board.board));
 
     var board2 = new Board();
     var view2 = new View(this);
