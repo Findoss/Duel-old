@@ -4,4 +4,8 @@ class Rune {
     this.type = type;
   }
 
+  newType(type) {
+    this.type = type;
+  }
+
 };
