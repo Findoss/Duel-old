@@ -19,18 +19,6 @@ class View {
     let firstAnimation = Object.keys(configSprite.animations)[0];
     rune.animations.play(firstAnimation, configSprite.animations[firstAnimation].length, true);
 
-    // del +++
-    DEBUG && this.linkGame.add.text(
-      x-10, 
-      y-15, 
-      type, {
-        font: "30px Arial",
-        fill: "#fff",
-        align: "center" 
-      }
-    );
-    // del ---
-
     return rune;
   }
 
@@ -76,42 +64,84 @@ class View {
     }
 
     // del +++
-    DEBUG && this.linkGame.add.tween(
-      this.groupBoard).to({
-        alpha: 1
-      }, 
-      2000, 
-      Phaser.Easing.Linear.None, 
-      true
-    )
-    // del ---
-
-    return this;
+    return [
+      this.linkGame.add.tween(
+        this.groupBoard).to({
+          alpha: 1
+        },
+        1000,
+        Phaser.Easing.Linear.None,
+        false
+      )
+    ];
   }
 
-  renderSwapRune(runeOne, runeTwo) {
-    this.linkGame.add.tween(
-      this.board[runeOne.i][runeOne.j]).to({
-        x: this.board[runeTwo.i][runeTwo.j].x,
-        y: this.board[runeTwo.i][runeTwo.j].y
+  renderSwap(coordRuneOne, coordRuneTwo) {
+
+    console.log("рендр свап");
+
+    console.log(this.board[coordRuneTwo[0]][coordRuneTwo[1]].x);
+
+    let tweenGroup = [];
+
+    console.log(this.board[coordRuneOne[0]][coordRuneOne[1]]);
+
+    //console.log(coordRuneOne[0]+"x"+coordRuneOne[1])
+    //console.log(this.board[coordRuneOne[0]][coordRuneOne[1]].position);
+
+    //console.log(coordRuneTwo[0]+"x"+coordRuneTwo[1])
+    //console.log(this.board[coordRuneTwo[0]][coordRuneTwo[1]].position);
+
+    tweenGroup.push(this.linkGame.add.tween(
+      this.board[coordRuneOne[0]][coordRuneOne[1]]).to({
+        x: this.board[coordRuneTwo[0]][coordRuneTwo[1]].x,
+        y: this.board[coordRuneTwo[0]][coordRuneTwo[1]].y
       },
-      800,
+      300,
       Phaser.Easing.Linear.None, 
-      true
-    );
+      false
+    ));
 
-    this.linkGame.add.tween(
-      this.board[runeTwo.i][runeTwo.j]).to({
-        x: this.board[runeOne.i][runeOne.j].x,
-        y: this.board[runeOne.i][runeOne.j].y
+    tweenGroup.push(this.linkGame.add.tween(
+      this.board[coordRuneTwo[0]][coordRuneTwo[1]]).to({
+        x: this.board[coordRuneOne[0]][coordRuneOne[1]].x,
+        y: this.board[coordRuneOne[0]][coordRuneOne[1]].y
       }, 
-      800, 
-      Phaser.Easing.Linear.None, 
-      true
-    );
+      300, 
+      Phaser.Easing.Linear.None,
+      false
+    ));
 
-    this.board[runeOne.i][runeOne.j].events.onInputDown["_bindings"][0]["_args"][0] = {i:runeTwo.i, j:runeTwo.j};
-    this.board[runeTwo.i][runeTwo.j].events.onInputDown["_bindings"][0]["_args"][0] = {i:runeOne.i, j:runeOne.j};
+    tweenGroup[1].onComplete.add(() => {
+        console.log("свап++");
+      this.board[coordRuneOne[0]][coordRuneOne[1]].events.onInputDown["_bindings"][0]["_args"][0] = {i:coordRuneTwo[0], j:coordRuneTwo[1]};
+      this.board[coordRuneTwo[0]][coordRuneTwo[1]].events.onInputDown["_bindings"][0]["_args"][0] = {i:coordRuneOne[0], j:coordRuneOne[1]};
+
+      let tmp = this.board[coordRuneOne[0]][coordRuneOne[1]];
+      this.board[coordRuneOne[0]][coordRuneOne[1]] = this.board[coordRuneTwo[0]][coordRuneTwo[1]];
+      this.board[coordRuneTwo[0]][coordRuneTwo[1]] = tmp;
+    });
+
+    return tweenGroup
+  }
+
+  renderDel(board) {
+    let tweenGroup = [];
+    for (var i = 0; i < this.board.length; i++) {
+      for (var j = 0; j < this.board[i].length; j++) {
+        if (board[i][j].type == 0) {
+          tweenGroup.push(this.linkGame.add.tween(
+            this.board[i][j]).to({
+              alpha: 0
+            },
+            300,
+            Phaser.Easing.Linear.None, 
+            false
+          ));
+        }
+      }
+    }
+    return tweenGroup
   }
 
 };

@@ -59,14 +59,17 @@ class Board {
     }
   }
 
-  // swap ( {i:0, j:0}, {i:1, j:1} )
+  // swap ( arr[i,j], arr[i,j] )
   swap(coordRuneOne, coordRuneTwo) {
+
+    console.log("свап начат");
     this.preSwap.dispatch([coordRuneOne, coordRuneTwo]);
 
-    let tmp = this.board[coordRuneOne.i][coordRuneOne.j];
-    this.board[coordRuneOne.i][coordRuneOne.j] = this.board[coordRuneTwo.i][coordRuneTwo.j]
-    this.board[coordRuneTwo.i][coordRuneTwo.j] = tmp;
+    let tmp = this.board[coordRuneOne[0]][coordRuneOne[1]];
+    this.board[coordRuneOne[0]][coordRuneOne[1]] = this.board[coordRuneTwo[0]][coordRuneTwo[1]]
+    this.board[coordRuneTwo[0]][coordRuneTwo[1]] = tmp;
 
+    console.log("отрабатывает событие свап");
     this.onSwap.dispatch([coordRuneOne, coordRuneTwo]);
     return [ coordRuneOne, coordRuneTwo ];
   }
@@ -77,27 +80,27 @@ class Board {
     // HORIZONT
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.columns-1; j++) {
-        this.swap({i:i, j:j}, {i:i, j:j+1});
+        this.swap([i, j], [i, j+1]);
         this.findClusters();
         if (this.clusters.length > 0) {
           let objCoordMove = [{i:i, j:j}, {i:i, j:j+1}];
           this.onFindMove.dispatch( objCoordMove );
           this.moves.push( objCoordMove );
         }
-        this.swap({i:i, j:j}, {i:i, j:j+1});
+        this.swap([i, j], [i, j+1]);
       }
     }
     // VERTICAL
     for (let i = 0; i < this.rows-1; i++) {
       for (let j = 0; j < this.columns; j++) {
-        this.swap({i:i, j:j}, {i:i+1, j:j});
+        this.swap([i, j], [i+1, j]);
         this.findClusters();
         if (this.clusters.length > 0) {
           let objCoordMove = [{i:i, j:j}, {i:i+1, j:j}];
           this.onFindMove.dispatch( objCoordMove );
           this.moves.push( objCoordMove );
         }
-        this.swap({i:i, j:j}, {i:i+1, j:j});
+        this.swap([i, j], [i+1, j]);
       }
     }
 
@@ -198,17 +201,46 @@ class Board {
 
   // TODO ПЕРЕОСМЫСЛИТЬ
   drop() {
-    for (let l = 0; l < 6; l++) {
     for (let j = 0; j < this.columns; j++) {
-      for (let i = this.rows-1; i > 0; i--) {
-        if ( this.board[i][j].type == 0 ) {
-          this.swap({i:i, j:j}, {i:i-1, j:j});
+      let firstEmpty = -1;
+      for (let i = this.rows-1; i >= 0; i--) {
+        if (firstEmpty == -1) {
+          if ( this.board[i][j].type == 0 ) {
+            firstEmpty = i;
+          }
+        } else {
+          if ( this.board[i][j].type > 0 ) {
+            this.swap([firstEmpty, j], [i, j]);
+            firstEmpty--;
+          }
         }
       }
-    }
     }
     this.onDrop.dispatch( "qwer" );
     return "this.onDrop.dispatch";
   }
 
+  /*generation(isClusters = false) {
+    do {
+      for (var i = 0; i < this.rows; i++) {
+        this.board[i] = [];
+        for (var j = 0; j < this.columns; j++) {
+          do {
+            newRune = randomIntegers(this.countRunes)+1;
+          }
+          while (this.isRuneInClusters(i, j, newRune) && !isClusters)
+          this.board[i][j] = { type: newRune, sprite: null }
+        }
+      }
+    }
+    while (this.findMoves() < this.minMoveCount);
+    return this;
+  }*/
+
+  /*
+  isRuneInClusters(i, j, type) {
+    return ( i>1 && type === this.board[i-1][j].type && type === this.board[i-2][j].type) ||
+           ( j>1 && type === this.board[i][j-1].type && type === this.board[i][j-2].type)
+  }
+  */
 };
