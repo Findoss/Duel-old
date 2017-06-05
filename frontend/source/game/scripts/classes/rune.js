@@ -9,7 +9,7 @@ class Rune {
   }
 
   newRandomType(count) {
-    this.type = Math.floor(Math.random() * (count-1))+1
+    this.type = Math.floor(Math.random() * (count))+1
   }
 
 };
