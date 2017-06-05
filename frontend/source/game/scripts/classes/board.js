@@ -52,7 +52,7 @@ class Board {
       }
       this.onLoad.dispatch(this.board);
       return this.board;
-    } 
+    }
     else {
       this.onLoad.dispatch(false);
       return false;
@@ -62,14 +62,12 @@ class Board {
   // swap ( arr[i,j], arr[i,j] )
   swap(coordRuneOne, coordRuneTwo) {
 
-    console.log("свап начат");
     this.preSwap.dispatch([coordRuneOne, coordRuneTwo]);
 
     let tmp = this.board[coordRuneOne[0]][coordRuneOne[1]];
     this.board[coordRuneOne[0]][coordRuneOne[1]] = this.board[coordRuneTwo[0]][coordRuneTwo[1]]
     this.board[coordRuneTwo[0]][coordRuneTwo[1]] = tmp;
 
-    console.log("отрабатывает событие свап");
     this.onSwap.dispatch([coordRuneOne, coordRuneTwo]);
     return [ coordRuneOne, coordRuneTwo ];
   }
@@ -202,9 +200,9 @@ class Board {
   // TODO ПЕРЕОСМЫСЛИТЬ
   drop() {
     for (let j = 0; j < this.columns; j++) {
-      let firstEmpty = -1;
+      let firstEmpty = null;
       for (let i = this.rows-1; i >= 0; i--) {
-        if (firstEmpty == -1) {
+        if (firstEmpty) {
           if ( this.board[i][j].type == 0 ) {
             firstEmpty = i;
           }
