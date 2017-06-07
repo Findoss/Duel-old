@@ -185,7 +185,7 @@ class Board {
   }
 
   // TODO ПЕРЕОСМЫСЛИТЬ
-  fill() {
+  refill() {
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.columns; j++) {
         if (this.board[i][j].type == 0) {
@@ -197,7 +197,7 @@ class Board {
     return "this.onFill.dispatch";
   }
 
-  // TODO ПЕРЕОСМЫСЛИТЬ
+  // оформить
   drop() {
     for (let j = 0; j < this.columns; j++) {
       let firstEmpty = null;
