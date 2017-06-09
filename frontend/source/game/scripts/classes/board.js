@@ -19,7 +19,7 @@ class Board {
     this.onFindClusters = new Phaser.Signal();
     this.onDrop = new Phaser.Signal();
     this.onDeleteClusters = new Phaser.Signal();
-    this.onFill = new Phaser.Signal();
+    this.onRefill = new Phaser.Signal();
   }
 
   getColumn(index) {
@@ -194,7 +194,7 @@ class Board {
       }
     }
     this.onFill.dispatch( "qwer" );
-    return "this.onFill.dispatch";
+    return "this.onRefill.dispatch";
   }
 
   // оформить
