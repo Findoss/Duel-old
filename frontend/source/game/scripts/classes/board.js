@@ -40,23 +40,17 @@ class Board {
   }
 
   load(savedBoard) {
-    if (savedBoard.length & savedBoard[0].length) {
-      this.board.length = 0;
-      this.rows = savedBoard.length;
-      this.columns = savedBoard[0].length;
-      for (let i = 0; i < this.rows; i++) {
-        this.board[i] = [];
-        for (let j = 0; j < this.columns; j++) {
-          this.board[i][j] = new Rune(savedBoard[i][j]);
-        }
+    this.board.length = 0;
+    this.rows = savedBoard.length;
+    this.columns = savedBoard[0].length;
+    for (let i = 0; i < this.rows; i++) {
+      this.board[i] = [];
+      for (let j = 0; j < this.columns; j++) {
+        this.board[i][j] = new Rune(savedBoard[i][j]);
       }
-      this.onLoad.dispatch(this.board);
-      return this.board;
     }
-    else {
-      this.onLoad.dispatch(false);
-      return false;
-    }
+    this.onLoad.dispatch(this.board);
+    return this.board;
   }
 
   // swap ( arr[i,j], arr[i,j] )
@@ -180,8 +174,8 @@ class Board {
       }
     }
     this.clusters = [];
-    this.onDeleteClusters.dispatch( "qwer" );
-    return "this.onDeleteClusters.dispatch";
+    this.onDeleteClusters.dispatch( this.board );
+    return this.board;
   }
 
   // TODO ПЕРЕОСМЫСЛИТЬ
@@ -202,7 +196,7 @@ class Board {
     for (let j = 0; j < this.columns; j++) {
       let firstEmpty = null;
       for (let i = this.rows-1; i >= 0; i--) {
-        if (firstEmpty) {
+        if (firstEmpty === null) {
           if ( this.board[i][j].type == 0 ) {
             firstEmpty = i;
           }
