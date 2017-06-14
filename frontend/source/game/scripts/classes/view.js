@@ -24,6 +24,18 @@ class View {
 
   renderBoard(board, configSpriteRune, inputEnabled, marginRune, marginBoardX, marginBoardY) {
 
+    // del +++
+      //let tmpStr = "";
+      //for (let i = 0; i < board.length; i++) {
+      //  for (let j = 0; j < board.length; j++) {
+      //    tmpStr += board[i][j].type+" ";
+      //  }
+      //  console.log("["+tmpStr+"],\n");
+      //  tmpStr = "";
+      //}
+      //console.log("\n");
+    // del ---
+
     this.board = [];
     this.groupBoard = this.linkGame.add.group();
 
@@ -63,85 +75,65 @@ class View {
       }
     }
 
-    // del +++
-    return [
-      this.linkGame.add.tween(
+    return this.linkGame.add.tween(
         this.groupBoard).to({
           alpha: 1
         },
         1000,
         Phaser.Easing.Linear.None,
-        false
-      )
-    ];
+        true
+      );
   }
 
   renderSwap(coordRuneOne, coordRuneTwo) {
 
-    console.log("рендр свап");
+    this.board[coordRuneOne[0]][coordRuneOne[1]].events.onInputDown["_bindings"][0]["_args"][0] = {i:coordRuneTwo[0], j:coordRuneTwo[1]};
+    this.board[coordRuneTwo[0]][coordRuneTwo[1]].events.onInputDown["_bindings"][0]["_args"][0] = {i:coordRuneOne[0], j:coordRuneOne[1]};
 
-    console.log(this.board[coordRuneTwo[0]][coordRuneTwo[1]].x);
+    let tmp = this.board[coordRuneOne[0]][coordRuneOne[1]];
+    this.board[coordRuneOne[0]][coordRuneOne[1]] = this.board[coordRuneTwo[0]][coordRuneTwo[1]];
+    this.board[coordRuneTwo[0]][coordRuneTwo[1]] = tmp;
 
-    let tweenGroup = [];
-
-    console.log(this.board[coordRuneOne[0]][coordRuneOne[1]]);
-
-    //console.log(coordRuneOne[0]+"x"+coordRuneOne[1])
-    //console.log(this.board[coordRuneOne[0]][coordRuneOne[1]].position);
-
-    //console.log(coordRuneTwo[0]+"x"+coordRuneTwo[1])
-    //console.log(this.board[coordRuneTwo[0]][coordRuneTwo[1]].position);
-
-    tweenGroup.push(this.linkGame.add.tween(
+    this.linkGame.add.tween(
       this.board[coordRuneOne[0]][coordRuneOne[1]]).to({
         x: this.board[coordRuneTwo[0]][coordRuneTwo[1]].x,
         y: this.board[coordRuneTwo[0]][coordRuneTwo[1]].y
       },
-      300,
+      200,
       Phaser.Easing.Linear.None, 
-      false
-    ));
+      true
+    );
 
-    tweenGroup.push(this.linkGame.add.tween(
+    let lastTween = this.linkGame.add.tween(
       this.board[coordRuneTwo[0]][coordRuneTwo[1]]).to({
         x: this.board[coordRuneOne[0]][coordRuneOne[1]].x,
         y: this.board[coordRuneOne[0]][coordRuneOne[1]].y
       }, 
-      300, 
+      200, 
       Phaser.Easing.Linear.None,
-      false
-    ));
+      true
+    );
 
-    tweenGroup[1].onComplete.add(() => {
-        console.log("свап++");
-      this.board[coordRuneOne[0]][coordRuneOne[1]].events.onInputDown["_bindings"][0]["_args"][0] = {i:coordRuneTwo[0], j:coordRuneTwo[1]};
-      this.board[coordRuneTwo[0]][coordRuneTwo[1]].events.onInputDown["_bindings"][0]["_args"][0] = {i:coordRuneOne[0], j:coordRuneOne[1]};
-
-      let tmp = this.board[coordRuneOne[0]][coordRuneOne[1]];
-      this.board[coordRuneOne[0]][coordRuneOne[1]] = this.board[coordRuneTwo[0]][coordRuneTwo[1]];
-      this.board[coordRuneTwo[0]][coordRuneTwo[1]] = tmp;
-    });
-
-    return tweenGroup
+    return lastTween;
   }
 
   renderDel(board) {
-    let tweenGroup = [];
-    for (var i = 0; i < this.board.length; i++) {
-      for (var j = 0; j < this.board[i].length; j++) {
+    let lastTween = {};
+    for (let i = 0; i < this.board.length; i++) {
+      for (let j = 0; j < this.board[i].length; j++) {
         if (board[i][j].type == 0) {
-          tweenGroup.push(this.linkGame.add.tween(
+          lastTween = this.linkGame.add.tween(
             this.board[i][j]).to({
               alpha: 0
             },
             300,
             Phaser.Easing.Linear.None, 
-            false
-          ));
+            true
+          );
         }
       }
     }
-    return tweenGroup
+    return lastTween
   }
 
 };
