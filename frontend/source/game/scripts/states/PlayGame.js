@@ -7,7 +7,6 @@ class PlayGame extends Phaser.State {
   }
 
   preload() {
-    // загрузка текстур рун
     for (let i = 0; i < 6; i++) {
       this.game.load.spritesheet(textureRune.fileName+i, texturePath+textureRune.fileName+i+".png", textureRune.size.width, textureRune.size.height, 12);
     }
@@ -18,58 +17,46 @@ class PlayGame extends Phaser.State {
 
     var board = new Board();
     var view = new View(this);
-    board.load(testBoard);
-    view.renderBoard(board.board, textureRune, false);
-    queue.push(view.renderBoard(board.board, textureRune, true, 10, 100));
+    var debug = new Debug(board, view);
 
-    var board2 = new Board();
-    var view2 = new View(this);
-    var debug = new Debug(board2, view2);
-
-    board2.onSwap.add(function (coordRunes) {
-      console.log("по событию отдаем на рендр");
-      queue.push(view2.renderSwap(coordRunes[0], coordRunes[1]));
+    // бинды на события
+    board.onLoad.add(function (board) {
+      //debug.boardConsole();
+      queue.add(view, "renderBoard", [board, textureRune, true, 10, 100]);
     }, this);
 
     board.onSwap.add(function (coordRunes) {
-      queue.push(view.renderSwap(coordRunes[0], coordRunes[1]));
+      queue.add(view, "renderSwap", [coordRunes[0], coordRunes[1]]);
     }, this);
 
-    board2.load(testBoard);
-    queue.push(view2.renderBoard(board2.board, textureRune, true, 10, 100, 900));
+    board.onDeleteClusters.add(function (board) {
+      queue.add(view, "renderDel", [board]);
+    }, this);
 
-    console.log("отправлено в свап");
-    board2.swap([2, 4], [3, 4]);
-    //debug.boardConsole();
-    //debug.boardViewConsole();
-    
+    board.onDrop.add(function (board) {
+      //queue.add(view, "renderBoard", []);
+    }, this);
 
-    console.log("отправлено в свап");
-    board2.swap([2, 4], [3, 4]);
-    
-    //debug.boardConsole();
-    //debug.boardViewConsole();
 
-    //board2.deleteClusters();
-    //queue.push(view2.renderDel(board2.board));
-    //queue.push(view2.renderBoard(board2.board, textureRune, true, 10, 900));
-/*  
-    while (board2.findClusters().length) {
+    board.load(testBoard);
 
-      board2.deleteClusters();
-      queue.push(view2.renderDel(board2.board));
-      debug.test("del", testBoard_5_del);
+    setTimeout(function() { /// <- ХУЙНЯ !!!
+      board.swap([2,4],[3,4]);
+      board.swap([2,4],[3,4]);
+      board.swap([2,4],[3,4]);
+      board.swap([2,4],[3,4]);
+      board.swap([2,4],[3,4]);
 
-      board2.drop();
-      //queue.push(view2.renderBoard(board2.board, textureRune, true, 10, 900));
+      board.findClusters();
+      board.deleteClusters();
+    }, 1000);
 
-      //board2.fill();
-      //queue.push(view2.renderBoard(board2.board, textureRune, true, 10, 900));
-    }
+    setTimeout(function() { /// <- ХУЙНЯ !!!
+      board.drop();
+    }, 3000);
 
-    debug.test("drop_2", testBoard_5_drop_2);
-    console.log(board2.swap([4, 4], [2, 1]));
-*/
+    console.log("testBoard_5_drop = "+debug.comparisonBoards(testBoard_5_drop));
+
   }
 
   update() {
@@ -78,8 +65,8 @@ class PlayGame extends Phaser.State {
   }
 
   render() {
-
-    DEBUG && this.game.debug.text('FPS: ' + this.game.time.fps || 'FPS: --', 20, 50, DEBUG_color, DEBUG_font);
+    DEBUG && this.game.debug.text("FPS: " + this.game.time.fps, 20, 50, DEBUG_color, DEBUG_font);
+    DEBUG && this.game.debug.text("Q: " + queue.queue.length, 150, 50, DEBUG_color, DEBUG_font);
   }
 
   runeClick(rune, param, coord) {
