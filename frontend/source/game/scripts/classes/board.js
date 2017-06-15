@@ -39,6 +39,7 @@ class Board {
     return this.board[index];
   }
 
+  // arr[i][j]
   load(savedBoard) {
     this.board.length = 0;
     this.rows = savedBoard.length;
@@ -53,7 +54,7 @@ class Board {
     return this.board;
   }
 
-  // swap ( arr[i,j], arr[i,j] )
+  // arr[i,j], arr[i,j] 
   swap(coordRuneOne, coordRuneTwo) {
 
     this.preSwap.dispatch([coordRuneOne, coordRuneTwo]);
@@ -75,7 +76,7 @@ class Board {
         this.swap([i, j], [i, j+1]);
         this.findClusters();
         if (this.clusters.length > 0) {
-          let objCoordMove = [{i:i, j:j}, {i:i, j:j+1}];
+          let objCoordMove = [[i, j], [i, j+1]];
           this.onFindMove.dispatch( objCoordMove );
           this.moves.push( objCoordMove );
         }
@@ -88,7 +89,7 @@ class Board {
         this.swap([i, j], [i+1, j]);
         this.findClusters();
         if (this.clusters.length > 0) {
-          let objCoordMove = [{i:i, j:j}, {i:i+1, j:j}];
+          let objCoordMove = [[i, j], [i+1, j]];
           this.onFindMove.dispatch( objCoordMove );
           this.moves.push( objCoordMove );
         }
@@ -156,42 +157,47 @@ class Board {
 
   // TODO ПЕРЕОСМЫСЛИТЬ
   deleteClusters() {
+    let toDel = []
     for (let l = 0; l < this.clusters.length; l++) {
       let i = this.clusters[l][0].i;
       let j = this.clusters[l][0].j;
-      let countCluster = (this.clusters[l][1].j-j)+(this.clusters[l][1].i-i)+1;
+      let countCluster = (this.clusters[l][1].j - j) + (this.clusters[l][1].i - i) + 1;
       // HORIZONT
       if (this.clusters[l][0].i == this.clusters[l][1].i) {
-        for (let t = j; t < j+countCluster; t++) {
+        for (let t = j; t < j + countCluster; t++) {
           if (this.board[i][t].type > 0) this.board[i][t].type = 0;
+          toDel.push([i, t]);
         }
       }
       // VERTICAL
       else {
-        for (let t = i; t < i+countCluster; t++) {
+        for (let t = i; t < i + countCluster; t++) {
           if (this.board[t][j].type > 0) this.board[t][j].type = 0;
+          toDel.push([t, j]);
         }
       }
     }
     this.clusters = [];
-    this.onDeleteClusters.dispatch( this.board );
-    return this.board;
+    this.onDeleteClusters.dispatch(toDel);
+    return toDel;
   }
 
   // TODO ПЕРЕОСМЫСЛИТЬ
   refill() {
+    let toFill = []
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.columns; j++) {
         if (this.board[i][j].type == 0) {
           this.board[i][j].newRandomType(this.countGenerateRunes);
+          toFill.push([i, j, this.board[i][j].type]);
         } 
       }
     }
-    this.onFill.dispatch( "qwer" );
-    return "this.onRefill.dispatch";
+    this.onRefill.dispatch( toFill );
+    return toFill;
   }
 
-  // оформить
+  // оформить - событие - выходные данные
   drop() {
     for (let j = 0; j < this.columns; j++) {
       let firstEmpty = null;
@@ -212,6 +218,12 @@ class Board {
     return "this.onDrop.dispatch";
   }
 
+  // TODO ПРОВЕРИТЬ
+  isRuneInClusters(i, j, type) {
+    return ( i>1 && type === this.board[i-1][j].type && type === this.board[i-2][j].type) ||
+           ( j>1 && type === this.board[i][j-1].type && type === this.board[i][j-2].type)
+  }
+
   /*generation(isClusters = false) {
     do {
       for (var i = 0; i < this.rows; i++) {
@@ -229,10 +241,5 @@ class Board {
     return this;
   }*/
 
-  /*
-  isRuneInClusters(i, j, type) {
-    return ( i>1 && type === this.board[i-1][j].type && type === this.board[i-2][j].type) ||
-           ( j>1 && type === this.board[i][j-1].type && type === this.board[i][j-2].type)
-  }
-  */
+
 };

@@ -5,6 +5,7 @@ class Queue {
     this.queue = [];
   }
 
+  // add SINC
   add(context, command, args) {
     this.queue.push(
       [{
@@ -12,15 +13,11 @@ class Queue {
         command: command,
         args: args
       }]);
+    this.play();
   }
 
-  /*addTODO(commands) {
-    if (this.queue.length) {
-      commands.forEach((command) => {
-        this.queue[this.queue.length - 1].add(command.context, command.command, command.arg);
-      });
-    } else this.push(tweenGroup);
-  }*/
+  // add ASINC
+  // TODO
 
   play() {
     if (!this.isDraws) {
@@ -31,7 +28,10 @@ class Queue {
           let anim = commands[i].context[commands[i].command].apply(commands[i].context, commands[i].args);
           // на макс по времени
           if (i == commands.length-1) {
-            anim.onComplete.add(() => { this.isDraws = false; });
+            anim.onComplete.add(() => { 
+              this.isDraws = false;
+              this.play();
+            });
           }
         }
       }

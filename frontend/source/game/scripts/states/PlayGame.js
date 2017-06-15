@@ -21,47 +21,60 @@ class PlayGame extends Phaser.State {
 
     // бинды на события
     board.onLoad.add(function (board) {
-      //debug.boardConsole();
       queue.add(view, "renderBoard", [board, textureRune, true, 10, 100]);
-    }, this);
+    });
 
     board.onSwap.add(function (coordRunes) {
       queue.add(view, "renderSwap", [coordRunes[0], coordRunes[1]]);
-    }, this);
+    });
 
-    board.onDeleteClusters.add(function (board) {
-      queue.add(view, "renderDel", [board]);
-    }, this);
+    board.onDeleteClusters.add(function (toDel) {
+      queue.add(view, "renderDel", [toDel]);
+    });
 
-    board.onDrop.add(function (board) {
-      //queue.add(view, "renderBoard", []);
-    }, this);
-
+    board.onRefill.add(function (toFill) {
+      queue.add(view, "renderRefill", [toFill, textureRune]);
+    });
 
     board.load(testBoard);
 
-    setTimeout(function() { /// <- ХУЙНЯ !!!
-      board.swap([2,4],[3,4]);
-      board.swap([2,4],[3,4]);
-      board.swap([2,4],[3,4]);
-      board.swap([2,4],[3,4]);
-      board.swap([2,4],[3,4]);
+    let qwe = 0;
+    do {
+      qwe++;
+      if (board.findClusters().length) {
+        do {
+          board.findClusters();
+          board.deleteClusters();
+          board.drop();
+          board.refill();
+        } while (board.findClusters().length)
+      } 
+      else {
+        if (board.findMoves().length) {
+          board.swap(board.moves[0][0],board.moves[0][1]);
+        }
+        else {
+          board.load(testBoard);
+        }
+      }
+    } while (qwe<1000)
 
-      board.findClusters();
-      board.deleteClusters();
-    }, 1000);
 
-    setTimeout(function() { /// <- ХУЙНЯ !!!
-      board.drop();
-    }, 3000);
+    //window.setTimeout(function() {
 
-    console.log("testBoard_5_drop = "+debug.comparisonBoards(testBoard_5_drop));
+    //},
+    //20);
+
+    //window.setTimeout(function() {
+
+    //},
+    //2500);
+
 
   }
 
   update() {
     utils.resizeGame(this.game);
-    queue.play();
   }
 
   render() {

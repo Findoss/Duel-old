@@ -23,19 +23,6 @@ class View {
   }
 
   renderBoard(board, configSpriteRune, inputEnabled, marginRune, marginBoardX, marginBoardY) {
-
-    // del +++
-      //let tmpStr = "";
-      //for (let i = 0; i < board.length; i++) {
-      //  for (let j = 0; j < board.length; j++) {
-      //    tmpStr += board[i][j].type+" ";
-      //  }
-      //  console.log("["+tmpStr+"],\n");
-      //  tmpStr = "";
-      //}
-      //console.log("\n");
-    // del ---
-
     this.board = [];
     this.groupBoard = this.linkGame.add.group();
 
@@ -60,33 +47,25 @@ class View {
         }
         this.groupBoard.add(this.board[i][j]);
         this.groupBoard.alpha = 0;
-
-        // del +++
-        DEBUG && this.linkGame.add.text(
-          this.marginBoardX + j * (configSpriteRune.size.width + this.marginRune)-40, 
-          this.marginBoardY + i * (configSpriteRune.size.height + this.marginRune)-45, 
-          i+"x"+j, {
-            font: "20px Arial",
-            fill: "#fff",
-            align: "center" 
-          }
-        );
-        // del ---
       }
     }
 
-    return this.linkGame.add.tween(
-        this.groupBoard).to({
-          alpha: 1
-        },
-        1000,
-        Phaser.Easing.Linear.None,
-        true
-      );
+    let tween = this.linkGame.add
+      .tween(this.groupBoard)
+      .to({
+        alpha: 1
+      },
+      100,
+      Phaser.Easing.Linear.None,
+      true
+    );
+    
+    return tween;
   }
 
   renderSwap(coordRuneOne, coordRuneTwo) {
 
+    // исправить хак на пареметры события
     this.board[coordRuneOne[0]][coordRuneOne[1]].events.onInputDown["_bindings"][0]["_args"][0] = {i:coordRuneTwo[0], j:coordRuneTwo[1]};
     this.board[coordRuneTwo[0]][coordRuneTwo[1]].events.onInputDown["_bindings"][0]["_args"][0] = {i:coordRuneOne[0], j:coordRuneOne[1]};
 
@@ -94,22 +73,24 @@ class View {
     this.board[coordRuneOne[0]][coordRuneOne[1]] = this.board[coordRuneTwo[0]][coordRuneTwo[1]];
     this.board[coordRuneTwo[0]][coordRuneTwo[1]] = tmp;
 
-    this.linkGame.add.tween(
-      this.board[coordRuneOne[0]][coordRuneOne[1]]).to({
+    this.linkGame.add
+      .tween(this.board[coordRuneOne[0]][coordRuneOne[1]])
+      .to({
         x: this.board[coordRuneTwo[0]][coordRuneTwo[1]].x,
         y: this.board[coordRuneTwo[0]][coordRuneTwo[1]].y
       },
-      200,
+      30,
       Phaser.Easing.Linear.None, 
       true
     );
 
-    let lastTween = this.linkGame.add.tween(
-      this.board[coordRuneTwo[0]][coordRuneTwo[1]]).to({
+    let lastTween = this.linkGame.add
+      .tween(this.board[coordRuneTwo[0]][coordRuneTwo[1]])
+      .to({
         x: this.board[coordRuneOne[0]][coordRuneOne[1]].x,
         y: this.board[coordRuneOne[0]][coordRuneOne[1]].y
       }, 
-      200, 
+      30, 
       Phaser.Easing.Linear.None,
       true
     );
@@ -117,23 +98,65 @@ class View {
     return lastTween;
   }
 
-  renderDel(board) {
-    let lastTween = {};
-    for (let i = 0; i < this.board.length; i++) {
-      for (let j = 0; j < this.board[i].length; j++) {
-        if (board[i][j].type == 0) {
-          lastTween = this.linkGame.add.tween(
-            this.board[i][j]).to({
-              alpha: 0
-            },
-            300,
-            Phaser.Easing.Linear.None, 
-            true
-          );
-        }
-      }
+  renderDel(toDel) {
+    let tween = {};
+    let groupDelRune = this.linkGame.add.group();
+
+    for (let i = 0; i < toDel.length; i++) {
+      groupDelRune.add(this.board[toDel[i][0]][toDel[i][1]]);
     }
-    return lastTween
+
+    tween = this.linkGame.add
+      .tween(groupDelRune)
+      .to({
+        alpha: 0
+      },
+      100,
+      Phaser.Easing.Linear.None,
+      true
+    );
+
+    return tween
+  }
+
+  // TODO УЖАС
+  // [i, j, type], configSprite
+  renderRefill(toFill, configSpriteRune) {
+    let tween = {};
+    let groupFillRune = this.linkGame.add.group();
+
+    for (let i = 0; i < toFill.length; i++) {
+
+      let rune = this.renderRune(
+        toFill[i][2], 
+        this.board[toFill[i][0]][toFill[i][1]].x,
+        this.board[toFill[i][0]][toFill[i][1]].y,//-(this.board[toFill[i][0]][toFill[i][1]].y+this.marginRune),
+        configSpriteRune, 
+        true
+      );
+
+      this.board[toFill[i][0]][toFill[i][1]].destroy();
+      this.board[toFill[i][0]][toFill[i][1]] = rune;
+
+      for (let eventName in configSpriteRune.events) {
+        this.board[toFill[i][0]][toFill[i][1]].events[eventName].add(this.linkGame[ configSpriteRune.events[eventName] ], this.linkGame, 0, {i:[i][0], j:[i][1]});
+      };
+
+      groupFillRune.add(rune);
+    }
+
+    tween = this.linkGame.add
+      .tween(groupFillRune)
+      .to({
+        alpha: 1,
+        //y: this.board[toFill[i][0]][toFill[i][1]].y+this.board[toFill[i][0]][toFill[i][1]].y+this.marginRune
+      },
+      300,
+      Phaser.Easing.Linear.None,
+      true
+    );
+
+    return tween
   }
 
 };

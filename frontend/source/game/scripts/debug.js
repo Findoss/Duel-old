@@ -64,30 +64,22 @@ class Debug {
     return true
   }
 
-  boardConsole() {
-    let tmpStr = "";
-    for (let i = 0; i < this.linkBoard.rows; i++) {
-      for (let j = 0; j < this.linkBoard.columns; j++) {
-        tmpStr += this.linkBoard.board[i][j].type+" ";
+  boardConsole(board) {
+    for (let i = 0; i < board.length; i++) {
+      let tmpStr = " ";
+      for (let j = 0; j < board[i].length; j++) {
+        if (board[i][j].type === undefined) {
+          tmpStr += board[i][j].key[board[i][j].key.length-1];
+        } else {
+          tmpStr += board[i][j].type;
+        }
+        tmpStr += "  ";
       }
-      console.log("["+tmpStr+"],\n");
+      console.log("|"+tmpStr+"|\n");
       tmpStr = "";
     }
     console.log("\n");
   }
-
-  boardViewConsole() {
-    let tmpStr = "";
-    for (let i = 0; i < this.linkView.board.length; i++) {
-      for (let j = 0; j < this.linkView.board[i].length; j++) {
-        tmpStr += this.linkView.board[i][j].key[this.linkView.board[i][j].key.length-1]+" ";
-      }
-      console.log("["+tmpStr+"],\n");
-      tmpStr = "";
-    }
-    console.log("\n");
-  }
-
 
 }
 
