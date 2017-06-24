@@ -1,19 +1,22 @@
-const DEBUG = true;
-const DEBUG_font = "30px Arial";
-const DEBUG_color = "#00ff00";
+const DEBUG_font = '25px Arial'
+const DEBUG_color = '#00ff00'
 
 class Debug {
+  constructor (board, view, queue) {
+    this.linkBoard = board
+    this.linkView = view
+    this.linkQueue = queue
 
-  constructor(board, view) {
-    this.linkBoard = board;
-    this.linkView = view; 
+    /*
+    this.linkQueue.onPlay.add(function (argument) {
+      console.log("queue.onPlay");
+      console.log(argument.command + ": " +argument.args);
+    }, this);
 
-/*
     this.linkBoard.onLoad.add(function (argument) {
       console.log("board.onLoad");
       console.log(argument);
     }, this);
-
 
     this.linkBoard.preSwap.add(function (argument) {
       console.log("board.preSwap");
@@ -49,14 +52,14 @@ class Debug {
 */
   }
 
-  test(name, savedBoard) {
-    console.log(name+" test = " + this.comparisonBoards(savedBoard));
+  test (name, savedBoard) {
+    console.log(name + ' test = ' + this.comparisonBoards(savedBoard))
   }
 
-  comparisonBoards(savedBoard) {
+  comparisonBoards (savedBoard) {
     for (let i = 0; i < savedBoard.length; i++) {
       for (let j = 0; j < savedBoard[i].length; j++) {
-        if (savedBoard[i][j] != this.linkBoard.board[i][j].type) {
+        if (savedBoard[i][j] !== this.linkBoard.board[i][j].type) {
           return false
         }
       }
@@ -64,31 +67,28 @@ class Debug {
     return true
   }
 
-  boardConsole() {
-    let tmpStr = "";
-    for (let i = 0; i < this.linkBoard.rows; i++) {
-      for (let j = 0; j < this.linkBoard.columns; j++) {
-        tmpStr += this.linkBoard.board[i][j].type+" ";
+  boardConsole (board) {
+    for (let i = 0; i < board.length; i++) {
+      let tmpStr = ' '
+      for (let j = 0; j < board[i].length; j++) {
+        if (board[i][j].type === undefined) {
+          tmpStr += board[i][j].key[board[i][j].key.length - 1]
+        } else {
+          tmpStr += board[i][j].type
+        }
+        tmpStr += '  '
       }
-      console.log("["+tmpStr+"],\n");
-      tmpStr = "";
+      console.log('|' + tmpStr + '|\n')
+      tmpStr = ''
     }
-    console.log("\n");
+    console.log('\n')
   }
-
-  boardViewConsole() {
-    let tmpStr = "";
-    for (let i = 0; i < this.linkView.board.length; i++) {
-      for (let j = 0; j < this.linkView.board[i].length; j++) {
-        tmpStr += this.linkView.board[i][j].key[this.linkView.board[i][j].key.length-1]+" ";
-      }
-      console.log("["+tmpStr+"],\n");
-      tmpStr = "";
-    }
-    console.log("\n");
-  }
-
-
 }
 
-
+/*
+console.table(variableName)
+console.log('%c Oh my heavens! ', 'background: #222; color: #bada55');
+console.info('%c Oh my heavens! ', 'background: #222; color: #bada55');
+console.warn('Error: '.red + 'this is an error message');
+console.error('%c Oh my heavens! ', 'background: #222; color: #bada55');
+*/
