@@ -1,10 +1,10 @@
-const texturePath = "./images/";
+const texturePath = './images/'
 
 const textureRune = {
-  fileName: "rune_",
+  fileName: 'rune_',
   size: {
-    width :  100,
-    height : 100
+    width: 100,
+    height: 100
   },
   animations: {
     wait: [0, 1, 2, 3],
@@ -13,9 +13,8 @@ const textureRune = {
     destroy: [8, 9, 10, 11]
   },
   events: {
-    onInputDown: "runeClick"
-    //onInputOver: "runeClick",
-    //onInputOut: ""
+    onInputDown: 'runeClick'
+    // onInputOver: "runeClick",
+    // onInputOut: ""
   }
-};
-
+}
