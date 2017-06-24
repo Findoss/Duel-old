@@ -5,13 +5,13 @@
   "main": "index.js",
   "author": "Findoss",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "std": "standard && node ../source/game/scripts/main.js"
   },
-  "license": "todo MIT",
   "devDependencies": {
-    "bower": "^1.6.5",
-    "gulp": "^3.9.0",
-    "gulp-header": "^1.8.8",
-    "gulp-livereload": "^3.8.1"
-  }
+    "bower": "latest",
+    "gulp": "latest",
+    "gulp-livereload": "latest",
+    "standard": "latest"
+  },
+  "license": "todo MIT"
 }
