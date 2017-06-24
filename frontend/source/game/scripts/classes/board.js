@@ -1,245 +1,164 @@
+/* global Phaser, Rune */
+
 class Board {
+  constructor (rows, columns, countGenerateRunes, minMoveCount) {
+    this.rows = rows || 6
+    this.columns = columns || 6
+    this.countGenerateRunes = countGenerateRunes || 5
+    this.minMoveCount = minMoveCount || 3
 
-  constructor(rows, columns, countGenerateRunes, minMoveCount) {
-    this.rows = rows || 6;
-    this.columns = columns || 6;
-    this.countGenerateRunes = countGenerateRunes || 5;
-    this.minMoveCount = minMoveCount || 3;
+    this.board = []
+    this.moves = []
+    this.clusters = []
 
-    this.board = [];
-    this.moves = [];
-    this.clusters = [];
-
-    this.onLoad = new Phaser.Signal();
-    this.preSwap = new Phaser.Signal();
-    this.onSwap = new Phaser.Signal();
-    this.onFindMove = new Phaser.Signal();
-    this.onFindMoves = new Phaser.Signal();
-    this.onFindCluster = new Phaser.Signal();
-    this.onFindClusters = new Phaser.Signal();
-    this.onDrop = new Phaser.Signal();
-    this.onDeleteClusters = new Phaser.Signal();
-    this.onRefill = new Phaser.Signal();
+    this.onDelete = new Phaser.Signal()
+    this.onLoad = new Phaser.Signal()
+    this.onSwap = new Phaser.Signal()
+    this.onDrop = new Phaser.Signal()
+    this.onRefill = new Phaser.Signal()
   }
 
-  getColumn(index) {
-    let column = [];
+  // number → []
+  getColumn (index) {
+    let column = []
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.columns; j++) {
         if (j === index) {
-          column.push(this.board[i][j]);
-          break;
+          column.push(this.board[i][j])
+          break
         }
       }
     }
     return column
   }
 
-  getRow(index) {
-    return this.board[index];
+  // number → []
+  getRow (index) {
+    return this.board[index]
   }
 
-  // arr[i][j]
-  load(savedBoard) {
-    this.board.length = 0;
-    this.rows = savedBoard.length;
-    this.columns = savedBoard[0].length;
-    for (let i = 0; i < this.rows; i++) {
-      this.board[i] = [];
-      for (let j = 0; j < this.columns; j++) {
-        this.board[i][j] = new Rune(savedBoard[i][j]);
-      }
+  // () → bool
+  deleteBoard () {
+    if (this.board !== undefined) {
+      delete this.board
+      this.onLoad.dispatch()
+      return true
     }
-    this.onLoad.dispatch(this.board);
-    return this.board;
+    return false
   }
 
-  // arr[i,j], arr[i,j] 
-  swap(coordRuneOne, coordRuneTwo) {
-
-    this.preSwap.dispatch([coordRuneOne, coordRuneTwo]);
-
-    let tmp = this.board[coordRuneOne[0]][coordRuneOne[1]];
-    this.board[coordRuneOne[0]][coordRuneOne[1]] = this.board[coordRuneTwo[0]][coordRuneTwo[1]]
-    this.board[coordRuneTwo[0]][coordRuneTwo[1]] = tmp;
-
-    this.onSwap.dispatch([coordRuneOne, coordRuneTwo]);
-    return [ coordRuneOne, coordRuneTwo ];
-  }
-
-  // TODO ПЕРЕОСМЫСЛИТЬ
-  findMoves() {
-    this.moves = [];
-    // HORIZONT
-    for (let i = 0; i < this.rows; i++) {
-      for (let j = 0; j < this.columns-1; j++) {
-        this.swap([i, j], [i, j+1]);
-        this.findClusters();
-        if (this.clusters.length > 0) {
-          let objCoordMove = [[i, j], [i, j+1]];
-          this.onFindMove.dispatch( objCoordMove );
-          this.moves.push( objCoordMove );
-        }
-        this.swap([i, j], [i, j+1]);
-      }
-    }
-    // VERTICAL
-    for (let i = 0; i < this.rows-1; i++) {
-      for (let j = 0; j < this.columns; j++) {
-        this.swap([i, j], [i+1, j]);
-        this.findClusters();
-        if (this.clusters.length > 0) {
-          let objCoordMove = [[i, j], [i+1, j]];
-          this.onFindMove.dispatch( objCoordMove );
-          this.moves.push( objCoordMove );
-        }
-        this.swap([i, j], [i+1, j]);
-      }
-    }
-
-    this.onFindMoves.dispatch( this.moves );
-    return this.moves;
-  }
-
-  // TODO ПЕРЕОСМЫСЛИТЬ
-  findClusters() {
-    this.clusters = [];
-    // HORIZONT
-    for (let i = 0; i < this.rows; i++) {
-      let firstRuneInCluster = 0;
-      let clusterLength = 1;
-      for (let j = 1; j < this.columns; j++) {
-        let isRecord = false;
-        if (this.board[i][firstRuneInCluster].type === this.board[i][j].type && this.board[i][firstRuneInCluster].type>0) {
-          clusterLength++; 
-          if (j+1 === this.columns) isRecord = true;
-        } 
-        else isRecord = true;
-
-        if (isRecord) {
-          if (clusterLength >= 3) {
-            let objCoordCluster = [{i:i, j:firstRuneInCluster}, {i:i, j:clusterLength+firstRuneInCluster-1}];
-            this.onFindCluster.dispatch( objCoordCluster );
-            this.clusters.push( objCoordCluster );
+  // [][] → bool
+  validatorSavedBoard (savedBoard) {
+    if (savedBoard.length > 3 && savedBoard[0].length > 3) {
+      for (let i = 0; i < savedBoard.length; i++) {
+        for (let j = 0; j < savedBoard[0].length; j++) {
+          if (savedBoard[i][j].type === undefined) {
+            if (savedBoard[i][j] < 0 || savedBoard[i][j] > this.countGenerateRunes) {
+              return false
+            }
+          } else {
+            if (savedBoard[i][j].type < 0 || savedBoard[i][j].type > this.countGenerateRunes) {
+              return false
+            }
           }
-          firstRuneInCluster = j;
-          clusterLength = 1;
         }
       }
+      return true
     }
-    // VERTICAL
-    for (let i = 0; i < this.columns; i++) {
-      let firstRuneInCluster = 0;
-      let clusterLength = 1;
-      for (let j = 1; j < this.rows; j++) {
-        let isRecord = false;
-        if (this.board[firstRuneInCluster][i].type === this.board[j][i].type && this.board[firstRuneInCluster][i].type>0) {
-          clusterLength++; 
-          if (j+1 === this.columns) isRecord = true;
-        }
-        else isRecord = true;
+    return false
+  }
 
-        if (isRecord) {
-          if (clusterLength >= 3) {
-            let objCoordCluster = [{i:firstRuneInCluster, j:i}, {i:clusterLength+firstRuneInCluster-1, j:i}];
-            this.onFindCluster.dispatch( objCoordCluster );
-            this.clusters.push( objCoordCluster );
+  // [][] → copy[][].Rune
+  //      → false
+  loadBoard (savedBoard) {
+    if (this.validatorSavedBoard(savedBoard)) {
+      this.deleteBoard()
+      this.board = []
+      this.rows = savedBoard.length
+      this.columns = savedBoard[0].length
+      for (let i = 0; i < this.rows; i++) {
+        this.board[i] = []
+        for (let j = 0; j < this.columns; j++) {
+          if (savedBoard[i][j].type === undefined) {
+            this.board[i][j] = new Rune(savedBoard[i][j])
+          } else {
+            this.board[i][j] = new Rune(savedBoard[i][j].type)
           }
-          firstRuneInCluster = j;
-          clusterLength = 1;
         }
       }
+      let newBoard = Object.assign([], this.board)
+      this.onLoad.dispatch(newBoard)
+      return newBoard
     }
-    
-    this.onFindClusters.dispatch( this.clusters );
-    return this.clusters;
+    return false
   }
 
-  // TODO ПЕРЕОСМЫСЛИТЬ
-  deleteClusters() {
-    let toDel = []
-    for (let l = 0; l < this.clusters.length; l++) {
-      let i = this.clusters[l][0].i;
-      let j = this.clusters[l][0].j;
-      let countCluster = (this.clusters[l][1].j - j) + (this.clusters[l][1].i - i) + 1;
-      // HORIZONT
-      if (this.clusters[l][0].i == this.clusters[l][1].i) {
-        for (let t = j; t < j + countCluster; t++) {
-          if (this.board[i][t].type > 0) this.board[i][t].type = 0;
-          toDel.push([i, t]);
-        }
-      }
-      // VERTICAL
-      else {
-        for (let t = i; t < i + countCluster; t++) {
-          if (this.board[t][j].type > 0) this.board[t][j].type = 0;
-          toDel.push([t, j]);
-        }
-      }
-    }
-    this.clusters = [];
-    this.onDeleteClusters.dispatch(toDel);
-    return toDel;
+  // {i, j}, {i, j} → [{i, j}, {i, j}]
+  //                → [empty]
+  swap (coordRuneOne, coordRuneTwo) {
+    let tmp = this.board[coordRuneOne.i][coordRuneOne.j]
+    this.board[coordRuneOne.i][coordRuneOne.j] = this.board[coordRuneTwo.i][coordRuneTwo.j]
+    this.board[coordRuneTwo.i][coordRuneTwo.j] = tmp
+
+    this.onSwap.dispatch([ coordRuneOne, coordRuneTwo ])
+    return [ coordRuneOne, coordRuneTwo ]
   }
 
-  // TODO ПЕРЕОСМЫСЛИТЬ
-  refill() {
-    let toFill = []
-    for (let i = 0; i < this.rows; i++) {
-      for (let j = 0; j < this.columns; j++) {
-        if (this.board[i][j].type == 0) {
-          this.board[i][j].newRandomType(this.countGenerateRunes);
-          toFill.push([i, j, this.board[i][j].type]);
-        } 
-      }
-    }
-    this.onRefill.dispatch( toFill );
-    return toFill;
-  }
-
-  // оформить - событие - выходные данные
-  drop() {
+  // () → [{i, j}, ... ,{i, j}]
+  //    → [empty]
+  drop () {
+    let coordRunes = []
     for (let j = 0; j < this.columns; j++) {
-      let firstEmpty = null;
-      for (let i = this.rows-1; i >= 0; i--) {
+      let firstEmpty = null
+      for (let i = this.rows - 1; i >= 0; i--) {
         if (firstEmpty === null) {
-          if ( this.board[i][j].type == 0 ) {
-            firstEmpty = i;
+          if (this.board[i][j].type === 0) {
+            firstEmpty = i
           }
         } else {
-          if ( this.board[i][j].type > 0 ) {
-            this.swap([firstEmpty, j], [i, j]);
-            firstEmpty--;
+          if (this.board[i][j].type > 0) {
+            this.swap({i: firstEmpty, j: j}, {i: i, j: j})
+            coordRunes.push([{i: firstEmpty, j: j}, {i: i, j: j}])
+            firstEmpty--
           }
         }
       }
     }
-    this.onDrop.dispatch( "qwer" );
-    return "this.onDrop.dispatch";
+    this.onDrop.dispatch(coordRunes)
+    return coordRunes
   }
 
-  // TODO ПРОВЕРИТЬ
-  isRuneInClusters(i, j, type) {
-    return ( i>1 && type === this.board[i-1][j].type && type === this.board[i-2][j].type) ||
-           ( j>1 && type === this.board[i][j-1].type && type === this.board[i][j-2].type)
+  // {i, j}, {i, j} → bool
+  comparisonType (coordRuneOne, coordRuneTwo) {
+    return (this.board[coordRuneOne.i][coordRuneOne.j].type === this.board[coordRuneTwo.i][coordRuneTwo.j].type)
   }
 
-  /*generation(isClusters = false) {
-    do {
-      for (var i = 0; i < this.rows; i++) {
-        this.board[i] = [];
-        for (var j = 0; j < this.columns; j++) {
-          do {
-            newRune = randomIntegers(this.countRunes)+1;
-          }
-          while (this.isRuneInClusters(i, j, newRune) && !isClusters)
-          this.board[i][j] = { type: newRune, sprite: null }
+  // {i, j}, {i, j} → bool
+  areTheSame (coordRuneOne, coordRuneTwo) {
+    return (coordRuneOne.i === coordRuneTwo.i &&
+            coordRuneOne.j === coordRuneTwo.j)
+  }
+
+  // TODO
+  // {i, j}, {i, j} → bool
+  isAdjacentRune (coordRuneOne, coordRuneTwo) {
+    return (Math.abs(coordRuneTwo.i - coordRuneOne.i) === 1 && Math.abs(coordRuneTwo.j - coordRuneOne.j) === 0) ||
+           (Math.abs(coordRuneTwo.i - coordRuneOne.i) === 0 && Math.abs(coordRuneTwo.j - coordRuneOne.j) === 1)
+  }
+
+  // () → [{i, j, type}]
+  //    → [empty]
+  refill () {
+    let newRunes = []
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.columns; j++) {
+        if (this.board[i][j].type === 0) {
+          let newRune = this.board[i][j].newRandomType(this.countGenerateRunes)
+          newRunes.push({i: i, j: j, type: newRune})
         }
       }
     }
-    while (this.findMoves() < this.minMoveCount);
-    return this;
-  }*/
-
-
-};
+    this.onRefill.dispatch(newRunes)
+    return newRunes
+  }
+}
