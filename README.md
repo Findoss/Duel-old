@@ -1,3 +1,5 @@
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+
 Структура
 ```
 ├──backend                             //
@@ -51,6 +53,24 @@
 ```
 
 
+Именование
+```
+Позиция (положение на экроне) → x, y
+Индексы (положение в массиве) → i, j
+Тег для формул → #formula
+Тег недоделанных или подлежащих пересмотрению частей кода → TODO
+```
 
-Cпособности
-* Обманка - тип один, вид другой
+Функции
+```
+deleteBoard = cleanBoard
+loadBoard = renderBoard
+swap = renderSwap
+drop
+findMove
+findMoves
+findCluster
+findClusters
+deleteClusters
+refill
+```
