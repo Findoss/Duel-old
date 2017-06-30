@@ -6,50 +6,50 @@ class Debug {
     this.linkBoard = board
     this.linkView = view
     this.linkQueue = queue
+/*
+    this.linkBoard.onDrop.add(function (argument) {
+      console.log('board.onDrop')
+      // console.log(argument)
+      this.boardConsole(this.linkBoard.board)
+    }, this)
 
-    /*
     this.linkQueue.onPlay.add(function (argument) {
-      console.log("queue.onPlay");
-      console.log(argument.command + ": " +argument.args);
-    }, this);
+      console.log('queue.onPlay')
+      console.log(argument.command + ': ' + argument.args)
+    }, this)
 
     this.linkBoard.onLoad.add(function (argument) {
-      console.log("board.onLoad");
-      console.log(argument);
-    }, this);
+      console.log('board.onLoad')
+      console.log(argument)
+    }, this)
 
     this.linkBoard.preSwap.add(function (argument) {
-      console.log("board.preSwap");
-      console.log(argument);
-    }, this);
+      console.log('board.preSwap')
+      console.log(argument)
+    }, this)
 
     this.linkBoard.onSwap.add(function (argument) {
-      console.log("board.onSwap");
-      console.log(argument);
-    }, this);
+      console.log('board.onSwap')
+      console.log(argument)
+    }, this)
 
     this.linkBoard.onFindClusters.add(function (argument) {
       if (argument.length) {
-        console.log("board.onFindClusters");
-        console.log(argument);
+        console.log('board.onFindClusters')
+        console.log(argument)
       }
-    }, this);
+    }, this)
 
     this.linkBoard.onFindMoves.add(function (argument) {
-      console.log("board.onFindMoves");
-      console.log(argument);
-    }, this);
-
-    this.linkBoard.onDrop.add(function (argument) {
-      console.log("board.onDrop");
-      console.log(argument);
-    }, this);
+      console.log('board.onFindMoves')
+      console.log(argument)
+    }, this)
 
     this.linkBoard.onDeleteClusters.add(function (argument) {
-      console.log("board.onDeleteClusters");
-      console.log(argument);
-    }, this);
-*/
+      console.log('board.onDeleteClusters')
+      console.log(argument)
+    }, this)
+    */
   }
 
   test (name, savedBoard) {
