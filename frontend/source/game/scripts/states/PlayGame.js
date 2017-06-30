@@ -1,6 +1,5 @@
-/* global Phaser, param, textureRune, texturePath, testBoard5, Board, activeRune, View, debug, Debug, queue, utils, DEBUG_color, DEBUG_font */
+/* global Phaser, param, textureRune, texturePath, testBoard5, Queue, Board, activeRune, View, debug, Debug, queue, utils, DEBUG_color, DEBUG_font */
 
-let testBoard
 let board = {}
 let view = {}
 let debug = {}
@@ -11,8 +10,6 @@ class PlayGame extends Phaser.State {
   init () {
     this.game.time.advancedTiming = true
     this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL
-
-    testBoard = param.board
   }
 
   preload () {
@@ -23,29 +20,17 @@ class PlayGame extends Phaser.State {
 
   create () {
     board = new Board()
-    view = new View(this)
+    view = new View(this, textureRune)
     queue = new Queue()
     debug = new Debug(board, view, queue)
-    // бинды на события
-    board.onLoad.add((board) => {
-      if (board) {
-        queue.add(view, 'renderBoard', [board, textureRune, true, 10, 100])
-      }
-    })
 
-    board.onSwap.add((coordRunes) => {
-      queue.add(view, 'renderSwap', [coordRunes[0], coordRunes[1]])
-    })
+    this.bindEvents(board)
 
-    board.onDrop.add(function (coordRunes) {
-      if (coordRunes.length) {
-        // queue.add(view, 'renderDrop', [coordRunes])
-      }
-    })
-
-    board.loadBoard(testBoard)
-    board.swap({i: 1, j: 1}, {i: 3, j: 3})
-    board.drop()
+    board.generation(false)
+    // board.loadBoard(param.board)
+    // board.swapRune({i: 2, j: 4}, {i: 3, j: 4})
+    // board.findClusters()
+    // board.loop()
   }
 
   update () {
@@ -60,20 +45,61 @@ class PlayGame extends Phaser.State {
 
   runeClick (rune, param, coord) {
     let pickRune = coord
-    console.log(('P: ' + pickRune.i + 'x' + pickRune.j))
     if (activeRune === null) {
       activeRune = pickRune
     } else {
       if (board.areTheSame(pickRune, activeRune)) {
         activeRune = null
       } else {
-        if (board.isAdjacentRune(activeRune, pickRune) && !board.comparisonType(activeRune, pickRune)) {
-          board.swap(activeRune, pickRune)
-          activeRune = null
+        if (board.isAdjacentRune(activeRune, pickRune)) {
+          if (!board.comparisonType(activeRune, pickRune)) {
+            board.swapRune(activeRune, pickRune)
+            if (board.findClusters().length) {
+              board.loop()
+            } else {
+              board.swapRune(activeRune, pickRune)
+            }
+            activeRune = null
+          } else {
+            board.onSwap.dispatch([activeRune, pickRune])
+            board.onSwap.dispatch([activeRune, pickRune])
+            activeRune = null
+          }
         } else {
           activeRune = pickRune
         }
       }
     }
+  }
+
+  bindEvents (board) {
+    board.onLoad.add((board) => {
+      console.log(board)
+      if (board) {
+        queue.add(view, 'renderBoard', [board, 10, 100])
+      }
+    })
+
+    board.onSwap.add((coordRunes) => {
+      queue.add(view, 'renderSwap', [coordRunes[0], coordRunes[1]])
+    })
+
+    board.onRefill.add(function (coordRunes) {
+      if (coordRunes.length) {
+        queue.add(view, 'renderRefill', [coordRunes, textureRune])
+      }
+    })
+
+    board.onDrop.add(function (dropRunes) {
+      if (dropRunes.length) {
+        for (let i = 0; i < dropRunes.length; i++) {
+          queue.add(view, 'renderSwap', [dropRunes[i][0], dropRunes[i][1], 45])
+        }
+      }
+    })
+
+    board.onDeleteClusters.add(function (coordRunes) {
+      queue.add(view, 'renderDel', [coordRunes])
+    })
   }
 }
