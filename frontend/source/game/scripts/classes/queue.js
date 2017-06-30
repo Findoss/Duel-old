@@ -1,41 +1,43 @@
+/* global Phaser */
+
 class Queue {
-
-  constructor() {
-    this.flag = true;
-    this.queue = [];
+  constructor () {
+    this.isDraws = false
+    this.queue = []
+    this.onPlay = new Phaser.Signal()
   }
 
-  push(tweenGroup) {
-    this.queue.push(tweenGroup);
+  // add SINC
+  add (context, command, args) {
+    this.queue.push(
+      [{
+        context: context,
+        command: command,
+        args: args
+      }])
+    this.play()
   }
 
-  add(tweenGroup) {
-    if (this.queue.length) {
-      tweenGroup.forEach((tween) => {
-        this.queue[this.queue.length - 1].push(tween);
-      });
-    } else this.push(tweenGroup);
-  }
+  // TODO
+  // add ASINC
 
-  play() {
-    if (this.flag) {
-      this.flag = false;
+  play () {
+    if (!this.isDraws) {
       if (this.queue.length) {
-
-        let tweenGroup = this.queue.shift();
-        tweenGroup[tweenGroup.length - 1].onComplete.add(() => {
-          this.flag = true;
-        });
-        tweenGroup.forEach((tween) => {
-          tween.start()
-        });
-
-      } else {
-        this.flag = true;
+        this.isDraws = true
+        let commands = this.queue.shift()
+        for (let i = 0; i < commands.length; i++) {
+          let anim = commands[i].context[commands[i].command].apply(commands[i].context, commands[i].args)
+          this.onPlay.dispatch(commands[i])
+          // TODO на макс по времени
+          if (i === commands.length - 1) {
+            anim.onComplete.add(() => {
+              this.isDraws = false
+              this.play()
+            })
+          }
+        }
       }
     }
   }
-
 }
-
-var queue = new Queue();

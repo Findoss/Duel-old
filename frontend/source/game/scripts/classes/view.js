@@ -1,147 +1,171 @@
+/* globals Phaser, textureRune */
+
 class View {
-
-  constructor(game) {
-    this.linkGame = game;
+  constructor (game, configSpriteRune) {
+    this.linkGame = game
+    this.configSpriteRune = configSpriteRune
   }
 
-  renderRune(type, x, y, configSprite, inputEnabled) {
-    let rune;
-    rune = this.linkGame.add.sprite(x, y, configSprite.fileName+type);
-    rune.anchor.set(0.5);
-    rune.width = configSprite.size.width;
-    rune.height = configSprite.size.height;
-    rune.visible = true;
-    rune.inputEnabled = inputEnabled || false;
+  // FORMULA
+  posXRune (j) {
+    return this.marginBoardX + j * (this.configSpriteRune.size.width + this.marginRune)
+  }
 
-    for (let animationName in configSprite.animations) {
-      rune.animations.add(animationName, configSprite.animations[animationName]);
+  // FORMULA
+  posYRune (i) {
+    return this.marginBoardY + i * (this.configSpriteRune.size.height + this.marginRune)
+  }
+
+  renderRune (i, j, type) {
+    let rune = this.linkGame.add.sprite(this.posXRune(j), 0, this.configSpriteRune.fileName + type)
+    rune.width = this.configSpriteRune.size.width
+    rune.height = this.configSpriteRune.size.height
+    rune.inputEnabled = true
+    rune.anchor.set(0.5)
+    if (this.configSpriteRune.animations !== undefined) {
+      for (let animationName in this.configSpriteRune.animations) {
+        rune.animations.add(animationName, this.configSpriteRune.animations[animationName])
+      }
+      let firstAnimation = Object.keys(this.configSpriteRune.animations)[0]
+      rune.animations.play(firstAnimation, this.configSpriteRune.animations[firstAnimation].length, true)
     }
-    let firstAnimation = Object.keys(configSprite.animations)[0];
-    rune.animations.play(firstAnimation, configSprite.animations[firstAnimation].length, true);
-
-    return rune;
+    for (let eventName in this.configSpriteRune.events) {
+      rune.events[eventName].add(this.linkGame[ this.configSpriteRune.events[eventName] ], this.linkGame, 0, {i: i, j: j})
+    }
+    return rune
   }
 
-  renderBoard(board, configSpriteRune, inputEnabled, marginRune, marginBoardX, marginBoardY) {
+  cleanBoard () {
+    if (this.board !== undefined) {
+      delete this.board
+      this.groupBoard.destroy()
+    }
+  }
 
-    this.board = [];
-    this.groupBoard = this.linkGame.add.group();
+  renderBoard (board, marginRune, marginBoardX, marginBoardY) {
+    this.cleanBoard()
+    this.board = []
+    this.groupBoard = this.linkGame.add.group()
+    this.marginRune = marginRune || this.configSpriteRune.size.width / 10
+    this.marginBoardX = marginBoardX || 150
+    this.marginBoardY = marginBoardY || 150
 
-    this.marginRune   = marginRune   || configSpriteRune.size.width/10;
-    this.marginBoardX = marginBoardX || 150;
-    this.marginBoardY = marginBoardY || 150;
-
+    let tween = {}
     for (let i = 0; i < board.length; i++) {
-      this.board[i] = [];
+      this.board[i] = []
       for (let j = 0; j < board[i].length; j++) {
-        this.board[i][j] = this.renderRune(
-          board[i][j].type,
-          this.marginBoardX + j * (configSpriteRune.size.width + this.marginRune),
-          this.marginBoardY + i * (configSpriteRune.size.height + this.marginRune),
-          configSpriteRune,
-          inputEnabled
-        );
-        if (inputEnabled) {
-          for (let eventName in configSpriteRune.events) {
-            this.board[i][j].events[eventName].add(this.linkGame[ configSpriteRune.events[eventName] ], this.linkGame, 0, {i:i, j:j});
-          };
-        }
-        this.groupBoard.add(this.board[i][j]);
-        this.groupBoard.alpha = 0;
-
-        // del +++
-        DEBUG && this.linkGame.add.text(
-          this.marginBoardX + j * (configSpriteRune.size.width + this.marginRune)-40, 
-          this.marginBoardY + i * (configSpriteRune.size.height + this.marginRune)-45, 
-          i+"x"+j, {
-            font: "20px Arial",
-            fill: "#fff",
-            align: "center" 
-          }
-        );
-        // del ---
+        this.board[i][j] = this.renderRune(i, j, board[i][j].type)
+        tween = this.linkGame.add
+          .tween(this.board[i][j])
+          .to({
+            alpha: 1,
+            y: this.posYRune(i)
+          },
+          700,
+          Phaser.Easing.Linear.None,
+          true
+        )
+        this.groupBoard.add(this.board[i][j])
       }
     }
+    return tween
+  }
 
-    // del +++
-    return [
-      this.linkGame.add.tween(
-        this.groupBoard).to({
+  renderSwap (coordRuneOne, coordRuneTwo, speed) {
+    // исправить хак на пареметры события
+    this.board[coordRuneOne.i][coordRuneOne.j].events.onInputDown['_bindings'][0]['_args'][0] = {i: coordRuneTwo.i, j: coordRuneTwo.j}
+    this.board[coordRuneTwo.i][coordRuneTwo.j].events.onInputDown['_bindings'][0]['_args'][0] = {i: coordRuneOne.i, j: coordRuneOne.j}
+
+    let tmp = this.board[coordRuneOne.i][coordRuneOne.j]
+    this.board[coordRuneOne.i][coordRuneOne.j] = this.board[coordRuneTwo.i][coordRuneTwo.j]
+    this.board[coordRuneTwo.i][coordRuneTwo.j] = tmp
+
+    this.linkGame.add
+      .tween(this.board[coordRuneOne.i][coordRuneOne.j])
+      .to({
+        x: this.board[coordRuneTwo.i][coordRuneTwo.j].x,
+        y: this.board[coordRuneTwo.i][coordRuneTwo.j].y
+      },
+      speed || 250,
+      Phaser.Easing.Linear.None,
+      true
+    )
+    let lastTween = this.linkGame.add
+      .tween(this.board[coordRuneTwo.i][coordRuneTwo.j])
+      .to({
+        x: this.board[coordRuneOne.i][coordRuneOne.j].x,
+        y: this.board[coordRuneOne.i][coordRuneOne.j].y
+      },
+      speed || 250,
+      Phaser.Easing.Linear.None,
+      true
+    )
+    return lastTween
+  }
+
+  cleanRunes (runes) {
+    let groupDelRunes = this.linkGame.add.group()
+    for (let l = 0; l < runes.length; l++) {
+      groupDelRunes.add(this.board[runes[l].i][runes[l].j])
+    }
+    groupDelRunes.destroy()
+  }
+
+  renderRefill (runes, configSpriteRune) {
+    this.cleanRunes(runes)
+    let tween = {}
+    for (let l = 0; l < runes.length; l++) {
+      let rune = this.renderRune(runes[l].i, runes[l].j, runes[l].type)
+      for (let eventName in configSpriteRune.events) {
+        rune.events[eventName].add(this.linkGame[ configSpriteRune.events[eventName] ], this.linkGame, 0, {i: runes[l].i, j: runes[l].j})
+      }
+      this.board[runes[l].i][runes[l].j] = rune
+      tween = this.linkGame.add
+        .tween(rune)
+        .to({
+          y: this.posYRune(runes[l].i),
           alpha: 1
         },
-        1000,
+        500,
         Phaser.Easing.Linear.None,
-        false
+        true
       )
-    ];
-  }
-
-  renderSwap(coordRuneOne, coordRuneTwo) {
-
-    console.log("рендр свап");
-
-    console.log(this.board[coordRuneTwo[0]][coordRuneTwo[1]].x);
-
-    let tweenGroup = [];
-
-    console.log(this.board[coordRuneOne[0]][coordRuneOne[1]]);
-
-    //console.log(coordRuneOne[0]+"x"+coordRuneOne[1])
-    //console.log(this.board[coordRuneOne[0]][coordRuneOne[1]].position);
-
-    //console.log(coordRuneTwo[0]+"x"+coordRuneTwo[1])
-    //console.log(this.board[coordRuneTwo[0]][coordRuneTwo[1]].position);
-
-    tweenGroup.push(this.linkGame.add.tween(
-      this.board[coordRuneOne[0]][coordRuneOne[1]]).to({
-        x: this.board[coordRuneTwo[0]][coordRuneTwo[1]].x,
-        y: this.board[coordRuneTwo[0]][coordRuneTwo[1]].y
-      },
-      300,
-      Phaser.Easing.Linear.None, 
-      false
-    ));
-
-    tweenGroup.push(this.linkGame.add.tween(
-      this.board[coordRuneTwo[0]][coordRuneTwo[1]]).to({
-        x: this.board[coordRuneOne[0]][coordRuneOne[1]].x,
-        y: this.board[coordRuneOne[0]][coordRuneOne[1]].y
-      }, 
-      300, 
-      Phaser.Easing.Linear.None,
-      false
-    ));
-
-    tweenGroup[1].onComplete.add(() => {
-        console.log("свап++");
-      this.board[coordRuneOne[0]][coordRuneOne[1]].events.onInputDown["_bindings"][0]["_args"][0] = {i:coordRuneTwo[0], j:coordRuneTwo[1]};
-      this.board[coordRuneTwo[0]][coordRuneTwo[1]].events.onInputDown["_bindings"][0]["_args"][0] = {i:coordRuneOne[0], j:coordRuneOne[1]};
-
-      let tmp = this.board[coordRuneOne[0]][coordRuneOne[1]];
-      this.board[coordRuneOne[0]][coordRuneOne[1]] = this.board[coordRuneTwo[0]][coordRuneTwo[1]];
-      this.board[coordRuneTwo[0]][coordRuneTwo[1]] = tmp;
-    });
-
-    return tweenGroup
-  }
-
-  renderDel(board) {
-    let tweenGroup = [];
-    for (var i = 0; i < this.board.length; i++) {
-      for (var j = 0; j < this.board[i].length; j++) {
-        if (board[i][j].type == 0) {
-          tweenGroup.push(this.linkGame.add.tween(
-            this.board[i][j]).to({
-              alpha: 0
-            },
-            300,
-            Phaser.Easing.Linear.None, 
-            false
-          ));
-        }
-      }
     }
-    return tweenGroup
+    return tween
   }
 
-};
+  renderDel (delRunes) {
+    let groupDelRunes = this.linkGame.add.group()
+
+    for (let i = 0; i < delRunes.length; i++) {
+      groupDelRunes.add(this.board[delRunes[i].i][delRunes[i].j])
+      this.linkGame.add
+            .tween(this.board[delRunes[i].i][delRunes[i].j].scale)
+            .to({
+              x: 0.3,
+              y: 0.3
+            },
+            150,
+            Phaser.Easing.Linear.None,
+            true
+          )
+    }
+
+    let tween = this.linkGame.add
+      .tween(groupDelRunes)
+      .to({
+        alpha: 0
+      },
+      200,
+      Phaser.Easing.Linear.None,
+      true
+    )
+
+    return tween
+  }
+
+  renderDrop (dropRunes) {
+    let tween = {}
+    return tween
+  }
+}

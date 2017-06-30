@@ -1,88 +1,105 @@
+/* global Phaser, param, textureRune, texturePath, testBoard5, Queue, Board, activeRune, View, debug, Debug, queue, utils, DEBUG_color, DEBUG_font */
+
+let board = {}
+let view = {}
+let debug = {}
+let queue = {}
+let activeRune = null
+
 class PlayGame extends Phaser.State {
-
-  init() {
-    this.game.time.advancedTiming = true;
-    this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
-    console.log("param = "+param.key);
+  init () {
+    this.game.time.advancedTiming = true
+    this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL
   }
 
-  preload() {
-    // загрузка текстур рун
+  preload () {
     for (let i = 0; i < 6; i++) {
-      this.game.load.spritesheet(textureRune.fileName+i, texturePath+textureRune.fileName+i+".png", textureRune.size.width, textureRune.size.height, 12);
+      this.game.load.spritesheet(textureRune.fileName + i, texturePath + textureRune.fileName + i + '.png', textureRune.size.width, textureRune.size.height, 12)
     }
   }
 
-  create() {
-    let testBoard = testBoard_5;
+  create () {
+    board = new Board()
+    view = new View(this, textureRune)
+    queue = new Queue()
+    debug = new Debug(board, view, queue)
 
-    var board = new Board();
-    var view = new View(this);
-    board.load(testBoard);
-    view.renderBoard(board.board, textureRune, false);
-    queue.push(view.renderBoard(board.board, textureRune, true, 10, 100));
+    this.bindEvents(board)
 
-    var board2 = new Board();
-    var view2 = new View(this);
-    var debug = new Debug(board2, view2);
+    board.generation(false)
+    // board.loadBoard(param.board)
+    // board.swapRune({i: 2, j: 4}, {i: 3, j: 4})
+    // board.findClusters()
+    // board.loop()
+  }
 
-    board2.onSwap.add(function (coordRunes) {
-      console.log("по событию отдаем на рендр");
-      queue.push(view2.renderSwap(coordRunes[0], coordRunes[1]));
-    }, this);
+  update () {
+    utils.resizeGame(this.game)
+  }
 
-    board.onSwap.add(function (coordRunes) {
-      queue.push(view.renderSwap(coordRunes[0], coordRunes[1]));
-    }, this);
+  render () {
+    this.game.debug.text('FPS: ' + this.game.time.fps, 20, 50, DEBUG_color, DEBUG_font)
+    this.game.debug.text('Q: ' + queue.queue.length, 150, 50, DEBUG_color, DEBUG_font)
+    if (activeRune !== null) this.game.debug.text('A: ' + activeRune.i + 'x' + activeRune.j, 230, 50, DEBUG_color, DEBUG_font)
+  }
 
-    board2.load(testBoard);
-    queue.push(view2.renderBoard(board2.board, textureRune, true, 10, 100, 900));
-
-    console.log("отправлено в свап");
-    board2.swap([2, 4], [3, 4]);
-    //debug.boardConsole();
-    //debug.boardViewConsole();
-    
-
-    console.log("отправлено в свап");
-    board2.swap([2, 4], [3, 4]);
-    
-    //debug.boardConsole();
-    //debug.boardViewConsole();
-
-    //board2.deleteClusters();
-    //queue.push(view2.renderDel(board2.board));
-    //queue.push(view2.renderBoard(board2.board, textureRune, true, 10, 900));
-/*  
-    while (board2.findClusters().length) {
-
-      board2.deleteClusters();
-      queue.push(view2.renderDel(board2.board));
-      debug.test("del", testBoard_5_del);
-
-      board2.drop();
-      //queue.push(view2.renderBoard(board2.board, textureRune, true, 10, 900));
-
-      //board2.fill();
-      //queue.push(view2.renderBoard(board2.board, textureRune, true, 10, 900));
+  runeClick (rune, param, coord) {
+    let pickRune = coord
+    if (activeRune === null) {
+      activeRune = pickRune
+    } else {
+      if (board.areTheSame(pickRune, activeRune)) {
+        activeRune = null
+      } else {
+        if (board.isAdjacentRune(activeRune, pickRune)) {
+          if (!board.comparisonType(activeRune, pickRune)) {
+            board.swapRune(activeRune, pickRune)
+            if (board.findClusters().length) {
+              board.loop()
+            } else {
+              board.swapRune(activeRune, pickRune)
+            }
+            activeRune = null
+          } else {
+            board.onSwap.dispatch([activeRune, pickRune])
+            board.onSwap.dispatch([activeRune, pickRune])
+            activeRune = null
+          }
+        } else {
+          activeRune = pickRune
+        }
+      }
     }
-
-    debug.test("drop_2", testBoard_5_drop_2);
-    console.log(board2.swap([4, 4], [2, 1]));
-*/
   }
 
-  update() {
-    utils.resizeGame(this.game);
-    queue.play();
-  }
+  bindEvents (board) {
+    board.onLoad.add((board) => {
+      console.log(board)
+      if (board) {
+        queue.add(view, 'renderBoard', [board, 10, 100])
+      }
+    })
 
-  render() {
+    board.onSwap.add((coordRunes) => {
+      queue.add(view, 'renderSwap', [coordRunes[0], coordRunes[1]])
+    })
 
-    DEBUG && this.game.debug.text('FPS: ' + this.game.time.fps || 'FPS: --', 20, 50, DEBUG_color, DEBUG_font);
-  }
+    board.onRefill.add(function (coordRunes) {
+      if (coordRunes.length) {
+        queue.add(view, 'renderRefill', [coordRunes, textureRune])
+      }
+    })
 
-  runeClick(rune, param, coord) {
-    console.log(coord);
+    board.onDrop.add(function (dropRunes) {
+      if (dropRunes.length) {
+        for (let i = 0; i < dropRunes.length; i++) {
+          queue.add(view, 'renderSwap', [dropRunes[i][0], dropRunes[i][1], 45])
+        }
+      }
+    })
+
+    board.onDeleteClusters.add(function (coordRunes) {
+      queue.add(view, 'renderDel', [coordRunes])
+    })
   }
 }
