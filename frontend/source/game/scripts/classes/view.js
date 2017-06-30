@@ -1,34 +1,36 @@
 /* globals Phaser, textureRune */
 
 class View {
-  constructor (game) {
+  constructor (game, configSpriteRune) {
     this.linkGame = game
+    this.configSpriteRune = configSpriteRune
   }
 
-  renderRune (i, j, type, configSprite, inputEnabled) {
-    // #formula pos
-    let x = this.marginBoardX + j * (configSprite.size.width + this.marginRune)
-    let y = this.marginBoardY + i * (configSprite.size.height + this.marginRune)
-    let rune
-    rune = this.linkGame.add.sprite(x, y, configSprite.fileName + type)
+  // FORMULA
+  posXRune (j) {
+    return this.marginBoardX + j * (this.configSpriteRune.size.width + this.marginRune)
+  }
+
+  // FORMULA
+  posYRune (i) {
+    return this.marginBoardY + i * (this.configSpriteRune.size.height + this.marginRune)
+  }
+
+  renderRune (i, j, type) {
+    let rune = this.linkGame.add.sprite(this.posXRune(j), 0, this.configSpriteRune.fileName + type)
+    rune.width = this.configSpriteRune.size.width
+    rune.height = this.configSpriteRune.size.height
+    rune.inputEnabled = true
     rune.anchor.set(0.5)
-    rune.width = configSprite.size.width
-    rune.height = configSprite.size.height
-    rune.visible = true
-    rune.inputEnabled = inputEnabled || false
-
-    if (configSprite.animations !== undefined) {
-      for (let animationName in configSprite.animations) {
-        rune.animations.add(animationName, configSprite.animations[animationName])
+    if (this.configSpriteRune.animations !== undefined) {
+      for (let animationName in this.configSpriteRune.animations) {
+        rune.animations.add(animationName, this.configSpriteRune.animations[animationName])
       }
-      let firstAnimation = Object.keys(configSprite.animations)[0]
-      rune.animations.play(firstAnimation, configSprite.animations[firstAnimation].length, true)
+      let firstAnimation = Object.keys(this.configSpriteRune.animations)[0]
+      rune.animations.play(firstAnimation, this.configSpriteRune.animations[firstAnimation].length, true)
     }
-
-    if (inputEnabled) {
-      for (let eventName in configSprite.events) {
-        rune.events[eventName].add(this.linkGame[ configSprite.events[eventName] ], this.linkGame, 0, {i: i, j: j})
-      };
+    for (let eventName in this.configSpriteRune.events) {
+      rune.events[eventName].add(this.linkGame[ this.configSpriteRune.events[eventName] ], this.linkGame, 0, {i: i, j: j})
     }
     return rune
   }
@@ -40,31 +42,36 @@ class View {
     }
   }
 
-  renderBoard (board, configSpriteRune, inputEnabled, marginRune, marginBoardX, marginBoardY) {
+  renderBoard (board, marginRune, marginBoardX, marginBoardY) {
     this.cleanBoard()
     this.board = []
     this.groupBoard = this.linkGame.add.group()
-    this.marginRune = marginRune || configSpriteRune.size.width / 10
+    this.marginRune = marginRune || this.configSpriteRune.size.width / 10
     this.marginBoardX = marginBoardX || 150
     this.marginBoardY = marginBoardY || 150
 
+    let tween = {}
     for (let i = 0; i < board.length; i++) {
       this.board[i] = []
       for (let j = 0; j < board[i].length; j++) {
-        this.board[i][j] = this.renderRune(i, j, board[i][j].type, configSpriteRune, inputEnabled)
+        this.board[i][j] = this.renderRune(i, j, board[i][j].type)
+        tween = this.linkGame.add
+          .tween(this.board[i][j])
+          .to({
+            alpha: 1,
+            y: this.posYRune(i)
+          },
+          700,
+          Phaser.Easing.Linear.None,
+          true
+        )
         this.groupBoard.add(this.board[i][j])
       }
     }
-    this.groupBoard.alpha = 0
-
-    let tween = this.linkGame.add
-      .tween(this.groupBoard)
-      .to({alpha: 1}, 1100, Phaser.Easing.Linear.None, true)
-
     return tween
   }
 
-  renderSwap (coordRuneOne, coordRuneTwo) {
+  renderSwap (coordRuneOne, coordRuneTwo, speed) {
     // исправить хак на пареметры события
     this.board[coordRuneOne.i][coordRuneOne.j].events.onInputDown['_bindings'][0]['_args'][0] = {i: coordRuneTwo.i, j: coordRuneTwo.j}
     this.board[coordRuneTwo.i][coordRuneTwo.j].events.onInputDown['_bindings'][0]['_args'][0] = {i: coordRuneOne.i, j: coordRuneOne.j}
@@ -79,22 +86,86 @@ class View {
         x: this.board[coordRuneTwo.i][coordRuneTwo.j].x,
         y: this.board[coordRuneTwo.i][coordRuneTwo.j].y
       },
-      200,
+      speed || 250,
       Phaser.Easing.Linear.None,
       true
     )
-
     let lastTween = this.linkGame.add
       .tween(this.board[coordRuneTwo.i][coordRuneTwo.j])
       .to({
         x: this.board[coordRuneOne.i][coordRuneOne.j].x,
         y: this.board[coordRuneOne.i][coordRuneOne.j].y
       },
+      speed || 250,
+      Phaser.Easing.Linear.None,
+      true
+    )
+    return lastTween
+  }
+
+  cleanRunes (runes) {
+    let groupDelRunes = this.linkGame.add.group()
+    for (let l = 0; l < runes.length; l++) {
+      groupDelRunes.add(this.board[runes[l].i][runes[l].j])
+    }
+    groupDelRunes.destroy()
+  }
+
+  renderRefill (runes, configSpriteRune) {
+    this.cleanRunes(runes)
+    let tween = {}
+    for (let l = 0; l < runes.length; l++) {
+      let rune = this.renderRune(runes[l].i, runes[l].j, runes[l].type)
+      for (let eventName in configSpriteRune.events) {
+        rune.events[eventName].add(this.linkGame[ configSpriteRune.events[eventName] ], this.linkGame, 0, {i: runes[l].i, j: runes[l].j})
+      }
+      this.board[runes[l].i][runes[l].j] = rune
+      tween = this.linkGame.add
+        .tween(rune)
+        .to({
+          y: this.posYRune(runes[l].i),
+          alpha: 1
+        },
+        500,
+        Phaser.Easing.Linear.None,
+        true
+      )
+    }
+    return tween
+  }
+
+  renderDel (delRunes) {
+    let groupDelRunes = this.linkGame.add.group()
+
+    for (let i = 0; i < delRunes.length; i++) {
+      groupDelRunes.add(this.board[delRunes[i].i][delRunes[i].j])
+      this.linkGame.add
+            .tween(this.board[delRunes[i].i][delRunes[i].j].scale)
+            .to({
+              x: 0.3,
+              y: 0.3
+            },
+            150,
+            Phaser.Easing.Linear.None,
+            true
+          )
+    }
+
+    let tween = this.linkGame.add
+      .tween(groupDelRunes)
+      .to({
+        alpha: 0
+      },
       200,
       Phaser.Easing.Linear.None,
       true
     )
 
-    return lastTween
+    return tween
+  }
+
+  renderDrop (dropRunes) {
+    let tween = {}
+    return tween
   }
 }
