@@ -17,7 +17,7 @@ class View {
   }
 
   renderRune (i, j, type) {
-    let rune = this.linkGame.add.sprite(this.posXRune(j), 0, this.configSpriteRune.fileName + type)
+    let rune = this.linkGame.add.sprite(this.posXRune(j), this.posYRune(6 - i) * -1, this.configSpriteRune.fileName + type)
     rune.width = this.configSpriteRune.size.width
     rune.height = this.configSpriteRune.size.height
     rune.inputEnabled = true
@@ -61,7 +61,7 @@ class View {
             alpha: 1,
             y: this.posYRune(i)
           },
-          700,
+          400,
           Phaser.Easing.Linear.None,
           true
         )
@@ -69,6 +69,10 @@ class View {
       }
     }
     return tween
+  }
+
+  getIndexs (rune) {
+    return rune.events.onInputDown['_bindings'][0]['_args'][0]
   }
 
   renderSwap (coordRuneOne, coordRuneTwo, speed) {
@@ -120,6 +124,7 @@ class View {
         rune.events[eventName].add(this.linkGame[ configSpriteRune.events[eventName] ], this.linkGame, 0, {i: runes[l].i, j: runes[l].j})
       }
       this.board[runes[l].i][runes[l].j] = rune
+      this.groupBoard.add(rune)
       tween = this.linkGame.add
         .tween(rune)
         .to({
