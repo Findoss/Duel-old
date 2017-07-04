@@ -28,6 +28,7 @@ class PlayGame extends Phaser.State {
 
     board.generation(false)
     // board.loadBoard(param.board)
+    // console.log(board.isRuneInCluster(5, 4))
     // board.swapRune({i: 2, j: 4}, {i: 3, j: 4})
     // board.findClusters()
     // board.loop()
@@ -40,33 +41,38 @@ class PlayGame extends Phaser.State {
   render () {
     this.game.debug.text('FPS: ' + this.game.time.fps, 20, 50, DEBUG_color, DEBUG_font)
     this.game.debug.text('Q: ' + queue.queue.length, 150, 50, DEBUG_color, DEBUG_font)
-    if (activeRune !== null) this.game.debug.text('A: ' + activeRune.i + 'x' + activeRune.j, 230, 50, DEBUG_color, DEBUG_font)
+    if (activeRune !== null) this.game.debug.text('A: ' + view.getIndexs(activeRune).i + 'x' + view.getIndexs(activeRune).j, 230, 50, DEBUG_color, DEBUG_font)
   }
 
-  runeClick (rune, param, coord) {
-    let pickRune = coord
+  runeClick (pickRune, param, coordPickRune) {
     if (activeRune === null) {
       activeRune = pickRune
+      pickRune.animations.play('pick', 4, true)
     } else {
-      if (board.areTheSame(pickRune, activeRune)) {
+      let coordActiveRune = view.getIndexs(activeRune)
+      if (board.areTheSame(coordPickRune, coordActiveRune)) {
+        activeRune.animations.play('wait', 4, true)
         activeRune = null
       } else {
-        if (board.isAdjacentRune(activeRune, pickRune)) {
-          if (!board.comparisonType(activeRune, pickRune)) {
-            board.swapRune(activeRune, pickRune)
-            if (board.findClusters().length) {
+        if (board.isAdjacentRune(coordActiveRune, coordPickRune)) {
+          if (!board.comparisonType(coordActiveRune, coordPickRune)) {
+            if (board.swapRune(coordActiveRune, coordPickRune).length) {
               board.loop()
             } else {
-              board.swapRune(activeRune, pickRune)
+              board.swapRune(coordActiveRune, coordPickRune)
             }
+            activeRune.animations.play('wait', 4, true)
             activeRune = null
           } else {
-            board.onSwap.dispatch([activeRune, pickRune])
-            board.onSwap.dispatch([activeRune, pickRune])
+            board.preSwap.dispatch([coordActiveRune, coordPickRune])
+            board.preSwap.dispatch([coordActiveRune, coordPickRune])
+            activeRune.animations.play('wait', 4, true)
             activeRune = null
           }
         } else {
+          activeRune.animations.play('wait', 4, true)
           activeRune = pickRune
+          pickRune.animations.play('pick', 4, true)
         }
       }
     }
@@ -74,13 +80,12 @@ class PlayGame extends Phaser.State {
 
   bindEvents (board) {
     board.onLoad.add((board) => {
-      console.log(board)
       if (board) {
         queue.add(view, 'renderBoard', [board, 10, 100])
       }
     })
 
-    board.onSwap.add((coordRunes) => {
+    board.preSwap.add((coordRunes) => {
       queue.add(view, 'renderSwap', [coordRunes[0], coordRunes[1]])
     })
 
