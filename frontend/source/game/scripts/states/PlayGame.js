@@ -1,10 +1,13 @@
-/* global Phaser, param, textureRune, texturePath, testBoard5, Queue, Board, activeRune, View, debug, Debug, queue, utils, DEBUG_color, DEBUG_font */
+/* global Phaser, param, game, textureRune, texturePath, testBoard5, Queue, Board, activeRune, View, debug, Debug, queue, utils, DEBUG_color, DEBUG_font */
 
 let board = {}
 let view = {}
 let debug = {}
 let queue = {}
 let activeRune = null
+
+let MESSAGE = ''
+let RUNES = []
 
 class PlayGame extends Phaser.State {
   init () {
@@ -39,9 +42,18 @@ class PlayGame extends Phaser.State {
   }
 
   render () {
-    this.game.debug.text('FPS: ' + this.game.time.fps, 20, 50, DEBUG_color, DEBUG_font)
-    this.game.debug.text('Q: ' + queue.queue.length, 150, 50, DEBUG_color, DEBUG_font)
+    game.debug.text('FPS: ' + this.game.time.fps, 20, 50, DEBUG_color, DEBUG_font)
+    game.debug.text('Q: ' + queue.queue.length, 150, 50, DEBUG_color, DEBUG_font)
+    game.debug.text(MESSAGE, 320, 50, '#ff0000', DEBUG_font)
     if (activeRune !== null) this.game.debug.text('A: ' + view.getIndexs(activeRune).i + 'x' + view.getIndexs(activeRune).j, 230, 50, DEBUG_color, DEBUG_font)
+    for (let i = 1; i < 6; i++) {
+      let aaa = game.add.sprite(i * 70 - 10, 800, textureRune.fileName + i)
+      aaa.width = 50
+      aaa.height = 50
+    }
+    for (let rune in RUNES) {
+      game.debug.text(RUNES[rune], rune * 70, 830, '#ffffff', '30px Arial')
+    }
   }
 
   runeClick (pickRune, param, coordPickRune) {
@@ -57,7 +69,8 @@ class PlayGame extends Phaser.State {
         if (board.isAdjacentRune(coordActiveRune, coordPickRune)) {
           if (!board.comparisonType(coordActiveRune, coordPickRune)) {
             if (board.swapRune(coordActiveRune, coordPickRune).length) {
-              board.loop()
+              RUNES = board.loop()
+              // console.log(RUNES)
             } else {
               board.swapRune(coordActiveRune, coordPickRune)
             }

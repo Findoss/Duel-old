@@ -18,6 +18,7 @@ class Board {
     this.board = []
     this.moves = []
     this.clusters = []
+    this.countRunes = {}
 
     this.onDelete = new Phaser.Signal()
     this.onLoad = new Phaser.Signal()
@@ -144,7 +145,6 @@ class Board {
     // this.onSwap.dispatch(result)
     this.findClusters(coordRuneOne.i, coordRuneOne.j)
     this.findClusters(coordRuneTwo.i, coordRuneTwo.j)
-    console.log(this.clusters)
     return this.clusters
   }
 
@@ -182,22 +182,16 @@ class Board {
    */
   isRuneInCluster (i, j) {
     if (i > 1) {
-      if (this.multipleComparisonType(
-        {i: i, j: j},
-        [
-          {i: i - 1, j: j},
-          {i: i - 2, j: j}
-        ]
-      )) return true
+      if (this.comparisonType({i: i, j: j}, {i: i - 1, j: j}) &&
+          this.comparisonType({i: i, j: j}, {i: i - 2, j: j})) {
+        return true
+      }
     }
     if (j > 1) {
-      if (this.multipleComparisonType(
-        {i: i, j: j},
-        [
-          {i: i, j: j - 1},
-          {i: i, j: j - 2}
-        ]
-      )) return true
+      if (this.comparisonType({i: i, j: j}, {i: i, j: j - 1}) &&
+          this.comparisonType({i: i, j: j}, {i: i, j: j - 2})) {
+        return true
+      }
     }
     return false
   }
@@ -267,6 +261,18 @@ class Board {
   }
 
   /**
+   * [findAllClusters description]
+   * @return {array} clusters
+   */
+  findAllClusters () {
+    for (let l = 0; l < this.rows; l++) {
+      this.findClusters(l, l)
+    }
+    this.onFindClusters.dispatch(this.clusters)
+    return this.clusters
+  }
+
+  /**
    * [isAdjacentRune description]
    * @param  {{i, j}} coordRuneOne
    * @param  {{i, j}} coordRuneTwo
@@ -295,7 +301,8 @@ class Board {
    */
   multipleComparisonType (coordRune, coordRunes) {
     for (let i = 0; i < coordRunes.length; i++) {
-      if (!this.comparisonType(coordRune, coordRunes[i])) {
+      if (true) {}
+      if (this.comparisonType(coordRune, coordRunes[i])) {
         return false
       }
     }
@@ -357,39 +364,66 @@ class Board {
 
   /**
    * [deleteClusters description]
-   * @return {array} delRunes
+   * @return {array} countTypeRunes
+   * @return {array} coordRunes
    */
   deleteClusters () {
-    let delRunes = []
+    let coordRunes = []
     for (let l = 0; l < this.clusters.length; l++) {
       for (let t = 0; t < this.clusters[l].length; t++) {
         if (this.board[this.clusters[l][t].i][this.clusters[l][t].j].type > 0) {
+          this.addTypesRune(this.board[this.clusters[l][t].i][this.clusters[l][t].j].type)
+          coordRunes.push({i: this.clusters[l][t].i, j: this.clusters[l][t].j})
           this.board[this.clusters[l][t].i][this.clusters[l][t].j].newType(0)
-          delRunes.push({i: this.clusters[l][t].i, j: this.clusters[l][t].j})
         }
       }
     }
-    this.clusters = []
-    this.onDeleteClusters.dispatch(delRunes)
-    return delRunes
+    this.cleanClusters()
+    this.onDeleteClusters.dispatch(coordRunes)
+    return this.countRunes
+  }
+
+  /**
+   * [addcountRunes description]
+   * @param {array} count type
+   */
+  addTypesRune (type) {
+    if (this.countRunes[type] === undefined) {
+      this.countRunes[type] = 1
+    } else {
+      this.countRunes[type]++
+    }
+    return this.countRunes
   }
 
   // TODO
-  findAllClusters () {
-    for (let l = 0; l < this.rows; l++) {
-      this.findClusters(l, l)
-    }
-    this.onFindClusters.dispatch(this.clusters)
-    return this.clusters
+  cleanClusters () {
+    this.clusters = []
+  }
+
+  // TODO
+  cleancountRunes () {
+    this.countRunes = []
   }
 
   // TODO
   loop () {
+    let countRunes
     do {
-      this.deleteClusters()
+      countRunes = this.deleteClusters()
       this.drop()
       this.refill()
     } while (this.findAllClusters().length)
-    this.onLoop.dispatch()
+    this.onLoop.dispatch(countRunes)
+    return countRunes
+  }
+
+  // TODO
+  findMoves () {
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.columns; j++) {
+        this.board[i][j]
+      }
+    }
   }
 }
