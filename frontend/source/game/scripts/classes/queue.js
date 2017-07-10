@@ -7,7 +7,6 @@ class Queue {
     this.onPlay = new Phaser.Signal()
   }
 
-  // add SINC
   add (context, command, args) {
     this.queue.push(
       [{
@@ -17,9 +16,6 @@ class Queue {
       }])
     this.play()
   }
-
-  // TODO
-  // add ASINC
 
   play () {
     if (!this.isDraws) {
