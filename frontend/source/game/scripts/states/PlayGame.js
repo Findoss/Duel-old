@@ -6,6 +6,10 @@ let debug = {}
 let queue = {}
 let activeRune = null
 
+let board2 = {}
+let view2 = {}
+let finger = {}
+
 let MESSAGE = ''
 let RUNES = []
 
@@ -19,22 +23,49 @@ class PlayGame extends Phaser.State {
     for (let i = 0; i < 6; i++) {
       this.game.load.spritesheet(textureRune.fileName + i, texturePath + textureRune.fileName + i + '.png', textureRune.size.width, textureRune.size.height, 12)
     }
+    this.game.load.spritesheet('finger', './images/finger.png', 40, 40, 0)
   }
 
   create () {
+    for (let i = 1; i < 6; i++) {
+      let aaa = game.add.sprite(i * 70 - 10, 800, textureRune.fileName + i)
+      aaa.width = 50
+      aaa.height = 50
+    }
+
     board = new Board()
     view = new View(this, textureRune)
     queue = new Queue()
     debug = new Debug(board, view, queue)
 
+    board2 = new Board()
+    view2 = new View(this, textureRune)
+
     this.bindEvents(board)
 
-    board.generation(false)
-    // board.loadBoard(param.board)
-    // console.log(board.isRuneInCluster(5, 4))
-    // board.swapRune({i: 2, j: 4}, {i: 3, j: 4})
-    // board.findClusters()
-    // board.loop()
+    // TEST ZONE
+    board.loadBoard(param.board)
+
+    // board.generation(false)
+    /*
+    let XXX = 0
+    do {
+      let countMoves = board.findMoves()
+      if (countMoves) {
+        // console.log(board.moves)
+        for (var i = 0; i < countMoves; i++) {
+          view.hint(board.moves[i].b, board.moves[i].a, 'finger')
+        }
+        // let move = Math.floor(Math.random() * (countMoves))
+        // console.log(move)
+        // console.log(board.moves[move])
+        // board.swapRune(board.moves[move].b, board.moves[move].a)
+        // board.cleanMoves()
+      }
+      RUNES = board.loop()
+      XXX++
+    } while (XXX < 2)
+    */
   }
 
   update () {
@@ -46,11 +77,6 @@ class PlayGame extends Phaser.State {
     game.debug.text('Q: ' + queue.queue.length, 150, 50, DEBUG_color, DEBUG_font)
     game.debug.text(MESSAGE, 320, 50, '#ff0000', DEBUG_font)
     if (activeRune !== null) this.game.debug.text('A: ' + view.getIndexs(activeRune).i + 'x' + view.getIndexs(activeRune).j, 230, 50, DEBUG_color, DEBUG_font)
-    for (let i = 1; i < 6; i++) {
-      let aaa = game.add.sprite(i * 70 - 10, 800, textureRune.fileName + i)
-      aaa.width = 50
-      aaa.height = 50
-    }
     for (let rune in RUNES) {
       game.debug.text(RUNES[rune], rune * 70, 830, '#ffffff', '30px Arial')
     }
@@ -62,17 +88,30 @@ class PlayGame extends Phaser.State {
       pickRune.animations.play('pick', 4, true)
     } else {
       let coordActiveRune = view.getIndexs(activeRune)
-      if (board.areTheSame(coordPickRune, coordActiveRune)) {
-        activeRune.animations.play('wait', 4, true)
-        activeRune = null
-      } else {
+      if (!board.areTheSame(coordPickRune, coordActiveRune)) {
         if (board.isAdjacentRune(coordActiveRune, coordPickRune)) {
           if (!board.comparisonType(coordActiveRune, coordPickRune)) {
-            if (board.swapRune(coordActiveRune, coordPickRune).length) {
-              RUNES = board.loop()
-              // console.log(RUNES)
+            board.swapRune(coordActiveRune, coordPickRune)
+            view.cleanHint()
+            board.findClusters(coordActiveRune)
+            board.findClusters(coordPickRune)
+            if (board.clusters.length) {
+              do {
+                RUNES = board.deleteClusters()
+                board.drop()
+                board.refill()
+              } while (board.findAllClusters().length)
+
+              if (!board.findMoves().length) {
+                board.deleteBoard()
+                board.generation(false)
+              }
+              queue.add(view, 'renderHints', [board.findMoves(), 'finger'])
+              board.cleanMoves()
             } else {
               board.swapRune(coordActiveRune, coordPickRune)
+              queue.add(view, 'renderHints', [board.findMoves(), 'finger'])
+              board.cleanMoves()
             }
             activeRune.animations.play('wait', 4, true)
             activeRune = null
@@ -87,14 +126,25 @@ class PlayGame extends Phaser.State {
           activeRune = pickRune
           pickRune.animations.play('pick', 4, true)
         }
+      } else {
+        activeRune.animations.play('wait', 4, true)
+        activeRune = null
       }
     }
   }
 
   bindEvents (board) {
-    board.onLoad.add((board) => {
+    board.onLoad.add((newBoard) => {
       if (board) {
-        queue.add(view, 'renderBoard', [board, 10, 100])
+        queue.add(view, 'renderBoard', [newBoard, 10, 100])
+        queue.add(view, 'renderHints', [board.findMoves(), 'finger'])
+        board.cleanMoves()
+      }
+    })
+
+    board.onLoad.add((newBoard) => {
+      if (board) {
+        view2.renderBoard(newBoard, 10, 100, 930)
       }
     })
 
