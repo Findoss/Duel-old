@@ -40,18 +40,29 @@ class View {
 
   renderHint (coordRuneOne, coordRuneTwo, fingerSprite) {
     let finger = this.linkGame.add.sprite(0, 0, fingerSprite)
-    // finger.alpha = 0
     finger.width = 100
     finger.height = 100
-    finger.x = coordRuneOne.j * 100 + 100 + 25
-    finger.y = coordRuneOne.i * 100 + 100 + 50
+    finger.alpha = 0
+    finger.x = coordRuneOne.j * (100 + 5) + 100
+    finger.y = coordRuneOne.i * (100 + 10) + 150
     this.groupFinger.add(finger)
+
+    let tweenShow = this.linkGame.add
+      .tween(finger)
+      .to({
+        alpha: 1
+      },
+      150,
+      Phaser.Easing.Linear.None,
+      true,
+      1500
+    )
 
     let tween = this.linkGame.add
       .tween(finger)
       .to({
-        x: coordRuneTwo.j * 100 + 100 + 25,
-        y: coordRuneTwo.i * 100 + 100 + 50
+        x: coordRuneTwo.j * (100 + 5) + 100,
+        y: coordRuneTwo.i * (100 + 10) + 150
       },
       700,
       Phaser.Easing.Linear.None,
@@ -60,6 +71,9 @@ class View {
       -1,
       720
     )
+
+    tweenShow.chain(tween)
+
     this.fingerTweens.push(tween)
     return tween
   }
@@ -68,7 +82,7 @@ class View {
     this.groupFinger = this.linkGame.add.group()
     let tween = {}
     for (var l = 0; l < coordRunes.length; l++) {
-      tween = this.renderHint(coordRunes[l].a, coordRunes[l].b, fingerSprite)
+      tween = this.renderHint(coordRunes[l].coordRuneOne, coordRunes[l].coordRuneTwo, fingerSprite)
     }
     return tween
   }
