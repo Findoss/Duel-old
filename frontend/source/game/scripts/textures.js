@@ -13,8 +13,8 @@ const textureRune = {
     destroy: [8, 9, 10, 11]
   },
   events: {
-    onInputDown: 'runeClick'
-    // onInputOver: "runeClick",
-    // onInputOut: ""
+    onInputDown: 'runeClick',
+    onInputOver: 'runeOver',
+    onInputOut: 'runeOut'
   }
 }
