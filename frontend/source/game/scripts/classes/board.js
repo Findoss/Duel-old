@@ -1,25 +1,17 @@
-/* global Phaser, Rune */
 
 class Board {
-  /**
-   * [constructor description]
-   * @param  {number} rows
-   * @param  {number} columns
-   * @param  {number} countGenerateRunes
-   * @param  {number} minMoveCount
-   * @return {array
-   */
-  constructor (rows, columns, countGenerateRunes, minMoveCount) {
-    this.rows = rows || 6
-    this.columns = columns || 6
-    this.countGenerateRunes = countGenerateRunes || 5
-    this.minMoveCount = minMoveCount || 3
+  constructor (rows = 6, columns = 6, countGenerateRunes = 5, minMoveCount = 3) {
+    this.rows = rows
+    this.columns = columns
+    this.countGenerateRunes = countGenerateRunes
+    this.minMoveCount = minMoveCount
 
     this.board = []
     this.moves = []
     this.clusters = []
+    this.countRunes = {}
 
-    this.onDelete = new Phaser.Signal()
+    this.onDeleteBoard = new Phaser.Signal()
     this.onLoad = new Phaser.Signal()
     this.preSwap = new Phaser.Signal()
     this.onSwap = new Phaser.Signal()
@@ -27,14 +19,9 @@ class Board {
     this.onRefill = new Phaser.Signal()
     this.onDeleteClusters = new Phaser.Signal()
     this.onFindClusters = new Phaser.Signal()
-    this.onLoop = new Phaser.Signal()
+    this.onFindMoves = new Phaser.Signal()
   }
 
-  /**
-   * [getColumn description]
-   * @param  {number} index
-   * @return {array} column
-   */
   getColumn (index) {
     let column = []
     for (let i = 0; i < this.rows; i++) {
@@ -48,45 +35,24 @@ class Board {
     return column
   }
 
-  /**
-   * [getRow description]
-   * @param  {numder} index
-   * @return {array} row
-   */
   getRow (index) {
     return this.board[index]
   }
 
-  /**
-   * [deleteBoard description]
-   * @return {bool}
-   */
   deleteBoard () {
-    if (this.board !== undefined) {
-      delete this.board
-      this.onLoad.dispatch()
-      return true
-    }
-    return false
+    this.cleanMoves()
+    this.cleanClusters()
+    this.board = []
+    this.onDeleteBoard.dispatch()
+    return true
   }
 
-  /**
-   * [validatorSavedBoard description]
-   * @param  {array} savedBoard
-   * @return {bool}
-   */
   validatorSavedBoard (savedBoard) {
     if (savedBoard.length > 3 && savedBoard[0].length > 3) {
       for (let i = 0; i < savedBoard.length; i++) {
         for (let j = 0; j < savedBoard[0].length; j++) {
-          if (savedBoard[i][j].type === undefined) {
-            if (savedBoard[i][j] < 0 || savedBoard[i][j] > this.countGenerateRunes) {
-              return false
-            }
-          } else {
-            if (savedBoard[i][j].type < 0 || savedBoard[i][j].type > this.countGenerateRunes) {
-              return false
-            }
+          if (savedBoard[i][j] < 0 || savedBoard[i][j] > this.countGenerateRunes) {
+            return false
           }
         }
       }
@@ -95,11 +61,6 @@ class Board {
     return false
   }
 
-  /**
-   * [loadBoard description]
-   * @param  {array} savedBoard
-   * @return {array} copy array or empty
-   */
   loadBoard (savedBoard) {
     if (this.validatorSavedBoard(savedBoard)) {
       this.deleteBoard()
@@ -119,12 +80,6 @@ class Board {
     return []
   }
 
-  /**
-   * [swap description]
-   * @param  {{i, j}} coordRuneOne
-   * @param  {{i, j}} coordRuneTwo
-   * @return {array} coordRunes or empty
-   */
   swap (coordRuneOne, coordRuneTwo) {
     let tmp = this.board[coordRuneOne.i][coordRuneOne.j]
     this.board[coordRuneOne.i][coordRuneOne.j] = this.board[coordRuneTwo.i][coordRuneTwo.j]
@@ -132,26 +87,13 @@ class Board {
     return [ coordRuneOne, coordRuneTwo ]
   }
 
-  /**
-   * [swapRune description]
-   * @param  {{i, j}} coordRuneOne
-   * @param  {{i, j}} coordRuneTwo
-   * @return {array} coordRunes or empty
-   */
   swapRune (coordRuneOne, coordRuneTwo) {
     this.preSwap.dispatch([coordRuneOne, coordRuneTwo])
     this.swap(coordRuneOne, coordRuneTwo)
-    // this.onSwap.dispatch(result)
-    this.findClusters(coordRuneOne.i, coordRuneOne.j)
-    this.findClusters(coordRuneTwo.i, coordRuneTwo.j)
-    console.log(this.clusters)
-    return this.clusters
+    this.onSwap.dispatch([coordRuneOne, coordRuneTwo])
+    return [coordRuneOne, coordRuneTwo]
   }
 
-  /**
-   * [drop description]
-   * @return {array} coordRunes or empty
-   */
   drop () {
     let coordRunes = []
     for (let j = 0; j < this.columns; j++) {
@@ -163,8 +105,8 @@ class Board {
           }
         } else {
           if (this.board[i][j].type > 0) {
-            this.swap({i: i, j: j}, {i: firstEmpty, j: j})
-            coordRunes.push([{i: i, j: j}, {i: firstEmpty, j: j}])
+            this.swap({i, j}, {i: firstEmpty, j: j})
+            coordRunes.push([{i, j}, {i: firstEmpty, j: j}])
             firstEmpty--
           }
         }
@@ -174,40 +116,20 @@ class Board {
     return coordRunes
   }
 
-  /**
-   * [isRuneInCluster description]
-   * @param  {number} i row
-   * @param  {number} j column
-   * @return {bool}
-   */
   isRuneInCluster (i, j) {
     if (i > 1) {
-      if (this.multipleComparisonType(
-        {i: i, j: j},
-        [
-          {i: i - 1, j: j},
-          {i: i - 2, j: j}
-        ]
-      )) return true
+      if (this.everyComparisonType(true, {i, j}, {i: i - 1, j: j}, {i: i - 2, j: j})) {
+        return true
+      }
     }
     if (j > 1) {
-      if (this.multipleComparisonType(
-        {i: i, j: j},
-        [
-          {i: i, j: j - 1},
-          {i: i, j: j - 2}
-        ]
-      )) return true
+      if (this.everyComparisonType(true, {i, j}, {i: i, j: j - 1}, {i: i, j: j - 2})) {
+        return true
+      }
     }
     return false
   }
 
-  /**
-   * [findHorizontalClusters description]
-   * @param  {number} i row
-   * @param  {number} j column
-   * @return {array} cluster
-   */
   findHorizontalClusters (i, j) {
     let cluster = []
     cluster.push({i: i, j: j})
@@ -221,12 +143,6 @@ class Board {
     return cluster
   }
 
-  /**
-   * [findVerticalClusters description]
-   * @param  {number} i row
-   * @param  {number} j column
-   * @return {array} cluster
-   */
   findVerticalClusters (i, j) {
     let cluster = []
     cluster.push({i: i, j: j})
@@ -240,16 +156,10 @@ class Board {
     return cluster
   }
 
-  /**
-   * [findClusters description]
-   * @param  {number} i
-   * @param  {number} j
-   * @return {array} cluster
-   */
-  findClusters (i, j) {
+  findClusters (coordRune) {
     // H
     for (let l = 0; l < this.columns - 2; l++) {
-      let cluster = this.findHorizontalClusters(i, l)
+      let cluster = this.findHorizontalClusters(coordRune.i, l)
       if (cluster.length > 2) {
         this.clusters.push(cluster)
         l += cluster.length - 1
@@ -257,7 +167,7 @@ class Board {
     }
     // V
     for (let l = 0; l < this.rows - 2; l++) {
-      let cluster = this.findVerticalClusters(l, j)
+      let cluster = this.findVerticalClusters(l, coordRune.j)
       if (cluster.length > 2) {
         this.clusters.push(cluster)
         l += cluster.length - 1
@@ -266,64 +176,21 @@ class Board {
     return this.clusters
   }
 
-  /**
-   * [isAdjacentRune description]
-   * @param  {{i, j}} coordRuneOne
-   * @param  {{i, j}} coordRuneTwo
-   * @return {bool}
-   */
-  isAdjacentRune (coordRuneOne, coordRuneTwo) {
-    return (Math.abs(coordRuneTwo.i - coordRuneOne.i) === 1 && Math.abs(coordRuneTwo.j - coordRuneOne.j) === 0) ||
-           (Math.abs(coordRuneTwo.i - coordRuneOne.i) === 0 && Math.abs(coordRuneTwo.j - coordRuneOne.j) === 1)
-  }
-
-  /**
-   * [comparisonType description]
-   * @param  {{i, j}} coordRuneOne
-   * @param  {{i, j}} coordRuneTwo
-   * @return {bool}
-   */
-  comparisonType (coordRuneOne, coordRuneTwo) {
-    return (this.board[coordRuneOne.i][coordRuneOne.j].type === this.board[coordRuneTwo.i][coordRuneTwo.j].type)
-  }
-
-  /**
-   * [multipleComparison description]
-   * @param  {{i, j}} coordRune
-   * @param  {array} coordRunes
-   * @return {bool}
-   */
-  multipleComparisonType (coordRune, coordRunes) {
-    for (let i = 0; i < coordRunes.length; i++) {
-      if (!this.comparisonType(coordRune, coordRunes[i])) {
-        return false
-      }
+  findAllClusters () {
+    for (let l = 0; l < this.rows; l++) {
+      this.findClusters({i: l, j: l})
     }
-    return true
+    this.onFindClusters.dispatch(this.clusters)
+    return this.clusters
   }
 
-  /**
-   * [areTheSame description]
-   * @param  {{i, j}} coordRuneOne
-   * @param  {{i, j}} coordRuneTwo
-   * @return {bool}
-   */
-  areTheSame (coordRuneOne, coordRuneTwo) {
-    return (coordRuneOne.i === coordRuneTwo.i &&
-            coordRuneOne.j === coordRuneTwo.j)
-  }
-
-  /**
-   * [refill description]
-   * @return {array} coordRunes and type or empty
-   */
   refill () {
     let newRunes = []
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.columns; j++) {
         if (this.board[i][j].type === 0) {
           let newRune = this.board[i][j].newRandomType(this.countGenerateRunes)
-          newRunes.push({i: i, j: j, type: newRune})
+          newRunes.push({i, j, type: newRune})
         }
       }
     }
@@ -331,65 +198,204 @@ class Board {
     return newRunes
   }
 
-  /**
-   * [generation description]
-   * @param  {bool} isClusters - false (no clusters at the start)
-   * @return {array} copy array or empty
-   */
-  generation (isClusters) {
-    // do {
-    for (let i = 0; i < this.rows; i++) {
-      this.board[i] = []
-      for (let j = 0; j < this.columns; j++) {
-        this.board[i][j] = new Rune(0)
-        do {
-          this.board[i][j].newRandomType(this.countGenerateRunes)
+  generation (isClusters = false) {
+    do {
+      for (let i = 0; i < this.rows; i++) {
+        this.board[i] = []
+        for (let j = 0; j < this.columns; j++) {
+          this.board[i][j] = new Rune(0)
+          do {
+            this.board[i][j].newRandomType(this.countGenerateRunes)
+          }
+          while (this.isRuneInCluster(i, j) && !isClusters)
         }
-        while (this.isRuneInCluster(i, j) && !isClusters)
       }
     }
-    // }
-    // while (this.findMoves() < this.minMoveCount)
+    while (this.findMoves() < this.minMoveCount)
+    this.cleanMoves()
     let newBoard = Object.assign([], this.board)
     this.onLoad.dispatch(newBoard)
     return newBoard
   }
 
-  /**
-   * [deleteClusters description]
-   * @return {array} delRunes
-   */
   deleteClusters () {
-    let delRunes = []
+    let coordRunes = []
     for (let l = 0; l < this.clusters.length; l++) {
       for (let t = 0; t < this.clusters[l].length; t++) {
         if (this.board[this.clusters[l][t].i][this.clusters[l][t].j].type > 0) {
+          this.addCountTypesRune(this.board[this.clusters[l][t].i][this.clusters[l][t].j].type)
+          coordRunes.push({i: this.clusters[l][t].i, j: this.clusters[l][t].j})
           this.board[this.clusters[l][t].i][this.clusters[l][t].j].newType(0)
-          delRunes.push({i: this.clusters[l][t].i, j: this.clusters[l][t].j})
         }
       }
     }
-    this.clusters = []
-    this.onDeleteClusters.dispatch(delRunes)
-    return delRunes
+    this.cleanClusters()
+    this.onDeleteClusters.dispatch(coordRunes)
+    return this.countRunes
   }
 
-  // TODO
-  findAllClusters () {
-    for (let l = 0; l < this.rows; l++) {
-      this.findClusters(l, l)
+  addCountTypesRune (type) {
+    if (this.countRunes[type] === undefined) {
+      this.countRunes[type] = 1
+    } else {
+      this.countRunes[type]++
     }
-    this.onFindClusters.dispatch(this.clusters)
-    return this.clusters
+    return this.countRunes
+  }
+
+  isAdjacentRune (coordRuneOne, coordRuneTwo) {
+    return (Math.abs(coordRuneTwo.i - coordRuneOne.i) === 1 && Math.abs(coordRuneTwo.j - coordRuneOne.j) === 0) ||
+           (Math.abs(coordRuneTwo.i - coordRuneOne.i) === 0 && Math.abs(coordRuneTwo.j - coordRuneOne.j) === 1)
+  }
+
+  areTheSame (coordRuneOne, coordRuneTwo) {
+    return (coordRuneOne.i === coordRuneTwo.i &&
+            coordRuneOne.j === coordRuneTwo.j)
+  }
+
+  // true - в поле, false - за полем
+  isInRange (...coordRunes) {
+    for (let l = 0; l < coordRunes.length; l++) {
+      if (coordRunes[l].i < 0 || coordRunes[l].i >= this.rows || coordRunes[l].j < 0 || coordRunes[l].j >= this.columns) return false
+    }
+    return true
+  }
+
+  comparisonType (coordRuneOne, coordRuneTwo) {
+    if (this.isInRange(coordRuneOne, coordRuneTwo)) {
+      return (this.board[coordRuneOne.i][coordRuneOne.j].type === this.board[coordRuneTwo.i][coordRuneTwo.j].type)
+    }
+    return false
+  }
+
+  everyComparisonType (flag, coordRune, ...coordRunes) {
+    if (!this.isInRange(coordRunes)) return false
+    for (let l = 0; l < coordRunes.length; l++) {
+      if (flag ^ this.comparisonType(coordRune, coordRunes[l])) {
+        return false
+      }
+    }
+    return true
+  }
+
+  someComparisonType (flag, coordRune, ...coordRunes) {
+    if (!this.isInRange(coordRunes)) return false
+    for (let l = 0; l < coordRunes.length; l++) {
+      if (flag ^ this.comparisonType(coordRune, coordRunes[l])) {
+        return true
+      }
+    }
+    return false
+  }
+
+  filterComparisonType (flag, coordRuneOne, ...coordRunes) {
+    function filterByType (coordRuneTwo) {
+      if ((coordRuneTwo.i < 0) || (coordRuneTwo.i > this.columns) || (coordRuneTwo.j < 0) || (coordRuneTwo.j > this.rows)) return false
+      return (flag ^ this.comparisonType(coordRuneOne, coordRuneTwo))
+    }
+    return coordRunes.filter(filterByType(), coordRuneOne, flag)
   }
 
   // TODO
-  loop () {
-    do {
-      this.deleteClusters()
-      this.drop()
-      this.refill()
-    } while (this.findAllClusters().length)
-    this.onLoop.dispatch()
+  cleanClusters () {
+    this.clusters = []
+  }
+
+  // TODO
+  cleanCountRunes () {
+    this.countRunes = []
+  }
+
+  // TODO
+  cleanMoves () {
+    this.moves = []
+  }
+
+  // TODO
+  findMoves () {
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.columns; j++) {
+        let coordRuneStart = {i, j}
+        let coordRuneOne = {}
+
+        /*    x     x
+        *   x - 1 2 - x
+        *     x     x
+        */
+        let coordRuneTwo = {i: i, j: j + 1}
+        if (this.comparisonType(coordRuneStart, coordRuneTwo)) {
+          coordRuneOne = {i: i, j: j + 2}
+          coordRuneTwo = {i: i - 1, j: j + 2}
+          if (this.comparisonType(coordRuneStart, coordRuneTwo)) this.moves.push({coordRuneOne, coordRuneTwo})
+          coordRuneTwo = {i: i, j: j + 3}
+          if (this.comparisonType(coordRuneStart, coordRuneTwo)) this.moves.push({coordRuneOne, coordRuneTwo})
+          coordRuneTwo = {i: i + 1, j: j + 2}
+          if (this.comparisonType(coordRuneStart, coordRuneTwo)) this.moves.push({coordRuneOne, coordRuneTwo})
+
+          coordRuneOne = {i: i, j: j - 1}
+          coordRuneTwo = {i: i - 1, j: j - 1}
+          if (this.comparisonType(coordRuneStart, coordRuneTwo)) this.moves.push({coordRuneOne, coordRuneTwo})
+          coordRuneTwo = {i: i, j: j - 2}
+          if (this.comparisonType(coordRuneStart, coordRuneTwo)) this.moves.push({coordRuneOne, coordRuneTwo})
+          coordRuneTwo = {i: i + 1, j: j - 1}
+          if (this.comparisonType(coordRuneStart, coordRuneTwo)) this.moves.push({coordRuneOne, coordRuneTwo})
+        }
+
+        /*      x
+        *     x - x
+        *       1
+        *       2
+        *     x - x
+        *       x
+        */
+        coordRuneTwo = {i: i + 1, j: j}
+        if (this.comparisonType(coordRuneStart, coordRuneTwo)) {
+          coordRuneOne = {i: i + 2, j: j}
+          coordRuneTwo = {i: i + 2, j: j - 1}
+          if (this.comparisonType(coordRuneStart, coordRuneTwo)) this.moves.push({coordRuneOne, coordRuneTwo})
+          coordRuneTwo = {i: i + 3, j: j}
+          if (this.comparisonType(coordRuneStart, coordRuneTwo)) this.moves.push({coordRuneOne, coordRuneTwo})
+          coordRuneTwo = {i: i + 2, j: j + 1}
+          if (this.comparisonType(coordRuneStart, coordRuneTwo)) this.moves.push({coordRuneOne, coordRuneTwo})
+
+          coordRuneOne = {i: i - 1, j: j}
+          coordRuneTwo = {i: i - 1, j: j - 1}
+          if (this.comparisonType(coordRuneStart, coordRuneTwo)) this.moves.push({coordRuneOne, coordRuneTwo})
+          coordRuneTwo = {i: i - 2, j: j}
+          if (this.comparisonType(coordRuneStart, coordRuneTwo)) this.moves.push({coordRuneOne, coordRuneTwo})
+          coordRuneTwo = {i: i - 1, j: j + 1}
+          if (this.comparisonType(coordRuneStart, coordRuneTwo)) this.moves.push({coordRuneOne, coordRuneTwo})
+        }
+
+        /*      x
+        *     1 - 2
+        *       x
+        */
+        coordRuneTwo = {i: i, j: j + 2}
+        if (this.comparisonType(coordRuneStart, coordRuneTwo)) {
+          coordRuneOne = {i: i, j: j + 1}
+          coordRuneTwo = {i: i + 1, j: j + 1}
+          if (this.comparisonType(coordRuneStart, coordRuneTwo)) this.moves.push({coordRuneOne, coordRuneTwo})
+          coordRuneTwo = {i: i - 1, j: j + 1}
+          if (this.comparisonType(coordRuneStart, coordRuneTwo)) this.moves.push({coordRuneOne, coordRuneTwo})
+        }
+
+         /*      1
+         *     x - x
+         *       2
+         */
+        coordRuneTwo = {i: i + 2, j: j}
+        if (this.comparisonType(coordRuneStart, coordRuneTwo)) {
+          coordRuneOne = {i: i + 1, j: j}
+          coordRuneTwo = {i: i + 1, j: j - 1}
+          if (this.comparisonType(coordRuneStart, coordRuneTwo)) this.moves.push({coordRuneOne, coordRuneTwo})
+          coordRuneTwo = {i: i + 1, j: j + 1}
+          if (this.comparisonType(coordRuneStart, coordRuneTwo)) this.moves.push({coordRuneOne, coordRuneTwo})
+        }
+      }
+    }
+    let moves = Object.assign([], this.moves)
+    this.onFindMoves.dispatch(moves)
+    return moves
   }
 }

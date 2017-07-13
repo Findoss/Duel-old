@@ -4,6 +4,9 @@ class View {
   constructor (game, configSpriteRune) {
     this.linkGame = game
     this.configSpriteRune = configSpriteRune
+
+    this.groupFinger = this.linkGame.add.group()
+    this.fingerTweens = []
   }
 
   // FORMULA
@@ -35,17 +38,65 @@ class View {
     return rune
   }
 
-  cleanBoard () {
-    if (this.board !== undefined) {
-      delete this.board
-      this.groupBoard.destroy()
+  renderHint (coordRuneOne, coordRuneTwo, fingerSprite) {
+    let finger = this.linkGame.add.sprite(0, 0, fingerSprite)
+    finger.width = 100
+    finger.height = 100
+    finger.alpha = 0
+    finger.x = coordRuneOne.j * (100 + 5) + 100
+    finger.y = coordRuneOne.i * (100 + 10) + 150
+    this.groupFinger.add(finger)
+
+    let tweenShow = this.linkGame.add
+      .tween(finger)
+      .to({
+        alpha: 1
+      },
+      150,
+      Phaser.Easing.Linear.None,
+      true,
+      1500
+    )
+
+    let tween = this.linkGame.add
+      .tween(finger)
+      .to({
+        x: coordRuneTwo.j * (100 + 5) + 100,
+        y: coordRuneTwo.i * (100 + 10) + 150
+      },
+      700,
+      Phaser.Easing.Linear.None,
+      true,
+      500,
+      -1,
+      720
+    )
+
+    tweenShow.chain(tween)
+
+    this.fingerTweens.push(tween)
+    return tween
+  }
+
+  renderHints (coordRunes, fingerSprite) {
+    this.groupFinger = this.linkGame.add.group()
+    let tween = {}
+    for (var l = 0; l < coordRunes.length; l++) {
+      tween = this.renderHint(coordRunes[l].coordRuneOne, coordRunes[l].coordRuneTwo, fingerSprite)
     }
+    return tween
+  }
+
+  cleanHint () {
+    this.fingerTweens.forEach((tween) => {
+      tween.stop(true)
+    })
+    this.fingerTweens = []
+    this.groupFinger.destroy()
   }
 
   renderBoard (board, marginRune, marginBoardX, marginBoardY) {
     this.cleanBoard()
-    this.board = []
-    this.groupBoard = this.linkGame.add.group()
     this.marginRune = marginRune || this.configSpriteRune.size.width / 10
     this.marginBoardX = marginBoardX || 150
     this.marginBoardY = marginBoardY || 150
@@ -71,6 +122,13 @@ class View {
     return tween
   }
 
+  cleanBoard () {
+    if (this.groupBoard !== undefined) this.groupBoard.destroy()
+    if (this.board !== undefined) this.board = []
+    this.board = []
+    this.groupBoard = this.linkGame.add.group()
+  }
+
   getIndexs (rune) {
     return rune.events.onInputDown['_bindings'][0]['_args'][0]
   }
@@ -90,7 +148,7 @@ class View {
         x: this.board[coordRuneTwo.i][coordRuneTwo.j].x,
         y: this.board[coordRuneTwo.i][coordRuneTwo.j].y
       },
-      speed || 250,
+      speed || 550,
       Phaser.Easing.Linear.None,
       true
     )
@@ -100,7 +158,7 @@ class View {
         x: this.board[coordRuneOne.i][coordRuneOne.j].x,
         y: this.board[coordRuneOne.i][coordRuneOne.j].y
       },
-      speed || 250,
+      speed || 550,
       Phaser.Easing.Linear.None,
       true
     )
@@ -132,7 +190,7 @@ class View {
           alpha: 1
         },
         500,
-        Phaser.Easing.Linear.None,
+        Phaser.Easing.Bounce.Out,
         true
       )
     }
@@ -144,13 +202,14 @@ class View {
 
     for (let i = 0; i < delRunes.length; i++) {
       groupDelRunes.add(this.board[delRunes[i].i][delRunes[i].j])
+      this.board[delRunes[i].i][delRunes[i].j].animations.play('destroy', 12, true)
       this.linkGame.add
             .tween(this.board[delRunes[i].i][delRunes[i].j].scale)
             .to({
-              x: 0.3,
-              y: 0.3
+              x: 2,
+              y: 2
             },
-            150,
+            100,
             Phaser.Easing.Linear.None,
             true
           )

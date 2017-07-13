@@ -2,39 +2,35 @@
 
 class Queue {
   constructor () {
-    this.isDraws = false
+    this.isRender = false
     this.queue = []
     this.onPlay = new Phaser.Signal()
   }
 
-  // add SINC
-  add (context, command, args) {
-    this.queue.push(
-      [{
-        context: context,
-        command: command,
-        args: args
-      }])
+  add (context, command, isBlocking, ...args) {
+    this.queue.push([{context, command, isBlocking, args}])
     this.play()
   }
 
-  // TODO
-  // add ASINC
-
   play () {
-    if (!this.isDraws) {
+    if (!this.isRender) {
       if (this.queue.length) {
-        this.isDraws = true
+        this.isRender = true
         let commands = this.queue.shift()
         for (let i = 0; i < commands.length; i++) {
           let anim = commands[i].context[commands[i].command].apply(commands[i].context, commands[i].args)
           this.onPlay.dispatch(commands[i])
           // TODO на макс по времени
-          if (i === commands.length - 1) {
-            anim.onComplete.add(() => {
-              this.isDraws = false
-              this.play()
-            })
+          if (commands[i].isBlocking) {
+            if (i === commands.length - 1) {
+              anim.onComplete.add(() => {
+                this.isRender = false
+                this.play()
+              })
+            }
+          } else {
+            this.isRender = false
+            this.play()
           }
         }
       }

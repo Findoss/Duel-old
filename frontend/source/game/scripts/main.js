@@ -1,7 +1,7 @@
 /* globals Phaser, configPhaser, Boot, Preloader, MainMenu, testBoard4, PlayGame */
 
 let param = {
-  board: testBoard6
+  board: testBoard12
 }
 
 class Game extends Phaser.Game {
