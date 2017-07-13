@@ -1,5 +1,9 @@
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+Последние результаты
+
+![last_result](gif/last_result.gif)
+
 Структура
 ```
 ├──backend                             //
