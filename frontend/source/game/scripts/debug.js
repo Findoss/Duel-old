@@ -1,6 +1,3 @@
-const DEBUG_font = '25px Arial'
-const DEBUG_color = '#00ff00'
-
 class Debug {
   constructor (board, view, queue) {
     this.linkBoard = board
