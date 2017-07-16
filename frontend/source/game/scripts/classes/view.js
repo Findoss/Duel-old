@@ -1,12 +1,16 @@
 /* globals Phaser, textureRune */
 
+let SLOWPOKE = 5
+
 class View {
   constructor (game, configSpriteRune) {
     this.linkGame = game
     this.configSpriteRune = configSpriteRune
 
-    this.groupFinger = this.linkGame.add.group()
+    this.board = []
     this.fingerTweens = []
+    this.groupBoard = this.linkGame.add.group()
+    this.groupFinger = this.linkGame.add.group()
   }
 
   // FORMULA
@@ -23,7 +27,7 @@ class View {
     let rune = this.linkGame.add.sprite(this.posXRune(j), this.posYRune(6 - i) * -1, this.configSpriteRune.fileName + type)
     rune.width = this.configSpriteRune.size.width
     rune.height = this.configSpriteRune.size.height
-    rune.inputEnabled = true
+    rune.inputEnabled = false
     rune.anchor.set(0.5)
     if (this.configSpriteRune.animations !== undefined) {
       for (let animationName in this.configSpriteRune.animations) {
@@ -52,7 +56,7 @@ class View {
       .to({
         alpha: 1
       },
-      150,
+      SLOWPOKE * 150,
       Phaser.Easing.Linear.None,
       true,
       1500
@@ -64,7 +68,7 @@ class View {
         x: coordRuneTwo.j * (100 + 5) + 100,
         y: coordRuneTwo.i * (100 + 10) + 150
       },
-      700,
+      SLOWPOKE * 700,
       Phaser.Easing.Linear.None,
       true,
       500,
@@ -87,6 +91,14 @@ class View {
     return tween
   }
 
+  blockRunes () {
+    this.groupBoard.setAll('inputEnabled', false)
+  }
+
+  unBlockRunes () {
+    this.groupBoard.setAll('inputEnabled', true)
+  }
+
   cleanHint () {
     this.fingerTweens.forEach((tween) => {
       tween.stop(true)
@@ -95,8 +107,15 @@ class View {
     this.groupFinger.destroy()
   }
 
+  cleanBoard () {
+    this.cleanHint()
+    this.groupBoard.destroy()
+    this.board = []
+  }
+
   renderBoard (board, marginRune, marginBoardX, marginBoardY) {
     this.cleanBoard()
+    this.groupBoard = this.linkGame.add.group()
     this.marginRune = marginRune || this.configSpriteRune.size.width / 10
     this.marginBoardX = marginBoardX || 150
     this.marginBoardY = marginBoardY || 150
@@ -112,7 +131,7 @@ class View {
             alpha: 1,
             y: this.posYRune(i)
           },
-          400,
+          SLOWPOKE * 400,
           Phaser.Easing.Linear.None,
           true
         )
@@ -120,13 +139,6 @@ class View {
       }
     }
     return tween
-  }
-
-  cleanBoard () {
-    if (this.groupBoard !== undefined) this.groupBoard.destroy()
-    if (this.board !== undefined) this.board = []
-    this.board = []
-    this.groupBoard = this.linkGame.add.group()
   }
 
   getIndexs (rune) {
@@ -148,7 +160,7 @@ class View {
         x: this.board[coordRuneTwo.i][coordRuneTwo.j].x,
         y: this.board[coordRuneTwo.i][coordRuneTwo.j].y
       },
-      speed || 550,
+      SLOWPOKE * speed || 550,
       Phaser.Easing.Linear.None,
       true
     )
@@ -158,7 +170,7 @@ class View {
         x: this.board[coordRuneOne.i][coordRuneOne.j].x,
         y: this.board[coordRuneOne.i][coordRuneOne.j].y
       },
-      speed || 550,
+      SLOWPOKE * speed || 550,
       Phaser.Easing.Linear.None,
       true
     )
@@ -175,6 +187,7 @@ class View {
 
   renderRefill (runes, configSpriteRune) {
     this.cleanRunes(runes)
+    this.blockRunes()
     let tween = {}
     for (let l = 0; l < runes.length; l++) {
       let rune = this.renderRune(runes[l].i, runes[l].j, runes[l].type)
@@ -189,7 +202,7 @@ class View {
           y: this.posYRune(runes[l].i),
           alpha: 1
         },
-        500,
+        SLOWPOKE * 500,
         Phaser.Easing.Bounce.Out,
         true
       )
@@ -209,7 +222,7 @@ class View {
               x: 2,
               y: 2
             },
-            100,
+            SLOWPOKE * 100,
             Phaser.Easing.Linear.None,
             true
           )
@@ -220,7 +233,7 @@ class View {
       .to({
         alpha: 0
       },
-      200,
+      SLOWPOKE * 200,
       Phaser.Easing.Linear.None,
       true
     )

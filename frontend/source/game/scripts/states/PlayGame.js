@@ -1,4 +1,4 @@
-/* global Phaser, param, game, textureRune, texturePath, Queue, Board, activeRune, View, debug, Debug, queue, utils, DEBUG_color, DEBUG_font */
+/* global Phaser, param, game, textureRune, texturePath, Queue, Board, View, Debug, utils */
 
 let board = {}
 let view = {}
@@ -46,12 +46,26 @@ class PlayGame extends Phaser.State {
   }
 
   render () {
+    // FPS
     game.debug.text('FPS: ' + this.game.time.fps, 20, 50, '#00ff00', '25px Arial')
+    // Queue.length
     game.debug.text('Q: ' + queue.queue.length, 150, 50, '#00ff00', '25px Arial')
+    // Extra message
     game.debug.text(MESSAGE, 320, 50, '#ff0000', '25px Arial')
+    // coord active rune
     if (activeRune !== null) this.game.debug.text('A: ' + view.getIndexs(activeRune).i + 'x' + view.getIndexs(activeRune).j, 230, 50, '#00ff00', '25px Arial')
+    // points
     for (let rune in RUNES) {
       game.debug.text(RUNES[rune], rune * 70, 830, '#ffffff', '30px Arial')
+    }
+    // Queue
+    for (let i = 0; i < queue.queue.length; i++) {
+      queue.queue[i].forEach((command) => {
+        let color = '#00ff00'
+        if (!command.isBlocking) color = '#5080ff'
+        if (i === 0) color = '#f0ff0f'
+        game.debug.text(command.command, 20, i * 30 + 900, color, '25px Arial')
+      })
     }
   }
 
@@ -68,11 +82,7 @@ class PlayGame extends Phaser.State {
   }
 
   runeClick (pickRune, param, coordPickRune) {
-    if (activeRune === null) {
-      activeRune = pickRune
-      pickRune.animations.play('pick', 4, true)
-      queue.add(view, 'cleanHint', false)
-    } else {
+    if (activeRune !== null) {
       let coordActiveRune = view.getIndexs(activeRune)
       if (!board.areTheSame(coordPickRune, coordActiveRune)) {
         if (board.isAdjacentRune(coordActiveRune, coordPickRune)) {
@@ -92,11 +102,9 @@ class PlayGame extends Phaser.State {
                 board.generation(false)
               }
               queue.add(view, 'renderHints', false, board.findMoves(), 'finger')
-              board.cleanMoves()
             } else {
               board.swapRune(coordActiveRune, coordPickRune)
               queue.add(view, 'renderHints', false, board.findMoves(), 'finger')
-              board.cleanMoves()
             }
             activeRune.animations.play('wait', 4, true)
             activeRune = null
@@ -115,8 +123,11 @@ class PlayGame extends Phaser.State {
         activeRune.animations.play('wait', 4, true)
         activeRune = null
         queue.add(view, 'renderHints', false, board.findMoves(), 'finger')
-        board.cleanMoves()
       }
+    } else {
+      activeRune = pickRune
+      pickRune.animations.play('pick', 4, true)
+      queue.add(view, 'cleanHint', false)
     }
   }
 
@@ -125,21 +136,24 @@ class PlayGame extends Phaser.State {
       if (board) {
         queue.add(view, 'renderBoard', true, newBoard, 10, 100)
         queue.add(view, 'renderHints', false, board.findMoves(), 'finger')
-        board.cleanMoves()
       }
+    })
+
+    board.onDeleteBoard.add(() => {
+      queue.add(view, 'cleanHint', false)
     })
 
     board.preSwap.add((coordRunes) => {
       queue.add(view, 'renderSwap', true, coordRunes[0], coordRunes[1])
     })
 
-    board.onRefill.add(function (coordRunes) {
+    board.onRefill.add((coordRunes) => {
       if (coordRunes.length) {
         queue.add(view, 'renderRefill', true, coordRunes, textureRune)
       }
     })
 
-    board.onDrop.add(function (dropRunes) {
+    board.onDrop.add((dropRunes) => {
       if (dropRunes.length) {
         for (let i = 0; i < dropRunes.length; i++) {
           queue.add(view, 'renderSwap', true, dropRunes[i][0], dropRunes[i][1], 45)
@@ -147,7 +161,7 @@ class PlayGame extends Phaser.State {
       }
     })
 
-    board.onDeleteClusters.add(function (coordRunes) {
+    board.onDeleteClusters.add((coordRunes) => {
       queue.add(view, 'renderDel', true, coordRunes)
     })
   }
