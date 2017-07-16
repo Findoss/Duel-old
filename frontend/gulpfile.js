@@ -1,9 +1,23 @@
-var gulp = require('gulp')
-var livereload = require('gulp-livereload')
+// const srcCode = './source/game/scripts/classes/*.js'
+
+let gulp = require('gulp')
+let livereload = require('gulp-livereload')
+let jsdoc = require('gulp-jsdoc3')
+
+gulp.task('doc', () => {
+  let config = require('./jsdoc.json')
+  gulp.src(['./source/game/scripts/classes/*.js', '../README.md'], {read: false})
+      .pipe(jsdoc(config))
+})
 
 gulp.task('reload', () => {
-  return gulp.src('source/game/index.html')
-    .pipe(livereload())
+  gulp.src('source/game/index.html')
+      .pipe(livereload())
+})
+
+gulp.task('reload', () => {
+  gulp.src('source/game/index.html')
+      .pipe(livereload())
 })
 
 gulp.task('default', () => {
