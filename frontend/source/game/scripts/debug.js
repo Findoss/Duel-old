@@ -5,14 +5,12 @@ class Debug {
     this.linkBoard = board
     this.linkView = view
     this.linkQueue = queue
-
+/*
     this.linkQueue.onAdd.add((command) => {
-      // let style = {font: '25px Arial', fill: '#fffff5'}
       counter++
-      // game.add.text(20, (counter * 30) + 850, counter + ' ' + command, style)
       console.log(counter + ' ' + command)
     })
-/*
+
     this.linkBoard.onDrop.add(function (argument) {
       console.log('board.onDrop')
       // console.log(argument)
