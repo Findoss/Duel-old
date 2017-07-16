@@ -5,13 +5,17 @@
   "main": "index.js",
   "author": "Findoss",
   "scripts": {
-    "std": "standard && node ../source/game/scripts/main.js"
+    "hi": ""
   },
   "devDependencies": {
     "bower": "latest",
+    "docdash": "^0.4.0",
     "gulp": "latest",
+    "gulp-jsdoc3": "^1.0.1",
     "gulp-livereload": "latest",
+    "jsdoc": "^3.5.3",
     "standard": "latest"
   },
-  "license": "todo MIT"
+  "license": "todo MIT",
+  "dependencies": {}
 }
