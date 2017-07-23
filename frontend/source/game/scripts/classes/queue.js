@@ -1,7 +1,8 @@
 /* global Phaser */
 
 /**
- * Очередь анимации
+ * Очередь команд/анимаци
+ * ** ! ВАЖНО ** функции могут вставать в очередь в блокирущем режиме только если возвращают `Phaser.Tween` или `Phaser.Animation` или вызывают событие `onComplete` (`Phaser.Signal`)
  * @class
  * @fires Queue
  */
@@ -12,6 +13,8 @@ class Queue {
   constructor () {
     /**
      * Состояние очереди
+     * TRUE  - исполение команд/анимаций
+     * FALSE - ожидание команд/анимаций
      * @type {Boolean}
      * @default false
      */
@@ -22,12 +25,12 @@ class Queue {
      */
     this.queue = []
     /**
-     * Вызывается после началом проигрывания очередной анимации/команды
+     * Вызывается после запуска проигрывания очередной команды/анимации
      * @event Queue#onPlay
      */
     this.onPlay = new Phaser.Signal()
     /**
-     * Вызывается после добаления анимации/команды в очередь
+     * Вызывается после добаления команды/анимации в очередь
      * @event Queue#onAdd
      */
     this.onAdd = new Phaser.Signal()
@@ -35,41 +38,36 @@ class Queue {
 
   /**
    * Добавляет анимацию в очередь и вызывает функцию (`play()`)
-   * @param {Object}  context    контекст в котором будет исполняться анимация/команда
-   * @param {String}  command    название анимация/команда
-   * @param {Boolean} isBlocking TRUE - блокирущая очередь анимация/команда
-   *                             FALSE - НЕ блокирущая очередь анимация/команда
-   * @param {...*}    args       параметры команды
+   * @param {Object}  context    Контекст в котором будет исполняться анимация/команда
+   * @param {String}  command    Название команды/анимации
+   * @param {Boolean} isBlocking TRUE - блокирущий режим
+   *                             FALSE - НЕ блокирущий режим
+   * @param {...*}    args       Параметры команды/анимации
    */
   add (context, command, isBlocking, ...args) {
-    this.queue.push([{context, command, isBlocking, args}])
+    this.queue.push({context, command, isBlocking, args})
     this.onAdd.dispatch(command)
     this.play()
   }
 
   /**
-   * Воспроизведение анмации из очереди (рекурсия)
+   * Воспроизведение команды/анимации из очереди (рекурсия)
    */
   play () {
     if (!this.isRender) {
       if (this.queue.length) {
         this.isRender = true
-        let commands = this.queue.shift()
-        for (let i = 0; i < commands.length; i++) {
-          let anim = commands[i].context[commands[i].command].apply(commands[i].context, commands[i].args)
-          this.onPlay.dispatch(commands[i])
-          // TODO на макс по времени
-          if (commands[i].isBlocking) {
-            if (i === commands.length - 1) {
-              anim.onComplete.add(() => {
-                this.isRender = false
-                this.play()
-              })
-            }
-          } else {
+        let command = this.queue.shift()
+        let anim = command.context[command.command].apply(command.context, command.args)
+        this.onPlay.dispatch(command)
+        if (command.isBlocking) {
+          anim.onComplete.add(() => {
             this.isRender = false
             this.play()
-          }
+          })
+        } else {
+          this.isRender = false
+          this.play()
         }
       }
     }

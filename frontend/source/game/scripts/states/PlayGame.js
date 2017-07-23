@@ -1,4 +1,4 @@
-/* global Phaser, param, game, textureRune, texturePath, Queue, Board, View, Debug, utils */
+/* global Phaser, textureSuggestion,  param, game, textureRune, texturePath, Queue, Board, View, Debug, utils */
 
 let board = {}
 let view = {}
@@ -20,18 +20,19 @@ class PlayGame extends Phaser.State {
     for (let i = 0; i < 6; i++) {
       this.game.load.spritesheet(textureRune.fileName + i, texturePath + textureRune.fileName + i + '.png', textureRune.size.width, textureRune.size.height, 12)
     }
-    this.game.load.spritesheet('finger', './images/finger.png', 40, 40, 0)
+    this.game.load.image(textureSuggestion.fileName, texturePath + textureSuggestion.fileName + '.png')
   }
 
   create () {
     for (let i = 1; i < 6; i++) {
-      let aaa = game.add.sprite(i * 70 - 10, 800, textureRune.fileName + i)
+      let aaa = this.game.add.sprite(i * 70 - 10, 750, textureRune.fileName + i)
       aaa.width = 50
       aaa.height = 50
     }
 
     board = new Board()
     view = new View(this, textureRune)
+    view.multiplierSpeedAnimation = 1
     queue = new Queue()
     debug = new Debug(board, view, queue)
 
@@ -39,6 +40,8 @@ class PlayGame extends Phaser.State {
 
     // TEST ZONE
     board.loadBoard(param.board)
+    // view.renderRefill([{i: 1, j: 1, type: 3}])
+    // view.renderBoard(param.board)
   }
 
   update () {
@@ -47,26 +50,22 @@ class PlayGame extends Phaser.State {
 
   render () {
     // FPS
-    game.debug.text('FPS: ' + this.game.time.fps, 20, 50, '#00ff00', '25px Arial')
+    game.debug.text('FPS: ' + this.game.time.fps, 20, 30, '#00ff00', '25px Arial')
     // Queue.length
-    game.debug.text('Q: ' + queue.queue.length, 150, 50, '#00ff00', '25px Arial')
+    game.debug.text('Q: ' + queue.queue.length, 150, 30, '#00ff00', '25px Arial')
     // Extra message
-    game.debug.text(MESSAGE, 320, 50, '#ff0000', '25px Arial')
+    game.debug.text(MESSAGE, 320, 30, '#ff0000', '25px Arial')
     // coord active rune
-    if (activeRune !== null) this.game.debug.text('A: ' + view.getIndexs(activeRune).i + 'x' + view.getIndexs(activeRune).j, 230, 50, '#00ff00', '25px Arial')
+    if (activeRune !== null) this.game.debug.text('A: ' + view.getIndexs(activeRune).i + 'x' + view.getIndexs(activeRune).j, 230, 30, '#00ff00', '25px Arial')
     // points
-    for (let rune in RUNES) {
-      game.debug.text(RUNES[rune], rune * 70, 830, '#ffffff', '30px Arial')
-    }
+    for (let rune in RUNES) game.debug.text(RUNES[rune], rune * 72, 785, '#ffffff', '30px Arial')
     // Queue
-    for (let i = 0; i < queue.queue.length; i++) {
-      queue.queue[i].forEach((command) => {
-        let color = '#00ff00'
-        if (!command.isBlocking) color = '#5080ff'
-        if (i === 0) color = '#f0ff0f'
-        game.debug.text(command.command, 20, i * 30 + 900, color, '25px Arial')
-      })
-    }
+    queue.queue.forEach((command, i) => {
+      let color = '#00ff00'
+      if (!command.isBlocking) color = '#5080ff'
+      if (i === 0) color = '#f0ff0f'
+      game.debug.text(command.command, 20, i * 30 + 900, color, '25px Arial')
+    })
   }
 
   runeOver (rune) {
@@ -82,6 +81,8 @@ class PlayGame extends Phaser.State {
   }
 
   runeClick (pickRune, param, coordPickRune) {
+    view.cleanSuggestion()
+    queue.add(view, 'blockRunes', false)
     if (activeRune !== null) {
       let coordActiveRune = view.getIndexs(activeRune)
       if (!board.areTheSame(coordPickRune, coordActiveRune)) {
@@ -91,20 +92,21 @@ class PlayGame extends Phaser.State {
             board.findClusters(coordActiveRune)
             board.findClusters(coordPickRune)
             if (board.clusters.length) {
+              // view.blockRunes()
               do {
                 RUNES = board.deleteClusters()
                 board.drop()
                 board.refill()
               } while (board.findAllClusters().length)
+              queue.add(view, 'renderAllSuggestion', false, board.findMoves(), textureSuggestion)
+              queue.add(view, 'unBlockRunes', false)
 
               if (!board.findMoves().length) {
                 board.deleteBoard()
                 board.generation(false)
               }
-              queue.add(view, 'renderHints', false, board.findMoves(), 'finger')
             } else {
               board.swapRune(coordActiveRune, coordPickRune)
-              queue.add(view, 'renderHints', false, board.findMoves(), 'finger')
             }
             activeRune.animations.play('wait', 4, true)
             activeRune = null
@@ -122,25 +124,25 @@ class PlayGame extends Phaser.State {
       } else {
         activeRune.animations.play('wait', 4, true)
         activeRune = null
-        queue.add(view, 'renderHints', false, board.findMoves(), 'finger')
+        queue.add(view, 'renderAllSuggestion', false, board.findMoves(), textureSuggestion)
       }
     } else {
       activeRune = pickRune
       pickRune.animations.play('pick', 4, true)
-      queue.add(view, 'cleanHint', false)
     }
+    queue.add(view, 'unBlockRunes', false)
   }
 
   bindEvents (board) {
     board.onLoad.add((newBoard) => {
-      if (board) {
-        queue.add(view, 'renderBoard', true, newBoard, 10, 100)
-        queue.add(view, 'renderHints', false, board.findMoves(), 'finger')
-      }
+      queue.add(view, 'renderBoard', true, newBoard)
+      console.log(board.findMoves().length)
+      queue.add(view, 'renderAllSuggestion', false, board.findMoves(), textureSuggestion)
     })
 
     board.onDeleteBoard.add(() => {
-      queue.add(view, 'cleanHint', false)
+      queue.add(view, 'renderDeleteBoard', true)
+      view.cleanSuggestion()
     })
 
     board.preSwap.add((coordRunes) => {
@@ -149,20 +151,18 @@ class PlayGame extends Phaser.State {
 
     board.onRefill.add((coordRunes) => {
       if (coordRunes.length) {
-        queue.add(view, 'renderRefill', true, coordRunes, textureRune)
+        queue.add(view, 'renderRefull', true, coordRunes)
       }
     })
 
     board.onDrop.add((dropRunes) => {
-      if (dropRunes.length) {
-        for (let i = 0; i < dropRunes.length; i++) {
-          queue.add(view, 'renderSwap', true, dropRunes[i][0], dropRunes[i][1], 45)
-        }
+      if (dropRunes.length > 0) {
+        queue.add(view, 'renderDrop', true, dropRunes)
       }
     })
 
     board.onDeleteClusters.add((coordRunes) => {
-      queue.add(view, 'renderDel', true, coordRunes)
+      queue.add(view, 'renderDeleteRunes', true, coordRunes)
     })
   }
 }
