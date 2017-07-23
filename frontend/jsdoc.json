@@ -25,6 +25,6 @@
   },
   "docdash": {
     "static": false,
-    "sort": false
+    "sort": true
   }
 }
