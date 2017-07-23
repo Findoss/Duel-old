@@ -1,30 +1,154 @@
 /* globals Phaser, textureRune */
-
-let SLOWPOKE = 5
-
+/**
+ * Визуальное представление игрового поля
+ *
+ * Префикс методов | Назначение
+ * :---------------|:--------------------
+ * init            | создают объкты
+ * render          | отрисовывают объкты
+ * clean           | стирают объкты
+ *
+ * **Easing**
+ * Back
+ * Bounce
+ * Circular
+ * Cubic
+ * Elastic
+ * Exponential
+ * Linear
+ * Quadratic
+ * Quartic
+ * Quintic
+ * Sinusoidal
+ *
+ * {@link http://easings.net/ru#easeOutBounce | Шпаргалка по функциям плавности анимации }
+ * @class
+ * @fires View
+ */
 class View {
-  constructor (game, configSpriteRune) {
+  /**
+   * Конструктор объекта поля (визуальное)
+   * @constructor
+   * @param  {Phaser.State}  game             Ссылка на игровую сцену
+   * @param  {Config.Sprite} configSpriteRune Конфигурация спрайта-руны
+   * @param  {Number=}       marginRune       Отступ между рунами
+   * @param  {Number=}       marginBoardX     Отступ от края экрана по оси Х
+   * @param  {Number=}       marginBoardY     Отступ от края экрана по оси Y
+
+   */
+  constructor (game, configSpriteRune, marginRune = 10, marginBoardX = 100, marginBoardY = 100) {
+    /**
+     * Ссылка на игровую сцену
+     * @type {Phaser.State}
+     */
     this.linkGame = game
-    this.configSpriteRune = configSpriteRune
-
+    /**
+     * Множитель скорости анимации
+     * @type {Number}
+     * @default 1
+     */
+    this.multiplierSpeedAnimation = 1
+    /**
+     * Игровое поле спрайтов-рун
+     * @type {Array.<rune>}
+     */
     this.board = []
-    this.fingerTweens = []
+    /**
+     * Массив анимаций-подсказок
+     * @type {Array.<Phaser.Tween>}
+     */
+    this.tweensSuggestion = []
+    /**
+     * Группа спрайтов-рун
+     * @type {Phaser.Group}
+     */
     this.groupBoard = this.linkGame.add.group()
-    this.groupFinger = this.linkGame.add.group()
+    /**
+     * Группа спрайтов-подсказок
+     * @type {Phaser.Group}
+     */
+    this.groupSuggestion = this.linkGame.add.group()
+    /**
+     * Отступ между рунами
+     * @type {Number}
+     * @default 10
+     */
+    this.marginRune = marginRune
+    /**
+     * Отступ от края экрана по оси Х
+     * @type {Number}
+     * @default 100
+     */
+    this.marginBoardX = marginBoardX
+    /**
+     * Отступ от края экрана по оси Y
+     * @type {Number}
+     * @default 100
+     */
+    this.marginBoardY = marginBoardY
+    /**
+     * Конфигурация спрайта-руны
+     * @type {json}
+     */
+    this.configSpriteRune = configSpriteRune
   }
 
-  // FORMULA
-  posXRune (j) {
-    return this.marginBoardX + j * (this.configSpriteRune.size.width + this.marginRune)
+  /**
+   * Блокирует взаимодействие с рунами (`groupBoard`)
+   */
+  blockRunes () {
+    this.groupBoard.setAll('inputEnabled', false)
   }
 
-  // FORMULA
-  posYRune (i) {
-    return this.marginBoardY + i * (this.configSpriteRune.size.height + this.marginRune)
+  /**
+   * Удаляет спрайт-руны `board.rune`
+   * @param  {Array.<coordRune>} coordRunes Координаты рун
+   */
+  cleanRunes (coordRunes) {
+    for (let l = 0; l < coordRunes.length; l++) {
+      this.board[coordRunes[l].i][coordRunes[l].j].destroy()
+    }
   }
 
-  renderRune (i, j, type) {
-    let rune = this.linkGame.add.sprite(this.posXRune(j), this.posYRune(6 - i) * -1, this.configSpriteRune.fileName + type)
+  /**
+   * Останавливает все анимации подсказок (`tweensSuggestion`) и удаляет объкты (`groupSuggestion`)
+   */
+  cleanSuggestion () {
+    this.tweensSuggestion.forEach((tween) => tween.stop())
+    this.tweensSuggestion = []
+    this.groupSuggestion.destroy()
+    this.groupSuggestion = this.linkGame.add.group()
+  }
+
+  /**
+   * Возвращает координаты руны в массиве
+   * @param  {Phaser.Sprite} rune Спрайт-руны
+   * @return {coordRune}
+   */
+  getIndexs (rune) {
+    return rune.events.onInputDown['_bindings'][0]['_args'][0]
+  }
+
+  /**
+   * Создает спрайт-руны
+   * **! ВАЖНО** Предварительно в разделе `create` надо загрузить (`this.game.load`) спрайт
+   * **! ВАЖНО** Используется только в пределах класса
+   * @protected
+   * @param    {Number}            i                                      Номер строки
+   * @param    {Number}            j                                      Номер колонки
+   * @param    {Number}            type                                   Тип руны
+   * @property {Number}            x=posXRune(j)                          Координата по Х
+   * @property {Number}            y=posYRune(i)*-1                       Координата по Y
+   * @property {Boolean}           inputEnabled=false                     Доступность для взаимодействия
+   * @property {Phaser.Point}      anchor=0.5(середина)                   Точка вращения
+   * @property {Number}            width=configSpriteRune.size.width      Ширина
+   * @property {Number}            height=configSpriteRune.size.width     Высота
+   * @property {Phaser.Animation}  animations=configSpriteRune.animations Анимации
+   * @property {Phaser.Event}      events=configSpriteRune.events         События
+   * @return {Phaser.Sprite} Спрайт-руны
+   */
+  initRune (i, j, type) {
+    let rune = this.linkGame.add.sprite(this.posXRune(j), this.posYRune(i) * -1, this.configSpriteRune.fileName + type)
     rune.width = this.configSpriteRune.size.width
     rune.height = this.configSpriteRune.size.height
     rune.inputEnabled = false
@@ -42,207 +166,300 @@ class View {
     return rune
   }
 
-  renderHint (coordRuneOne, coordRuneTwo, fingerSprite) {
-    let finger = this.linkGame.add.sprite(0, 0, fingerSprite)
-    finger.width = 100
-    finger.height = 100
-    finger.alpha = 0
-    finger.x = coordRuneOne.j * (100 + 5) + 100
-    finger.y = coordRuneOne.i * (100 + 10) + 150
-    this.groupFinger.add(finger)
-
-    let tweenShow = this.linkGame.add
-      .tween(finger)
-      .to({
-        alpha: 1
-      },
-      SLOWPOKE * 150,
-      Phaser.Easing.Linear.None,
-      true,
-      1500
-    )
-
-    let tween = this.linkGame.add
-      .tween(finger)
-      .to({
-        x: coordRuneTwo.j * (100 + 5) + 100,
-        y: coordRuneTwo.i * (100 + 10) + 150
-      },
-      SLOWPOKE * 700,
-      Phaser.Easing.Linear.None,
-      true,
-      500,
-      -1,
-      720
-    )
-
-    tweenShow.chain(tween)
-
-    this.fingerTweens.push(tween)
-    return tween
+  /**
+   * Возвращает координату руны по оси X (горизонт)
+   * FORMULA `j * (this.configSpriteRune.size.width + this.marginRune) + this.marginBoardX`
+   * @param  {Number} j Номер колонки
+   * @return {Number}
+   */
+  posXRune (j) {
+    return j * (this.configSpriteRune.size.width + this.marginRune) + this.marginBoardX
   }
 
-  renderHints (coordRunes, fingerSprite) {
-    this.groupFinger = this.linkGame.add.group()
+  /**
+   * Возвращает координату руны по оси Y (вертикаль)
+   * FORMULA `i * (this.configSpriteRune.size.height + this.marginRune) + this.marginBoardY`
+   * @param  {Number} i Номер строки
+   * @return {Number}
+   */
+  posYRune (i) {
+    return i * (this.configSpriteRune.size.height + this.marginRune) + this.marginBoardY
+  }
+
+  /**
+   * Отрисовывает все подсказки для возможных ходов
+   * @param  {Array.Array.<coordAndTypeRune>} coordRunes             Массив пар координат рун
+   * @param  {Config.Sprite}                  configSuggestionSprite Конфигурация спрайта
+   * @return {Phaser.Tween} Анимация подсказки
+   */
+  renderAllSuggestion (coordRunes, configSuggestionSprite) {
     let tween = {}
     for (var l = 0; l < coordRunes.length; l++) {
-      tween = this.renderHint(coordRunes[l].coordRuneOne, coordRunes[l].coordRuneTwo, fingerSprite)
+      tween = this.renderSuggestion(coordRunes[l].coordRuneOne, coordRunes[l].coordRuneTwo, configSuggestionSprite)
     }
     return tween
   }
 
-  blockRunes () {
-    this.groupBoard.setAll('inputEnabled', false)
-  }
-
-  unBlockRunes () {
-    this.groupBoard.setAll('inputEnabled', true)
-  }
-
-  cleanHint () {
-    this.fingerTweens.forEach((tween) => {
-      tween.stop(true)
-    })
-    this.fingerTweens = []
-    this.groupFinger.destroy()
-  }
-
-  cleanBoard () {
-    this.cleanHint()
-    this.groupBoard.destroy()
-    this.board = []
-  }
-
-  renderBoard (board, marginRune, marginBoardX, marginBoardY) {
-    this.cleanBoard()
-    this.groupBoard = this.linkGame.add.group()
-    this.marginRune = marginRune || this.configSpriteRune.size.width / 10
-    this.marginBoardX = marginBoardX || 150
-    this.marginBoardY = marginBoardY || 150
-
-    let tween = {}
-    for (let i = 0; i < board.length; i++) {
+  /**
+   * Отрисовывает игровое поле, после чего делает все руны (`groupBoard`) доступными для взаимодействия
+   * FORMULA `delay = (80 * (board.length - i + 1)) + j * -10)`
+   * @param  {Array.Array.Number} board Игровое поле
+   * @return {Phaser.Tween} Последняя анимация функции
+   */
+  renderBoard (board) {
+    let lastTween = {}
+    for (let i = board.length - 1; i >= 0; i--) {
       this.board[i] = []
-      for (let j = 0; j < board[i].length; j++) {
-        this.board[i][j] = this.renderRune(i, j, board[i][j].type)
-        tween = this.linkGame.add
-          .tween(this.board[i][j])
-          .to({
-            alpha: 1,
-            y: this.posYRune(i)
-          },
-          SLOWPOKE * 400,
-          Phaser.Easing.Linear.None,
-          true
-        )
-        this.groupBoard.add(this.board[i][j])
+      for (let j = board[i].length - 1; j >= 0; j--) {
+        lastTween = this.renderRunes([{i, j, type: board[i][j].type}], 100, (80 * (board.length - i + 1)) + j * -10)
       }
     }
-    return tween
+    lastTween.onComplete.add(() => {
+      this.groupBoard.setAll('inputEnabled', true)
+    })
+    return lastTween
   }
 
-  getIndexs (rune) {
-    return rune.events.onInputDown['_bindings'][0]['_args'][0]
-  }
-
-  renderSwap (coordRuneOne, coordRuneTwo, speed) {
-    // исправить хак на пареметры события
-    this.board[coordRuneOne.i][coordRuneOne.j].events.onInputDown['_bindings'][0]['_args'][0] = {i: coordRuneTwo.i, j: coordRuneTwo.j}
-    this.board[coordRuneTwo.i][coordRuneTwo.j].events.onInputDown['_bindings'][0]['_args'][0] = {i: coordRuneOne.i, j: coordRuneOne.j}
-
-    let tmp = this.board[coordRuneOne.i][coordRuneOne.j]
-    this.board[coordRuneOne.i][coordRuneOne.j] = this.board[coordRuneTwo.i][coordRuneTwo.j]
-    this.board[coordRuneTwo.i][coordRuneTwo.j] = tmp
-
-    this.linkGame.add
-      .tween(this.board[coordRuneOne.i][coordRuneOne.j])
+  /**
+   * Отрисовывает удаление игрового поля (`groupBoard`) и удаляет массив `board` и вподсказки `cleanSuggestion()`
+   * @todo доделать анимацию
+   */
+  renderDeleteBoard () {
+    this.groupBoard.pivot.set(450, 450)
+    this.groupBoard.position.set(450, 450)
+    let tween = this.linkGame.add
+      .tween(this.groupBoard)
       .to({
-        x: this.board[coordRuneTwo.i][coordRuneTwo.j].x,
-        y: this.board[coordRuneTwo.i][coordRuneTwo.j].y
+        y: this.posXRune(this.board.length) * 2,
+        alpha: 0
       },
-      SLOWPOKE * speed || 550,
+      this.multiplierSpeedAnimation * 200,
       Phaser.Easing.Linear.None,
       true
     )
+    tween.onComplete.add(() => {
+      this.board = []
+      this.groupBoard.destroy()
+      this.groupBoard = this.linkGame.add.group()
+      this.cleanSuggestion()
+    })
+    return tween
+  }
+
+  /**
+   * Отрисовывает удаление рун
+   * @todo доделать анимацию (вынести за перелы цикла)
+   * @param  {Array.coordRune} coordRunes Координаты рун
+   * @return {Phaser.Tween} Анимация удаления
+   */
+  renderDeleteRunes (coordRunes) {
+    let groupDeleleteRunes = this.linkGame.add.group()
+
+    for (let l = 0; l < coordRunes.length; l++) {
+      groupDeleleteRunes.add(this.board[coordRunes[l].i][coordRunes[l].j])
+      this.board[coordRunes[l].i][coordRunes[l].j].animations.play('destroy', 12, true)
+
+      this.linkGame.add
+        .tween(this.board[coordRunes[l].i][coordRunes[l].j].scale)
+        .to({
+          x: 2,
+          y: 2
+        },
+        this.multiplierSpeedAnimation * 100,
+        Phaser.Easing.Linear.None,
+        true
+      )
+    }
+
     let lastTween = this.linkGame.add
-      .tween(this.board[coordRuneTwo.i][coordRuneTwo.j])
+      .tween(groupDeleleteRunes)
       .to({
-        x: this.board[coordRuneOne.i][coordRuneOne.j].x,
-        y: this.board[coordRuneOne.i][coordRuneOne.j].y
+        alpha: 0
       },
-      SLOWPOKE * speed || 550,
+      this.multiplierSpeedAnimation * 200,
       Phaser.Easing.Linear.None,
       true
     )
     return lastTween
   }
 
-  cleanRunes (runes) {
-    let groupDelRunes = this.linkGame.add.group()
-    for (let l = 0; l < runes.length; l++) {
-      groupDelRunes.add(this.board[runes[l].i][runes[l].j])
+  /**
+   * Отрисовывает падение рун
+   * @param  {Array.<coordRune>} coordRunes Координаты рун
+   * @return {Phaser.Tween} Последняя анимация падения
+   */
+  renderDrop (coordRunes) {
+    let lastTween = {}
+    for (let l = this.board.length - 1; l >= 0; l--) {
+      for (let i = 0; i < coordRunes.length; i++) {
+        if (l === coordRunes[i][0].i) {
+          lastTween = this.renderSwap(coordRunes[i][0], coordRunes[i][1], 120)
+        }
+      }
     }
-    groupDelRunes.destroy()
+    return lastTween
   }
 
-  renderRefill (runes, configSpriteRune) {
-    this.cleanRunes(runes)
-    this.blockRunes()
+  /**
+   * Отрисовывает пополнение поля
+   * @param  {Array.<coordRune>} coordRunes Координаты рун
+   * @return {Phaser.Tween} Анимация пополнения
+   */
+  renderRefull (coordRunes) {
+    this.cleanRunes(coordRunes)
+    let tween = this.renderRunes(coordRunes, 120, 50)
+    tween.onComplete.add(() => {
+      this.groupBoard.setAll('inputEnabled', true)
+    })
+    return tween
+  }
+
+  /**
+   * Отрисовывает руны
+   * FORMULA `y =  posYRune(i)`
+   * @param  {Array.<coordAndTypeRune>} runes          Руны
+   * @param  {Number=}                  speedAnimation Скорость анимации
+   * @param  {Number=}                  delayAnimation Задержка анимации
+   * @param  {Boolean=}                 autoStart      Автоматический старт анимации
+   * @return {Phaser.Tween} Анимация появления руны
+   * @example
+   * let rune = {i: 1, j: 1, type: 3}
+   * this.renderRunes([rune])
+   */
+  renderRunes (runes, speedAnimation = 500, delayAnimation = 0, autoStart = true) {
     let tween = {}
-    for (let l = 0; l < runes.length; l++) {
-      let rune = this.renderRune(runes[l].i, runes[l].j, runes[l].type)
-      for (let eventName in configSpriteRune.events) {
-        rune.events[eventName].add(this.linkGame[ configSpriteRune.events[eventName] ], this.linkGame, 0, {i: runes[l].i, j: runes[l].j})
+    for (let l = runes.length - 1; l >= 0; l--) {
+      let rune = this.initRune(runes[l].i, runes[l].j, runes[l].type)
+
+      for (let eventName in this.configSpriteRune.events) {
+        rune.events[eventName].add(this.linkGame[ this.configSpriteRune.events[eventName] ], this.linkGame, 0, {i: runes[l].i, j: runes[l].j})
       }
+
       this.board[runes[l].i][runes[l].j] = rune
       this.groupBoard.add(rune)
+
       tween = this.linkGame.add
         .tween(rune)
         .to({
-          y: this.posYRune(runes[l].i),
-          alpha: 1
+          y: this.posYRune(runes[l].i)
         },
-        SLOWPOKE * 500,
-        Phaser.Easing.Bounce.Out,
-        true
+        this.multiplierSpeedAnimation * speedAnimation,
+        Phaser.Easing.Sinusoidal.Out,
+        autoStart,
+        delayAnimation
       )
     }
     return tween
   }
 
-  renderDel (delRunes) {
-    let groupDelRunes = this.linkGame.add.group()
+  /**
+   * Отрисовывет с задержкой подсказду для возможного хода, анимация состоит из 2 частей
+   * **! ВАЖНО** предварительно в разделе `create` надо загрузить (`this.game.load`) изображение
+   * @param    {coordRune}     coordRuneOne                              Координата первой руны
+   * @param    {coordRune}     coordRuneTwo                              Координата второй руны
+   * @param    {Config.Sprite} configSuggestionSprite                    Конфигурация спрайта
+   * @param    {Number=}       delayShow                                 Задержка показа подсказки
+   * @property {Number}        x=posXRune(coordRuneOne.j)                Координата по Х
+   * @property {Number}        y=posYRune(coordRuneOne.i)                Координата по Y
+   * @property {Number}        width=configSuggestionSprite.size.width   Ширина
+   * @property {Number}        height=configSuggestionSprite.size.height Высота
+   * @property {Number}        alpha=0                                   Прозрачность
+   * @property {Phaser.Point}  anchor=0.1                                Точка вращения
+   * @return {Phaser.Tween} Анимация передвежения подсказки
+   */
+  renderSuggestion (coordRuneOne, coordRuneTwo, configSuggestionSprite, delayShow = 3500) {
+    let suggestion = this.linkGame.add.image(0, 0, configSuggestionSprite.fileName)
+    suggestion.anchor.set(0.1)
+    suggestion.width = configSuggestionSprite.size.width
+    suggestion.height = configSuggestionSprite.size.height
+    suggestion.alpha = 0
+    suggestion.x = this.posXRune(coordRuneOne.j)
+    suggestion.y = this.posYRune(coordRuneOne.i)
 
-    for (let i = 0; i < delRunes.length; i++) {
-      groupDelRunes.add(this.board[delRunes[i].i][delRunes[i].j])
-      this.board[delRunes[i].i][delRunes[i].j].animations.play('destroy', 12, true)
-      this.linkGame.add
-            .tween(this.board[delRunes[i].i][delRunes[i].j].scale)
-            .to({
-              x: 2,
-              y: 2
-            },
-            SLOWPOKE * 100,
-            Phaser.Easing.Linear.None,
-            true
-          )
-    }
+    this.groupSuggestion.add(suggestion)
 
-    let tween = this.linkGame.add
-      .tween(groupDelRunes)
+    let tweenShow = this.linkGame.add
+      .tween(suggestion)
       .to({
-        alpha: 0
+        alpha: 0.7
       },
-      SLOWPOKE * 200,
+      this.multiplierSpeedAnimation * 300,
       Phaser.Easing.Linear.None,
+      true,
+      delayShow
+    )
+    let tween = this.linkGame.add
+      .tween(suggestion)
+      .to({
+        x: this.posXRune(coordRuneTwo.j),
+        y: this.posYRune(coordRuneTwo.i)
+      },
+      this.multiplierSpeedAnimation * 1000,
+      Phaser.Easing.Linear.None,
+      true,
+      500,
+      -1,
       true
     )
-
+    tweenShow.chain(tween)
+    this.tweensSuggestion.push(tween)
     return tween
   }
 
-  renderDrop (dropRunes) {
-    let tween = {}
-    return tween
+  /**
+   * Отрисовывет обмен рун
+   * @param  {coordRune} coordRuneOne   Координата первой руны
+   * @param  {coordRune} coordRuneTwo   Координата второй руны
+   * @param  {Number=}   speedAnimation Скорость анимации
+   * @param  {Number=}   delayAnimation Задержка анимации
+   * @return {Phaser.Tween} Анимация обмена рун
+   */
+  renderSwap (coordRuneOne, coordRuneTwo, speedAnimation = 500, delayAnimation = 0) {
+    this.linkGame.add
+      .tween(this.board[coordRuneOne.i][coordRuneOne.j])
+      .to({
+        x: this.posXRune(coordRuneTwo.j),
+        y: this.posYRune(coordRuneTwo.i)
+      },
+      this.multiplierSpeedAnimation * speedAnimation,
+      Phaser.Easing.Linear.None,
+      true,
+      delayAnimation
+    )
+    let lastTween = this.linkGame.add
+      .tween(this.board[coordRuneTwo.i][coordRuneTwo.j])
+      .to({
+        x: this.posXRune(coordRuneOne.j),
+        y: this.posYRune(coordRuneOne.i)
+      },
+      this.multiplierSpeedAnimation * speedAnimation,
+      Phaser.Easing.Linear.None,
+      true,
+      delayAnimation
+    )
+    this.swap(coordRuneOne, coordRuneTwo)
+    return lastTween
+  }
+
+  /**
+   * Ообмен спрайт-рун
+   * **! ВАЖНО** Используется только в пределах класса
+   * @protected
+   * @param  {coordRune} coordRuneOne Координата первой руны
+   * @param  {coordRune} coordRuneTwo Координата второй руны
+   */
+  swap (coordRuneOne, coordRuneTwo) {
+    this.board[coordRuneOne.i][coordRuneOne.j].events.onInputDown['_bindings'][0]['_args'][0] = {i: coordRuneTwo.i, j: coordRuneTwo.j}
+    this.board[coordRuneTwo.i][coordRuneTwo.j].events.onInputDown['_bindings'][0]['_args'][0] = {i: coordRuneOne.i, j: coordRuneOne.j}
+    let tmp = this.board[coordRuneOne.i][coordRuneOne.j]
+    this.board[coordRuneOne.i][coordRuneOne.j] = this.board[coordRuneTwo.i][coordRuneTwo.j]
+    this.board[coordRuneTwo.i][coordRuneTwo.j] = tmp
+  }
+
+  /**
+   * Рaзблокирует взаимодействие с рунами (`groupBoard`)
+   */
+  unBlockRunes () {
+    this.groupBoard.setAll('inputEnabled', true)
   }
 }
