@@ -13,7 +13,7 @@ class Rune {
   /**
    * Конструктор объекта руна
    * @constructor
-   * @param  {!Number} type
+   * @param {Number} type
    */
   constructor (type) {
     /**
@@ -29,15 +29,6 @@ class Rune {
   }
 
   /**
-   * Текущее значение сохраняет в `oldType` и устанавливает новый тип руны
-   * @param  {Number} type Тип руны
-   */
-  newType (type) {
-    this.oldType = this.type
-    this.type = type
-  }
-
-  /**
    * Устанавливает случайный новый тип руны (от 1 до `maxCountType`)
    * @param  {Number} maxCountType Максимальный допустимый тип руны
    * @return {Number} Тип руны
@@ -46,5 +37,14 @@ class Rune {
     this.oldType = this.type
     this.type = Math.floor(Math.random() * (maxCountType)) + 1
     return this.type
+  }
+
+  /**
+   * Текущее значение сохраняет в `oldType` и устанавливает новый тип руны
+   * @param  {Number} type Тип руны
+   */
+  newType (type) {
+    this.oldType = this.type
+    this.type = type
   }
 }
