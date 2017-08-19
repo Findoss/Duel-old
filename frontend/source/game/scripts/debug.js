@@ -5,12 +5,12 @@ class Debug {
     this.linkBoard = board
     this.linkView = view
     this.linkQueue = queue
-
-    this.linkQueue.onAdd.add((command) => {
+    /*
+    this.linkQueue.onAdd.add((argument) => {
       counter++
-      console.log(counter + ' ' + command)
+      console.log(counter + ' ' + argument)
     })
-/*
+
     this.linkBoard.onDrop.add(function (argument) {
       console.log('board.onDrop')
       // console.log(argument)
