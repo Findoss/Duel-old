@@ -1,4 +1,4 @@
-/* global Phaser, textureSuggestion,  param, game, textureRune, texturePath, Queue, Board, View, Debug, utils */
+/* global Phaser, textureSuggestion, testTextureRune, param, game, textureRune, texturePath, Queue, Board, View, Debug, utils */
 
 let board = {}
 let view = {}
@@ -32,16 +32,10 @@ class PlayGame extends Phaser.State {
 
     board = new Board()
     view = new View(this, textureRune)
-    view.multiplierSpeedAnimation = 1
     queue = new Queue()
     debug = new Debug(board, view, queue)
-
     this.bindEvents(board)
-
-    // TEST ZONE
     board.loadBoard(param.board)
-    // view.renderRefill([{i: 1, j: 1, type: 3}])
-    // view.renderBoard(param.board)
   }
 
   update () {
@@ -82,7 +76,6 @@ class PlayGame extends Phaser.State {
 
   runeClick (pickRune, param, coordPickRune) {
     view.cleanSuggestion()
-    queue.add(view, 'blockRunes', false)
     if (activeRune !== null) {
       let coordActiveRune = view.getIndexs(activeRune)
       if (!board.areTheSame(coordPickRune, coordActiveRune)) {
@@ -92,14 +85,12 @@ class PlayGame extends Phaser.State {
             board.findClusters(coordActiveRune)
             board.findClusters(coordPickRune)
             if (board.clusters.length) {
-              // view.blockRunes()
               do {
                 RUNES = board.deleteClusters()
                 board.drop()
                 board.refill()
               } while (board.findAllClusters().length)
               queue.add(view, 'renderAllSuggestion', false, board.findMoves(), textureSuggestion)
-              queue.add(view, 'unBlockRunes', false)
 
               if (!board.findMoves().length) {
                 board.deleteBoard()
@@ -130,13 +121,11 @@ class PlayGame extends Phaser.State {
       activeRune = pickRune
       pickRune.animations.play('pick', 4, true)
     }
-    queue.add(view, 'unBlockRunes', false)
   }
 
   bindEvents (board) {
     board.onLoad.add((newBoard) => {
       queue.add(view, 'renderBoard', true, newBoard)
-      console.log(board.findMoves().length)
       queue.add(view, 'renderAllSuggestion', false, board.findMoves(), textureSuggestion)
     })
 
