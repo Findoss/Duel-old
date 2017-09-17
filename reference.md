@@ -21,6 +21,10 @@
 │   ├───client
 │   │   ├───audio
 │   │   ├───images
+│   │   ├───libs
+│   │   ├───scripts
+│   │   │   ├───classes
+│   │   │   └───states
 │   │   └───styles
 │   ├───libs
 │   ├───node_modules
@@ -34,14 +38,18 @@
 ```
 
 ### Разворачивание
-```
-cd app
-npm install --save-dev
-npm install --global bower
-npm install --global standard
-npm install --global gulp
-bower install
-```
+`cd app`  
+
+`npm install --save-dev`  
+
+`npm install --global bower`  
+
+`npm install --global standard`  
+
+`npm install --global gulp`  
+
+`bower install`  
+
 
 ### Графика
 Растровая.
