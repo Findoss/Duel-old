@@ -1,5 +1,5 @@
 {
-  "name": "Duel",
+  "name": "duel",
   "version": "1.0.0",
   "description": "game",
   "main": "index.js",
@@ -8,12 +8,10 @@
     "message": "hi"
   },
   "devDependencies": {
-    "docdash": "^0.4.0",
     "gulp": "latest",
     "gulp-jsdoc3": "^1.0.1",
     "gulp-livereload": "latest",
-    "jsdoc": "^3.5.3",
-    "standard": "latest"
+    "jsdoc": "^3.5.3"
   },
   "license": "todo",
   "dependencies": {}

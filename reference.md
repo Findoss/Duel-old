@@ -33,6 +33,16 @@
 └───preview
 ```
 
+### Разворачивание
+```
+cd app
+npm install --save-dev
+npm install --global bower
+npm install --global standard
+npm install --global gulp
+bower install
+```
+
 ### Графика
 Растровая.
 Формат png.

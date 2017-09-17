@@ -1,4 +1,4 @@
-const texturePath = './images/'
+const texturePath = 'images/'
 
 const textureRune = {
   fileName: 'rune_',
