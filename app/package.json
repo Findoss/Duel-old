@@ -5,10 +5,9 @@
   "main": "index.js",
   "author": "Findoss",
   "scripts": {
-    "hi": ""
+    "message": "hi"
   },
   "devDependencies": {
-    "bower": "latest",
     "docdash": "^0.4.0",
     "gulp": "latest",
     "gulp-jsdoc3": "^1.0.1",
@@ -16,6 +15,6 @@
     "jsdoc": "^3.5.3",
     "standard": "latest"
   },
-  "license": "todo MIT",
+  "license": "todo",
   "dependencies": {}
 }

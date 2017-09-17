@@ -37,6 +37,7 @@
  * @class
  * @fires Board
  */
+
 class Board {
   /**
    * Конструктор объекта поля (логика)

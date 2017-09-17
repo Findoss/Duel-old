@@ -1,5 +1,3 @@
-// const srcCode = './source/game/scripts/classes/*.js'
-
 let gulp = require('gulp')
 let livereload = require('gulp-livereload')
 let jsdoc = require('gulp-jsdoc3')
@@ -7,8 +5,8 @@ let jsdoc = require('gulp-jsdoc3')
 gulp.task('doc', () => {
   let config = require('./jsdoc.json')
   gulp.src(['./source/game/scripts/classes/*.js', '../README.md'], {read: false})
-      .pipe(jsdoc(config))
-      .pipe(livereload())
+    .pipe(jsdoc(config))
+    .pipe(livereload())
 })
 
 gulp.task('doc_watch', () => {
