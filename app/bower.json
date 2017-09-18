@@ -1,0 +1,17 @@
+{
+  "name": "duel",
+  "description": "game",
+  "authors": [
+    "findoss"
+  ],
+  "license": "todo",
+  "moduleType": [
+    "amd"
+  ],
+  "homepage": "todo",
+  "private": true,
+  "dependencies": {
+    "normalize-css": "latest",
+    "phaser-ce": "latest"
+  }
+}
