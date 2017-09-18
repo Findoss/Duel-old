@@ -1,14 +1,12 @@
 [**← HOME**](README.md)  
 
-[![phaser](https://raw.githubusercontent.com/photonstorm/phaser/master/v2/resources/Phaser%20Logo/Pixel%20Art/phaser_pixel_medium_flat.png)](http://phaser.io)   [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-
-## Техническая часть
+# Техническая часть
 
 ### Платформа
 Браузер
 
 ### Клиент
-*  
+* Phaser.js (на рассмотрении)
 
 ### Сервер
 * Node.js
@@ -37,24 +35,27 @@
 └───preview
 ```
 
-### Разворачивание
-`cd app`  
+### Разворачивание проекта
+`$ cd app`  
 
-`npm install --save-dev`  
+`$ npm install --save-dev`  
 
-`npm install --global bower`  
+`$ npm install --global bower`  
 
-`npm install --global standard`  
+`$ npm install --global standard`  
 
-`npm install --global gulp`  
+`$ npm install --global gulp`  
 
-`bower install`  
+`$ bower install`  
 
 
 ### Графика
 Растровая.
 Формат png.
 Цветовая схема RGBa.
+
+### Требование к коду 
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ### Именование
 Позиция (положение на экроне) → x (horizontal), y (vertical)  
@@ -66,9 +67,6 @@
 Для сборки дкументации используйте команду
 `$ gulp doc`
 
-Для сборки спрайтов используйте команду
-`$ gulp sprite`
-
 ## Документация по инструментам
 
 [Gulp API](https://github.com/gulpjs/gulp/blob/master/docs/API.md)  
@@ -77,6 +75,3 @@
 [Livereload](http://livereload.com/)  
 [Spritesmith](https://github.com/twolfson/gulp.spritesmith)  
 [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)  
-
-
-

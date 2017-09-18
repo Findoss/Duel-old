@@ -4,16 +4,9 @@
   },
   "opts": {
     "encoding": "utf8",
-    "template": "../frontend/node_modules/docdash",
     "destination": "../docs/",
     "recurse": true,
     "verbose": true
-  },
-  "plugins": [
-    "../frontend/node_modules/jsdoc/plugins/markdown"
-  ],
-  "markdown": {
-    "hardwrap": true
   },
   "templates": {
     "cleverLinks": false,
@@ -22,9 +15,5 @@
       "outputSourceFiles": true,
       "includeDate": false
     }
-  },
-  "docdash": {
-    "static": false,
-    "sort": true
   }
 }

@@ -3,3 +3,4 @@
 /backend
 /app/node_modules
 /app/client/libs
+/app/server/logs
