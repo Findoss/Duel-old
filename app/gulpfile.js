@@ -24,19 +24,13 @@ gulp.task('doc', () => {
   }
 })
 
-gulp.task('doc_watch', () => {
-  livereload.listen()
-  gulp.watch('source/game/scripts/*/*.js', ['doc'])
-})
-
 gulp.task('reload', () => {
-  gulp.src('source/game/index.html')
-      .pipe(livereload())
+  gulp.src('client/index.html').pipe(livereload())
 })
 
 gulp.task('default', () => {
   livereload.listen()
-  gulp.watch('source/game/scripts/*.js', ['reload'])
-  gulp.watch('source/game/scripts/*/*.js', ['reload'])
-  gulp.watch('source/game/*.html', ['reload'])
+  gulp.watch('client/scripts/**/*.js', ['reload'])
+  gulp.watch('tests/**/*.js', ['reload'])
+  gulp.watch('client/*.html', ['reload'])
 })

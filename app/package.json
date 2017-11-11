@@ -4,14 +4,16 @@
   "description": "game",
   "main": "index.js",
   "author": "Findoss",
-  "scripts": {
-    "message": "hi"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "gulp": "latest",
+    "bower": "latest",
+    "gulp": "^3.9.1",
     "gulp-livereload": "latest",
-    "jsdoc-to-markdown": "^3.0.0"
+    "jsdoc-to-markdown": "latest"
   },
-  "license": "todo",
-  "dependencies": {}
+  "scripts": {
+    "watch": "gulp",
+    "doc": "gulp doc"
+  },
+  "license": "todo"
 }

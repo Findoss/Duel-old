@@ -4,6 +4,7 @@ let board = {}
 let view = {}
 let debug = {}
 let queue = {}
+let palayers = []
 
 let activeRune = null
 
@@ -34,6 +35,9 @@ class PlayGame extends Phaser.State {
     view = new View(this, textureRune)
     queue = new Queue()
     debug = new Debug(board, view, queue)
+    palayers[0] = new Player('говнюк', 'в доспехах')
+
+    MESSAGE = 'S: ' + palayers[0].name + ' = ' + palayers[0].hpp()
     this.bindEvents(board)
     board.loadBoard(param.board)
   }
@@ -86,7 +90,12 @@ class PlayGame extends Phaser.State {
             board.findClusters(coordPickRune)
             if (board.clusters.length) {
               do {
-                RUNES = board.deleteClusters()
+                //
+                palayers[0].addRunes(board.deleteClusters())
+                palayers[0].damage(palayers[0])
+                MESSAGE = 'S: ' + palayers[0].name + ' = ' + palayers[0].hpp()
+                RUNES = palayers[0].runes
+                //
                 board.drop()
                 board.refill()
               } while (board.findAllClusters().length)
