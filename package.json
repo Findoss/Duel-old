@@ -5,16 +5,15 @@
   "main": "index.js",
   "author": "Findoss",
   "scripts": {
-    "watch": "gulp",
-    "doc": "gulp doc"
+    "start": "node server/index.js",
+    "doc": "node utils/build_docs.js"
   },
   "dependencies": {
     "phaser-ce": "^2.9.2",
     "socket.io": "^2.0.4"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-livereload": "latest",
+    "jsdoc": "^3.5.5",
     "jsdoc-to-markdown": "latest"
   },
   "license": " todo license "
