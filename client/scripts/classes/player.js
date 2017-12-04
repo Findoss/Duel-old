@@ -74,6 +74,7 @@ class Player {
     this.runes = []
   }
 
+  // todo hpp
   hpp () {
     return this.hp.value
   }

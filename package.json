@@ -4,16 +4,18 @@
   "description": "game",
   "main": "index.js",
   "author": "Findoss",
-  "dependencies": {},
-  "devDependencies": {
-    "bower": "latest",
-    "gulp": "^3.9.1",
-    "gulp-livereload": "latest",
-    "jsdoc-to-markdown": "latest"
-  },
   "scripts": {
     "watch": "gulp",
     "doc": "gulp doc"
   },
-  "license": "todo"
+  "dependencies": {
+    "phaser-ce": "^2.9.2",
+    "socket.io": "^2.0.4"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-livereload": "latest",
+    "jsdoc-to-markdown": "latest"
+  },
+  "license": " todo license "
 }
