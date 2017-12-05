@@ -2,7 +2,7 @@
 
 const configPhaser = {
   width: 750,
-  height: 1980,
+  height: 1300,
   renderer: Phaser.AUTO,
   antialias: true,
   multiTexture: true,
