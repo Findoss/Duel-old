@@ -6,7 +6,7 @@
   "author": "Findoss",
   "scripts": {
     "start": "node server/index.js",
-    "doc": "node utils/build_docs.js"
+    "doc": "node utils/docs_build.js"
   },
   "dependencies": {
     "phaser-ce": "^2.9.2",
