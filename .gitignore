@@ -1,6 +1,6 @@
 /docs
 /database
-/backend
+/tmp_files
 /node_modules
 /server/logs
 /*lock.json
