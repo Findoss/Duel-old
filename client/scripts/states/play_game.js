@@ -1,5 +1,11 @@
 /* global Phaser, textureSuggestion, testTextureRune, param, game, textureRune, texturePath, Queue, Board, View, Debug, utils */
 
+/**
+ *
+ *  !!!! ARHIVE !!!!
+ *
+ */
+
 let board = {}
 let view = {}
 let debug = {}
@@ -13,11 +19,14 @@ let RUNES = []
 
 class PlayGame extends Phaser.State {
   init () {
+    // влючаем время для вывода FPS
     this.game.time.advancedTiming = true
+    // влючаем возможность разворачивать на весь экран F11
     this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL
   }
 
   preload () {
+    // зашрузка текстур рун
     for (let i = 0; i < 6; i++) {
       this.game.load.spritesheet(textureRune.fileName + i, texturePath + textureRune.fileName + i + '.png', textureRune.size.width, textureRune.size.height, 12)
     }
@@ -77,8 +86,6 @@ class PlayGame extends Phaser.State {
       rune.animations.play('wait', 4, true)
     }
   }
-
-  
 
   bindEvents (board) {
     board.onLoad.add((newBoard) => {
