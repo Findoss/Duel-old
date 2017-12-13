@@ -1,6 +1,6 @@
 /* globals Phaser, textureRune */
 /**
- * Визуальное представление игрового поля
+ * todo Визуальное представление игрового поля
  *
  * Префикс методов | Назначение
  * :---------------|:--------------------
@@ -8,18 +8,6 @@
  * render          | отрисовывают объкты
  * clean           | стирают объкты
  *
- * **Easing**
- * Back
- * Bounce
- * Circular
- * Cubic
- * Elastic
- * Exponential
- * Linear
- * Quadratic
- * Quartic
- * Quintic
- * Sinusoidal
  *
  * {@link http://easings.net/ru#easeOutBounce | Шпаргалка по функциям плавности анимации }
  * @class

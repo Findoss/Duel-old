@@ -41,7 +41,7 @@ class Queue {
    * @param {Object}  context    Контекст в котором будет исполняться анимация/команда
    * @param {String}  command    Название команды/анимации
    * @param {Boolean} isBlocking TRUE - блокирущий режим
-   *                             FALSE - НЕ блокирущий режим
+   *                             FALSE - НЕ блокирущий режим (запускает сразу следущюю анимацию)
    * @param {...*}    args       Параметры команды/анимации
    */
   add (context, command, isBlocking, ...args) {
