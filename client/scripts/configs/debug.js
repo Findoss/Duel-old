@@ -1,0 +1,3 @@
+const DEBUG = {
+  fps: true
+}

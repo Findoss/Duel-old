@@ -1,4 +1,4 @@
-/* globals Phaser, textureSuggestion, configTextures */
+/* globals Phaser, DEBUG, textureSuggestion, configTextures */
 
 class Sandbox extends Phaser.State {
   init () {
@@ -26,8 +26,10 @@ class Sandbox extends Phaser.State {
 
   update () {
     // перехватываем ресайз игры и масштабируем
-    utils.resizeGame(this.gam
+    utils.resizeGame(this.game)
   }
 
-  render () {}
+  render () {
+    DEBUG.fps && game.debug.text('FPS: ' + this.game.time.fps, 20, 30, '#00ff00', '25px Arial')
+  }
 }
