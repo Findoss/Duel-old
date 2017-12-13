@@ -41,4 +41,4 @@ class Rune {
   }
 }
 
-module.exports = new Rune()
+module.exports = Rune

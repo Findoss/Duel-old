@@ -1,4 +1,4 @@
-let Rune = require('./rune')
+const Rune = require('./rune')
 
 /**
  * @typedef  {Object} countRunes
@@ -191,7 +191,7 @@ class Board {
   deleteBoard () {
     this.cleanClusters()
     this.board = []
-    this.onDeleteBoard.dispatch()
+    // this.onDeleteBoard.dispatch()
   }
 
   /**
@@ -211,7 +211,7 @@ class Board {
       }
     }
     this.cleanClusters()
-    this.onDeleteClusters.dispatch(coordRunes)
+    // this.onDeleteClusters.dispatch(coordRunes)
     return this.countRunes
   }
 
@@ -244,7 +244,7 @@ class Board {
         }
       }
     }
-    this.onDrop.dispatch(coordRunes)
+    // this.onDrop.dispatch(coordRunes)
     return coordRunes
   }
 
@@ -291,7 +291,7 @@ class Board {
     for (let l = 0; l < this.rows; l++) {
       this.findClusters({i: l, j: l})
     }
-    this.onFindClusters.dispatch(this.clusters)
+    // this.onFindClusters.dispatch(this.clusters)
     return this.clusters
   }
 
@@ -457,7 +457,7 @@ class Board {
         }
       }
     }
-    this.onFindMoves.dispatch(moves)
+    // this.onFindMoves.dispatch(moves)
     return moves
   }
 
@@ -483,7 +483,7 @@ class Board {
     }
     while (this.findMoves() < minMoveCount)
     let newBoard = Object.assign([], this.board)
-    this.onLoad.dispatch(newBoard)
+    // this.onLoad.dispatch(newBoard)
     return newBoard
   }
 
@@ -588,7 +588,7 @@ class Board {
         }
       }
       let newBoard = Object.assign([], this.board)
-      this.onLoad.dispatch(newBoard)
+      // this.onLoad.dispatch(newBoard)
       return newBoard
     }
     return []
@@ -609,7 +609,7 @@ class Board {
         }
       }
     }
-    this.onRefill.dispatch(newRunes)
+    // this.onRefill.dispatch(newRunes)
     return newRunes
   }
 
@@ -654,9 +654,9 @@ class Board {
    * @return {Array.<coordRune>}      Координаты обмененых рун
    */
   swapRune (coordRuneOne, coordRuneTwo) {
-    this.preSwap.dispatch([coordRuneOne, coordRuneTwo])
+    // this.preSwap.dispatch([coordRuneOne, coordRuneTwo])
     this.swap(coordRuneOne, coordRuneTwo)
-    this.onSwap.dispatch([coordRuneOne, coordRuneTwo])
+    // this.onSwap.dispatch([coordRuneOne, coordRuneTwo])
     return [coordRuneOne, coordRuneTwo]
   }
 
@@ -680,4 +680,4 @@ class Board {
   }
 }
 
-module.exports = new Board()
+module.exports = Board
