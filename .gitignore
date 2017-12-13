@@ -3,5 +3,5 @@
 /backend
 /node_modules
 /server/logs
-package-lock.json
+*lock.json
 todo.md
