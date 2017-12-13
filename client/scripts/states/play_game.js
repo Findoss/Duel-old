@@ -78,59 +78,7 @@ class PlayGame extends Phaser.State {
     }
   }
 
-  runeClick (pickRune, param, coordPickRune) {
-    view.cleanSuggestion()
-    if (activeRune !== null) {
-      let coordActiveRune = view.getIndexs(activeRune)
-      if (!board.areTheSame(coordPickRune, coordActiveRune)) {
-        if (board.isAdjacentRune(coordActiveRune, coordPickRune)) {
-          if (!board.comparisonType(coordActiveRune, coordPickRune)) {
-            board.swapRune(coordActiveRune, coordPickRune)
-            board.findClusters(coordActiveRune)
-            board.findClusters(coordPickRune)
-            if (board.clusters.length) {
-              do {
-                //
-                palayers[0].addRunes(board.deleteClusters())
-                palayers[0].damage(palayers[0])
-                MESSAGE = 'S: ' + palayers[0].name + ' = ' + palayers[0].hpp()
-                RUNES = palayers[0].runes
-                //
-                board.drop()
-                board.refill()
-              } while (board.findAllClusters().length)
-              queue.add(view, 'renderAllSuggestion', false, board.findMoves(), textureSuggestion)
-
-              if (!board.findMoves().length) {
-                board.deleteBoard()
-                board.generation(false)
-              }
-            } else {
-              board.swapRune(coordActiveRune, coordPickRune)
-            }
-            activeRune.animations.play('wait', 4, true)
-            activeRune = null
-          } else {
-            board.preSwap.dispatch([coordActiveRune, coordPickRune])
-            board.preSwap.dispatch([coordActiveRune, coordPickRune])
-            activeRune.animations.play('wait', 4, true)
-            activeRune = null
-          }
-        } else {
-          activeRune.animations.play('wait', 4, true)
-          activeRune = pickRune
-          pickRune.animations.play('pick', 4, true)
-        }
-      } else {
-        activeRune.animations.play('wait', 4, true)
-        activeRune = null
-        queue.add(view, 'renderAllSuggestion', false, board.findMoves(), textureSuggestion)
-      }
-    } else {
-      activeRune = pickRune
-      pickRune.animations.play('pick', 4, true)
-    }
-  }
+  
 
   bindEvents (board) {
     board.onLoad.add((newBoard) => {
