@@ -11,12 +11,13 @@ class Game extends Phaser.Game {
     // this.state.add('Boot', Boot);
     // this.state.add('Preloader', Preloader);
     // this.state.add('MainMenu', MainMenu);
-    // this.state.add('Sandbox', Sandbox, false)
-    this.state.add('PlayGame', PlayGame, false)
+    // this.state.add('PlayGame', PlayGame, false)
+    this.state.add('Sandbox', Sandbox, false)
 
     // this.state.start('Boot');
-    // this.state.start('PlayGame', true, false, param)
-    this.state.start('PlayGame', true, false, param)
+    // стартуем сцену временно это песочница
+    // (очистка мира, очистка кеша, параметры)
+    this.state.start('Sandbox', true, false, param)
   }
 }
 

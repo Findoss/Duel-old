@@ -1,5 +1,3 @@
-const texturePath = 'images/'
-
 const textureRune = {
   fileName: 'rune_',
   size: {
@@ -16,13 +14,5 @@ const textureRune = {
     onInputDown: 'runeClick',
     onInputOver: 'runeOver',
     onInputOut: 'runeOut'
-  }
-}
-
-const textureSuggestion = {
-  fileName: 'finger',
-  size: {
-    width: 100,
-    height: 100
   }
 }
