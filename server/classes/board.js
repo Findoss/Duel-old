@@ -1,4 +1,4 @@
-/* globals Phaser, Rune */
+let Rune = require('./rune')
 
 /**
  * @typedef  {Object} countRunes
@@ -78,52 +78,52 @@ class Board {
      */
     this.countRunes = {}
 
-    // СОБЫТИЯ
-    /**
-     * Вызывается после удалении поля
-     * @event Board#onDeleteBoard
-     */
-    this.onDeleteBoard = new Phaser.Signal()
-    /**
-     * Вызывается после загрузки поля
-     * @event Board#onLoad
-     */
-    this.onLoad = new Phaser.Signal()
-    /**
-     * Вызывается перед обменом рун
-     * @event Board#preSwap
-     */
-    this.preSwap = new Phaser.Signal()
-    /**
-     * Вызывается после обмена рун
-     * @event Board#onSwap
-     */
-    this.onSwap = new Phaser.Signal()
-    /**
-     * Вызывается после падения рун
-     * @event Board#onDrop
-     */
-    this.onDrop = new Phaser.Signal()
-    /**
-     * Вызывается после пополнения поля
-     * @event Board#onRefill
-     */
-    this.onRefill = new Phaser.Signal()
-    /**
-     * Вызывается после удаления всех линий
-     * @event Board#onDeleteClusters
-     */
-    this.onDeleteClusters = new Phaser.Signal()
-    /**
-     * Вызывается после нахождения линии(й)
-     * @event Board#onFindClusters
-     */
-    this.onFindClusters = new Phaser.Signal()
-    /**
-     * Вызывается после нахождения возможных ходов
-     * @event Board#onFindMoves
-     */
-    this.onFindMoves = new Phaser.Signal()
+    // // СОБЫТИЯ
+    // /**
+    //  * Вызывается после удалении поля
+    //  * @event Board#onDeleteBoard
+    //  */
+    // this.onDeleteBoard = new Phaser.Signal()
+    // /**
+    //  * Вызывается после загрузки поля
+    //  * @event Board#onLoad
+    //  */
+    // this.onLoad = new Phaser.Signal()
+    // /**
+    //  * Вызывается перед обменом рун
+    //  * @event Board#preSwap
+    //  */
+    // this.preSwap = new Phaser.Signal()
+    // /**
+    //  * Вызывается после обмена рун
+    //  * @event Board#onSwap
+    //  */
+    // this.onSwap = new Phaser.Signal()
+    // /**
+    //  * Вызывается после падения рун
+    //  * @event Board#onDrop
+    //  */
+    // this.onDrop = new Phaser.Signal()
+    // /**
+    //  * Вызывается после пополнения поля
+    //  * @event Board#onRefill
+    //  */
+    // this.onRefill = new Phaser.Signal()
+    // /**
+    //  * Вызывается после удаления всех линий
+    //  * @event Board#onDeleteClusters
+    //  */
+    // this.onDeleteClusters = new Phaser.Signal()
+    // /**
+    //  * Вызывается после нахождения линии(й)
+    //  * @event Board#onFindClusters
+    //  */
+    // this.onFindClusters = new Phaser.Signal()
+    // /**
+    //  * Вызывается после нахождения возможных ходов
+    //  * @event Board#onFindMoves
+    //  */
+    // this.onFindMoves = new Phaser.Signal()
   }
 
   /**
@@ -679,3 +679,5 @@ class Board {
     return false
   }
 }
+
+module.exports = new Board()

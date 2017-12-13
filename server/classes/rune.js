@@ -40,3 +40,5 @@ class Rune {
     this.type = type
   }
 }
+
+module.exports = new Rune()
