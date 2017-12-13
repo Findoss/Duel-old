@@ -15,6 +15,7 @@ class Game extends Phaser.Game {
     this.state.add('Sandbox', Sandbox, false)
 
     // this.state.start('Boot');
+
     // стартуем сцену временно это песочница
     // (очистка мира, очистка кеша, параметры)
     this.state.start('Sandbox', true, false, param)
