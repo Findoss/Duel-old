@@ -77,53 +77,6 @@ class Board {
      * @type {countRunes}
      */
     this.countRunes = {}
-
-    // // СОБЫТИЯ
-    // /**
-    //  * Вызывается после удалении поля
-    //  * @event Board#onDeleteBoard
-    //  */
-    // this.onDeleteBoard = new Phaser.Signal()
-    // /**
-    //  * Вызывается после загрузки поля
-    //  * @event Board#onLoad
-    //  */
-    // this.onLoad = new Phaser.Signal()
-    // /**
-    //  * Вызывается перед обменом рун
-    //  * @event Board#preSwap
-    //  */
-    // this.preSwap = new Phaser.Signal()
-    // /**
-    //  * Вызывается после обмена рун
-    //  * @event Board#onSwap
-    //  */
-    // this.onSwap = new Phaser.Signal()
-    // /**
-    //  * Вызывается после падения рун
-    //  * @event Board#onDrop
-    //  */
-    // this.onDrop = new Phaser.Signal()
-    // /**
-    //  * Вызывается после пополнения поля
-    //  * @event Board#onRefill
-    //  */
-    // this.onRefill = new Phaser.Signal()
-    // /**
-    //  * Вызывается после удаления всех линий
-    //  * @event Board#onDeleteClusters
-    //  */
-    // this.onDeleteClusters = new Phaser.Signal()
-    // /**
-    //  * Вызывается после нахождения линии(й)
-    //  * @event Board#onFindClusters
-    //  */
-    // this.onFindClusters = new Phaser.Signal()
-    // /**
-    //  * Вызывается после нахождения возможных ходов
-    //  * @event Board#onFindMoves
-    //  */
-    // this.onFindMoves = new Phaser.Signal()
   }
 
   /**
@@ -191,7 +144,6 @@ class Board {
   deleteBoard () {
     this.cleanClusters()
     this.board = []
-    // this.onDeleteBoard.dispatch()
   }
 
   /**
@@ -211,7 +163,6 @@ class Board {
       }
     }
     this.cleanClusters()
-    // this.onDeleteClusters.dispatch(coordRunes)
     return this.countRunes
   }
 
@@ -244,7 +195,6 @@ class Board {
         }
       }
     }
-    // this.onDrop.dispatch(coordRunes)
     return coordRunes
   }
 
@@ -291,7 +241,6 @@ class Board {
     for (let l = 0; l < this.rows; l++) {
       this.findClusters({i: l, j: l})
     }
-    // this.onFindClusters.dispatch(this.clusters)
     return this.clusters
   }
 
@@ -457,7 +406,6 @@ class Board {
         }
       }
     }
-    // this.onFindMoves.dispatch(moves)
     return moves
   }
 
@@ -483,7 +431,6 @@ class Board {
     }
     while (this.findMoves() < minMoveCount)
     let newBoard = Object.assign([], this.board)
-    // this.onLoad.dispatch(newBoard)
     return newBoard
   }
 
@@ -588,7 +535,6 @@ class Board {
         }
       }
       let newBoard = Object.assign([], this.board)
-      // this.onLoad.dispatch(newBoard)
       return newBoard
     }
     return []
@@ -609,7 +555,6 @@ class Board {
         }
       }
     }
-    // this.onRefill.dispatch(newRunes)
     return newRunes
   }
 
@@ -654,9 +599,7 @@ class Board {
    * @return {Array.<coordRune>}      Координаты обмененых рун
    */
   swapRune (coordRuneOne, coordRuneTwo) {
-    // this.preSwap.dispatch([coordRuneOne, coordRuneTwo])
     this.swap(coordRuneOne, coordRuneTwo)
-    // this.onSwap.dispatch([coordRuneOne, coordRuneTwo])
     return [coordRuneOne, coordRuneTwo]
   }
 
