@@ -1,3 +1,4 @@
 const DEBUG = {
-  fps: true
+  fps: true,
+  socket: true
 }
