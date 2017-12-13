@@ -6,7 +6,7 @@ var io = require('socket.io')(http)
 // classes
 const Board = require('./classes/board')
 
-const board = new Board(5, 5, 3)
+const board = new Board()
 
 io.on('connection', (socket) => {
   console.log('[server] user connected')
@@ -33,5 +33,5 @@ io.on('connection', (socket) => {
 })
 
 http.listen(8080, () => {
-  console.log('listening on *:8080')
+  console.log('listening on localhost:8080')
 })
