@@ -1,6 +1,7 @@
 /docs
 /database
 /backend
-/app/node_modules
+/node_modules
+/todo.md
 /app/client/libs
 /app/server/logs
