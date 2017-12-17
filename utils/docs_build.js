@@ -23,7 +23,7 @@ for (var i = 0; i < pathInputs.length; i++) {
     console.log(`rendering class ${className}.js`)
     let output = jsdoc2md.renderSync({
       data: templateData,
-      template: `{{#class name="${className}"}}{{>docs}}{{/class}} })`,
+      template: `{{#class name="${className}"}}{{>docs}}{{/class}}`,
       partial: [
         pathTemplate
       ]
