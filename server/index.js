@@ -34,6 +34,7 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     DEBUG.server && console.log('[.] user disconnected')
+  })
 })
 
 http.listen(8080, () => {
