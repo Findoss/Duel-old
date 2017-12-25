@@ -48,13 +48,3 @@ express.js и socket.io используется в демонстрационн
 `$ npm i`  
 `$ npm start` // запустит серв на localhost:8080  
 `open broswer client/index.html`
-
-
-**ССЫЛКИ**  
-[Стилизация кода, документация по классам, форматы и т.д.](https://github.com/Findoss/Duel/wiki)  
-[Дизайн документ (конечно громко сказано)](README.md)  
-[Картинки](https://github.com/Findoss/Duel/tree/dev/media)  
-[Интерфейс](https://realtimeboard.com/app/board/o9J_k0DLCvk=/)  
-[Таблица умений](https://docs.google.com/spreadsheets/d/17mzF-c6nYp4Hi2gjWXxZQdOzI8Q7LxrErgD9JgYMqrw)  
-[ПРИМЕР](exemple.md)  
-
