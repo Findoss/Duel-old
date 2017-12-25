@@ -8,6 +8,13 @@ const Rune = require('./rune')
  * Object = {1: 15, 2: 3, 4:9, 5:9}
  */
 /**
+ * @typedef  {Object} coordRune
+ * @property {Number} i Строка руны
+ * @property {Number} j Колонка руны
+ * @example
+ * Object = {i:0, j:3}
+ */
+/**
  * @typedef  {Object} coordAndTypeRune
  * @property {Number} i    Строка руны
  * @property {Number} j    Колонка руны
@@ -16,14 +23,7 @@ const Rune = require('./rune')
  * Array = [{i:0, j:3, type:4}, {i:0, j:4, type:5}, {i:0, j:5, type:3}, ... ]
  */
 /**
- * @typedef  {Object} coordRune
- * @property {Number} i Строка руны
- * @property {Number} j Колонка руны
- * @example
- * Object = {i:0, j:3}
- */
-/**
- * @typedef  {Array.coordRune}     cluster
+ * @typedef  {Array.coordRune} cluster
  * @property {coordRune} coordRune Координаты руны
  * @example
  * // cluster
@@ -35,12 +35,10 @@ const Rune = require('./rune')
 /**
  * Логическое представление игрового поля
  * @class
- * @fires Board
  */
-
 class Board {
   /**
-   * Конструктор объекта поля (логика)
+   * Конструктор объекта поля
    * @constructor
    * @param {Number=} rows                 Количество строк поля
    * @param {Number=} columns              Количество колонок поля
@@ -63,7 +61,7 @@ class Board {
      */
     this.maxTypeGenerateRunes = maxTypeGenerateRunes
     /**
-     * Поле (логика)
+     * Поле
      * @type {Array.<Rune>}
      */
     this.board = []
@@ -73,8 +71,9 @@ class Board {
      */
     this.clusters = []
     /**
-     * Объект содержащий количество удаленных рун сортировка по типам руны
+     * Объект содержащий количество разрушенных рун сортировка по типам руны
      * @type {countRunes}
+     * TODO rename this.destroyedRunes
      */
     this.countRunes = {}
   }
@@ -103,6 +102,7 @@ class Board {
    * @param  {coordRune} coordRuneOne Координата первой руны
    * @param  {coordRune} coordRuneTwo Координата второй руны
    * @return {Boolean}
+   * TODO rename
    */
   areTheSame (coordRuneOne, coordRuneTwo) {
     return (coordRuneOne.i === coordRuneTwo.i &&
@@ -128,6 +128,7 @@ class Board {
    * @param  {coordRune} coordRuneOne Координата первой руны
    * @param  {coordRune} coordRuneTwo Координата второй руны
    * @return {Boolean}
+   * TODO rename
    */
   comparisonType (coordRuneOne, coordRuneTwo) {
     if (this.isInRange(coordRuneOne, coordRuneTwo)) {
@@ -139,7 +140,6 @@ class Board {
   /**
    * Очищает поле `board` и массив линий `clusters`
    * **! ВАЖНО** не очищает количество удалленых рун `countRunes`
-   * @fires Board#onDeleteClusters
    */
   deleteBoard () {
     this.cleanClusters()
@@ -148,7 +148,6 @@ class Board {
 
   /**
    * Удаляет руны входящие в линию, после чего очищает массив  `clusters`
-   * @fires Board#onDeleteClusters
    * @return {Array.<coordRune>} Координаты удаленных рун
    */
   deleteClusters () {
@@ -169,7 +168,6 @@ class Board {
   /**
    * Опускает руны на свободные места (все пустые руны поднимает наверх)
    * **! ВАЖНО** второй элемент в паре всегда пустая руна `coordRunes[1]`
-   * @fires Board#onDrop
    * @return {Array.Array.<coordRune>} Массив пар координат обмененых рун
    * @example
    * coordRunes = [
@@ -215,7 +213,7 @@ class Board {
   }
 
   /**
-   * todo filterComparisonType
+   * TODO filterComparisonType
    * **! ВАЖНО - ЭТО В РАЗРАБОТКЕ !**
    * Возвращает массив пар координат рун совпадающие/не совпадающих с типом основной руны
    * @param  {Boolean}      isFlag     TRUE - вернет координаты рун совпадающие с типом основной руны
@@ -234,7 +232,6 @@ class Board {
 
   /**
    * Возвращает все вертикальные и горизонтальные линии поля
-   * @fires Board#onFindClusters
    * @return {Array.<claster>} Массив линий (координаты рун)
    */
   findAllClusters () {
@@ -245,7 +242,8 @@ class Board {
   }
 
   /**
-   * Возвращает вертикальные и горизонтальные линии
+   * TODO доделать если нет передаваемого параметра
+   * Возвращает вертикальные и горизонтальные линии по координате руны
    * @param  {coordRune} coordRune Координаты руны
    * @return {Array.<claster>} Массив линий (координаты рун)
    */
@@ -270,6 +268,7 @@ class Board {
   }
 
   /**
+   * TODO доделать если нет передаваемого параметра
    * Возвращает горизонтальные линии
    * @param  {Number} i Номер строки
    * @param  {Number} j Номер столбца
@@ -289,6 +288,7 @@ class Board {
   }
 
   /**
+   * TODO доделать если нет передаваемого параметра
    * Возвращает вертикальные линии
    * @param  {Number} i Номер строки
    * @param  {Number} j Номер столбца
@@ -308,7 +308,7 @@ class Board {
   }
 
   /**
-   * todo findMoves
+   * TODO findMoves
    * **! ВАЖНО - ЭТО В РАЗРАБОТКЕ !**
    * Возвращает массив возможных ходов
    * 1 - Первая руна
@@ -339,7 +339,6 @@ class Board {
    * x o x
    *   2
    * ```
-   * @fires Board#onFindMoves
    * @return {Array.Array.<coordRune>} Массив пар координат рун для обмена
    */
   findMoves () {
@@ -410,8 +409,9 @@ class Board {
   }
 
   /**
+   * TODO создать безопастный способ генерации
+   * TODO добавить многоуровневую генерацию
    * Генерирует случайное поле
-   * @fires Board#onLoad
    * @param  {Boolean=} isClusters   Установите TRUE - что бы были допустимы линии при генерации
    * @param  {Number=}  minMoveCount Количество минимальныо возможных ходов (**при большом значении параметра возможен бесконечный цикл**)
    * @return {Array.<Rune>}          Копия игрового поля `board`
@@ -435,6 +435,7 @@ class Board {
   }
 
   /**
+   * TODO доделать если нет передаваемого параметра
    * Возвращает колонку поля
    * @param  {Number} index Номер колонки
    * @return {Array}
@@ -453,6 +454,7 @@ class Board {
   }
 
   /**
+   * TODO доделать если нет передаваемого параметра
    * Возвращает строку поля
    * @param  {Number} index Номер строки
    * @return {Array}
@@ -462,6 +464,7 @@ class Board {
   }
 
   /**
+   * TODO доделать если нет передаваемого параметра
    * Проверяет являются ли руны соседними по горизонтали и вертикали
    * Патерн:
    * ```
@@ -479,6 +482,7 @@ class Board {
   }
 
   /**
+   * TODO доделать если нет передаваемого параметра
    * Проверяет входят ли координаты в границы поля
    * @param  {...coordRune} coordRunes Координата руны
    * @return {Boolean} TRUE  - в поле
@@ -492,6 +496,7 @@ class Board {
   }
 
   /**
+   * TODO доделать если нет передаваемого параметра
    * Проверяет создает ли руна линию (проверяет по 2 руны сверху и слева)
    * Патерн:
    * ```
@@ -519,7 +524,6 @@ class Board {
 
   /**
    * Загружает сохраненное поле
-   * @fires Board#onLoad
    * @param  {Array.Number} savedBoard сохраненное поле
    * @return {Array.<Rune>} Копия игрового поля `board`
    */
@@ -542,7 +546,6 @@ class Board {
 
   /**
    * Пополняет поле, заменет пустые руны случайными рунами в пределах от 1 до `maxTypeGenerateRunes`
-   * @fires Board#onRefill
    * @return {Array.<coordAndTypeRune>} Координаты и тип новых рун
    */
   refill () {
@@ -559,6 +562,9 @@ class Board {
   }
 
   /**
+   * TODO доделать если нет передаваемого параметра
+   * TODO распологать похожие методы рядом
+   * TODO rename
    * Возвращает TRUE, если хотя бы один тип руны в массиве совпадает с типом основной руны
    * @param  {coordRune}    coordRune  Координата основной руны
    * @param  {...coordRune} coordRunes Координата проверямой руны
@@ -575,6 +581,7 @@ class Board {
   }
 
   /**
+   * TODO определить функционал методов swap и swapRune
    * Меняет местами руны
    * **! ВАЖНО** Используется только в пределах класса
    * @protected
@@ -590,10 +597,9 @@ class Board {
   }
 
   /**
+   * TODO определить функционал методов swap и swapRune
    * Меняет местами объекты руны
    * **! ВАЖНО** Для использования в пределах класса есть метод `swap`
-   * @fires Board#preSwap
-   * @fires Board#onSwap
    * @param  {coordRune} coordRuneOne Координата первой руны
    * @param  {coordRune} coordRuneTwo Координата второй руны
    * @return {Array.<coordRune>}      Координаты обмененых рун
