@@ -265,7 +265,7 @@ COMBAK - Мир игры
 
 ## COMBAK - Интерфейс
 [**RealTimeBoard** - interface](https://realtimeboard.com/app/board/o9J_k0DLCvk=/)  
-![Интерфейс](/media/interface/all.png)
+![Интерфейс](/media/interface.png)
 
 
 
