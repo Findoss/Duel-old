@@ -33,7 +33,7 @@ const Rune = require('./rune')
  */
 
 /**
- * Логическое представление игрового поля
+ * Логическое представление игрового поля (основная механика игры)
  * @class
  */
 class Board {
@@ -72,43 +72,70 @@ class Board {
     this.clusters = []
     /**
      * Объект содержащий количество разрушенных рун сортировка по типам руны
-     * @type {countRunes}
-     * TODO rename this.destroyedRunes
+     * @type {destroyedRunes}
      */
-    this.countRunes = {}
+    this.destroyedRunes = {}
+    /**
+     * Координаты выбранной руны
+     * @type {coordRune}
+     */
+    this.activeRune = {}
   }
 
-  /**
-   * Добавляет в объект `countRunes` количество удаленных рун
-   * @param  {Number} type Тип руны
-   * @return {countRunes} Объект содержащий количество удаленных рун сортировка по типам руны
-   * @example
-   * Object = {
-   *   1: 15, // 15 рун 1 типа
-   *   3: 3   // 3 руны 3 типа
-   *  }
+  /*
+  *
+  * Блок сравненией
+  *
    */
-  addCountTypesRune (type) {
-    if (this.countRunes[type] === undefined) {
-      this.countRunes[type] = 1
-    } else {
-      this.countRunes[type]++
-    }
-    return this.countRunes
-  }
-
   /**
-   * Проверяет совпадают ли координаты рун
+   * Выполняет сравнение между двумя координатами рун, чтобы определить, эквивалентны ли они.
    * @param  {coordRune} coordRuneOne Координата первой руны
    * @param  {coordRune} coordRuneTwo Координата второй руны
-   * @return {Boolean}
-   * TODO rename
+   * @return {Boolean} Возвращает, true если координаты эквивалентны, иначе false.
    */
-  areTheSame (coordRuneOne, coordRuneTwo) {
+  isEqualCoords (coordRuneOne, coordRuneTwo) {
     return (coordRuneOne.i === coordRuneTwo.i &&
             coordRuneOne.j === coordRuneTwo.j)
   }
 
+  /**
+  * Выполняет сравнение между двумя типами рун, чтобы определить, эквивалентны ли они.
+   * @param  {coordRune} coordRuneOne Координата первой руны
+   * @param  {coordRune} coordRuneTwo Координата второй руны
+   * @return {Boolean} Возвращает, true если типы эквивалентны, иначе false.
+   */
+  isEqualType (coordRuneOne, coordRuneTwo) {
+    if (this.isInRange(coordRuneOne, coordRuneTwo)) {
+      return (this.board[coordRuneOne.i][coordRuneOne.j].type === this.board[coordRuneTwo.i][coordRuneTwo.j].type)
+    }
+    return false
+  }
+
+  /**
+   * TODO грамотное описание ↓
+   * Добавляет в объект `countRunes` количество разрушенных рун
+   * @param  {Number} type Тип руны
+   * @return {countRunes} Возвращает, jбъект содержащий количество разрушенных рун сортировка по типам руны
+   * @example
+   * Object = {
+   *   1: 15, // 1 типа = 15 рун
+   *   3: 3   // 3 типа = 3 руны
+   *  }
+   */
+  addCountTypesDestroyedRunes (type) {
+    if (this.destroyedRunes[type] === undefined) {
+      this.destroyedRunes[type] = 1
+    } else {
+      this.destroyedRunes[type]++
+    }
+    return this.destroyedRunes
+  }
+
+  /*
+  *
+  * Блок очистки
+  *
+  */
   /**
    * Очищает массив `clusters`
    */
@@ -120,21 +147,7 @@ class Board {
    * Очищает объект `countRunes`
    */
   cleanCountRunes () {
-    this.countRunes = {}
-  }
-
-  /**
-   * Проверяет совпадают ли типы рун
-   * @param  {coordRune} coordRuneOne Координата первой руны
-   * @param  {coordRune} coordRuneTwo Координата второй руны
-   * @return {Boolean}
-   * TODO rename
-   */
-  comparisonType (coordRuneOne, coordRuneTwo) {
-    if (this.isInRange(coordRuneOne, coordRuneTwo)) {
-      return (this.board[coordRuneOne.i][coordRuneOne.j].type === this.board[coordRuneTwo.i][coordRuneTwo.j].type)
-    }
-    return false
+    this.destroyedRunes = {}
   }
 
   /**
@@ -155,14 +168,14 @@ class Board {
     for (let l = 0; l < this.clusters.length; l++) {
       for (let t = 0; t < this.clusters[l].length; t++) {
         if (this.board[this.clusters[l][t].i][this.clusters[l][t].j].type > 0) {
-          this.addCountTypesRune(this.board[this.clusters[l][t].i][this.clusters[l][t].j].type)
+          this.addCountTypesDestroyedRunes(this.board[this.clusters[l][t].i][this.clusters[l][t].j].type)
           coordRunes.push({i: this.clusters[l][t].i, j: this.clusters[l][t].j})
           this.board[this.clusters[l][t].i][this.clusters[l][t].j].newType(0)
         }
       }
     }
     this.cleanClusters()
-    return this.countRunes
+    return this.destroyedRunes
   }
 
   /**
@@ -202,10 +215,10 @@ class Board {
    * @param  {...coordRune} coordRunes Координата проверямой руны
    * @return {Boolean}
    */
-  everyComparisonType (coordRune, ...coordRunes) {
+  everyisEqualType (coordRune, ...coordRunes) {
     if (!this.isInRange(coordRunes)) return false
     for (let l = 0; l < coordRunes.length; l++) {
-      if (this.comparisonType(coordRune, coordRunes[l])) {
+      if (this.isEqualType(coordRune, coordRunes[l])) {
         return false
       }
     }
@@ -213,7 +226,7 @@ class Board {
   }
 
   /**
-   * TODO filterComparisonType
+   * TODO filterisEqualType
    * **! ВАЖНО - ЭТО В РАЗРАБОТКЕ !**
    * Возвращает массив пар координат рун совпадающие/не совпадающих с типом основной руны
    * @param  {Boolean}      isFlag     TRUE - вернет координаты рун совпадающие с типом основной руны
@@ -222,10 +235,10 @@ class Board {
    * @param  {...coordRune} coordRunes Координата проверямой руны
    * @return {Array.<coordRune>}       Массив пар координат совпадающих/не совпадающих рун
    */
-  filterComparisonType (isFlag, coordRune, ...coordRunes) {
+  filterisEqualType (isFlag, coordRune, ...coordRunes) {
     function filterByType (coordRuneX) {
       if (!this.isInRange(coordRune, coordRuneX)) return false
-      return (isFlag ^ this.comparisonType(coordRune, coordRuneX))
+      return (isFlag ^ this.isEqualType(coordRune, coordRuneX))
     }
     return coordRunes.filter(filterByType(), coordRune, isFlag)
   }
@@ -278,7 +291,7 @@ class Board {
     let cluster = []
     cluster.push({i: i, j: j})
     for (let l = 1; j + l < this.columns; l++) {
-      if (this.comparisonType(cluster[0], {i: i, j: j + l})) {
+      if (this.isEqualType(cluster[0], {i: i, j: j + l})) {
         cluster.push({i: i, j: j + l})
       } else {
         return cluster
@@ -298,7 +311,7 @@ class Board {
     let cluster = []
     cluster.push({i: i, j: j})
     for (let l = 1; i + l < this.rows; l++) {
-      if (this.comparisonType(cluster[0], {i: i + l, j: j})) {
+      if (this.isEqualType(cluster[0], {i: i + l, j: j})) {
         cluster.push({i: i + l, j: j})
       } else {
         return cluster
@@ -349,59 +362,59 @@ class Board {
         let coordRuneOne = {}
 
         let coordRuneTwo = {i: i, j: j + 1}
-        if (this.comparisonType(coordRuneStart, coordRuneTwo)) {
+        if (this.isEqualType(coordRuneStart, coordRuneTwo)) {
           coordRuneOne = {i: i, j: j + 2}
           coordRuneTwo = {i: i - 1, j: j + 2}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
+          if (this.isEqualType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
           coordRuneTwo = {i: i, j: j + 3}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
+          if (this.isEqualType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
           coordRuneTwo = {i: i + 1, j: j + 2}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
+          if (this.isEqualType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
 
           coordRuneOne = {i: i, j: j - 1}
           coordRuneTwo = {i: i - 1, j: j - 1}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
+          if (this.isEqualType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
           coordRuneTwo = {i: i, j: j - 2}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
+          if (this.isEqualType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
           coordRuneTwo = {i: i + 1, j: j - 1}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
+          if (this.isEqualType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
         }
 
         coordRuneTwo = {i: i + 1, j: j}
-        if (this.comparisonType(coordRuneStart, coordRuneTwo)) {
+        if (this.isEqualType(coordRuneStart, coordRuneTwo)) {
           coordRuneOne = {i: i + 2, j: j}
           coordRuneTwo = {i: i + 2, j: j - 1}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
+          if (this.isEqualType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
           coordRuneTwo = {i: i + 3, j: j}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
+          if (this.isEqualType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
           coordRuneTwo = {i: i + 2, j: j + 1}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
+          if (this.isEqualType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
 
           coordRuneOne = {i: i - 1, j: j}
           coordRuneTwo = {i: i - 1, j: j - 1}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
+          if (this.isEqualType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
           coordRuneTwo = {i: i - 2, j: j}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
+          if (this.isEqualType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
           coordRuneTwo = {i: i - 1, j: j + 1}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
+          if (this.isEqualType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
         }
 
         coordRuneTwo = {i: i, j: j + 2}
-        if (this.comparisonType(coordRuneStart, coordRuneTwo)) {
+        if (this.isEqualType(coordRuneStart, coordRuneTwo)) {
           coordRuneOne = {i: i, j: j + 1}
           coordRuneTwo = {i: i + 1, j: j + 1}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
+          if (this.isEqualType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
           coordRuneTwo = {i: i - 1, j: j + 1}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
+          if (this.isEqualType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
         }
 
         coordRuneTwo = {i: i + 2, j: j}
-        if (this.comparisonType(coordRuneStart, coordRuneTwo)) {
+        if (this.isEqualType(coordRuneStart, coordRuneTwo)) {
           coordRuneOne = {i: i + 1, j: j}
           coordRuneTwo = {i: i + 1, j: j - 1}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
+          if (this.isEqualType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
           coordRuneTwo = {i: i + 1, j: j + 1}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
+          if (this.isEqualType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
         }
       }
     }
@@ -510,12 +523,12 @@ class Board {
    */
   isRuneInCluster (i, j) {
     if (i > 1) {
-      if (!this.everyComparisonType({i, j}, {i: i - 1, j: j}, {i: i - 2, j: j})) {
+      if (!this.everyisEqualType({i, j}, {i: i - 1, j: j}, {i: i - 2, j: j})) {
         return true
       }
     }
     if (j > 1) {
-      if (!this.everyComparisonType({i, j}, {i: i, j: j - 1}, {i: i, j: j - 2})) {
+      if (!this.everyisEqualType({i, j}, {i: i, j: j - 1}, {i: i, j: j - 2})) {
         return true
       }
     }
@@ -570,10 +583,10 @@ class Board {
    * @param  {...coordRune} coordRunes Координата проверямой руны
    * @return {Boolean}
    */
-  someComparisonType (coordRune, ...coordRunes) {
+  someisEqualType (coordRune, ...coordRunes) {
     if (!this.isInRange(coordRunes)) return false
     for (let l = 0; l < coordRunes.length; l++) {
-      if (this.comparisonType(coordRune, coordRunes[l])) {
+      if (this.isEqualType(coordRune, coordRunes[l])) {
         return true
       }
     }
