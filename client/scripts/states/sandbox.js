@@ -6,6 +6,7 @@ class Sandbox extends Phaser.State {
     super()
     let view = {}
     let queue = {}
+    let activeRune = null
   }
 
   init () {
@@ -36,7 +37,7 @@ class Sandbox extends Phaser.State {
 
   create () {
     // рендер руки
-    let suggestion = this.game.add.sprite(100, 100, textureSuggestion.fileName)
+    // let suggestion = this.game.add.sprite(100, 100, textureSuggestion.fileName)
 
     //
     this.queue = new Queue()
@@ -46,7 +47,7 @@ class Sandbox extends Phaser.State {
     this.bindEvents()
 
     //
-    DEBUG.socket && socket.emit('game', 'generation')
+    socket.emit('game', 'generation')
   }
 
   update () {
@@ -63,5 +64,21 @@ class Sandbox extends Phaser.State {
       DEBUG.socket && console.log(newBoard)
       this.queue.add(this.view, 'renderBoard', true, newBoard)
     })
+  }
+
+  runeClick (pickRune, param, coordPickRune) {
+    socket.emit('game', 'pick', coordPickRune)
+  }
+
+  runeOver (rune) {
+    if (activeRune !== rune) {
+      rune.animations.play('focus', 1, true)
+    }
+  }
+
+  runeOut (rune) {
+    if (activeRune !== rune) {
+      rune.animations.play('wait', 4, true)
+    }
   }
 }

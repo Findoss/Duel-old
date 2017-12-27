@@ -19,13 +19,17 @@ io.on('connection', (socket) => {
     DEBUG.client && console.log('[→] log: ' + msg)
   })
 
-  socket.on('game', (cmd) => {
+  socket.on('game', (cmd, param) => {
     DEBUG.client && console.log('[→] game: ' + cmd)
     switch (cmd) {
       case 'generation':
         DEBUG.server && console.log('[.] generation board')
         DEBUG.server && console.log('[←] new board')
-        io.emit('generation', board.generation())
+        io.emit('generation', board.generation(true))
+        break
+      case 'pick':
+        DEBUG.server && console.log(param)
+        // io.emit('generation', board.generation())
         break
       default:
         DEBUG.server && console.log('err')

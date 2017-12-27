@@ -1,7 +1,7 @@
 const Rune = require('./rune')
 
 /**
- * @typedef  {Object} countRunes
+ * @typedef  {Object} destroyedRunes
  * @property {Number} type  Тип руны
  * @property {Number} count Количество рун
  * @example
@@ -82,11 +82,6 @@ class Board {
     this.activeRune = {}
   }
 
-  /*
-  *
-  * Блок сравненией
-  *
-   */
   /**
    * Выполняет сравнение между двумя координатами рун, чтобы определить, эквивалентны ли они.
    * @param  {coordRune} coordRuneOne Координата первой руны
@@ -99,7 +94,7 @@ class Board {
   }
 
   /**
-  * Выполняет сравнение между двумя типами рун, чтобы определить, эквивалентны ли они.
+   * Выполняет сравнение между двумя типами рун, чтобы определить, эквивалентны ли они.
    * @param  {coordRune} coordRuneOne Координата первой руны
    * @param  {coordRune} coordRuneTwo Координата второй руны
    * @return {Boolean} Возвращает, true если типы эквивалентны, иначе false.
@@ -112,10 +107,67 @@ class Board {
   }
 
   /**
+   * TODO выбрасывать ошибку ренжа
+   * Выполняет сравнение между типом основной руны и типом каждой руны в массиве, чтобы определить, эквивалентны ли они.
+   * @param  {coordRune}    coordRune  Координата основной руны
+   * @param  {...coordRune} coordRunes Координаты проверямых рун
+   * @return {Boolean} Возвращает, true если тип каждой руны в массиве эквивалентен типу основной руны, иначе false.
+   */
+  everyIsEqualType (coordRune, ...coordRunes) {
+    if (!this.isInRange(coordRunes)) return false
+    for (let i = 0; i < coordRunes.length; i++) {
+      if (!this.isEqualType(coordRune, coordRunes[i])) {
+        return false
+      }
+    }
+    return true
+  }
+
+  /**
+   * TODO доделать если нет передаваемого параметра
+   * Проверяет входят ли координата руны в границы поля
+   * @param  {...coordRune} coordRunes Координаты рун
+   * @return {Boolean} Возвращает true, если координата руны входит в границы поля, иначе false.
+   */
+  isInRange (...coordRunes) {
+    for (let l = 0; l < coordRunes.length; l++) {
+      if (coordRunes[l].i < 0 || coordRunes[l].i >= this.rows || coordRunes[l].j < 0 || coordRunes[l].j >= this.columns) return false
+    }
+    return true
+  }
+
+  /**
+   * TODO доделать если нет передаваемого параметра
+   * Проверяет создает ли руна линию (проверяет по 2 руны сверху и слева)
+   * Патерн:
+   * ```
+   *      x
+   *      x
+   *  x x 0
+   *  ```
+   * @param  {Number} i Номер строки
+   * @param  {Number} j Номер столбца
+   * @return {Boolean} Возвращает true, если руна создает линию, иначе false.
+   */
+  isRuneInCluster (i, j) {
+    if (i > 1) {
+      if (this.everyIsEqualType({i, j}, {i: i - 1, j: j}, {i: i - 2, j: j})) {
+        return true
+      }
+    }
+    if (j > 1) {
+      if (this.everyIsEqualType({i, j}, {i: i, j: j - 1}, {i: i, j: j - 2})) {
+        return true
+      }
+    }
+    return false
+  }
+
+  /**
    * TODO грамотное описание ↓
-   * Добавляет в объект `countRunes` количество разрушенных рун
+   * Добавляет в объект `destroyedRunes` количество разрушенных рун
    * @param  {Number} type Тип руны
-   * @return {countRunes} Возвращает, jбъект содержащий количество разрушенных рун сортировка по типам руны
+   * @return {destroyedRunes} Возвращает, объект содержащий количество разрушенных рун сортировка по типам руны
    * @example
    * Object = {
    *   1: 15, // 1 типа = 15 рун
@@ -144,44 +196,46 @@ class Board {
   }
 
   /**
-   * Очищает объект `countRunes`
+   * Очищает объект `destroyedRunes`
    */
-  cleanCountRunes () {
+  cleanDestroyedRunes () {
     this.destroyedRunes = {}
   }
 
   /**
-   * Очищает поле `board` и массив линий `clusters`
-   * **! ВАЖНО** не очищает количество удалленых рун `countRunes`
+   * Очищает объект `board` и массив линий `clusters`
+   * **! ВАЖНО** не очищает количество удалленых рун `destroyedRunes`
    */
-  deleteBoard () {
+  cleanBoard () {
     this.cleanClusters()
     this.board = []
   }
 
   /**
-   * Удаляет руны входящие в линию, после чего очищает массив  `clusters`
-   * @return {Array.<coordRune>} Координаты удаленных рун
+   * Разрушает руны (задает руне новый тип = 0) входящие в линию,
+   * количество разрушенных рун по типам добавляет в объект `destroyedRunes`,
+   * очищает массив `clusters`
+   * @return {Array.<coordRune>} Возвращает, массив координат разрушенных рун
    */
   deleteClusters () {
-    let coordRunes = []
+    let coordDestroyedRunes = []
     for (let l = 0; l < this.clusters.length; l++) {
       for (let t = 0; t < this.clusters[l].length; t++) {
         if (this.board[this.clusters[l][t].i][this.clusters[l][t].j].type > 0) {
           this.addCountTypesDestroyedRunes(this.board[this.clusters[l][t].i][this.clusters[l][t].j].type)
-          coordRunes.push({i: this.clusters[l][t].i, j: this.clusters[l][t].j})
+          coordDestroyedRunes.push({i: this.clusters[l][t].i, j: this.clusters[l][t].j})
           this.board[this.clusters[l][t].i][this.clusters[l][t].j].newType(0)
         }
       }
     }
     this.cleanClusters()
-    return this.destroyedRunes
+    return this.coordDestroyedRunes
   }
 
   /**
-   * Опускает руны на свободные места (все пустые руны поднимает наверх)
-   * **! ВАЖНО** второй элемент в паре всегда пустая руна `coordRunes[1]`
-   * @return {Array.Array.<coordRune>} Массив пар координат обмененых рун
+   * Опускает руны на места разрушенных рун (все разрушенные руны поднимает наверх)
+   * **! ВАЖНО** второй элемент (`coordRunes[1]`) в паре всегда разрушенная руна
+   * @return {Array.Array.<coordRune>} Возвращает, массив пар координат обмененых рун
    * @example
    * coordRunes = [
    *   [{i: 1, j: 3}, {i: 2, j: 3}],
@@ -210,42 +264,8 @@ class Board {
   }
 
   /**
-   * Возвращает TRUE, если тип каждой руны в массиве совпадает с типом основной руны
-   * @param  {coordRune}    coordRune  Координата основной руны
-   * @param  {...coordRune} coordRunes Координата проверямой руны
-   * @return {Boolean}
-   */
-  everyisEqualType (coordRune, ...coordRunes) {
-    if (!this.isInRange(coordRunes)) return false
-    for (let l = 0; l < coordRunes.length; l++) {
-      if (this.isEqualType(coordRune, coordRunes[l])) {
-        return false
-      }
-    }
-    return true
-  }
-
-  /**
-   * TODO filterisEqualType
-   * **! ВАЖНО - ЭТО В РАЗРАБОТКЕ !**
-   * Возвращает массив пар координат рун совпадающие/не совпадающих с типом основной руны
-   * @param  {Boolean}      isFlag     TRUE - вернет координаты рун совпадающие с типом основной руны
-   *                                   FALSE - вернет координаты рун НЕ совпадающие с типом основной руны
-   * @param  {coordRune}    coordRune  Координата основной руны
-   * @param  {...coordRune} coordRunes Координата проверямой руны
-   * @return {Array.<coordRune>}       Массив пар координат совпадающих/не совпадающих рун
-   */
-  filterisEqualType (isFlag, coordRune, ...coordRunes) {
-    function filterByType (coordRuneX) {
-      if (!this.isInRange(coordRune, coordRuneX)) return false
-      return (isFlag ^ this.isEqualType(coordRune, coordRuneX))
-    }
-    return coordRunes.filter(filterByType(), coordRune, isFlag)
-  }
-
-  /**
-   * Возвращает все вертикальные и горизонтальные линии поля
-   * @return {Array.<claster>} Массив линий (координаты рун)
+   * Проверяет поле на наличие вертикальных и горизонтальных линий
+   * @return {Array.<claster>} Возвращает, массив координат рун (`this.clusters`), иначе пустой массив.
    */
   findAllClusters () {
     for (let l = 0; l < this.rows; l++) {
@@ -256,9 +276,9 @@ class Board {
 
   /**
    * TODO доделать если нет передаваемого параметра
-   * Возвращает вертикальные и горизонтальные линии по координате руны
+   * Проверяет по координате руны на наличие вертикальных и горизонтальных линий
    * @param  {coordRune} coordRune Координаты руны
-   * @return {Array.<claster>} Массив линий (координаты рун)
+   * @return {Array.<claster>} Возвращает, массив координат рун (`this.clusters`).
    */
   findClusters (coordRune) {
     // по горизонтали
@@ -282,10 +302,10 @@ class Board {
 
   /**
    * TODO доделать если нет передаваемого параметра
-   * Возвращает горизонтальные линии
+   * Проверяет по координате руны на наличие горизонтальных линий
    * @param  {Number} i Номер строки
    * @param  {Number} j Номер столбца
-   * @return {Array.<claster>} Массив линий (координаты рун)
+   * @return {Array.<claster>} Возвращает, массив координат рун (линии), иначе пустой массив.
    */
   findHorizontalClusters (i, j) {
     let cluster = []
@@ -302,10 +322,10 @@ class Board {
 
   /**
    * TODO доделать если нет передаваемого параметра
-   * Возвращает вертикальные линии
+   * Проверяет по координате руны на наличие вертикальных линий
    * @param  {Number} i Номер строки
    * @param  {Number} j Номер столбца
-   * @return {Array.<claster>} Массив линий (координаты рун)
+   * @return {Array.<claster>} Возвращает, массив координат рун (линии), иначе пустой массив.
    */
   findVerticalClusters (i, j) {
     let cluster = []
@@ -321,8 +341,7 @@ class Board {
   }
 
   /**
-   * TODO findMoves
-   * **! ВАЖНО - ЭТО В РАЗРАБОТКЕ !**
+   * TODO **! ВАЖНО - ЭТО В РАЗРАБОТКЕ !, не оптимально !!!**
    * Возвращает массив возможных ходов
    * 1 - Первая руна
    * 2 - Вторая руна
@@ -438,7 +457,7 @@ class Board {
           do {
             this.board[i][j].newRandomType(this.maxTypeGenerateRunes)
           }
-          while (this.isRuneInCluster(i, j) && !isClusters)
+          while (this.isRuneInCluster(i, j) && isClusters)
         }
       }
     }
@@ -495,47 +514,6 @@ class Board {
   }
 
   /**
-   * TODO доделать если нет передаваемого параметра
-   * Проверяет входят ли координаты в границы поля
-   * @param  {...coordRune} coordRunes Координата руны
-   * @return {Boolean} TRUE  - в поле
-   *                   FALSE - за полем
-   */
-  isInRange (...coordRunes) {
-    for (let l = 0; l < coordRunes.length; l++) {
-      if (coordRunes[l].i < 0 || coordRunes[l].i >= this.rows || coordRunes[l].j < 0 || coordRunes[l].j >= this.columns) return false
-    }
-    return true
-  }
-
-  /**
-   * TODO доделать если нет передаваемого параметра
-   * Проверяет создает ли руна линию (проверяет по 2 руны сверху и слева)
-   * Патерн:
-   * ```
-   *      x
-   *      x
-   *  x x 0
-   *  ```
-   * @param  {Number} i Номер строки
-   * @param  {Number} j Номер столбца
-   * @return {Boolean}
-   */
-  isRuneInCluster (i, j) {
-    if (i > 1) {
-      if (!this.everyisEqualType({i, j}, {i: i - 1, j: j}, {i: i - 2, j: j})) {
-        return true
-      }
-    }
-    if (j > 1) {
-      if (!this.everyisEqualType({i, j}, {i: i, j: j - 1}, {i: i, j: j - 2})) {
-        return true
-      }
-    }
-    return false
-  }
-
-  /**
    * Загружает сохраненное поле
    * @param  {Array.Number} savedBoard сохраненное поле
    * @return {Array.<Rune>} Копия игрового поля `board`
@@ -572,25 +550,6 @@ class Board {
       }
     }
     return newRunes
-  }
-
-  /**
-   * TODO доделать если нет передаваемого параметра
-   * TODO распологать похожие методы рядом
-   * TODO rename
-   * Возвращает TRUE, если хотя бы один тип руны в массиве совпадает с типом основной руны
-   * @param  {coordRune}    coordRune  Координата основной руны
-   * @param  {...coordRune} coordRunes Координата проверямой руны
-   * @return {Boolean}
-   */
-  someisEqualType (coordRune, ...coordRunes) {
-    if (!this.isInRange(coordRunes)) return false
-    for (let l = 0; l < coordRunes.length; l++) {
-      if (this.isEqualType(coordRune, coordRunes[l])) {
-        return true
-      }
-    }
-    return false
   }
 
   /**

@@ -14,10 +14,10 @@ class Rune {
      */
     this.type = type
     /**
-     * Предыдущий тип руны
+     * Предыдущие типы руны
      * @type {Number}
      */
-    this.oldType = 0
+    this.oldTypes = [0]
   }
 
   /**
@@ -26,7 +26,7 @@ class Rune {
    * @return {Number} Тип руны
    */
   newRandomType (maxCountType) {
-    this.oldType = this.type
+    this.oldTypes.push(this.type)
     this.type = Math.floor(Math.random() * (maxCountType)) + 1
     return this.type
   }
@@ -36,7 +36,7 @@ class Rune {
    * @param  {Number} type Тип руны
    */
   newType (type) {
-    this.oldType = this.type
+    this.oldTypes.push(this.type)
     this.type = type
   }
 }
