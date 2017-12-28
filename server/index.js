@@ -25,7 +25,7 @@ io.on('connection', (socket) => {
       case 'generation':
         DEBUG.server && console.log('[.] generation board')
         DEBUG.server && console.log('[←] new board')
-        io.emit('generation', board.generation(true))
+        io.emit('generation', board.generation())
         break
       case 'pick':
         DEBUG.server && console.log(param)

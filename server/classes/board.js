@@ -1,7 +1,7 @@
 const Rune = require('./rune')
 
 /**
- * @typedef  {Object} destroyedRunes
+ * @typedef  {Object} destroyedRuness
  * @property {Number} type  Тип руны
  * @property {Number} count Количество рун
  * @example
@@ -442,23 +442,116 @@ class Board {
 
   /**
    * TODO создать безопастный способ генерации
-   * TODO добавить многоуровневую генерацию
+   * TODO добавить шанс генерации руны
+   * REVIEW соз
+   * runesCFG
    * Генерирует случайное поле
-   * @param  {Boolean=} isClusters   Установите TRUE - что бы были допустимы линии при генерации
-   * @param  {Number=}  minMoveCount Количество минимальныо возможных ходов (**при большом значении параметра возможен бесконечный цикл**)
+   * Метод Math.floor() возвращает наибольшее целое число, меньшее, либо равное указанному числу.
+   *
+   * Метод Math.round() возвращает число, округлённое к ближайшему целому.
+   * Если дробная часть числа больше, либо равна 0,5, аргумент будет округлён до ближайшего большего целого. Если дробная часть числа меньше 0,5, аргумент будет округлён до ближайшего меньшего целого.
+   * @param  {Boolean=} isClusters   true - допустимы линии при генерации
+   *                                 false - генерация без линий
+   * @param  {Number=}  minMoveCount Количество минимальныо возможных ходов
    * @return {Array.<Rune>}          Копия игрового поля `board`
    */
   generation (isClusters = false, minMoveCount = 3) {
+    const runesCFG = [
+      {
+        chance: 50,
+        region: {
+          start: {i: 0, j: 0},
+          end: {i: 100, j: 100}
+        }
+      },
+      {
+        chance: 50,
+        region: {
+          start: {i: 0, j: 0},
+          end: {i: 100, j: 100}
+        }
+      },
+      {
+        chance: 80,
+        region: {
+          start: {i: 0, j: 0},
+          end: {i: 100, j: 100}
+        }
+      },
+      {
+        chance: 80,
+        region: {
+          start: {i: 0, j: 0},
+          end: {i: 100, j: 100}
+        }
+      },
+      {
+        chance: 80,
+        region: {  // 2
+          start: {i: 0, j: 0},
+          end: {i: 100, j: 100}
+        }
+      },
+      {
+        chance: 5,
+        region: {  // 5
+          start: {i: 33, j: 33},
+          end: {i: 66, j: 66}
+        }
+      }
+    ]
+
     do {
+      let countTypeRunes = {}
+      for (let i = 0; i < runesCFG.length; i++) countTypeRunes[i + 1] = 0
+
       for (let i = 0; i < this.rows; i++) {
         this.board[i] = []
         for (let j = 0; j < this.columns; j++) {
-          this.board[i][j] = new Rune(0)
-          do {
-            this.board[i][j].newRandomType(this.maxTypeGenerateRunes)
+          let random = {type: 0}
+          do { // не созает линию
+            // console.log(1)
+            let isLimit = false
+            do { // лимиты
+              // console.log(2)
+              let isRegion = false
+              do { // регион
+                random.type = Math.floor(Math.random() * (runesCFG.length)) + 1
+                // console.log(Math.round(this.rows / 100 * runesCFG[random.type - 1].region.start.i))
+
+                if (i >= Math.round(this.rows / 100 * runesCFG[random.type - 1].region.start.i) &&
+                    j >= Math.round(this.columns / 100 * runesCFG[random.type - 1].region.start.j) &&
+                    i <= Math.round(this.rows / 100 * runesCFG[random.type - 1].region.end.i) &&
+                    j <= Math.round(this.columns / 100 * runesCFG[random.type - 1].region.end.j)
+                   ) {
+                  isRegion = true
+                }
+              }
+              while (!isRegion)
+              if (countTypeRunes[random.type] + 1 < Math.round((this.columns * this.rows) / 100 * runesCFG[random.type - 1].chance)) {
+                isLimit = true
+              }
+            }
+            while (!isLimit)
+
+            this.board[i][j] = random
           }
-          while (this.isRuneInCluster(i, j) && isClusters)
+          while (this.isRuneInCluster(i, j) && !isClusters)
+
+          // добавляем в копилку
+          if (countTypeRunes[random.type] === undefined) {
+            countTypeRunes[random.type] = 1
+          } else {
+            countTypeRunes[random.type]++
+          }
+
+          // это настоящая руна руна для генерации
+          this.board[i][j] = new Rune(random.type)
         }
+      }
+      console.log(countTypeRunes)
+      for (var i = 0; i < runesCFG.length; i++) {
+        countTypeRunes[i] = 0
       }
     }
     while (this.findMoves() < minMoveCount)

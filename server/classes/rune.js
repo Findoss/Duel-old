@@ -17,18 +17,7 @@ class Rune {
      * Предыдущие типы руны
      * @type {Number}
      */
-    this.oldTypes = [0]
-  }
-
-  /**
-   * Устанавливает случайный новый тип руны (от 1 до `maxCountType`)
-   * @param  {Number} maxCountType Максимальный допустимый тип руны
-   * @return {Number} Тип руны
-   */
-  newRandomType (maxCountType) {
-    this.oldTypes.push(this.type)
-    this.type = Math.floor(Math.random() * (maxCountType)) + 1
-    return this.type
+    this.oldTypes = [type]
   }
 
   /**
