@@ -4,7 +4,6 @@ const keyCFG = '123456'
 const seedRandom = require('seedrandom')(keyCFG)
 const runesCFG = require('../configs/runes')
 
-
 /**
  * @typedef  {Object} destroyedRuness
  * @property {Number} type  Тип руны
@@ -461,6 +460,7 @@ class Board {
   /**
    * TODO создать безопастный способ генерации
    * TODO добавить шанс генерации руны
+   * TODO добавить seedRandom
    * Генерирует случайное поле
    * REVIEW Метод Math.floor() возвращает наибольшее целое число, меньшее, либо равное указанному числу.
    * REVIEW Метод Math.round() возвращает число, округлённое к ближайшему целому.
@@ -472,8 +472,6 @@ class Board {
    * @return {Array.<Rune>}          Копия игрового поля `board`
    */
   generation (isClusters = false, minMoveCount = 3) {
-    console.log(seedRandom())
-    console.log(seedRandom())
     do {
       let countTypeRunes = {}
       for (let i = 0; i < runesCFG.length; i++) countTypeRunes[i + 1] = 0
