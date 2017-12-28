@@ -137,8 +137,8 @@ class View {
    */
   initRune (i, j, type) {
     let rune = this.linkGame.add.sprite(this.posXRune(j), this.posYRune(i) * -1, this.configSpriteRune.fileName + type)
-    rune.width = this.configSpriteRune.size.width
-    rune.height = this.configSpriteRune.size.height
+    rune.width = this.configSpriteRune.size.width - 50
+    rune.height = this.configSpriteRune.size.height - 50
     rune.inputEnabled = false
     rune.anchor.set(0.5)
     if (this.configSpriteRune.animations !== undefined) {
@@ -161,7 +161,7 @@ class View {
    * @return {Number}
    */
   posXRune (j) {
-    return j * (this.configSpriteRune.size.width + this.marginRune) + this.marginBoardX
+    return j * (this.configSpriteRune.size.width - 50 + this.marginRune) + this.marginBoardX
   }
 
   /**
@@ -171,7 +171,7 @@ class View {
    * @return {Number}
    */
   posYRune (i) {
-    return i * (this.configSpriteRune.size.height + this.marginRune) + this.marginBoardY
+    return i * (this.configSpriteRune.size.height - 50 + this.marginRune) + this.marginBoardY
   }
 
   /**
