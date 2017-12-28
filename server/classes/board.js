@@ -1,4 +1,5 @@
 const Rune = require('./rune')
+const runesCFG = require('../configs/runes')
 
 /**
  * @typedef  {Object} destroyedRuness
@@ -183,11 +184,24 @@ class Board {
     return this.destroyedRunes
   }
 
-  /*
-  *
-  * Блок очистки
-  *
-  */
+  /**
+   * TODO доделать если нет передаваемого параметра
+   * Проверяет являются ли руны соседними по горизонтали и вертикали
+   * Патерн:
+   * ```
+   *     x
+   *   x 0 x
+   *     x
+   * ```
+   * @param  {coordRune} coordRuneOne Координата первой руны
+   * @param  {coordRune} coordRuneTwo Координата второй руны
+   * @return {Boolean}
+   */
+  isAdjacentRune (coordRuneOne, coordRuneTwo) {
+    return (Math.abs(coordRuneTwo.i - coordRuneOne.i) === 1 && Math.abs(coordRuneTwo.j - coordRuneOne.j) === 0) ||
+           (Math.abs(coordRuneTwo.i - coordRuneOne.i) === 0 && Math.abs(coordRuneTwo.j - coordRuneOne.j) === 1)
+  }
+
   /**
    * Очищает массив `clusters`
    */
@@ -443,64 +457,17 @@ class Board {
   /**
    * TODO создать безопастный способ генерации
    * TODO добавить шанс генерации руны
-   * REVIEW соз
-   * runesCFG
    * Генерирует случайное поле
-   * Метод Math.floor() возвращает наибольшее целое число, меньшее, либо равное указанному числу.
+   * REVIEW Метод Math.floor() возвращает наибольшее целое число, меньшее, либо равное указанному числу.
+   * REVIEW Метод Math.round() возвращает число, округлённое к ближайшему целому.
+   * REVIEW Если дробная часть числа больше, либо равна 0,5, аргумент будет округлён до ближайшего большего целого. Если дробная часть числа меньше 0,5, аргумент будет округлён до ближайшего меньшего целого.
    *
-   * Метод Math.round() возвращает число, округлённое к ближайшему целому.
-   * Если дробная часть числа больше, либо равна 0,5, аргумент будет округлён до ближайшего большего целого. Если дробная часть числа меньше 0,5, аргумент будет округлён до ближайшего меньшего целого.
    * @param  {Boolean=} isClusters   true - допустимы линии при генерации
    *                                 false - генерация без линий
    * @param  {Number=}  minMoveCount Количество минимальныо возможных ходов
    * @return {Array.<Rune>}          Копия игрового поля `board`
    */
   generation (isClusters = false, minMoveCount = 3) {
-    const runesCFG = [
-      {
-        chance: 50,
-        region: {
-          start: {i: 0, j: 0},
-          end: {i: 100, j: 100}
-        }
-      },
-      {
-        chance: 50,
-        region: {
-          start: {i: 0, j: 0},
-          end: {i: 100, j: 100}
-        }
-      },
-      {
-        chance: 80,
-        region: {
-          start: {i: 0, j: 0},
-          end: {i: 100, j: 100}
-        }
-      },
-      {
-        chance: 80,
-        region: {
-          start: {i: 0, j: 0},
-          end: {i: 100, j: 100}
-        }
-      },
-      {
-        chance: 80,
-        region: {  // 2
-          start: {i: 0, j: 0},
-          end: {i: 100, j: 100}
-        }
-      },
-      {
-        chance: 5,
-        region: {  // 5
-          start: {i: 33, j: 33},
-          end: {i: 66, j: 66}
-        }
-      }
-    ]
-
     do {
       let countTypeRunes = {}
       for (let i = 0; i < runesCFG.length; i++) countTypeRunes[i + 1] = 0
@@ -586,24 +553,6 @@ class Board {
    */
   getRow (index) {
     return this.board[index]
-  }
-
-  /**
-   * TODO доделать если нет передаваемого параметра
-   * Проверяет являются ли руны соседними по горизонтали и вертикали
-   * Патерн:
-   * ```
-   *     x
-   *   x 0 x
-   *     x
-   * ```
-   * @param  {coordRune} coordRuneOne Координата первой руны
-   * @param  {coordRune} coordRuneTwo Координата второй руны
-   * @return {Boolean}
-   */
-  isAdjacentRune (coordRuneOne, coordRuneTwo) {
-    return (Math.abs(coordRuneTwo.i - coordRuneOne.i) === 1 && Math.abs(coordRuneTwo.j - coordRuneOne.j) === 0) ||
-           (Math.abs(coordRuneTwo.i - coordRuneOne.i) === 0 && Math.abs(coordRuneTwo.j - coordRuneOne.j) === 1)
   }
 
   /**
