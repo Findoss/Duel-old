@@ -1,5 +1,9 @@
 const Rune = require('./rune')
+
+const keyCFG = '123456'
+const seedRandom = require('seedrandom')(keyCFG)
 const runesCFG = require('../configs/runes')
+
 
 /**
  * @typedef  {Object} destroyedRuness
@@ -468,6 +472,8 @@ class Board {
    * @return {Array.<Rune>}          Копия игрового поля `board`
    */
   generation (isClusters = false, minMoveCount = 3) {
+    console.log(seedRandom())
+    console.log(seedRandom())
     do {
       let countTypeRunes = {}
       for (let i = 0; i < runesCFG.length; i++) countTypeRunes[i + 1] = 0
@@ -483,7 +489,9 @@ class Board {
               // console.log(2)
               let isRegion = false
               do { // регион
-                random.type = Math.floor(Math.random() * (runesCFG.length)) + 1
+                /* Math.random() */
+
+                random.type = Math.floor(seedRandom() * (runesCFG.length)) + 1
                 // console.log(Math.round(this.rows / 100 * runesCFG[random.type - 1].region.start.i))
 
                 if (i >= Math.round(this.rows / 100 * runesCFG[random.type - 1].region.start.i) &&
