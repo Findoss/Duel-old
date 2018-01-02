@@ -46,7 +46,7 @@ class Board {
   constructor (runes, rows = 6, columns = 6) {
     /**
      * Список генерируемых рун
-     * @type {Array.TODO}
+     * @type {Array.<runes>}
      */
     this.runes = runes
     /**
