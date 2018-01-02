@@ -32,7 +32,7 @@ io.on('connection', (socket) => {
 
   socket.on('game', (cmd, param) => {
     DEBUG.client && console.log('[→] game: ' + cmd)
-    DEBUG.server && console.log('[-] agrs: ' + param)
+    DEBUG.server && console.log(param)
     switch (cmd) {
       case 'load':
         DEBUG.server && console.log('[.] load board')
