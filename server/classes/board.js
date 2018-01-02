@@ -6,16 +6,16 @@
  * Object = {i:0, j:3}
  */
 
- /**
-  * @typedef  {Object} region
-  * @property {coord}  start Верхняя левая точка региона
-  * @property {coord}  end   Нижняя правая точка региона
-  * @example
-  * Object = {
-      start: {i: 0, j: 0},
-      end:   {i: 100, j: 100}
-    }
-  */
+/**
+ * @typedef  {Object} region
+ * @property {coord}  start Верхняя левая точка региона
+ * @property {coord}  end   Нижняя правая точка региона
+ * @example
+ * Object = {
+     start: {i: 0, j: 0},
+     end:   {i: 100, j: 100}
+   }
+ */
 
 /**
  * @typedef  {Object} rune
