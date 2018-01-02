@@ -3,6 +3,7 @@ var app = require('express')
 var http = require('http').Server(app)
 var io = require('socket.io')(http)
 
+// del on
 const testBoard5 = [
 [1, 1, 2, 5, 2, 3],
 [1, 2, 4, 4, 5, 5],
@@ -10,6 +11,7 @@ const testBoard5 = [
 [1, 2, 3, 2, 1, 2],
 [2, 5, 5, 3, 2, 5],
 [3, 3, 4, 4, 2, 3]]
+// del off
 
 // configs
 const runes = require('./configs/runes')
