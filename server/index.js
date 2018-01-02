@@ -11,14 +11,14 @@ const testBoard5 = [
 [2, 5, 5, 3, 2, 5],
 [3, 3, 4, 4, 2, 3]]
 
-// cfg
-const runesCFG = require('./configs/runes')
+// configs
+const runes = require('./configs/runes')
 
 // classes
 const Board = require('./classes/board')
 const DEBUG = require('./configs/debug')
 
-const board = new Board(runesCFG)
+const board = new Board(runes)
 
 console.log('DEBUG.client: ' + DEBUG.client)
 console.log('DEBUG.server: ' + DEBUG.server)

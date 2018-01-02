@@ -8,8 +8,8 @@
 
  /**
   * @typedef  {Object} region
-  * @property {coord} start Верхняя левая точка региона
-  * @property {coord} end   Нижняя правая точка региона
+  * @property {coord}  start Верхняя левая точка региона
+  * @property {coord}  end   Нижняя правая точка региона
   * @example
   * Object = {
       start: {i: 0, j: 0},
@@ -59,7 +59,6 @@ class Board {
      * @type {Number}
      */
     this.columns = columns
-
     /**
      * Поле
      * @type {Array.Number}
@@ -70,7 +69,7 @@ class Board {
   /**
    * Загружает сохраненное поле
    * @param  {Array.Number} savedBoard сохраненное поле
-   * @return {Array.Number} Копия игрового поля `board`
+   * @return {Array.Number} игровое поле `this.board`
    */
   loadBoard (savedBoard) {
     this.board = []
