@@ -37,7 +37,7 @@ io.on('connection', (socket) => {
       case 'load':
         DEBUG.server && console.log('[.] load board')
         DEBUG.server && console.log('[←] board')
-        io.emit('generation', board.loadBoard(testBoard5))
+        io.emit('load', board.loadBoard(testBoard5))
         break
       case 'todo':
         // todo
