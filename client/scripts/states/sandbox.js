@@ -47,7 +47,7 @@ class Sandbox extends Phaser.State {
     this.bindEvents()
 
     //
-    socket.emit('game', 'generation')
+    socket.emit('game', 'load', 'testBoard5')
   }
 
   update () {
@@ -63,6 +63,11 @@ class Sandbox extends Phaser.State {
     socket.on('generation', (newBoard) => {
       DEBUG.socket && console.log(newBoard)
       this.queue.add(this.view, 'renderBoard', true, newBoard)
+    })
+
+    socket.on('load', (board) => {
+      DEBUG.socket && console.log(board)
+      this.queue.add(this.view, 'renderBoard', true, board)
     })
   }
 

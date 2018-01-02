@@ -199,7 +199,7 @@ class View {
     for (let i = board.length - 1; i >= 0; i--) {
       this.board[i] = []
       for (let j = board[i].length - 1; j >= 0; j--) {
-        lastTween = this.renderRunes([{i, j, type: board[i][j].type}], 100, (80 * (board.length - i + 1)) + j * -10)
+        lastTween = this.renderRunes([{i, j, type: board[i][j]}], 100, (80 * (board.length - i + 1)) + j * -10)
       }
     }
     lastTween.onComplete.add(() => {
