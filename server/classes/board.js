@@ -1,4 +1,4 @@
-const seedRandom = require('seedrandom')
+const SeedRandom = require('seedrandom')
 
 /**
  * @typedef  {Object} coord Координата
@@ -21,11 +21,11 @@ const seedRandom = require('seedrandom')
 
 /**
  * @typedef  {Object} rune   Конфигурация руны
- * @property {Number} chance Максимальный процент количества рун на поле от общего числа
+ * @property {Number} limit Максимальный процент количества рун на поле от общего числа
  * @property {region} region Допустимые границы генерации руны
  * @example
  * Object = {
-     chance: 15,
+     limit: 15,
      region: {
        start: {i: 0, j: 0},
        end:   {i: 100, j: 100}
@@ -97,10 +97,10 @@ class Board {
      */
     this.clusters = []
     /**
-     * TODO
-     * @type {String}
+     * Функция для генерации псевдослучайных чисел
+     * @type {Function}
      */
-    this.generationKey = generationKey
+    this.seedRandom = SeedRandom(generationKey)
   }
 
   /**
@@ -134,6 +134,14 @@ class Board {
   pickActiveRune (coord) {
     this.activeRune = coord
     return this.activeRune
+  }
+
+  /**
+   * Проверяет есть ли активная руна
+   * @return {Boolean} Возвращает, true если есть активная руна, иначе false.
+   */
+  isActiveRune () {
+    return this.activeRune !== null
   }
 
   /**
@@ -255,7 +263,7 @@ class Board {
   }
 
   /**
-   * Разрушает руны (задает руне новый тип = 0) входящие в линию, количество разрушенных рун по типам добавляет в объект `destroyedRunes`,
+   * Разрушает руны (задает руне новый тип = -1) входящие в линию, количество разрушенных рун по типам добавляет в объект `destroyedRunes`,
    * очищает массив `clusters`
    * @return {Array.<coord>} Возвращает, массив координат разрушенных рун
    */
@@ -263,9 +271,9 @@ class Board {
     let coordDestroyedRunes = []
     for (let l = 0; l < this.clusters.length; l++) {
       for (let t = 0; t < this.clusters[l].length; t++) {
-        if (this.board[this.clusters[l][t].i][this.clusters[l][t].j] > 0) {
+        if (this.board[this.clusters[l][t].i][this.clusters[l][t].j] > -1) {
           coordDestroyedRunes.push({i: this.clusters[l][t].i, j: this.clusters[l][t].j})
-          this.board[this.clusters[l][t].i][this.clusters[l][t].j] = 0
+          this.board[this.clusters[l][t].i][this.clusters[l][t].j] = -1
         }
       }
     }
@@ -289,11 +297,11 @@ class Board {
       let firstEmpty = null
       for (let i = this.rows - 1; i >= 0; i--) {
         if (firstEmpty === null) {
-          if (this.board[i][j] === 0) {
+          if (this.board[i][j] === -1) {
             firstEmpty = i
           }
         } else {
-          if (this.board[i][j] > 0) {
+          if (this.board[i][j] > -1) {
             this.swap({i, j}, {i: firstEmpty, j: j})
             coordDropedRunes.push([{i, j}, {i: firstEmpty, j: j}])
             firstEmpty--
@@ -304,43 +312,89 @@ class Board {
     return coordDropedRunes
   }
 
-  // TODO !!!
-  generationRune (i, j) {
-    let isRegion = false
-    let random = 0
-    console.log(this.runes)
-    do {
-      /* Math.random() */
-      random = Math.floor(seedRandom(this.generationKey) * (this.runes.length)) + 1
-      console.log(random - 1)
-
-      if (i >= Math.round(this.rows / 100 * this.runes[random - 1].region.start.i) &&
-          j >= Math.round(this.columns / 100 * this.runes[random - 1].region.start.j) &&
-          i <= Math.round(this.rows / 100 * this.runes[random - 1].region.end.i) &&
-          j <= Math.round(this.columns / 100 * this.runes[random - 1].region.end.j)
-         ) {
-        isRegion = true
-      }
-    } while (!isRegion)
-    return random
+  /**
+   * Проверяет есть ли линии
+   * @return {Boolean} Возвращает, true если есть линии, иначе false.
+   */
+  isClusters () {
+    return this.clusters.length > 0
   }
 
   /**
-   * Пополняет поле, заменет пустые руны случайными рунами в пределах от 1 до `maxTypeGenerateRunes`
+   * Проверяет поле на наличие вертикальных и горизонтальных линий
+   * @return {Array.<claster>} Возвращает, массив координат рун `this.clusters`, иначе пустой массив.
+   */
+  findAllClusters () {
+    for (let l = 0; l < this.rows; l++) {
+      this.findClusters({i: l, j: l})
+    }
+    return this.clusters
+  }
+
+  /**
+   * TODO что если нет возможных ходов ?
+   * TODO контроль генерации
+   * Пополняет поле, заменет пустые руны случайными рунами с учетом их шанса и региона
    * @return {Array.<coordAndType>} Возвращает, массив координаты и тип новых рун
    */
   refill () {
     let newRunes = []
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.columns; j++) {
-        if (this.board[i][j] === 0) {
+        if (this.board[i][j] === -1) {
           this.board[i][j] = this.generationRune(i, j)
-          newRunes.push({i, j, type: 1})
+          newRunes.push({i, j, type: this.board[i][j]})
         }
       }
     }
     return newRunes
   }
+
+  // coinToss() {
+  //   return (Math.floor(Math.random() * 2) === 0);
+  // }
+
+  /**
+   * TODO !!!
+   * @param   {todo} i
+   * @param   {todo} j
+   * @return  {todo}
+   */
+  generationRune (i, j) {
+    let randomType = -1
+    do {
+      randomType = Math.floor(this.seedRandom() * (this.runes.length))
+    } while (!this.isInRegion(i, j, randomType))
+    return randomType
+  }
+
+  /**
+   * TODO !!!
+   * @param   {todo} i
+   * @param   {todo} j
+   * @return  {todo}
+   */
+  isInRegion (i, j, type) {
+    return (i >= Math.round(this.rows / 100 * this.runes[type].region.start.i) &&
+            j >= Math.round(this.columns / 100 * this.runes[type].region.start.j) &&
+            i <= Math.round(this.rows / 100 * this.runes[type].region.end.i) &&
+            j <= Math.round(this.columns / 100 * this.runes[type].region.end.j))
+  }
+
+  /**
+   * TODO !!!
+   * @param   {todo} i
+   * @param   {todo} j
+   * @return  {todo}
+   */
+  isInLimit (type) {
+
+    // return
+    // if (countTypeRunes[random] + 1 < Math.round((this.columns * this.rows) / 100 * runesCFG[random - 1].limit)) {
+    //   isLimit = true
+    // }
+  }
+
 }
 
 module.exports = Board

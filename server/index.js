@@ -5,12 +5,12 @@ var io = require('socket.io')(http)
 
 // del on
 const testBoard5 = [
-[1, 1, 2, 5, 2, 3],
-[1, 2, 4, 4, 5, 5],
-[4, 3, 4, 1, 2, 5],
-[1, 2, 3, 2, 1, 2],
-[2, 5, 5, 3, 2, 5],
-[3, 3, 4, 4, 2, 3]]
+[0, 0, 1, 4, 1, 2],
+[0, 1, 3, 3, 4, 4],
+[3, 2, 3, 0, 1, 4],
+[0, 1, 2, 1, 0, 1],
+[1, 4, 4, 2, 1, 4],
+[2, 2, 3, 3, 1, 2]]
 // del off
 
 // configs
@@ -21,7 +21,7 @@ const key = 'generationRuneKey'
 const Board = require('./classes/board')
 const DEBUG = require('./configs/debug')
 
-const board = new Board(runes)
+const board = new Board(runes, key)
 
 console.log('DEBUG.client: ' + DEBUG.client)
 console.log('DEBUG.server: ' + DEBUG.server)
@@ -43,24 +43,29 @@ io.on('connection', (socket) => {
         io.emit('load', board.loadBoard(testBoard5))
         break
       case 'pick':
-        if (board.activeRune !== null) {
+        if (board.isActiveRune()) {
           if (!board.isEqualCoords(param, board.activeRune)) {
             if (board.isAdjacent(param, board.activeRune)) {
               board.swap(param, board.activeRune)
               board.findClusters(param)
               board.findClusters(board.activeRune)
-              if (board.clusters.length) {
+              if (board.isClusters()) {
                 DEBUG.server && console.log('[←] swap')
                 DEBUG.server && console.log('[←] deactive rune')
-                DEBUG.server && console.log('[←] delete rune clusters')
-                DEBUG.server && console.log('[←] drop runes')
                 io.emit('swap', [param, board.activeRune])
                 io.emit('deactive', board.deActiveRune())
-                io.emit('deleteRunes', board.deleteClusters())
-                io.emit('drop', board.drop())
-                io.emit('refill', board.refill())
+                do {
+                  DEBUG.server && console.log('[←] delete rune clusters')
+                  DEBUG.server && console.log('[←] drop runes')
+                  DEBUG.server && console.log('[←] refill runes')
+                  io.emit('deleteRunes', board.deleteClusters())
+                  io.emit('drop', board.drop())
+                  io.emit('refill', board.refill())
+                  board.findAllClusters()
+                } while (board.isClusters())
               } else {
                 DEBUG.server && console.log('[←] fake swap')
+                board.swap(param, board.activeRune)
                 io.emit('swap', [param, board.activeRune])
                 io.emit('swap', [param, board.activeRune])
               }
@@ -78,7 +83,6 @@ io.on('connection', (socket) => {
           DEBUG.server && console.log('[←] pick active rune')
           io.emit('active', board.pickActiveRune(param))
         }
-
         break
       default:
         DEBUG.server && console.log('error game command client')

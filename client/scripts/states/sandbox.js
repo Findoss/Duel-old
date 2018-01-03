@@ -4,12 +4,14 @@ class Sandbox extends Phaser.State {
 
   constructor () {
     super()
-    let view = {}
-    let queue = {}
-    let activeRune = null
+    this.view = {}
+    this.queue = {}
+    this.activeRune = null
   }
 
   init () {
+    // отрисовывка в фоне
+    game.stage.disableVisibilityChange = true
     // влючаем время для вывода FPS
     this.game.time.advancedTiming = true
     // влючаем возможность разворачивать на весь экран F11
@@ -24,7 +26,7 @@ class Sandbox extends Phaser.State {
     )
 
     // загрузка рун
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 6; i++) {
       this.game.load.spritesheet(
         textureRune.fileName + i,
         configTextures.path + textureRune.fileName + i + configTextures.ext,
@@ -94,7 +96,9 @@ class Sandbox extends Phaser.State {
 
     socket.on('drop', (dropRunes) => {
       DEBUG.socket && console.log(dropRunes)
-      this.queue.add(this.view, 'renderDrop', true, dropRunes)
+      if (dropRunes.length !== 0) {
+        this.queue.add(this.view, 'renderDrop', true, dropRunes)
+      }
     })
 
     socket.on('refill', (coordRunes) => {
