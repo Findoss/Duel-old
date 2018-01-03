@@ -15,6 +15,7 @@ const testBoard5 = [
 
 // configs
 const runes = require('./configs/runes')
+const key = 'generationRuneKey'
 
 // classes
 const Board = require('./classes/board')
@@ -41,8 +42,43 @@ io.on('connection', (socket) => {
         DEBUG.server && console.log('[←] board')
         io.emit('load', board.loadBoard(testBoard5))
         break
-      case 'todo':
-        // todo
+      case 'pick':
+        if (board.activeRune !== null) {
+          if (!board.isEqualCoords(param, board.activeRune)) {
+            if (board.isAdjacent(param, board.activeRune)) {
+              board.swap(param, board.activeRune)
+              board.findClusters(param)
+              board.findClusters(board.activeRune)
+              if (board.clusters.length) {
+                DEBUG.server && console.log('[←] swap')
+                DEBUG.server && console.log('[←] deactive rune')
+                DEBUG.server && console.log('[←] delete rune clusters')
+                DEBUG.server && console.log('[←] drop runes')
+                io.emit('swap', [param, board.activeRune])
+                io.emit('deactive', board.deActiveRune())
+                io.emit('deleteRunes', board.deleteClusters())
+                io.emit('drop', board.drop())
+                io.emit('refill', board.refill())
+              } else {
+                DEBUG.server && console.log('[←] fake swap')
+                io.emit('swap', [param, board.activeRune])
+                io.emit('swap', [param, board.activeRune])
+              }
+            } else {
+              DEBUG.server && console.log('[←] deactive rune')
+              DEBUG.server && console.log('[←] pick new active rune')
+              io.emit('deactive', board.deActiveRune())
+              io.emit('active', board.pickActiveRune(param))
+            }
+          } else {
+            DEBUG.server && console.log('[←] deactive rune')
+            io.emit('deactive', board.deActiveRune())
+          }
+        } else {
+          DEBUG.server && console.log('[←] pick active rune')
+          io.emit('active', board.pickActiveRune(param))
+        }
+
         break
       default:
         DEBUG.server && console.log('error game command client')

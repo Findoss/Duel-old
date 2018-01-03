@@ -24,7 +24,7 @@ class Sandbox extends Phaser.State {
     )
 
     // загрузка рун
-    for (let i = 1; i < 7; i++) {
+    for (let i = 0; i < 7; i++) {
       this.game.load.spritesheet(
         textureRune.fileName + i,
         configTextures.path + textureRune.fileName + i + configTextures.ext,
@@ -69,6 +69,38 @@ class Sandbox extends Phaser.State {
       DEBUG.socket && console.log(board)
       this.queue.add(this.view, 'renderBoard', true, board)
     })
+
+    socket.on('active', (coord) => {
+      DEBUG.socket && console.log(coord)
+      this.activeRune = this.view.board[coord.i][coord.j]
+      this.view.board[coord.i][coord.j].animations.play('pick', 4, true)
+    })
+
+    socket.on('deactive', (coord) => {
+      DEBUG.socket && console.log(coord)
+      this.activeRune.animations.play('wait', 4, true)
+      this.activeRune = null
+    })
+
+    socket.on('swap', (coords) => {
+      DEBUG.socket && console.log(coords)
+      this.queue.add(this.view, 'renderSwap', true, coords[0], coords[1])
+    })
+
+    socket.on('deleteRunes', (coords) => {
+      DEBUG.socket && console.log(coords)
+      this.queue.add(this.view, 'renderDeleteRunes', true, coords)
+    })
+
+    socket.on('drop', (dropRunes) => {
+      DEBUG.socket && console.log(dropRunes)
+      this.queue.add(this.view, 'renderDrop', true, dropRunes)
+    })
+
+    socket.on('refill', (coordRunes) => {
+      DEBUG.socket && console.log(coordRunes)
+      this.queue.add(this.view, 'renderRefull', true, coordRunes)
+    })
   }
 
   runeClick (pickRune, param, coordPickRune) {
@@ -76,13 +108,13 @@ class Sandbox extends Phaser.State {
   }
 
   runeOver (rune) {
-    if (activeRune !== rune) {
+    if (rune !== this.activeRune) {
       rune.animations.play('focus', 1, true)
     }
   }
 
   runeOut (rune) {
-    if (activeRune !== rune) {
+    if (rune !== this.activeRune) {
       rune.animations.play('wait', 4, true)
     }
   }
