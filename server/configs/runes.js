@@ -35,7 +35,7 @@ module.exports = [
     }
   },
   { // радуга
-    limit: 30,
+    limit: 3,
     region: {
       start: {i: 33, j: 33},
       end: {i: 66, j: 66}

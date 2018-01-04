@@ -49,7 +49,7 @@ class Sandbox extends Phaser.State {
     this.bindEvents()
 
     //
-    socket.emit('game', 'load', 'testBoard5')
+    socket.emit('game', 'generation')
   }
 
   update () {

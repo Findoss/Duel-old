@@ -86,6 +86,12 @@ class Board {
      * @type {Array.Number}
      */
     this.board = []
+    for (let i = 0; i < this.rows; i++) {
+      this.board[i] = []
+      for (let j = 0; j < this.columns; j++) {
+        this.board[i][j] = -1
+      }
+    }
     /**
      * Координаты выбранной руны
      * @type {coord}
@@ -342,37 +348,24 @@ class Board {
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.columns; j++) {
         if (this.board[i][j] === -1) {
-          this.board[i][j] = this.generationRune(i, j)
-          newRunes.push({i, j, type: this.board[i][j]})
+          let randomType = -1
+          do {
+            randomType = this.generationRune()
+          } while (!this.isInLimit(randomType))
+          this.board[i][j] = randomType
+          newRunes.push({i, j, type: randomType})
         }
       }
     }
     return newRunes
   }
 
-  // coinToss() {
-  //   return (Math.floor(Math.random() * 2) === 0);
-  // }
-
   /**
-   * TODO !!!
-   * @param   {todo} i
-   * @param   {todo} j
-   * @return  {todo}
-   */
-  generationRune (i, j) {
-    let randomType = -1
-    do {
-      randomType = Math.floor(this.seedRandom() * (this.runes.length))
-    } while (!this.isInRegion(i, j, randomType))
-    return randomType
-  }
-
-  /**
-   * TODO !!!
-   * @param   {todo} i
-   * @param   {todo} j
-   * @return  {todo}
+   * Проверяет имеет ли возможность руна данного типа входить в данный регион
+   * @param  {Number} i Номер строки
+   * @param  {Number} j Номер столбца
+   * @param  {Number} type Тип руны
+   * @return {Boolean} Возвращает, true если руне можно входить в регион, иначе false.
    */
   isInRegion (i, j, type) {
     return (i >= Math.round(this.rows / 100 * this.runes[type].region.start.i) &&
@@ -382,19 +375,85 @@ class Board {
   }
 
   /**
-   * TODO !!!
-   * @param   {todo} i
-   * @param   {todo} j
-   * @return  {todo}
+   * Проверяет не привышает ли руна данного типа лимиты (% от общего числа рун)
+   * @param  {Number} Тип руны
+   * @return {Boolean} Возвращает, true если руна не привышает лимит, иначе false.
    */
   isInLimit (type) {
+    let countType = []
+    for (let i = 0; i < this.runes.length; i++) countType[i] = 0
 
-    // return
-    // if (countTypeRunes[random] + 1 < Math.round((this.columns * this.rows) / 100 * runesCFG[random - 1].limit)) {
-    //   isLimit = true
-    // }
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.columns; j++) {
+        if (this.board[i][j] > -1) {
+          countType[this.board[i][j]]++
+        }
+      }
+    }
+    let limit = Math.round((this.columns * this.rows) / 100 * this.runes[type].limit)
+    return (countType[type] + 1 < limit)
   }
 
+  /**
+   * Проверяет создает ли руна линию (проверяет по 2 руны сверху и слева)
+   * Патерн:
+   * ```
+   *      x
+   *      x
+   *  x x 0
+   *  ```
+   * @param  {Number} i Номер строки
+   * @param  {Number} j Номер столбца
+   * @param  {Number} type Тип руны
+   * @return {Boolean} Возвращает true, если руна создает линию, иначе false.
+   */
+  isInNewCluster (i, j, type) {
+    if (i > 1) {
+      if (type === this.board[i - 1][j] &&
+          type === this.board[i - 2][j]) {
+        return true
+      }
+    }
+    if (j > 1) {
+      if (type === this.board[i][j - 1] &&
+          type === this.board[i][j - 2]) {
+        return true
+      }
+    }
+    return false
+  }
+
+  /**
+   * TODO
+   * @param  {todo} i
+   * @param  {todo} j
+   * @return {todo}
+   */
+  generationRune () {
+    return Math.floor(this.seedRandom() * (this.runes.length))
+  }
+
+  /**
+   * TODO что если нет возможных ходов ?
+   * TODO контроль генерации
+   * @param  {todo} i
+   * @param  {todo} j
+   * @return {todo}
+   */
+  generationBoard () {
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.columns; j++) {
+        let randomType = -1
+        do {
+          randomType = this.generationRune()
+        } while (!this.isInLimit(randomType) ||
+                 !this.isInRegion(i, j, randomType) ||
+                 this.isInNewCluster(i, j, randomType))
+        this.board[i][j] = randomType
+      }
+    }
+    return this.board
+  }
 }
 
 module.exports = Board

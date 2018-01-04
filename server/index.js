@@ -42,6 +42,11 @@ io.on('connection', (socket) => {
         DEBUG.server && console.log('[←] board')
         io.emit('load', board.loadBoard(testBoard5))
         break
+      case 'generation':
+        DEBUG.server && console.log('[.] generation board')
+        DEBUG.server && console.log('[←] new board')
+        io.emit('generation', board.generationBoard())
+        break
       case 'pick':
         if (board.isActiveRune()) {
           if (!board.isEqualCoords(param, board.activeRune)) {
@@ -64,8 +69,8 @@ io.on('connection', (socket) => {
                   board.findAllClusters()
                 } while (board.isClusters())
               } else {
-                DEBUG.server && console.log('[←] fake swap')
                 board.swap(param, board.activeRune)
+                DEBUG.server && console.log('[←] fake swap')
                 io.emit('swap', [param, board.activeRune])
                 io.emit('swap', [param, board.activeRune])
               }
