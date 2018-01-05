@@ -1,12 +1,4 @@
 # Duel
-
-## Дополнительное описание
-> [**Пояснительная записка**](refinement_note.md)  
-> [**Интерфейс** - (RealTimeBoard)](https://realtimeboard.com/app/board/o9J_k0DLCvk=/)  
-> [**Таблица умений** - (Google docs)](https://docs.google.com/spreadsheets/d/17mzF-c6nYp4Hi2gjWXxZQdOzI8Q7LxrErgD9JgYMqrw)  
-> [**Техническая часть**](https://github.com/Findoss/Duel/wiki)
-
-
 ## Оглавление
 -   [Жанр](#Жанр)  
 -   [Аудитория](#Аудитория)  
@@ -45,6 +37,7 @@
     -   [Список умений](#Список-умений)
 -   [Интерфейс](#Интерфейс)
 -   [Монетизация](#Монетизация)
+-   [**Техническая часть**](https://github.com/Findoss/Duel/wiki)
 
 ### Последние результаты
 ![last_result](media/last_result.gif)
@@ -224,7 +217,7 @@ COMBAK - Мир игры
 *   Не активное - не применяет в данный момент эффекты
 
 **Характеристики**
-Все характеристики индивидуальны для каждого умения. [**Таблица умений**](https://docs.google.com/spreadsheets/d/17mzF-c6nYp4Hi2gjWXxZQdOzI8Q7LxrErgD9JgYMqrw/edit?usp=sharing)
+Все характеристики индивидуальны для каждого умения. [**Таблица умений** - (Google docs)](https://docs.google.com/spreadsheets/d/17mzF-c6nYp4Hi2gjWXxZQdOzI8Q7LxrErgD9JgYMqrw)  
 
 
 ## Аккаунт
