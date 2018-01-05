@@ -1,4 +1,4 @@
-const configTextures = {
+export default {
   path: 'images/',
   skin: '',
   ext: '.png'

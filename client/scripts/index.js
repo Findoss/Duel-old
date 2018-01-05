@@ -1,7 +1,6 @@
-/* globals Phaser, io, configPhaser */
-
-
-
+/* globals Phaser */
+import config from './configs/phaser'
+import Sandbox from './states/sandbox'
 
 let param = {
   board: []
@@ -9,7 +8,7 @@ let param = {
 
 class Game extends Phaser.Game {
   constructor () {
-    super(configPhaser)
+    super(config)
 
     // this.state.add('PlayGame', PlayGame, false)
     this.state.add('Sandbox', Sandbox, false)
@@ -20,7 +19,4 @@ class Game extends Phaser.Game {
   }
 }
 
-let socket = new io('http://localhost:8080')
-DEBUG.socket && socket.emit('log', 'connected')
-
-let game = new Game()
+window.game = new Game()
