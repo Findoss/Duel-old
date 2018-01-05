@@ -16,7 +16,8 @@
   },
   "devDependencies": {
     "jsdoc": "^3.5.5",
-    "jsdoc-to-markdown": "latest"
+    "jsdoc-to-markdown": "latest",
+    "webpack": "^3.10.0"
   },
   "license": " todo license "
 }

@@ -1,5 +1,7 @@
+/bundle/bundle.js
+/bundle/bundle.css
+/bundle/index.html
 /docs
 /node_modules
 /*lock.json
 /todo.md
-/exemple.md
