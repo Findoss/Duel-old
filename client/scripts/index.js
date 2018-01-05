@@ -1,7 +1,7 @@
 /* globals Phaser, io, configPhaser */
 
 let param = {
-  board: testBoard5
+  board: []
 }
 
 class Game extends Phaser.Game {

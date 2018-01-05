@@ -4,11 +4,14 @@ class Sandbox extends Phaser.State {
 
   constructor () {
     super()
-    let view = {}
-    let queue = {}
+    this.view = {}
+    this.queue = {}
+    this.activeRune = null
   }
 
   init () {
+    // отрисовывка в фоне
+    game.stage.disableVisibilityChange = true
     // влючаем время для вывода FPS
     this.game.time.advancedTiming = true
     // влючаем возможность разворачивать на весь экран F11
@@ -36,7 +39,7 @@ class Sandbox extends Phaser.State {
 
   create () {
     // рендер руки
-    let suggestion = this.game.add.sprite(100, 100, textureSuggestion.fileName)
+    // let suggestion = this.game.add.sprite(100, 100, textureSuggestion.fileName)
 
     //
     this.queue = new Queue()
@@ -46,7 +49,7 @@ class Sandbox extends Phaser.State {
     this.bindEvents()
 
     //
-    DEBUG.socket && socket.emit('game', 'generation')
+    socket.emit('game', 'generation')
   }
 
   update () {
@@ -63,5 +66,66 @@ class Sandbox extends Phaser.State {
       DEBUG.socket && console.log(newBoard)
       this.queue.add(this.view, 'renderBoard', true, newBoard)
     })
+
+    socket.on('suggestion', (suggestions) => {
+      DEBUG.socket && console.log(suggestions)
+      this.queue.add(this.view, 'renderAllSuggestion', false, suggestions, textureSuggestion)
+    })
+
+    socket.on('load', (board) => {
+      DEBUG.socket && console.log(board)
+      this.queue.add(this.view, 'renderBoard', true, board)
+    })
+
+    socket.on('active', (coord) => {
+      DEBUG.socket && console.log(coord)
+      this.activeRune = this.view.board[coord.i][coord.j]
+      this.view.board[coord.i][coord.j].animations.play('pick', 4, true)
+    })
+
+    socket.on('deactive', (coord) => {
+      DEBUG.socket && console.log(coord)
+      this.activeRune.animations.play('wait', 4, true)
+      this.activeRune = null
+    })
+
+    socket.on('swap', (coords) => {
+      DEBUG.socket && console.log(coords)
+      this.view.cleanSuggestion()
+      this.queue.add(this.view, 'renderSwap', true, coords[0], coords[1])
+    })
+
+    socket.on('deleteRunes', (coords) => {
+      DEBUG.socket && console.log(coords)
+      this.queue.add(this.view, 'renderDeleteRunes', true, coords)
+    })
+
+    socket.on('drop', (dropRunes) => {
+      DEBUG.socket && console.log(dropRunes)
+      if (dropRunes.length !== 0) {
+        this.queue.add(this.view, 'renderDrop', true, dropRunes)
+      }
+    })
+
+    socket.on('refill', (coordRunes) => {
+      DEBUG.socket && console.log(coordRunes)
+      this.queue.add(this.view, 'renderRefull', true, coordRunes)
+    })
+  }
+
+  runeClick (pickRune, param, coordPickRune) {
+    socket.emit('game', 'pick', coordPickRune)
+  }
+
+  runeOver (rune) {
+    if (rune !== this.activeRune) {
+      rune.animations.play('focus', 1, true)
+    }
+  }
+
+  runeOut (rune) {
+    if (rune !== this.activeRune) {
+      rune.animations.play('wait', 4, true)
+    }
   }
 }

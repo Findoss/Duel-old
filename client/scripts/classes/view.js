@@ -137,8 +137,8 @@ class View {
    */
   initRune (i, j, type) {
     let rune = this.linkGame.add.sprite(this.posXRune(j), this.posYRune(i) * -1, this.configSpriteRune.fileName + type)
-    rune.width = this.configSpriteRune.size.width
-    rune.height = this.configSpriteRune.size.height
+    rune.width = this.configSpriteRune.size.width - 50
+    rune.height = this.configSpriteRune.size.height - 50
     rune.inputEnabled = false
     rune.anchor.set(0.5)
     if (this.configSpriteRune.animations !== undefined) {
@@ -161,7 +161,7 @@ class View {
    * @return {Number}
    */
   posXRune (j) {
-    return j * (this.configSpriteRune.size.width + this.marginRune) + this.marginBoardX
+    return j * (this.configSpriteRune.size.width - 50 + this.marginRune) + this.marginBoardX
   }
 
   /**
@@ -171,7 +171,7 @@ class View {
    * @return {Number}
    */
   posYRune (i) {
-    return i * (this.configSpriteRune.size.height + this.marginRune) + this.marginBoardY
+    return i * (this.configSpriteRune.size.height - 50 + this.marginRune) + this.marginBoardY
   }
 
   /**
@@ -183,7 +183,7 @@ class View {
   renderAllSuggestion (coordRunes, configSuggestionSprite) {
     let tween = {}
     for (var l = 0; l < coordRunes.length; l++) {
-      tween = this.renderSuggestion(coordRunes[l].coordRuneOne, coordRunes[l].coordRuneTwo, configSuggestionSprite)
+      tween = this.renderSuggestion(coordRunes[l].coordRuneO, coordRunes[l].coordRuneX, configSuggestionSprite)
     }
     return tween
   }
@@ -199,7 +199,7 @@ class View {
     for (let i = board.length - 1; i >= 0; i--) {
       this.board[i] = []
       for (let j = board[i].length - 1; j >= 0; j--) {
-        lastTween = this.renderRunes([{i, j, type: board[i][j].type}], 100, (80 * (board.length - i + 1)) + j * -10)
+        lastTween = this.renderRunes([{i, j, type: board[i][j]}], 100, (80 * (board.length - i + 1)) + j * -10)
       }
     }
     lastTween.onComplete.add(() => {

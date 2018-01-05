@@ -1,50 +1,84 @@
-const Rune = require('./rune')
+/* TODO LIST
+ * оптимизировать - поиск цепей и их комбинаций
+ * оптимизировать - поиск возможных ходов
+ * рассмотреть возможность не хранить значения линий внутри класса
+ * при пополнении поля - проверка на возможные ходы
+ * проверка на вхождение в поле не нужна если проверять паттерны в поиске ходов
+ */
+
+const SeedRandom = require('seedrandom')
 
 /**
- * @typedef  {Object} countRunes
- * @property {Number} type  Тип руны
- * @property {Number} count Количество рун
+ * @typedef  {Object} coord Координата
+ * @property {Number} i     Строка
+ * @property {Number} j     Колонка
  * @example
- * Object = {1: 15, 2: 3, 4:9, 5:9}
+ * Object = {i: 0, j: 3}
  */
+
 /**
- * @typedef  {Object} coordRune
- * @property {Number} i Строка руны
- * @property {Number} j Колонка руны
+ * @typedef  {Object} region Регион
+ * @property {coord}  start  Верхняя левая точка региона
+ * @property {coord}  end    Нижняя правая точка региона
  * @example
- * Object = {i:0, j:3}
+ * Object = {
+     start: {i: 0, j: 0},
+     end:   {i: 100, j: 100}
+   }
  */
+
 /**
- * @typedef  {Object} coordAndTypeRune
- * @property {Number} i    Строка руны
- * @property {Number} j    Колонка руны
- * @property {Number} type Тип руны
+ * @typedef  {Object} rune   Конфигурация руны
+ * @property {Number} limit Максимальный процент количества рун на поле от общего числа
+ * @property {region} region Допустимые границы генерации руны
  * @example
- * Array = [{i:0, j:3, type:4}, {i:0, j:4, type:5}, {i:0, j:5, type:3}, ... ]
- */
+ * Object = {
+     limit: 15,
+     region: {
+       start: {i: 0, j: 0},
+       end:   {i: 100, j: 100}
+     }
+   }
+*/
+
 /**
- * @typedef  {Array.coordRune} cluster
- * @property {coordRune} coordRune Координаты руны
+ * @typedef  {Array.coord} cluster Линия
+ * @property {coord}       coord   Координаты руны
  * @example
  * // cluster
- * Array = [{i:0, j:3}, {i:0, j:4}, ... ]
+ * Array = [
+ *  {i:0, j:3},
+ *  {i:0, j:4},
+ *  ...
+ * ]
+ *
  * // clusters
- * Array = [[{i:0, j:3}, {i:0, j:4}], [{i:3, j:2}, {i:4, j:2}, {i:5, j:2}, ... ], ... ]
+ * Array = [
+ *  [{i:0, j:3}, {i:0, j:4}],
+ *  [{i:3, j:2}, {i:4, j:2}, {i:5, j:2}, ... ],
+ *  ...
+ * ]
  */
 
 /**
- * Логическое представление игрового поля
+ * Логическое представление игрового поля (основная механика игры)
  * @class
  */
 class Board {
   /**
    * Конструктор объекта поля
    * @constructor
-   * @param {Number=} rows                 Количество строк поля
-   * @param {Number=} columns              Количество колонок поля
-   * @param {Number=} maxTypeGenerateRunes Количество типов генерируемых рун на поле (от 1 до maxTypeGenerateRunes)
+   * @param {Array.<rune>} runes         Список генерируемых рун
+   * @param {String}       generationKey Ключ для генерации поля
+   * @param {Number=}      rows          Количество строк поля
+   * @param {Number=}      columns       Количество колонок поля
    */
-  constructor (rows = 6, columns = 6, maxTypeGenerateRunes = 5) {
+  constructor (runes, generationKey, rows = 6, columns = 6) {
+    /**
+     * Список генерируемых рун
+     * @type {Array.<runes>}
+     */
+    this.runes = runes
     /**
      * Количество колонок поля
      * @type {Number}
@@ -56,156 +90,140 @@ class Board {
      */
     this.columns = columns
     /**
-     * Количество типов генерируемых рун на поле
-     * @type {Number}
-     */
-    this.maxTypeGenerateRunes = maxTypeGenerateRunes
-    /**
      * Поле
-     * @type {Array.<Rune>}
+     * @type {Array.Number}
      */
     this.board = []
+    for (let i = 0; i < this.rows; i++) {
+      this.board[i] = []
+      for (let j = 0; j < this.columns; j++) {
+        this.board[i][j] = -1
+      }
+    }
+    /**
+     * Координаты выбранной руны
+     * @type {coord}
+     */
+    this.activeRune = null
     /**
      * Массив линий
      * @type {Array.<cluster>}
      */
     this.clusters = []
     /**
-     * Объект содержащий количество разрушенных рун сортировка по типам руны
-     * @type {countRunes}
-     * TODO rename this.destroyedRunes
+     * Функция для генерации псевдослучайных чисел
+     * @type {Function}
      */
-    this.countRunes = {}
+    this.seedRandom = SeedRandom(generationKey)
   }
 
   /**
-   * Добавляет в объект `countRunes` количество удаленных рун
-   * @param  {Number} type Тип руны
-   * @return {countRunes} Объект содержащий количество удаленных рун сортировка по типам руны
-   * @example
-   * Object = {
-   *   1: 15, // 15 рун 1 типа
-   *   3: 3   // 3 руны 3 типа
-   *  }
+   * Загружает сохраненное поле
+   * @param  {Array.Number} savedBoard сохраненное поле
+   * @return {Array.Number} Возвращает, игровое поле `this.board`
    */
-  addCountTypesRune (type) {
-    if (this.countRunes[type] === undefined) {
-      this.countRunes[type] = 1
-    } else {
-      this.countRunes[type]++
-    }
-    return this.countRunes
-  }
-
-  /**
-   * Проверяет совпадают ли координаты рун
-   * @param  {coordRune} coordRuneOne Координата первой руны
-   * @param  {coordRune} coordRuneTwo Координата второй руны
-   * @return {Boolean}
-   * TODO rename
-   */
-  areTheSame (coordRuneOne, coordRuneTwo) {
-    return (coordRuneOne.i === coordRuneTwo.i &&
-            coordRuneOne.j === coordRuneTwo.j)
-  }
-
-  /**
-   * Очищает массив `clusters`
-   */
-  cleanClusters () {
-    this.clusters = []
-  }
-
-  /**
-   * Очищает объект `countRunes`
-   */
-  cleanCountRunes () {
-    this.countRunes = {}
-  }
-
-  /**
-   * Проверяет совпадают ли типы рун
-   * @param  {coordRune} coordRuneOne Координата первой руны
-   * @param  {coordRune} coordRuneTwo Координата второй руны
-   * @return {Boolean}
-   * TODO rename
-   */
-  comparisonType (coordRuneOne, coordRuneTwo) {
-    if (this.isInRange(coordRuneOne, coordRuneTwo)) {
-      return (this.board[coordRuneOne.i][coordRuneOne.j].type === this.board[coordRuneTwo.i][coordRuneTwo.j].type)
-    }
-    return false
-  }
-
-  /**
-   * Очищает поле `board` и массив линий `clusters`
-   * **! ВАЖНО** не очищает количество удалленых рун `countRunes`
-   */
-  deleteBoard () {
-    this.cleanClusters()
+  loadBoard (savedBoard) {
     this.board = []
+    this.rows = savedBoard.length
+    this.columns = savedBoard[0].length
+    this.board = savedBoard
+    return this.board
   }
 
   /**
-   * Удаляет руны входящие в линию, после чего очищает массив  `clusters`
-   * @return {Array.<coordRune>} Координаты удаленных рун
+   * Выполняет сравнение между двумя координатами рун, чтобы определить, эквивалентны ли они.
+   * @param  {coord} coordOne Координата первой руны
+   * @param  {coord} coordTwo Координата второй руны
+   * @return {Boolean} Возвращает, true если координаты эквивалентны, иначе false.
    */
-  deleteClusters () {
-    let coordRunes = []
-    for (let l = 0; l < this.clusters.length; l++) {
-      for (let t = 0; t < this.clusters[l].length; t++) {
-        if (this.board[this.clusters[l][t].i][this.clusters[l][t].j].type > 0) {
-          this.addCountTypesRune(this.board[this.clusters[l][t].i][this.clusters[l][t].j].type)
-          coordRunes.push({i: this.clusters[l][t].i, j: this.clusters[l][t].j})
-          this.board[this.clusters[l][t].i][this.clusters[l][t].j].newType(0)
-        }
-      }
+  isEqualCoords (coordOne, coordTwo) {
+    return (coordOne.i === coordTwo.i && coordOne.j === coordTwo.j)
+  }
+
+  /**
+   * Делает руну активной.
+   * @param  {coord} coord Координата выбранной руны
+   * @return {coord} Возвращает, координаты активной руны
+   */
+  pickActiveRune (coord) {
+    this.activeRune = coord
+    return this.activeRune
+  }
+
+  /**
+   * Проверяет есть ли активная руна
+   * @return {Boolean} Возвращает, true если есть активная руна, иначе false.
+   */
+  isActiveRune () {
+    return this.activeRune !== null
+  }
+
+  /**
+   * Удаляет активную руну.
+   * @return {coord} Возвращает, координаты удаленной активной руны
+   */
+  deActiveRune () {
+    let deActiveRune = this.activeRune
+    this.activeRune = null
+    return deActiveRune
+  }
+
+  /**
+   * Проверяет являются ли руны соседними по горизонтали или вертикали
+   * Патерн:
+   * ```
+   *     x
+   *   x 0 x
+   *     x
+   * ```
+   * @param  {coord} coordOne Координата первой руны
+   * @param  {coord} coordTwo Координата второй руны
+   * @return {Boolean}  Возвращает, true если руны соседние по горизонтали или вертикали, иначе false.
+   */
+  isAdjacent (coordOne, coordTwo) {
+    return (Math.abs(coordTwo.i - coordOne.i) === 1 && Math.abs(coordTwo.j - coordOne.j) === 0) ||
+           (Math.abs(coordTwo.i - coordOne.i) === 0 && Math.abs(coordTwo.j - coordOne.j) === 1)
+  }
+
+  /**
+   * Меняет местами руны
+   * @param  {coord} coordOne Координата первой руны
+   * @param  {coord} coordTwo Координата второй руны
+   * @return {Array.<coord>}      Координаты обмененых рун
+   */
+  swap (coordOne, coordTwo) {
+    let tmp = this.board[coordOne.i][coordOne.j]
+    this.board[coordOne.i][coordOne.j] = this.board[coordTwo.i][coordTwo.j]
+    this.board[coordTwo.i][coordTwo.j] = tmp
+    return [ coordOne, coordTwo ]
+  }
+
+  /**
+   * Проверяет входят ли координата руны в границы поля
+   * @param  {Array} coordRunes Координаты рун
+   * @return {Boolean} Возвращает true, если координата руны входит в границы поля, иначе false.
+   */
+  isInBoard (coords) {
+    if (coords.i < 0 ||
+        coords.j < 0 ||
+        coords.i >= this.rows ||
+        coords.j >= this.columns) {
+      return false
     }
-    this.cleanClusters()
-    return this.countRunes
+    return true
   }
 
   /**
-   * Опускает руны на свободные места (все пустые руны поднимает наверх)
-   * **! ВАЖНО** второй элемент в паре всегда пустая руна `coordRunes[1]`
-   * @return {Array.Array.<coordRune>} Массив пар координат обмененых рун
-   * @example
-   * coordRunes = [
-   *   [{i: 1, j: 3}, {i: 2, j: 3}],
-   *   [{i: 5, j: 2}, {i: 5, j: 3}]
-   * ]
+   * Выполняет сравнение между типом основной руны и типом каждой руны в массиве, чтобы определить, эквивалентны ли они.
+   * @param  {coord}    coord  Координата основной руны
+   * @param  {...coord} coords Координаты проверямых рун
+   * @return {Boolean} Возвращает, true если тип каждой руны в массиве эквивалентен типу основной руны, иначе false.
    */
-  drop () {
-    let coordRunes = []
-    for (let j = 0; j < this.columns; j++) {
-      let firstEmpty = null
-      for (let i = this.rows - 1; i >= 0; i--) {
-        if (firstEmpty === null) {
-          if (this.board[i][j].type === 0) {
-            firstEmpty = i
-          }
-        } else {
-          if (this.board[i][j].type > 0) {
-            this.swap({i, j}, {i: firstEmpty, j: j})
-            coordRunes.push([{i, j}, {i: firstEmpty, j: j}])
-            firstEmpty--
-          }
-        }
-      }
-    }
-    return coordRunes
-  }
-
-  /**
-   * Возвращает TRUE, если тип каждой руны в массиве совпадает с типом основной руны
-   * @param  {coordRune}    coordRune  Координата основной руны
-   * @param  {...coordRune} coordRunes Координата проверямой руны
-   * @return {Boolean}
-   */
-  everyComparisonType (coordRune, ...coordRunes) {
-    if (!this.isInRange(coordRunes)) return false
-    for (let l = 0; l < coordRunes.length; l++) {
-      if (this.comparisonType(coordRune, coordRunes[l])) {
+  isEqualType (coord, ...coords) {
+    if (!this.isInBoard(coord)) return false
+    for (let l = 0; l < coords.length; l++) {
+      if (!this.isInBoard(coords[l])) return false
+      if (this.board[coord.i][coord.j] !== this.board[coords[l].i][coords[l].j]) {
         return false
       }
     }
@@ -213,72 +231,16 @@ class Board {
   }
 
   /**
-   * TODO filterComparisonType
-   * **! ВАЖНО - ЭТО В РАЗРАБОТКЕ !**
-   * Возвращает массив пар координат рун совпадающие/не совпадающих с типом основной руны
-   * @param  {Boolean}      isFlag     TRUE - вернет координаты рун совпадающие с типом основной руны
-   *                                   FALSE - вернет координаты рун НЕ совпадающие с типом основной руны
-   * @param  {coordRune}    coordRune  Координата основной руны
-   * @param  {...coordRune} coordRunes Координата проверямой руны
-   * @return {Array.<coordRune>}       Массив пар координат совпадающих/не совпадающих рун
-   */
-  filterComparisonType (isFlag, coordRune, ...coordRunes) {
-    function filterByType (coordRuneX) {
-      if (!this.isInRange(coordRune, coordRuneX)) return false
-      return (isFlag ^ this.comparisonType(coordRune, coordRuneX))
-    }
-    return coordRunes.filter(filterByType(), coordRune, isFlag)
-  }
-
-  /**
-   * Возвращает все вертикальные и горизонтальные линии поля
-   * @return {Array.<claster>} Массив линий (координаты рун)
-   */
-  findAllClusters () {
-    for (let l = 0; l < this.rows; l++) {
-      this.findClusters({i: l, j: l})
-    }
-    return this.clusters
-  }
-
-  /**
-   * TODO доделать если нет передаваемого параметра
-   * Возвращает вертикальные и горизонтальные линии по координате руны
-   * @param  {coordRune} coordRune Координаты руны
-   * @return {Array.<claster>} Массив линий (координаты рун)
-   */
-  findClusters (coordRune) {
-    // по горизонтали
-    for (let l = 0; l < this.columns - 2; l++) {
-      let cluster = this.findHorizontalClusters(coordRune.i, l)
-      if (cluster.length > 2) {
-        this.clusters.push(cluster)
-        l += cluster.length - 1
-      }
-    }
-    // по вертикали
-    for (let l = 0; l < this.rows - 2; l++) {
-      let cluster = this.findVerticalClusters(l, coordRune.j)
-      if (cluster.length > 2) {
-        this.clusters.push(cluster)
-        l += cluster.length - 1
-      }
-    }
-    return this.clusters
-  }
-
-  /**
-   * TODO доделать если нет передаваемого параметра
-   * Возвращает горизонтальные линии
+   * Проверяет по координате руны на наличие горизонтальных линий
    * @param  {Number} i Номер строки
    * @param  {Number} j Номер столбца
-   * @return {Array.<claster>} Массив линий (координаты рун)
+   * @return {Array.<claster>} Возвращает, массив координат рун (линии), иначе пустой массив.
    */
   findHorizontalClusters (i, j) {
     let cluster = []
     cluster.push({i: i, j: j})
     for (let l = 1; j + l < this.columns; l++) {
-      if (this.comparisonType(cluster[0], {i: i, j: j + l})) {
+      if (this.isEqualType(cluster[0], {i: i, j: j + l})) {
         cluster.push({i: i, j: j + l})
       } else {
         return cluster
@@ -288,17 +250,16 @@ class Board {
   }
 
   /**
-   * TODO доделать если нет передаваемого параметра
-   * Возвращает вертикальные линии
+   * Проверяет по координате руны на наличие вертикальных линий
    * @param  {Number} i Номер строки
    * @param  {Number} j Номер столбца
-   * @return {Array.<claster>} Массив линий (координаты рун)
+   * @return {Array.<claster>} Возвращает, массив координат рун (линии), иначе пустой массив.
    */
   findVerticalClusters (i, j) {
     let cluster = []
     cluster.push({i: i, j: j})
     for (let l = 1; i + l < this.rows; l++) {
-      if (this.comparisonType(cluster[0], {i: i + l, j: j})) {
+      if (this.isEqualType(cluster[0], {i: i + l, j: j})) {
         cluster.push({i: i + l, j: j})
       } else {
         return cluster
@@ -308,8 +269,215 @@ class Board {
   }
 
   /**
-   * TODO findMoves
-   * **! ВАЖНО - ЭТО В РАЗРАБОТКЕ !**
+   * Проверяет по координате руны на наличие вертикальных и горизонтальных линий
+   * @param  {coord} coord Координаты руны
+   * @return {Array.<claster>} Возвращает, массив координат рун (`this.clusters`).
+   */
+  findClusters (coord) {
+    // по горизонтали
+    for (let l = 0; l < this.columns - 2; l++) {
+      let cluster = this.findHorizontalClusters(coord.i, l)
+      if (cluster.length > 2) {
+        this.clusters.push(cluster)
+        l += cluster.length - 1
+      }
+    }
+    // по вертикали
+    for (let l = 0; l < this.rows - 2; l++) {
+      let cluster = this.findVerticalClusters(l, coord.j)
+      if (cluster.length > 2) {
+        this.clusters.push(cluster)
+        l += cluster.length - 1
+      }
+    }
+    return this.clusters
+  }
+
+  /**
+   * Разрушает руны (задает руне новый тип = -1) входящие в линию, количество разрушенных рун по типам добавляет в объект `destroyedRunes`,
+   * очищает массив `clusters`
+   * @return {Array.<coord>} Возвращает, массив координат разрушенных рун
+   */
+  deleteClusters () {
+    let coordDestroyedRunes = []
+    for (let l = 0; l < this.clusters.length; l++) {
+      for (let t = 0; t < this.clusters[l].length; t++) {
+        if (this.board[this.clusters[l][t].i][this.clusters[l][t].j] > -1) {
+          coordDestroyedRunes.push({i: this.clusters[l][t].i, j: this.clusters[l][t].j})
+          this.board[this.clusters[l][t].i][this.clusters[l][t].j] = -1
+        }
+      }
+    }
+    this.clusters = []
+    return coordDestroyedRunes
+  }
+
+  /**
+   * Опускает руны на места разрушенных рун (все разрушенные руны поднимает наверх)
+   * **! ВАЖНО** второй элемент (`coordDropedRunes[1]`) в паре всегда разрушенная руна
+   * @return {Array.Array.<coord>} Возвращает, массив пар координат обмененых рун
+   * @example
+   * Array = [
+   *   [{i: 1, j: 3}, {i: 2, j: 3}],
+   *   [{i: 5, j: 2}, {i: 5, j: 3}]
+   * ]
+   */
+  drop () {
+    let coordDropedRunes = []
+    for (let j = 0; j < this.columns; j++) {
+      let firstEmpty = null
+      for (let i = this.rows - 1; i >= 0; i--) {
+        if (firstEmpty === null) {
+          if (this.board[i][j] === -1) {
+            firstEmpty = i
+          }
+        } else {
+          if (this.board[i][j] > -1) {
+            this.swap({i, j}, {i: firstEmpty, j: j})
+            coordDropedRunes.push([{i, j}, {i: firstEmpty, j: j}])
+            firstEmpty--
+          }
+        }
+      }
+    }
+    return coordDropedRunes
+  }
+
+  /**
+   * Проверяет есть ли линии
+   * @return {Boolean} Возвращает, true если есть линии, иначе false.
+   */
+  isClusters () {
+    return this.clusters.length > 0
+  }
+
+  /**
+   * Проверяет поле на наличие вертикальных и горизонтальных линий
+   * @return {Array.<claster>} Возвращает, массив координат рун `this.clusters`, иначе пустой массив.
+   */
+  findAllClusters () {
+    for (let l = 0; l < this.rows; l++) {
+      this.findClusters({i: l, j: l})
+    }
+    return this.clusters
+  }
+
+  /**
+   * TODO что если нет возможных ходов ?
+   * Пополняет поле, заменет пустые руны случайными рунами с учетом их шанса и региона
+   * @return {Array.<coordAndType>} Возвращает, массив координаты и тип новых рун
+   */
+  refill (minMoveCount = 1) {
+    let newRunes = []
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.columns; j++) {
+        if (this.board[i][j] === -1) {
+          let randomType = -1
+          do {
+            randomType = this.generationRune()
+          } while (!this.isInLimit(randomType))
+          this.board[i][j] = randomType
+          newRunes.push({i, j, type: randomType})
+        }
+      }
+    }
+    return newRunes
+  }
+
+  /**
+   * Проверяет имеет ли возможность руна данного типа входить в данный регион
+   * @param  {Number} i Номер строки
+   * @param  {Number} j Номер столбца
+   * @param  {Number} type Тип руны
+   * @return {Boolean} Возвращает, true если руне можно входить в регион, иначе false.
+   */
+  isInRegion (i, j, type) {
+    return (i >= Math.round(this.rows / 100 * this.runes[type].region.start.i) &&
+            j >= Math.round(this.columns / 100 * this.runes[type].region.start.j) &&
+            i <= Math.round(this.rows / 100 * this.runes[type].region.end.i) &&
+            j <= Math.round(this.columns / 100 * this.runes[type].region.end.j))
+  }
+
+  /**
+   * Проверяет не привышает ли руна данного типа лимиты (% от общего числа рун)
+   * @param  {Number} Тип руны
+   * @return {Boolean} Возвращает, true если руна не привышает лимит, иначе false.
+   */
+  isInLimit (type) {
+    let countType = []
+    for (let i = 0; i < this.runes.length; i++) countType[i] = 0
+
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.columns; j++) {
+        if (this.board[i][j] > -1) {
+          countType[this.board[i][j]]++
+        }
+      }
+    }
+    let limit = Math.round((this.columns * this.rows) / 100 * this.runes[type].limit)
+    return (countType[type] + 1 <= limit)
+  }
+
+  /**
+   * Проверяет создает ли руна линию (проверяет по 2 руны сверху и слева)
+   * Патерн:
+   * ```
+   *      x
+   *      x
+   *  x x 0
+   *  ```
+   * @param  {Number} i Номер строки
+   * @param  {Number} j Номер столбца
+   * @param  {Number} type Тип руны
+   * @return {Boolean} Возвращает true, если руна создает линию, иначе false.
+   */
+  isInNewCluster (i, j, type) {
+    if (i > 1) {
+      if (type === this.board[i - 1][j] &&
+          type === this.board[i - 2][j]) {
+        return true
+      }
+    }
+    if (j > 1) {
+      if (type === this.board[i][j - 1] &&
+          type === this.board[i][j - 2]) {
+        return true
+      }
+    }
+    return false
+  }
+
+  /**
+   * Генерирует случайное целое число в диапозоне [0, `this.runes.length`]
+   * @return {Number} Возвращает случайное целое число
+   */
+  generationRune () {
+    return Math.floor(this.seedRandom() * (this.runes.length))
+  }
+
+  /**
+   * Генерирует случайное игровое поле
+   * @return {Array} Возвращает, массив `this.board`
+   */
+  generationBoard (minMoveCount = 3) {
+    do {
+      for (let i = 0; i < this.rows; i++) {
+        for (let j = 0; j < this.columns; j++) {
+          let randomType = -1
+          do {
+            randomType = this.generationRune()
+          } while (!this.isInLimit(randomType) ||
+                   !this.isInRegion(i, j, randomType) ||
+                   this.isInNewCluster(i, j, randomType))
+          this.board[i][j] = randomType
+        }
+      }
+    } while (this.findMoves().length < minMoveCount)
+    return this.board
+  }
+
+  /**
+   * TODO **! ВАЖНО - ЭТО В РАЗРАБОТКЕ !, не оптимально !!!**
    * Возвращает массив возможных ходов
    * 1 - Первая руна
    * 2 - Вторая руна
@@ -339,293 +507,74 @@ class Board {
    * x o x
    *   2
    * ```
+
    * @return {Array.Array.<coordRune>} Массив пар координат рун для обмена
    */
   findMoves () {
     let moves = []
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.columns; j++) {
-        let coordRuneStart = {i, j}
-        let coordRuneOne = {}
+        let coordRuneO = {}
+        let coordRuneX = {}
+        let coordRune1 = {i, j}
+        let coordRune2 = {i: i, j: j + 1}
+        if (this.isEqualType(coordRune1, coordRune2)) {
+          coordRuneO = {i: i, j: j + 2}
+          coordRuneX = {i: i - 1, j: j + 2}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+          coordRuneX = {i: i, j: j + 3}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+          coordRuneX = {i: i + 1, j: j + 2}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
 
-        let coordRuneTwo = {i: i, j: j + 1}
-        if (this.comparisonType(coordRuneStart, coordRuneTwo)) {
-          coordRuneOne = {i: i, j: j + 2}
-          coordRuneTwo = {i: i - 1, j: j + 2}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
-          coordRuneTwo = {i: i, j: j + 3}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
-          coordRuneTwo = {i: i + 1, j: j + 2}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
-
-          coordRuneOne = {i: i, j: j - 1}
-          coordRuneTwo = {i: i - 1, j: j - 1}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
-          coordRuneTwo = {i: i, j: j - 2}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
-          coordRuneTwo = {i: i + 1, j: j - 1}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
+          coordRuneO = {i: i, j: j - 1}
+          coordRuneX = {i: i - 1, j: j - 1}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+          coordRuneX = {i: i, j: j - 2}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+          coordRuneX = {i: i + 1, j: j - 1}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
         }
 
-        coordRuneTwo = {i: i + 1, j: j}
-        if (this.comparisonType(coordRuneStart, coordRuneTwo)) {
-          coordRuneOne = {i: i + 2, j: j}
-          coordRuneTwo = {i: i + 2, j: j - 1}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
-          coordRuneTwo = {i: i + 3, j: j}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
-          coordRuneTwo = {i: i + 2, j: j + 1}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
+        coordRune2 = {i: i + 1, j: j}
+        if (this.isEqualType(coordRune1, coordRune2)) {
+          coordRuneO = {i: i + 2, j: j}
+          coordRuneX = {i: i + 2, j: j - 1}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+          coordRuneX = {i: i + 3, j: j}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+          coordRuneX = {i: i + 2, j: j + 1}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
 
-          coordRuneOne = {i: i - 1, j: j}
-          coordRuneTwo = {i: i - 1, j: j - 1}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
-          coordRuneTwo = {i: i - 2, j: j}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
-          coordRuneTwo = {i: i - 1, j: j + 1}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
+          coordRuneO = {i: i - 1, j: j}
+          coordRuneX = {i: i - 1, j: j - 1}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+          coordRuneX = {i: i - 2, j: j}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+          coordRuneX = {i: i - 1, j: j + 1}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
         }
 
-        coordRuneTwo = {i: i, j: j + 2}
-        if (this.comparisonType(coordRuneStart, coordRuneTwo)) {
-          coordRuneOne = {i: i, j: j + 1}
-          coordRuneTwo = {i: i + 1, j: j + 1}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
-          coordRuneTwo = {i: i - 1, j: j + 1}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
+        coordRune2 = {i: i, j: j + 2}
+        if (this.isEqualType(coordRune1, coordRune2)) {
+          coordRuneO = {i: i, j: j + 1}
+          coordRuneX = {i: i + 1, j: j + 1}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+          coordRuneX = {i: i - 1, j: j + 1}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
         }
 
-        coordRuneTwo = {i: i + 2, j: j}
-        if (this.comparisonType(coordRuneStart, coordRuneTwo)) {
-          coordRuneOne = {i: i + 1, j: j}
-          coordRuneTwo = {i: i + 1, j: j - 1}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
-          coordRuneTwo = {i: i + 1, j: j + 1}
-          if (this.comparisonType(coordRuneStart, coordRuneTwo)) moves.push({coordRuneOne, coordRuneTwo})
+        coordRune2 = {i: i + 2, j: j}
+        if (this.isEqualType(coordRune1, coordRune2)) {
+          coordRuneO = {i: i + 1, j: j}
+          coordRuneX = {i: i + 1, j: j - 1}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+          coordRuneX = {i: i + 1, j: j + 1}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
         }
       }
     }
     return moves
-  }
-
-  /**
-   * TODO создать безопастный способ генерации
-   * TODO добавить многоуровневую генерацию
-   * Генерирует случайное поле
-   * @param  {Boolean=} isClusters   Установите TRUE - что бы были допустимы линии при генерации
-   * @param  {Number=}  minMoveCount Количество минимальныо возможных ходов (**при большом значении параметра возможен бесконечный цикл**)
-   * @return {Array.<Rune>}          Копия игрового поля `board`
-   */
-  generation (isClusters = false, minMoveCount = 3) {
-    do {
-      for (let i = 0; i < this.rows; i++) {
-        this.board[i] = []
-        for (let j = 0; j < this.columns; j++) {
-          this.board[i][j] = new Rune(0)
-          do {
-            this.board[i][j].newRandomType(this.maxTypeGenerateRunes)
-          }
-          while (this.isRuneInCluster(i, j) && !isClusters)
-        }
-      }
-    }
-    while (this.findMoves() < minMoveCount)
-    let newBoard = Object.assign([], this.board)
-    return newBoard
-  }
-
-  /**
-   * TODO доделать если нет передаваемого параметра
-   * Возвращает колонку поля
-   * @param  {Number} index Номер колонки
-   * @return {Array}
-   */
-  getColumn (index) {
-    let column = []
-    for (let i = 0; i < this.rows; i++) {
-      for (let j = 0; j < this.columns; j++) {
-        if (j === index) {
-          column.push(this.board[i][j])
-          break
-        }
-      }
-    }
-    return column
-  }
-
-  /**
-   * TODO доделать если нет передаваемого параметра
-   * Возвращает строку поля
-   * @param  {Number} index Номер строки
-   * @return {Array}
-   */
-  getRow (index) {
-    return this.board[index]
-  }
-
-  /**
-   * TODO доделать если нет передаваемого параметра
-   * Проверяет являются ли руны соседними по горизонтали и вертикали
-   * Патерн:
-   * ```
-   *     x
-   *   x 0 x
-   *     x
-   * ```
-   * @param  {coordRune} coordRuneOne Координата первой руны
-   * @param  {coordRune} coordRuneTwo Координата второй руны
-   * @return {Boolean}
-   */
-  isAdjacentRune (coordRuneOne, coordRuneTwo) {
-    return (Math.abs(coordRuneTwo.i - coordRuneOne.i) === 1 && Math.abs(coordRuneTwo.j - coordRuneOne.j) === 0) ||
-           (Math.abs(coordRuneTwo.i - coordRuneOne.i) === 0 && Math.abs(coordRuneTwo.j - coordRuneOne.j) === 1)
-  }
-
-  /**
-   * TODO доделать если нет передаваемого параметра
-   * Проверяет входят ли координаты в границы поля
-   * @param  {...coordRune} coordRunes Координата руны
-   * @return {Boolean} TRUE  - в поле
-   *                   FALSE - за полем
-   */
-  isInRange (...coordRunes) {
-    for (let l = 0; l < coordRunes.length; l++) {
-      if (coordRunes[l].i < 0 || coordRunes[l].i >= this.rows || coordRunes[l].j < 0 || coordRunes[l].j >= this.columns) return false
-    }
-    return true
-  }
-
-  /**
-   * TODO доделать если нет передаваемого параметра
-   * Проверяет создает ли руна линию (проверяет по 2 руны сверху и слева)
-   * Патерн:
-   * ```
-   *      x
-   *      x
-   *  x x 0
-   *  ```
-   * @param  {Number} i Номер строки
-   * @param  {Number} j Номер столбца
-   * @return {Boolean}
-   */
-  isRuneInCluster (i, j) {
-    if (i > 1) {
-      if (!this.everyComparisonType({i, j}, {i: i - 1, j: j}, {i: i - 2, j: j})) {
-        return true
-      }
-    }
-    if (j > 1) {
-      if (!this.everyComparisonType({i, j}, {i: i, j: j - 1}, {i: i, j: j - 2})) {
-        return true
-      }
-    }
-    return false
-  }
-
-  /**
-   * Загружает сохраненное поле
-   * @param  {Array.Number} savedBoard сохраненное поле
-   * @return {Array.<Rune>} Копия игрового поля `board`
-   */
-  loadBoard (savedBoard) {
-    if (this.validatorSavedBoard(savedBoard)) {
-      this.board = []
-      this.rows = savedBoard.length
-      this.columns = savedBoard[0].length
-      for (let i = 0; i < this.rows; i++) {
-        this.board[i] = []
-        for (let j = 0; j < this.columns; j++) {
-          this.board[i][j] = new Rune(savedBoard[i][j])
-        }
-      }
-      let newBoard = Object.assign([], this.board)
-      return newBoard
-    }
-    return []
-  }
-
-  /**
-   * Пополняет поле, заменет пустые руны случайными рунами в пределах от 1 до `maxTypeGenerateRunes`
-   * @return {Array.<coordAndTypeRune>} Координаты и тип новых рун
-   */
-  refill () {
-    let newRunes = []
-    for (let i = 0; i < this.rows; i++) {
-      for (let j = 0; j < this.columns; j++) {
-        if (this.board[i][j].type === 0) {
-          let newRune = this.board[i][j].newRandomType(this.maxTypeGenerateRunes)
-          newRunes.push({i, j, type: newRune})
-        }
-      }
-    }
-    return newRunes
-  }
-
-  /**
-   * TODO доделать если нет передаваемого параметра
-   * TODO распологать похожие методы рядом
-   * TODO rename
-   * Возвращает TRUE, если хотя бы один тип руны в массиве совпадает с типом основной руны
-   * @param  {coordRune}    coordRune  Координата основной руны
-   * @param  {...coordRune} coordRunes Координата проверямой руны
-   * @return {Boolean}
-   */
-  someComparisonType (coordRune, ...coordRunes) {
-    if (!this.isInRange(coordRunes)) return false
-    for (let l = 0; l < coordRunes.length; l++) {
-      if (this.comparisonType(coordRune, coordRunes[l])) {
-        return true
-      }
-    }
-    return false
-  }
-
-  /**
-   * TODO определить функционал методов swap и swapRune
-   * Меняет местами руны
-   * **! ВАЖНО** Используется только в пределах класса
-   * @protected
-   * @param  {coordRune} coordRuneOne Координата первой руны
-   * @param  {coordRune} coordRuneTwo Координата второй руны
-   * @return {Array.<coordRune>}      Координаты обмененых рун
-   */
-  swap (coordRuneOne, coordRuneTwo) {
-    let tmp = this.board[coordRuneOne.i][coordRuneOne.j]
-    this.board[coordRuneOne.i][coordRuneOne.j] = this.board[coordRuneTwo.i][coordRuneTwo.j]
-    this.board[coordRuneTwo.i][coordRuneTwo.j] = tmp
-    return [ coordRuneOne, coordRuneTwo ]
-  }
-
-  /**
-   * TODO определить функционал методов swap и swapRune
-   * Меняет местами объекты руны
-   * **! ВАЖНО** Для использования в пределах класса есть метод `swap`
-   * @param  {coordRune} coordRuneOne Координата первой руны
-   * @param  {coordRune} coordRuneTwo Координата второй руны
-   * @return {Array.<coordRune>}      Координаты обмененых рун
-   */
-  swapRune (coordRuneOne, coordRuneTwo) {
-    this.swap(coordRuneOne, coordRuneTwo)
-    return [coordRuneOne, coordRuneTwo]
-  }
-
-  /**
-   * Проверяет сохраненное поле
-   * @param  {Array.Number} savedBoard сохраненное поле
-   * @return {Boolean}
-   */
-  validatorSavedBoard (savedBoard) {
-    if (savedBoard.length > 3 && savedBoard[0].length > 3) {
-      for (let i = 0; i < savedBoard.length; i++) {
-        for (let j = 0; j < savedBoard[0].length; j++) {
-          if (savedBoard[i][j] < 0 || savedBoard[i][j] > this.maxTypeGenerateRunes) {
-            return false
-          }
-        }
-      }
-      return true
-    }
-    return false
   }
 }
 
