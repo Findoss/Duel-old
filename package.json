@@ -6,6 +6,7 @@
   "author": "Findoss",
   "scripts": {
     "start": "node server/index.js",
+    "dev": "webpack --config webpack.config.js",
     "doc": "node utils/docs_build.js"
   },
   "dependencies": {
@@ -15,6 +16,7 @@
     "socket.io": "^2.0.4"
   },
   "devDependencies": {
+    "html-webpack-plugin": "^2.30.1",
     "jsdoc": "^3.5.5",
     "jsdoc-to-markdown": "latest",
     "webpack": "^3.10.0"
