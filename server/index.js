@@ -3,16 +3,6 @@ var app = require('express')
 var http = require('http').Server(app)
 var io = require('socket.io')(http)
 
-// del on
-const testBoard5 = [
-[0, 0, 1, 4, 1, 2],
-[0, 1, 3, 3, 4, 4],
-[3, 2, 3, 0, 1, 4],
-[0, 1, 2, 1, 0, 1],
-[1, 4, 4, 2, 1, 4],
-[2, 2, 3, 3, 1, 2]]
-// del off
-
 // configs
 const runes = require('./configs/runes')
 const key = 'generationRuneKey'
@@ -38,14 +28,16 @@ io.on('connection', (socket) => {
     DEBUG.server && console.log(param)
     switch (cmd) {
       case 'load':
-        DEBUG.server && console.log('[.] load board')
-        DEBUG.server && console.log('[←] board')
-        io.emit('load', board.loadBoard(testBoard5))
+        // DEBUG.server && console.log('[.] load board')
+        // DEBUG.server && console.log('[←] board')
+        // io.emit('load', board.loadBoard(testBoard5))
         break
       case 'generation':
         DEBUG.server && console.log('[.] generation board')
         DEBUG.server && console.log('[←] new board')
+        DEBUG.server && console.log('[←] all suggestion')
         io.emit('generation', board.generationBoard())
+        io.emit('suggestion', board.findMoves())
         break
       case 'pick':
         if (board.isActiveRune()) {
@@ -74,6 +66,8 @@ io.on('connection', (socket) => {
                 io.emit('swap', [param, board.activeRune])
                 io.emit('swap', [param, board.activeRune])
               }
+              DEBUG.server && console.log('[←] all suggestion')
+              io.emit('suggestion', board.findMoves())
             } else {
               DEBUG.server && console.log('[←] deactive rune')
               DEBUG.server && console.log('[←] pick new active rune')

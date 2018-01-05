@@ -1,3 +1,11 @@
+/* TODO LIST
+ * оптимизировать - поиск цепей и их комбинаций
+ * оптимизировать - поиск возможных ходов
+ * рассмотреть возможность не хранить значения линий внутри класса
+ * при пополнении поля - проверка на возможные ходы
+ * проверка на вхождение в поле не нужна если проверять паттерны в поиске ходов
+ */
+
 const SeedRandom = require('seedrandom')
 
 /**
@@ -191,13 +199,30 @@ class Board {
   }
 
   /**
+   * Проверяет входят ли координата руны в границы поля
+   * @param  {Array} coordRunes Координаты рун
+   * @return {Boolean} Возвращает true, если координата руны входит в границы поля, иначе false.
+   */
+  isInBoard (coords) {
+    if (coords.i < 0 ||
+        coords.j < 0 ||
+        coords.i >= this.rows ||
+        coords.j >= this.columns) {
+      return false
+    }
+    return true
+  }
+
+  /**
    * Выполняет сравнение между типом основной руны и типом каждой руны в массиве, чтобы определить, эквивалентны ли они.
    * @param  {coord}    coord  Координата основной руны
    * @param  {...coord} coords Координаты проверямых рун
    * @return {Boolean} Возвращает, true если тип каждой руны в массиве эквивалентен типу основной руны, иначе false.
    */
   isEqualType (coord, ...coords) {
+    if (!this.isInBoard(coord)) return false
     for (let l = 0; l < coords.length; l++) {
+      if (!this.isInBoard(coords[l])) return false
       if (this.board[coord.i][coord.j] !== this.board[coords[l].i][coords[l].j]) {
         return false
       }
@@ -339,11 +364,10 @@ class Board {
 
   /**
    * TODO что если нет возможных ходов ?
-   * TODO контроль генерации
    * Пополняет поле, заменет пустые руны случайными рунами с учетом их шанса и региона
    * @return {Array.<coordAndType>} Возвращает, массив координаты и тип новых рун
    */
-  refill () {
+  refill (minMoveCount = 1) {
     let newRunes = []
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.columns; j++) {
@@ -391,7 +415,7 @@ class Board {
       }
     }
     let limit = Math.round((this.columns * this.rows) / 100 * this.runes[type].limit)
-    return (countType[type] + 1 < limit)
+    return (countType[type] + 1 <= limit)
   }
 
   /**
@@ -424,35 +448,133 @@ class Board {
   }
 
   /**
-   * TODO
-   * @param  {todo} i
-   * @param  {todo} j
-   * @return {todo}
+   * Генерирует случайное целое число в диапозоне [0, `this.runes.length`]
+   * @return {Number} Возвращает случайное целое число
    */
   generationRune () {
     return Math.floor(this.seedRandom() * (this.runes.length))
   }
 
   /**
-   * TODO что если нет возможных ходов ?
-   * TODO контроль генерации
-   * @param  {todo} i
-   * @param  {todo} j
-   * @return {todo}
+   * Генерирует случайное игровое поле
+   * @return {Array} Возвращает, массив `this.board`
    */
-  generationBoard () {
+  generationBoard (minMoveCount = 3) {
+    do {
+      for (let i = 0; i < this.rows; i++) {
+        for (let j = 0; j < this.columns; j++) {
+          let randomType = -1
+          do {
+            randomType = this.generationRune()
+          } while (!this.isInLimit(randomType) ||
+                   !this.isInRegion(i, j, randomType) ||
+                   this.isInNewCluster(i, j, randomType))
+          this.board[i][j] = randomType
+        }
+      }
+    } while (this.findMoves().length < minMoveCount)
+    return this.board
+  }
+
+  /**
+   * TODO **! ВАЖНО - ЭТО В РАЗРАБОТКЕ !, не оптимально !!!**
+   * Возвращает массив возможных ходов
+   * 1 - Первая руна
+   * 2 - Вторая руна
+   * x - Третяя руна
+   * o - координата смещения третей руны
+   * Патерны:
+   * ```
+   *   x     x
+   * x o 1 2 o x
+   *   x     x
+   * ```
+   * ```
+   *   x
+   * x o x
+   *   1
+   *   2
+   * x o x
+   *   x
+   * ```
+   * ```
+   *   x
+   * 1 o 2
+   *   x
+   * ```
+   * ```
+   *   1
+   * x o x
+   *   2
+   * ```
+
+   * @return {Array.Array.<coordRune>} Массив пар координат рун для обмена
+   */
+  findMoves () {
+    let moves = []
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.columns; j++) {
-        let randomType = -1
-        do {
-          randomType = this.generationRune()
-        } while (!this.isInLimit(randomType) ||
-                 !this.isInRegion(i, j, randomType) ||
-                 this.isInNewCluster(i, j, randomType))
-        this.board[i][j] = randomType
+        let coordRuneO = {}
+        let coordRuneX = {}
+        let coordRune1 = {i, j}
+        let coordRune2 = {i: i, j: j + 1}
+        if (this.isEqualType(coordRune1, coordRune2)) {
+          coordRuneO = {i: i, j: j + 2}
+          coordRuneX = {i: i - 1, j: j + 2}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+          coordRuneX = {i: i, j: j + 3}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+          coordRuneX = {i: i + 1, j: j + 2}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+
+          coordRuneO = {i: i, j: j - 1}
+          coordRuneX = {i: i - 1, j: j - 1}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+          coordRuneX = {i: i, j: j - 2}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+          coordRuneX = {i: i + 1, j: j - 1}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+        }
+
+        coordRune2 = {i: i + 1, j: j}
+        if (this.isEqualType(coordRune1, coordRune2)) {
+          coordRuneO = {i: i + 2, j: j}
+          coordRuneX = {i: i + 2, j: j - 1}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+          coordRuneX = {i: i + 3, j: j}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+          coordRuneX = {i: i + 2, j: j + 1}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+
+          coordRuneO = {i: i - 1, j: j}
+          coordRuneX = {i: i - 1, j: j - 1}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+          coordRuneX = {i: i - 2, j: j}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+          coordRuneX = {i: i - 1, j: j + 1}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+        }
+
+        coordRune2 = {i: i, j: j + 2}
+        if (this.isEqualType(coordRune1, coordRune2)) {
+          coordRuneO = {i: i, j: j + 1}
+          coordRuneX = {i: i + 1, j: j + 1}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+          coordRuneX = {i: i - 1, j: j + 1}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+        }
+
+        coordRune2 = {i: i + 2, j: j}
+        if (this.isEqualType(coordRune1, coordRune2)) {
+          coordRuneO = {i: i + 1, j: j}
+          coordRuneX = {i: i + 1, j: j - 1}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+          coordRuneX = {i: i + 1, j: j + 1}
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({coordRuneO, coordRuneX})
+        }
       }
     }
-    return this.board
+    return moves
   }
 }
 

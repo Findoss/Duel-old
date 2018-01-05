@@ -183,7 +183,7 @@ class View {
   renderAllSuggestion (coordRunes, configSuggestionSprite) {
     let tween = {}
     for (var l = 0; l < coordRunes.length; l++) {
-      tween = this.renderSuggestion(coordRunes[l].coordRuneOne, coordRunes[l].coordRuneTwo, configSuggestionSprite)
+      tween = this.renderSuggestion(coordRunes[l].coordRuneO, coordRunes[l].coordRuneX, configSuggestionSprite)
     }
     return tween
   }

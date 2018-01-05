@@ -67,6 +67,11 @@ class Sandbox extends Phaser.State {
       this.queue.add(this.view, 'renderBoard', true, newBoard)
     })
 
+    socket.on('suggestion', (suggestions) => {
+      DEBUG.socket && console.log(suggestions)
+      this.queue.add(this.view, 'renderAllSuggestion', false, suggestions, textureSuggestion)
+    })
+
     socket.on('load', (board) => {
       DEBUG.socket && console.log(board)
       this.queue.add(this.view, 'renderBoard', true, board)
@@ -86,6 +91,7 @@ class Sandbox extends Phaser.State {
 
     socket.on('swap', (coords) => {
       DEBUG.socket && console.log(coords)
+      this.view.cleanSuggestion()
       this.queue.add(this.view, 'renderSwap', true, coords[0], coords[1])
     })
 
