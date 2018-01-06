@@ -1,0 +1,7 @@
+/* TEAM */
+  Web deverloper: Nikita Stroganov (Findoss)
+  Contact: "todo mail"
+  From: Russia, Saint-Petersburg
+
+
+/* THANKS */

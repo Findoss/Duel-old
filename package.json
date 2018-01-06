@@ -1,0 +1,22 @@
+{
+  "name": "duel",
+  "version": "1.0.0",
+  "description": "game",
+  "main": "index.js",
+  "author": "Findoss",
+  "scripts": {
+    "start": "node server/index.js",
+    "doc": "node utils/docs_build.js"
+  },
+  "dependencies": {
+    "express": "^4.16.2",
+    "phaser-ce": "^2.9.2",
+    "seedrandom": "^2.4.3",
+    "socket.io": "^2.0.4"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.5.5",
+    "jsdoc-to-markdown": "latest"
+  },
+  "license": " todo license "
+}

@@ -1,3 +1,1 @@
-[**← HOME**](README.md)  
-
-# Мир игры
+[**← HOME**](README.md)
