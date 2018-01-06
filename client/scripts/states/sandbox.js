@@ -1,4 +1,6 @@
 /* globals Phaser, io, game */
+import io from 'socket.io-client'
+
 import Utils from '../utils'
 
 import DEBUG from '../configs/debug'
