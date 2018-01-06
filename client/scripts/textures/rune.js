@@ -1,4 +1,4 @@
-const textureRune = {
+export default {
   fileName: 'rune_',
   size: {
     width: 100,

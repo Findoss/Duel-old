@@ -1,4 +1,4 @@
-const textureSuggestion = {
+export default {
   fileName: 'finger',
   size: {
     width: 100,

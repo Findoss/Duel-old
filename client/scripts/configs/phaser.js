@@ -1,6 +1,5 @@
-/* globals Phaser, init, preload, create, update */
-
-const configPhaser = {
+/* globals Phaser */
+export default {
   width: 750,
   height: 1300,
   renderer: Phaser.AUTO,

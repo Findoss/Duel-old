@@ -1,5 +1,4 @@
-/bundle/bundle.js
-/bundle/bundle.css
+/bundle/*bundle*
 /bundle/index.html
 /docs
 /node_modules
