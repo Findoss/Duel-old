@@ -48,7 +48,7 @@ const common = {
 const dev = {
   devtool: 'cheap-source-map',
   devServer: {
-    publicPath: PATHS.build,
+    contentBase: PATHS.build,
     host: 'localhost',
     port: 8000,
     compress: true,
