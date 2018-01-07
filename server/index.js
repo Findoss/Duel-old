@@ -1,7 +1,7 @@
 // vendor
-var app = require('express')
-var http = require('http').Server(app)
-var io = require('socket.io')(http)
+const app = require('express')
+const http = require('http').Server(app)
+const io = require('socket.io')(http)
 
 // configs
 const runes = require('./configs/runes')
@@ -17,7 +17,7 @@ console.log('DEBUG.client: ' + DEBUG.client)
 console.log('DEBUG.server: ' + DEBUG.server)
 
 io.on('connection', (socket) => {
-  DEBUG.server && console.log('[.] user connected')
+  DEBUG.server && console.log('[.] ' + socket.id + ' connected')
 
   socket.on('log', (msg) => {
     DEBUG.client && console.log('[→] log: ' + msg)

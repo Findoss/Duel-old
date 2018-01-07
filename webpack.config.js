@@ -1,36 +1,77 @@
 const path = require('path')
+const merge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractCSS = require('extract-text-webpack-plugin')
 
-let outPath = path.resolve(__dirname, 'bundle')
+const PATHS = {
+  source: path.join(__dirname, 'client'),
+  build: path.join(__dirname, 'build')
+}
 
-module.exports = {
+const common = {
   entry: {
     app: [
-      './client/scripts/index.js'
+      PATHS.source + '/scripts/index.js',
+      PATHS.source + '/styles/index.css'
     ],
-    vendors: [
-      './node_modules/phaser-ce/build/phaser'
-    ]
+    vendors: './node_modules/phaser-ce/build/phaser'
   },
   output: {
-    filename: '[name].bundle.js',
-    path: outPath
+    filename: 'js/[name].bundle.js',
+    path: PATHS.build
   },
   module: {
-    loaders: [
+    rules: [
+      {
+        test: /\.css$/,
+        use: ExtractCSS.extract({
+          use: 'css-loader'
+        })
+      },
       {
         test: /phaser\.js$/,
         loader: 'script-loader'
       }
     ]
   },
-  devtool: 'cheap-source-map',
   plugins: [
     new HtmlWebpackPlugin({
-      filename: outPath + '/index.html',
-      template: './client/index.html',
+      filename: PATHS.build + '/index.html',
+      template: PATHS.source + '/index.html',
       chunks: ['vendors', 'app'],
       chunksSortMode: 'manual'
-    })
+    }),
+    new ExtractCSS('css/[name].bundle.css')
   ]
+}
+
+const dev = {
+  devtool: 'cheap-source-map',
+  devServer: {
+    contentBase: PATHS.build,
+    host: 'localhost',
+    port: 8000,
+    compress: true,
+    stats: {
+      hash: false,
+      cached: false,
+      chunks: false,
+      source: false,
+      modules: false,
+      version: false,
+      children: false,
+      performance: false
+    }
+  }
+}
+
+module.exports = (env) => {
+  if (env === 'production') {
+    return common
+  } else {
+    return merge([
+      common,
+      dev
+    ])
+  }
 }
