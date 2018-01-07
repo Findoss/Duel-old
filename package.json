@@ -5,7 +5,7 @@
   "main": "index.js",
   "author": "Findoss",
   "scripts": {
-    "start": "node server/index.js",
+    "start": "supervisor --watch server server/index.js ",
     "dev": "webpack --config webpack.config.js",
     "doc": "node utils/docs_build.js"
   },
@@ -20,6 +20,7 @@
     "jsdoc": "^3.5.5",
     "jsdoc-to-markdown": "latest",
     "script-loader": "^0.7.2",
+    "supervisor": "^0.12.0",
     "webpack": "^3.10.0"
   },
   "license": " todo license "
