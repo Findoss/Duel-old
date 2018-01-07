@@ -5,18 +5,29 @@
   "main": "index.js",
   "author": "Findoss",
   "scripts": {
-    "start": "node server/index.js",
+    "start": "server && build",
+    "build": "webpack --env production",
+    "server": "supervisor --watch server server/index.js ",
+    "client": "webpack-dev-server --env development",
     "doc": "node utils/docs_build.js"
   },
   "dependencies": {
     "express": "^4.16.2",
-    "phaser-ce": "^2.9.2",
+    "phaser-ce": "^2.9.4",
     "seedrandom": "^2.4.3",
     "socket.io": "^2.0.4"
   },
   "devDependencies": {
+    "css-loader": "^0.28.8",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "html-webpack-plugin": "^2.30.1",
     "jsdoc": "^3.5.5",
-    "jsdoc-to-markdown": "latest"
+    "jsdoc-to-markdown": "latest",
+    "script-loader": "^0.7.2",
+    "supervisor": "^0.12.0",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.10.0",
+    "webpack-merge": "^4.1.1"
   },
   "license": " todo license "
 }

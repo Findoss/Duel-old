@@ -1,12 +1,26 @@
-/* globals Phaser, View, Queue, game, DEBUG, utils, socket, textureSuggestion, textureRune, configTextures */
+/* globals Phaser, io, game */
+import io from 'socket.io-client'
 
-class Sandbox extends Phaser.State {
+import Utils from '../utils'
+
+import DEBUG from '../configs/debug'
+import configTextures from '../configs/textures'
+
+import textureSuggestion from '../textures/suggestion'
+import textureRune from '../textures/rune'
+
+import Queue from '../classes/queue'
+import View from '../classes/view'
+
+export default class extends Phaser.State {
 
   constructor () {
     super()
+    this.utils = new Utils()
     this.view = {}
     this.queue = {}
     this.activeRune = null
+    this.socket = new io('http://localhost:8080')
   }
 
   init () {
@@ -38,8 +52,8 @@ class Sandbox extends Phaser.State {
   }
 
   create () {
-    // рендер руки
-    // let suggestion = this.game.add.sprite(100, 100, textureSuggestion.fileName)
+    //
+    DEBUG.socket && this.socket.emit('log', 'connected')
 
     //
     this.queue = new Queue()
@@ -49,12 +63,12 @@ class Sandbox extends Phaser.State {
     this.bindEvents()
 
     //
-    socket.emit('game', 'generation')
+    this.socket.emit('game', 'generation')
   }
 
   update () {
     // перехватываем ресайз игры и масштабируем
-    utils.resizeGame(this.game)
+    this.utils.resizeGame(this.game)
   }
 
   render () {
@@ -62,59 +76,59 @@ class Sandbox extends Phaser.State {
   }
 
   bindEvents () {
-    socket.on('generation', (newBoard) => {
+    this.socket.on('generation', (newBoard) => {
       DEBUG.socket && console.log(newBoard)
       this.queue.add(this.view, 'renderBoard', true, newBoard)
     })
 
-    socket.on('suggestion', (suggestions) => {
+    this.socket.on('suggestion', (suggestions) => {
       DEBUG.socket && console.log(suggestions)
       this.queue.add(this.view, 'renderAllSuggestion', false, suggestions, textureSuggestion)
     })
 
-    socket.on('load', (board) => {
+    this.socket.on('load', (board) => {
       DEBUG.socket && console.log(board)
       this.queue.add(this.view, 'renderBoard', true, board)
     })
 
-    socket.on('active', (coord) => {
+    this.socket.on('active', (coord) => {
       DEBUG.socket && console.log(coord)
       this.activeRune = this.view.board[coord.i][coord.j]
       this.view.board[coord.i][coord.j].animations.play('pick', 4, true)
     })
 
-    socket.on('deactive', (coord) => {
+    this.socket.on('deactive', (coord) => {
       DEBUG.socket && console.log(coord)
       this.activeRune.animations.play('wait', 4, true)
       this.activeRune = null
     })
 
-    socket.on('swap', (coords) => {
+    this.socket.on('swap', (coords) => {
       DEBUG.socket && console.log(coords)
       this.view.cleanSuggestion()
       this.queue.add(this.view, 'renderSwap', true, coords[0], coords[1])
     })
 
-    socket.on('deleteRunes', (coords) => {
+    this.socket.on('deleteRunes', (coords) => {
       DEBUG.socket && console.log(coords)
       this.queue.add(this.view, 'renderDeleteRunes', true, coords)
     })
 
-    socket.on('drop', (dropRunes) => {
+    this.socket.on('drop', (dropRunes) => {
       DEBUG.socket && console.log(dropRunes)
       if (dropRunes.length !== 0) {
         this.queue.add(this.view, 'renderDrop', true, dropRunes)
       }
     })
 
-    socket.on('refill', (coordRunes) => {
+    this.socket.on('refill', (coordRunes) => {
       DEBUG.socket && console.log(coordRunes)
       this.queue.add(this.view, 'renderRefull', true, coordRunes)
     })
   }
 
   runeClick (pickRune, param, coordPickRune) {
-    socket.emit('game', 'pick', coordPickRune)
+    this.socket.emit('game', 'pick', coordPickRune)
   }
 
   runeOver (rune) {

@@ -6,7 +6,7 @@
  * @class
  * @fires Queue
  */
-class Queue {
+export default class {
   /**
    * @constructor
    */

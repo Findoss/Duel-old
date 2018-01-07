@@ -1,6 +1,5 @@
-/bundle/bundle.js
-/bundle/bundle.css
-/bundle/index.html
+/build/*/*bundle*
+/build/index.html
 /docs
 /node_modules
 /*lock.json

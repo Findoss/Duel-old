@@ -1,4 +1,4 @@
-/* globals Phaser, textureRune */
+/* globals Phaser */
 /**
  * todo Визуальное представление игрового поля
  *
@@ -13,7 +13,7 @@
  * @class
  * @fires View
  */
-class View {
+export default class {
   /**
    * Конструктор объекта поля (визуальное)
    * @constructor
