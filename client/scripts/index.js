@@ -1,5 +1,5 @@
 /* globals Phaser */
-import config from './configs/phaser'
+import config from './configs/game_container.js'
 import Sandbox from './states/sandbox'
 
 let param = {
@@ -7,7 +7,7 @@ let param = {
 }
 
 class Game extends Phaser.Game {
-  constructor () {
+  constructor (config) {
     super(config)
 
     // this.state.add('PlayGame', PlayGame, false)
@@ -19,4 +19,4 @@ class Game extends Phaser.Game {
   }
 }
 
-window.game = new Game()
+window.game = new Game(config)
