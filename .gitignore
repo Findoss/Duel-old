@@ -1,5 +1,5 @@
-/bundle/*bundle*
-/bundle/index.html
+/build/*/*bundle*
+/build/index.html
 /docs
 /node_modules
 /*lock.json
