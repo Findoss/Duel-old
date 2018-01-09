@@ -53,7 +53,7 @@ export default class extends Phaser.State {
 
   create () {
     //
-    DEBUG.socket && this.socket.emit('log', 'connected')
+    DEBUG.socket && this.socket.emit('msg', 'connected')
 
     //
     this.queue = new Queue()
@@ -63,7 +63,7 @@ export default class extends Phaser.State {
     this.bindEvents()
 
     //
-    this.socket.emit('game', 'generation')
+    this.socket.emit('lobby/ready')
   }
 
   update () {
@@ -128,7 +128,7 @@ export default class extends Phaser.State {
   }
 
   runeClick (pickRune, param, coordPickRune) {
-    this.socket.emit('game', 'pick', coordPickRune)
+    this.socket.emit('board/pick', coordPickRune)
   }
 
   runeOver (rune) {
