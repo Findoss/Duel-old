@@ -12,6 +12,8 @@ import textureRune from '../textures/rune'
 import Queue from '../classes/queue'
 import View from '../classes/view'
 
+import Board from '../../../libs/board'
+
 export default class extends Phaser.State {
 
   constructor () {
