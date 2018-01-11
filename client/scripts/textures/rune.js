@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   fileName: 'rune_',
   size: {
     width: 100,

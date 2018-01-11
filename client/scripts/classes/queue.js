@@ -6,7 +6,7 @@
  * @class
  * @fires Queue
  */
-export default class {
+class Queue {
   /**
    * @constructor
    */
@@ -73,3 +73,5 @@ export default class {
     }
   }
 }
+
+module.exports = Queue

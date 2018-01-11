@@ -1,28 +1,26 @@
-/* globals Phaser, io, game */
-import io from 'socket.io-client'
+/* globals Phaser, game */
+const IO = require('socket.io-client')
 
-import Utils from '../utils'
+const Utils = require('../utils')
 
-import DEBUG from '../configs/debug'
-import configTextures from '../configs/textures'
+const configTextures = require('../configs/textures')
+const textureSuggestion = require('../textures/suggestion')
+const textureRune = require('../textures/rune')
 
-import textureSuggestion from '../textures/suggestion'
-import textureRune from '../textures/rune'
+const Queue = require('../classes/queue')
+const View = require('../classes/view')
 
-import Queue from '../classes/queue'
-import View from '../classes/view'
+const Board = require('../../../libs/board')
+const log = require('../../../libs/log')
 
-import Board from '../../../libs/board'
-
-export default class extends Phaser.State {
-
+class Sandbox extends Phaser.State {
   constructor () {
     super()
     this.utils = new Utils()
     this.view = {}
     this.queue = {}
     this.activeRune = null
-    this.socket = new io('http://localhost:8080')
+    this.socket = new IO('http://localhost:8080')
   }
 
   init () {
@@ -145,3 +143,5 @@ export default class extends Phaser.State {
     }
   }
 }
+
+module.exports = Sandbox

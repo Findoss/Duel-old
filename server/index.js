@@ -9,7 +9,7 @@ const key = 'generationRuneKey'
 
 // classes
 const Board = require('../libs/board')
-const DEBUG = require('./configs/debug')
+const log = require('../libs/log')
 
 const board = new Board(runes, key)
 
