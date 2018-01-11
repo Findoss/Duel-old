@@ -8,7 +8,7 @@ const runes = require('./configs/runes')
 const key = 'generationRuneKey'
 
 // classes
-const Board = require('./classes/board')
+const Board = require('../libs/board')
 const DEBUG = require('./configs/debug')
 
 const board = new Board(runes, key)

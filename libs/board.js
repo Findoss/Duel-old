@@ -95,10 +95,7 @@ class Board {
      */
     this.board = []
     for (let i = 0; i < this.rows; i++) {
-      this.board[i] = []
-      for (let j = 0; j < this.columns; j++) {
-        this.board[i][j] = -1
-      }
+      this.board[i] = [].fill(-1)
     }
     /**
      * Координаты выбранной руны

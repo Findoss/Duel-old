@@ -7,7 +7,7 @@
   "scripts": {
     "start": "server && build",
     "build": "webpack --env production",
-    "server": "supervisor --watch server server/index.js ",
+    "server": "supervisor --watch server, libs server/index.js ",
     "client": "webpack-dev-server --env development",
     "doc": "node utils/docs_build.js"
   },
