@@ -13,6 +13,9 @@ const log = require('../libs/log')
 
 const board = new Board(runes, key)
 
+board.signal.on('onDeleteCluster', (param) => {
+  log('server', param)
+})
 
 io.on('connection', (socket) => {
   let userName = socket.id.slice(0, 5)

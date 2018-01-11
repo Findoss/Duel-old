@@ -6,6 +6,7 @@
  * проверка на вхождение в поле не нужна если проверять паттерны в поиске ходов
  */
 
+const Signal = require('events')
 const SeedRandom = require('seedrandom')
 
 /**
@@ -95,7 +96,10 @@ class Board {
      */
     this.board = []
     for (let i = 0; i < this.rows; i++) {
-      this.board[i] = [].fill(-1)
+      this.board[i] = []
+      for (let j = 0; j < this.columns; j++) {
+        this.board[i][j] = -1
+      }
     }
     /**
      * Координаты выбранной руны
@@ -112,6 +116,11 @@ class Board {
      * @type {Function}
      */
     this.seedRandom = SeedRandom(generationKey)
+    /**
+     * sadf
+     * @type {}
+     */
+    this.signal = new Signal()
   }
 
   /**
@@ -306,6 +315,8 @@ class Board {
       }
     }
     this.clusters = []
+
+    this.signal.emit('onDeleteCluster', coordDestroyedRunes)
     return coordDestroyedRunes
   }
 
