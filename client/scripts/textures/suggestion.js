@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   fileName: 'finger',
   size: {
     width: 100,

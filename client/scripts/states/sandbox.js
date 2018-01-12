@@ -1,26 +1,26 @@
-/* globals Phaser, io, game */
-import io from 'socket.io-client'
+/* globals Phaser, game */
+const IO = require('socket.io-client')
 
-import Utils from '../utils'
+const Utils = require('../utils')
 
-import DEBUG from '../configs/debug'
-import configTextures from '../configs/textures'
+const configTextures = require('../configs/textures')
+const textureSuggestion = require('../textures/suggestion')
+const textureRune = require('../textures/rune')
 
-import textureSuggestion from '../textures/suggestion'
-import textureRune from '../textures/rune'
+const Queue = require('../classes/queue')
+const View = require('../classes/view')
 
-import Queue from '../classes/queue'
-import View from '../classes/view'
+const Board = require('../../../libs/board')
+const log = require('../../../libs/log')
 
-export default class extends Phaser.State {
-
+class Sandbox extends Phaser.State {
   constructor () {
     super()
     this.utils = new Utils()
     this.view = {}
     this.queue = {}
     this.activeRune = null
-    this.socket = new io('http://localhost:8080')
+    this.socket = new IO('http://localhost:8080')
   }
 
   init () {
@@ -53,7 +53,7 @@ export default class extends Phaser.State {
 
   create () {
     //
-    DEBUG.socket && this.socket.emit('log', 'connected')
+    this.socket.emit('msg', 'connected')
 
     //
     this.queue = new Queue()
@@ -63,7 +63,7 @@ export default class extends Phaser.State {
     this.bindEvents()
 
     //
-    this.socket.emit('game', 'generation')
+    this.socket.emit('lobby/ready')
   }
 
   update () {
@@ -72,63 +72,11 @@ export default class extends Phaser.State {
   }
 
   render () {
-    DEBUG.fps && game.debug.text('FPS: ' + this.game.time.fps, 20, 30, '#00ff00', '25px Arial')
-  }
-
-  bindEvents () {
-    this.socket.on('generation', (newBoard) => {
-      DEBUG.socket && console.log(newBoard)
-      this.queue.add(this.view, 'renderBoard', true, newBoard)
-    })
-
-    this.socket.on('suggestion', (suggestions) => {
-      DEBUG.socket && console.log(suggestions)
-      this.queue.add(this.view, 'renderAllSuggestion', false, suggestions, textureSuggestion)
-    })
-
-    this.socket.on('load', (board) => {
-      DEBUG.socket && console.log(board)
-      this.queue.add(this.view, 'renderBoard', true, board)
-    })
-
-    this.socket.on('active', (coord) => {
-      DEBUG.socket && console.log(coord)
-      this.activeRune = this.view.board[coord.i][coord.j]
-      this.view.board[coord.i][coord.j].animations.play('pick', 4, true)
-    })
-
-    this.socket.on('deactive', (coord) => {
-      DEBUG.socket && console.log(coord)
-      this.activeRune.animations.play('wait', 4, true)
-      this.activeRune = null
-    })
-
-    this.socket.on('swap', (coords) => {
-      DEBUG.socket && console.log(coords)
-      this.view.cleanSuggestion()
-      this.queue.add(this.view, 'renderSwap', true, coords[0], coords[1])
-    })
-
-    this.socket.on('deleteRunes', (coords) => {
-      DEBUG.socket && console.log(coords)
-      this.queue.add(this.view, 'renderDeleteRunes', true, coords)
-    })
-
-    this.socket.on('drop', (dropRunes) => {
-      DEBUG.socket && console.log(dropRunes)
-      if (dropRunes.length !== 0) {
-        this.queue.add(this.view, 'renderDrop', true, dropRunes)
-      }
-    })
-
-    this.socket.on('refill', (coordRunes) => {
-      DEBUG.socket && console.log(coordRunes)
-      this.queue.add(this.view, 'renderRefull', true, coordRunes)
-    })
+    game.debug.text('FPS: ' + this.game.time.fps, 20, 30, '#00ff00', '25px Arial')
   }
 
   runeClick (pickRune, param, coordPickRune) {
-    this.socket.emit('game', 'pick', coordPickRune)
+    this.socket.emit('board/pick', coordPickRune)
   }
 
   runeOver (rune) {
@@ -142,4 +90,50 @@ export default class extends Phaser.State {
       rune.animations.play('wait', 4, true)
     }
   }
+
+  bindEvents () {
+    this.socket.on('generation', (newBoard) => {
+      log('client', newBoard)
+      this.queue.add(this.view, 'renderBoard', true, newBoard)
+    })
+
+    this.socket.on('suggestion', (suggestions) => {
+      this.queue.add(this.view, 'renderAllSuggestion', false, suggestions, textureSuggestion)
+    })
+
+    this.socket.on('load', (board) => {
+      this.queue.add(this.view, 'renderBoard', true, board)
+    })
+
+    this.socket.on('active', (coord) => {
+      this.activeRune = this.view.board[coord.i][coord.j]
+      this.view.board[coord.i][coord.j].animations.play('pick', 4, true)
+    })
+
+    this.socket.on('deactive', (coord) => {
+      this.activeRune.animations.play('wait', 4, true)
+      this.activeRune = null
+    })
+
+    this.socket.on('swap', (coords) => {
+      this.view.cleanSuggestion()
+      this.queue.add(this.view, 'renderSwap', true, coords[0], coords[1])
+    })
+
+    this.socket.on('deleteRunes', (coords) => {
+      this.queue.add(this.view, 'renderDeleteRunes', true, coords)
+    })
+
+    this.socket.on('drop', (dropRunes) => {
+      if (dropRunes.length !== 0) {
+        this.queue.add(this.view, 'renderDrop', true, dropRunes)
+      }
+    })
+
+    this.socket.on('refill', (coordRunes) => {
+      this.queue.add(this.view, 'renderRefull', true, coordRunes)
+    })
+  }
 }
+
+module.exports = Sandbox

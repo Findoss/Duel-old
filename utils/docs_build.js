@@ -5,7 +5,7 @@ const jsdoc2md = require('jsdoc-to-markdown')
 // path
 const pathInputs = [
   'client/scripts/classes/*.js',
-  'server/classes/*.js'
+  'libs/*.js'
 ]
 const pathOutput = 'docs/'
 const pathTemplate = 'utils/docs_template/members.hbs'

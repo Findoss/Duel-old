@@ -1,5 +1,5 @@
 /* globals Phaser */
-export default {
+module.exports = {
   width: 750,
   height: 1300,
   parent: 'game',

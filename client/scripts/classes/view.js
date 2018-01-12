@@ -13,7 +13,7 @@
  * @class
  * @fires View
  */
-export default class {
+class View {
   /**
    * Конструктор объекта поля (визуальное)
    * @constructor
@@ -451,3 +451,5 @@ export default class {
     this.groupBoard.setAll('inputEnabled', true)
   }
 }
+
+module.exports = View

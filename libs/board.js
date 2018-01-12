@@ -6,6 +6,7 @@
  * проверка на вхождение в поле не нужна если проверять паттерны в поиске ходов
  */
 
+const Signal = require('events')
 const SeedRandom = require('seedrandom')
 
 /**
@@ -115,6 +116,11 @@ class Board {
      * @type {Function}
      */
     this.seedRandom = SeedRandom(generationKey)
+    /**
+     * sadf
+     * @type {}
+     */
+    this.signal = new Signal()
   }
 
   /**
@@ -309,6 +315,8 @@ class Board {
       }
     }
     this.clusters = []
+
+    this.signal.emit('onDeleteCluster', coordDestroyedRunes)
     return coordDestroyedRunes
   }
 

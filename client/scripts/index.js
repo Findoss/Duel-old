@@ -1,6 +1,6 @@
 /* globals Phaser */
-import config from './configs/game_container.js'
-import Sandbox from './states/sandbox'
+const config = require('./configs/game_container.js')
+const Sandbox = require('./states/sandbox')
 
 let param = {
   board: []
