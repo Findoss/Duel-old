@@ -16,30 +16,32 @@ const log = require('../../../libs/log')
 class Sandbox extends Phaser.State {
   constructor () {
     super()
+    // вспомогательные инструменты для Phaser
     this.utils = new Utils()
-    this.view = {}
-    this.queue = {}
-    this.activeRune = null
+    // сокеты
     this.socket = new IO('http://localhost:8080')
+    this.view = {}
+    // класс очереди
+    this.queue = {}
   }
 
   init () {
-    // отрисовывка в фоне
+    // не останавливать js при неактивной вкладке
     game.stage.disableVisibilityChange = true
     // влючаем время для вывода FPS
     this.game.time.advancedTiming = true
-    // влючаем возможность разворачивать на весь экран F11
+    // влючаем возможность разворачивать на весь экран - F11
     this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL
   }
 
   preload () {
-    // загрузка руки (подсказка)
+    // загрузка спрайта руки (подсказка)
     this.game.load.image(
       textureSuggestion.fileName,
       configTextures.path + configTextures.skin + textureSuggestion.fileName + configTextures.ext
     )
 
-    // загрузка рун
+    // загрузка спрайтов рун
     for (let i = 0; i < 6; i++) {
       this.game.load.spritesheet(
         textureRune.fileName + i,
@@ -52,11 +54,9 @@ class Sandbox extends Phaser.State {
   }
 
   create () {
-    //
-    this.socket.emit('msg', 'connected')
-
-    //
+    // инициализация отрисовки
     this.queue = new Queue()
+    // инициализация очереди
     this.view = new View(this, textureRune)
 
     //

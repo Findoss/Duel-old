@@ -79,6 +79,11 @@ class View {
      * @type {json}
      */
     this.configSpriteRune = configSpriteRune
+    /**
+     * marginRune description
+     * @type {type}
+     */
+    this.activeRune = null
   }
 
   /**
