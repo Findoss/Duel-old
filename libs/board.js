@@ -102,24 +102,26 @@ class Board {
         this.board[i][j] = -1
       }
     }
-    /**
-     * Координаты выбранной руны
-     * @type {coord}
-     */
-    this.activeRune = null
+    // /**
+    //  * Координаты выбранной руны
+    //  * @type {coord}
+    //  * @protected
+    //  */
+    // this._activeRune = null
     /**
      * Массив линий
      * @type {Array.<cluster>}
+     * @protected
      */
-    this.clusters = []
+    this._clusters = []
     /**
      * Функция для генерации псевдослучайных чисел
      * @type {Function}
      */
     this.seedRandom = SeedRandom(generationKey)
     /**
-     * sadf
-     * @type {}
+     * Класс событий поля
+     * @type {Event}
      */
     this.signal = new Signal()
   }
@@ -133,7 +135,8 @@ class Board {
     this.board = []
     this.rows = savedBoard.length
     this.columns = savedBoard[0].length
-    this.board = savedBoard
+    this.board = Object.assign([], savedBoard)
+    this.signal.emit('onloadBoard', Object.assign([], savedBoard))
     return this.board
   }
 
@@ -147,33 +150,43 @@ class Board {
     return (coordOne.i === coordTwo.i && coordOne.j === coordTwo.j)
   }
 
-  /**
-   * Делает руну активной.
-   * @param  {coord} coord Координата выбранной руны
-   * @return {coord} Возвращает, координаты активной руны
-   */
-  pickActiveRune (coord) {
-    this.activeRune = coord
-    return this.activeRune
-  }
-
-  /**
-   * Проверяет есть ли активная руна
-   * @return {Boolean} Возвращает, true если есть активная руна, иначе false.
-   */
-  isActiveRune () {
-    return this.activeRune !== null
-  }
-
-  /**
-   * Удаляет активную руну.
-   * @return {coord} Возвращает, координаты удаленной активной руны
-   */
-  deActiveRune () {
-    let deActiveRune = this.activeRune
-    this.activeRune = null
-    return deActiveRune
-  }
+  // /**
+  //  * Возвращает координаты активной руны
+  //  * @return {coord} Возвращает коорлинаты активной руны
+  //  */
+  // get activeRune () {
+  //   return this._activeRune
+  // }
+  //
+  // /**
+  //  * Делает руну активной.
+  //  * @param  {coord} coord Координата выбранной руны
+  //  * @return {coord} Возвращает, координаты активной руны
+  //  */
+  // set activeRune (coord) {
+  //   this._activeRune = coord
+  //   this.signal.emit('onActiveRune', coord)
+  //   return this._activeRune
+  // }
+  //
+  // /**
+  //  * Проверяет есть ли активная руна
+  //  * @return {Boolean} Возвращает, true если есть активная руна, иначе false.
+  //  */
+  // isActiveRune () {
+  //   return this._activeRune !== null
+  // }
+  //
+  // /**
+  //  * Деактивирует руну.
+  //  * @return {coord} Возвращает, координаты деактивированой руны
+  //  */
+  // deactiveRune () {
+  //   let deactiveRune = this._activeRune
+  //   this._activeRune = null
+  //   this.signal.emit('onDeactiveRune', deactiveRune)
+  //   return deactiveRune
+  // }
 
   /**
    * Проверяет являются ли руны соседними по горизонтали или вертикали
@@ -198,11 +211,17 @@ class Board {
    * @param  {coord} coordTwo Координата второй руны
    * @return {Array.<coord>}      Координаты обмененых рун
    */
-  swap (coordOne, coordTwo) {
+  _swap (coordOne, coordTwo) {
     let tmp = this.board[coordOne.i][coordOne.j]
     this.board[coordOne.i][coordOne.j] = this.board[coordTwo.i][coordTwo.j]
     this.board[coordTwo.i][coordTwo.j] = tmp
     return [ coordOne, coordTwo ]
+  }
+
+  swap (coordOne, coordTwo) {
+    let coords = this._swap(coordOne, coordTwo)
+    this.signal.emit('onSwap', coords)
+    return coords
   }
 
   /**
@@ -241,7 +260,7 @@ class Board {
    * Проверяет по координате руны на наличие горизонтальных линий
    * @param  {Number} i Номер строки
    * @param  {Number} j Номер столбца
-   * @return {Array.<claster>} Возвращает, массив координат рун (линии), иначе пустой массив.
+   * @return {Array.<claster>} Возвращает, массив координат рун, иначе пустой массив.
    */
   findHorizontalClusters (i, j) {
     let cluster = []
@@ -260,7 +279,7 @@ class Board {
    * Проверяет по координате руны на наличие вертикальных линий
    * @param  {Number} i Номер строки
    * @param  {Number} j Номер столбца
-   * @return {Array.<claster>} Возвращает, массив координат рун (линии), иначе пустой массив.
+   * @return {Array.<claster>} Возвращает, массив координат рун, иначе пустой массив.
    */
   findVerticalClusters (i, j) {
     let cluster = []
@@ -285,7 +304,7 @@ class Board {
     for (let l = 0; l < this.columns - 2; l++) {
       let cluster = this.findHorizontalClusters(coord.i, l)
       if (cluster.length > 2) {
-        this.clusters.push(cluster)
+        this.clusters = cluster
         l += cluster.length - 1
       }
     }
@@ -293,7 +312,7 @@ class Board {
     for (let l = 0; l < this.rows - 2; l++) {
       let cluster = this.findVerticalClusters(l, coord.j)
       if (cluster.length > 2) {
-        this.clusters.push(cluster)
+        this.clusters = cluster
         l += cluster.length - 1
       }
     }
@@ -315,7 +334,7 @@ class Board {
         }
       }
     }
-    this.clusters = []
+    this.cleanClusters()
 
     this.signal.emit('onDeleteCluster', coordDestroyedRunes)
     return coordDestroyedRunes
@@ -342,14 +361,33 @@ class Board {
           }
         } else {
           if (this.board[i][j] > -1) {
-            this.swap({i, j}, {i: firstEmpty, j: j})
+            this._swap({i, j}, {i: firstEmpty, j: j})
             coordDropedRunes.push([{i, j}, {i: firstEmpty, j: j}])
             firstEmpty--
           }
         }
       }
     }
+    this.signal.emit('onDrop', coordDropedRunes)
     return coordDropedRunes
+  }
+
+  /**
+   * TODO
+   * @return {TODO} TODO
+   */
+  get clusters () {
+    return this._clusters
+  }
+
+  /**
+   * TODO
+   * @param  {TODO} TODO
+   * @return {TODO} TODO
+   */
+  set clusters (cluster) {
+    this._clusters.push(cluster)
+    return this._clusters
   }
 
   /**
@@ -358,6 +396,10 @@ class Board {
    */
   isClusters () {
     return this.clusters.length > 0
+  }
+
+  cleanClusters () {
+    this._clusters = []
   }
 
   /**
@@ -390,6 +432,7 @@ class Board {
         }
       }
     }
+    this.signal.emit('onRefill', newRunes)
     return newRunes
   }
 
@@ -482,7 +525,10 @@ class Board {
         }
       }
     } while (this.findMoves().length < minMoveCount)
-    return this.board
+
+    let newBoard = Object.assign([], this.board)
+    this.signal.emit('onLoad', newBoard)
+    return newBoard
   }
 
   /**
