@@ -27,15 +27,15 @@ io.on('connection', (socket) => {
     io.emit('board/generation', board.generationBoard())
   })
 
-  socket.on('board/swap', (coord) => {
-    log('server', `[→] [${userName}] swap`, coord)
+  socket.on('board/swap', (coords) => {
+    log('server', `[→] [${userName}] swap`, coords)
     // проверка на правильность хода (дублирование кода)
-    board.swap(coord, board.activeRune)
+    board.swap(coords[0], coords[1])
     board.findAllClusters()
     do {
       board.deleteClusters()
       board.drop()
-      io.emit('refill', board.refill())
+      io.emit('board/refill', board.generationSegment())
     } while (board.findAllClusters().length > 0)
   })
 

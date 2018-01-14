@@ -161,7 +161,7 @@ class Sandbox extends Phaser.State {
     })
 
     this.board.signal.on('onRefill', (newRune) => {
-      this.queue.add(this.view, 'renderRefull', true, newRune)
+      this.queue.add(this.view, 'renderRefill', true, newRune)
     })
   }
 
@@ -175,8 +175,8 @@ class Sandbox extends Phaser.State {
       this.board.loadBoard(newBoard)
     })
 
-    this.socket.on('board/refill', (coordRunes) => {
-      this.queue.add(this.view, 'renderRefull', true, coordRunes)
+    this.socket.on('board/refill', (runes) => {
+      this.board.refill(runes)
     })
   }
 }

@@ -414,29 +414,6 @@ class Board {
   }
 
   /**
-   * TODO что если нет возможных ходов ?
-   * Пополняет поле, заменет пустые руны случайными рунами с учетом их шанса и региона
-   * @return {Array.<coordAndType>} Возвращает, массив координаты и тип новых рун
-   */
-  refill (minMoveCount = 1) {
-    let newRunes = []
-    for (let i = 0; i < this.rows; i++) {
-      for (let j = 0; j < this.columns; j++) {
-        if (this.board[i][j] === -1) {
-          let randomType = -1
-          do {
-            randomType = this.generationRune()
-          } while (!this.isInLimit(randomType))
-          this.board[i][j] = randomType
-          newRunes.push({i, j, type: randomType})
-        }
-      }
-    }
-    this.signal.emit('onRefill', newRunes)
-    return newRunes
-  }
-
-  /**
    * Проверяет имеет ли возможность руна данного типа входить в данный регион
    * @param  {Number} i Номер строки
    * @param  {Number} j Номер столбца
@@ -529,6 +506,46 @@ class Board {
     let newBoard = Object.assign([], this.board)
     this.signal.emit('onLoad', newBoard)
     return newBoard
+  }
+
+  /**
+   * TODO что если нет возможных ходов ?
+   * Пополняет поле, заменет пустые руны случайными рунами с учетом их шанса и региона
+   * @return {Array.<Number>} Возвращает, массив тип новых рун
+   */
+  generationSegment (minMoveCount = 1) {
+    let newRunes = []
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.columns; j++) {
+        if (this.board[i][j] === -1) {
+          let randomType = -1
+          do {
+            randomType = this.generationRune()
+          } while (!this.isInLimit(randomType))
+          this.board[i][j] = randomType
+          newRunes.push(randomType)
+        }
+      }
+    }
+    this.signal.emit('generationSegment', newRunes)
+    return newRunes
+  }
+
+  // Возвращает, массив координаты и тип новых рун
+  refill (runes) {
+    let coordAndTypeRunes = []
+    let next = 0
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.columns; j++) {
+        if (this.board[i][j] === -1) {
+          this.board[i][j] = runes[next]
+          coordAndTypeRunes.push({i, j, type: runes[next]})
+          next++
+        }
+      }
+    }
+    this.signal.emit('onRefill', coordAndTypeRunes)
+    return coordAndTypeRunes
   }
 
   /**
