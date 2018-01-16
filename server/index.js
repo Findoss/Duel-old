@@ -8,11 +8,10 @@ const runes = require('./configs/runes')
 const key = 'generationRuneKey'
 
 // classes
-const Board = require('../libs/board')
+const Board = require('./classes/board')
 const log = require('../libs/log')
 
 const board = new Board(runes, key)
-
 
 io.on('connection', (socket) => {
   let userName = socket.id.slice(0, 5)
@@ -32,7 +31,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on('board/pick', (coord) => {
-    log('client', `[→] pick: ${coord}`)
+    log('client', '[→] pick: ' + coord)
     if (board.isActiveRune()) {
       if (!board.isEqualCoords(coord, board.activeRune)) {
         if (board.isAdjacent(coord, board.activeRune)) {

@@ -9,18 +9,17 @@ const textureRune = require('../textures/rune')
 
 const Queue = require('../classes/queue')
 const View = require('../classes/view')
-
-const Board = require('../../../libs/board')
 const log = require('../../../libs/log')
 
 class Sandbox extends Phaser.State {
   constructor () {
     super()
+    this.socket = new IO('http://localhost:8080')
     this.utils = new Utils()
+
     this.view = {}
     this.queue = {}
     this.activeRune = null
-    this.socket = new IO('http://localhost:8080')
   }
 
   init () {
@@ -53,7 +52,7 @@ class Sandbox extends Phaser.State {
 
   create () {
     //
-    this.socket.emit('msg', 'connected')
+    this.socket.emit('msg', 'hello')
 
     //
     this.queue = new Queue()
