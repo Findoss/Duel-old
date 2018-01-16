@@ -98,11 +98,6 @@ class Board {
       this.board[i] = [].fill(-1)
     }
     /**
-     * Координаты выбранной руны
-     * @type {coord}
-     */
-    this.activeRune = null
-    /**
      * Массив линий
      * @type {Array.<cluster>}
      */
@@ -135,34 +130,6 @@ class Board {
    */
   isEqualCoords (coordOne, coordTwo) {
     return (coordOne.i === coordTwo.i && coordOne.j === coordTwo.j)
-  }
-
-  /**
-   * Делает руну активной.
-   * @param  {coord} coord Координата выбранной руны
-   * @return {coord} Возвращает, координаты активной руны
-   */
-  pickActiveRune (coord) {
-    this.activeRune = coord
-    return this.activeRune
-  }
-
-  /**
-   * Проверяет есть ли активная руна
-   * @return {Boolean} Возвращает, true если есть активная руна, иначе false.
-   */
-  isActiveRune () {
-    return this.activeRune !== null
-  }
-
-  /**
-   * Удаляет активную руну.
-   * @return {coord} Возвращает, координаты удаленной активной руны
-   */
-  deActiveRune () {
-    let deActiveRune = this.activeRune
-    this.activeRune = null
-    return deActiveRune
   }
 
   /**
