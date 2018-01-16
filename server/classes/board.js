@@ -29,7 +29,7 @@ const SeedRandom = require('seedrandom')
 
 /**
  * @typedef  {Object} rune   Конфигурация руны
- * @property {Number} limit Максимальный процент количества рун на поле от общего числа
+ * @property {Number} limit  Максимальный процент количества рун на поле от общего числа
  * @property {region} region Допустимые границы генерации руны
  * @example
  * Object = {
@@ -272,8 +272,15 @@ class Board {
         }
       }
     }
-    this.clusters = []
+    this.cleanClusters ()
     return coordDestroyedRunes
+  }
+
+  /**
+   * Очищает массив линии
+   */
+  cleanClusters () {
+    this.clusters = []
   }
 
   /**
