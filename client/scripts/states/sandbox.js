@@ -16,30 +16,36 @@ const log = require('../../../libs/log')
 class Sandbox extends Phaser.State {
   constructor () {
     super()
+    // вспомогательные инструменты для Phaser
     this.utils = new Utils()
-    this.view = {}
-    this.queue = {}
-    this.activeRune = null
+    // сокеты
     this.socket = new IO('http://localhost:8080')
+
+    // класс поля
+    this.board = {}
+    // класс отрисовки
+    this.view = {}
+    // класс очереди
+    this.queue = {}
   }
 
   init () {
-    // отрисовывка в фоне
+    // не останавливать js при неактивной вкладке
     game.stage.disableVisibilityChange = true
     // влючаем время для вывода FPS
     this.game.time.advancedTiming = true
-    // влючаем возможность разворачивать на весь экран F11
+    // влючаем возможность разворачивать на весь экран - F11
     this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL
   }
 
   preload () {
-    // загрузка руки (подсказка)
+    // загрузка спрайта руки (подсказка)
     this.game.load.image(
       textureSuggestion.fileName,
       configTextures.path + configTextures.skin + textureSuggestion.fileName + configTextures.ext
     )
 
-    // загрузка рун
+    // загрузка спрайтов рун
     for (let i = 0; i < 6; i++) {
       this.game.load.spritesheet(
         textureRune.fileName + i,
@@ -52,15 +58,18 @@ class Sandbox extends Phaser.State {
   }
 
   create () {
-    //
-    this.socket.emit('msg', 'connected')
-
-    //
+    // инициализация отрисовки
     this.queue = new Queue()
+    // инициализация очереди
     this.view = new View(this, textureRune)
 
-    //
-    this.bindEvents()
+    // инициализация поля
+    this.board = new Board()
+
+    // обработчики событий логики
+    this.bindEventsLogic()
+    // обработчики событий c сервера
+    this.bindEventsServer()
 
     //
     this.socket.emit('lobby/ready')
@@ -75,63 +84,99 @@ class Sandbox extends Phaser.State {
     game.debug.text('FPS: ' + this.game.time.fps, 20, 30, '#00ff00', '25px Arial')
   }
 
-  runeClick (pickRune, param, coordPickRune) {
-    this.socket.emit('board/pick', coordPickRune)
+  runeClick (rune, param, coord) {
+    if (this.view.activeRune !== null) {
+      let coordActive = this.view.getIndexs(this.view.activeRune)
+      if (!this.board.isEqualCoords(coord, coordActive)) {
+        if (this.board.isAdjacent(coord, coordActive)) {
+          this.board.swap(coord, coordActive)
+          this.board.findClusters(coord)
+          this.board.findClusters(coordActive)
+          if (this.board.isClusters()) {
+            this.socket.emit('board/swap', [coord, coordActive])
+            this.board.signal.emit('onDeactiveRune')
+            // do {
+            this.board.deleteClusters()
+            this.board.drop()
+              // this.board.refill()
+            // } while (this.board.findAllClusters().length > 0)
+          } else {
+            this.board.swap(coord, coordActive)
+          }
+        } else {
+          this.board.signal.emit('onDeactiveRune')
+          this.board.signal.emit('onActiveRune', rune)
+        }
+      } else {
+        this.board.signal.emit('onDeactiveRune')
+      }
+    } else {
+      this.board.signal.emit('onActiveRune', rune)
+    }
   }
 
   runeOver (rune) {
-    if (rune !== this.activeRune) {
+    if (rune !== this.view.activeRune) {
       rune.animations.play('focus', 1, true)
     }
   }
 
   runeOut (rune) {
-    if (rune !== this.activeRune) {
+    if (rune !== this.view.activeRune) {
       rune.animations.play('wait', 4, true)
     }
   }
 
-  bindEvents () {
-    this.socket.on('generation', (newBoard) => {
-      log('client', newBoard)
+  bindEventsLogic () {
+    this.board.signal.on('onloadBoard', (newBoard) => {
+      log('client', 'onloadBoard', newBoard)
       this.queue.add(this.view, 'renderBoard', true, newBoard)
+      this.queue.add(this.view, 'renderAllSuggestion', false, this.board.findMoves(), textureSuggestion)
     })
 
-    this.socket.on('suggestion', (suggestions) => {
-      this.queue.add(this.view, 'renderAllSuggestion', false, suggestions, textureSuggestion)
-    })
-
-    this.socket.on('load', (board) => {
-      this.queue.add(this.view, 'renderBoard', true, board)
-    })
-
-    this.socket.on('active', (coord) => {
-      this.activeRune = this.view.board[coord.i][coord.j]
-      this.view.board[coord.i][coord.j].animations.play('pick', 4, true)
-    })
-
-    this.socket.on('deactive', (coord) => {
-      this.activeRune.animations.play('wait', 4, true)
-      this.activeRune = null
-    })
-
-    this.socket.on('swap', (coords) => {
+    this.board.signal.on('onActiveRune', (rune) => {
       this.view.cleanSuggestion()
-      this.queue.add(this.view, 'renderSwap', true, coords[0], coords[1])
+      this.view.activeRune = rune
+      this.view.activeRune.animations.play('pick', 4, true)
     })
 
-    this.socket.on('deleteRunes', (coords) => {
-      this.queue.add(this.view, 'renderDeleteRunes', true, coords)
+    this.board.signal.on('onDeactiveRune', () => {
+      this.view.activeRune.animations.play('wait', 4, true)
+      this.view.activeRune = null
+      this.queue.add(this.view, 'renderAllSuggestion', false, this.board.findMoves(), textureSuggestion)
     })
 
-    this.socket.on('drop', (dropRunes) => {
-      if (dropRunes.length !== 0) {
-        this.queue.add(this.view, 'renderDrop', true, dropRunes)
+    this.board.signal.on('onSwap', (coordRunes) => {
+      this.queue.add(this.view, 'renderSwap', true, coordRunes[0], coordRunes[1])
+    })
+
+    this.board.signal.on('onDeleteCluster', (coordRunes) => {
+      this.queue.add(this.view, 'renderDeleteRunes', true, coordRunes)
+    })
+
+    this.board.signal.on('onDrop', (coordRunes) => {
+      if (coordRunes.length > 0) {
+        this.queue.add(this.view, 'renderDrop', true, coordRunes)
       }
     })
 
-    this.socket.on('refill', (coordRunes) => {
-      this.queue.add(this.view, 'renderRefull', true, coordRunes)
+    this.board.signal.on('onRefill', (newRune) => {
+      this.queue.add(this.view, 'renderRefill', true, newRune)
+    })
+  }
+
+  bindEventsServer () {
+    this.socket.on('msg', (msg) => {
+      log('client', msg)
+    })
+
+    this.socket.on('board/generation', (newBoard) => {
+      log('client', 'board/generation')
+      this.board.loadBoard(newBoard)
+    })
+
+    this.socket.on('board/refill', (runes) => {
+      this.board.refill(runes)
     })
   }
 }
