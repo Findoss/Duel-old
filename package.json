@@ -5,9 +5,9 @@
   "main": "index.js",
   "author": "Findoss",
   "scripts": {
-    "start": "server && build",
+    "start": "node server/index.js",
     "build": "webpack --env production",
-    "server": "supervisor --watch server, libs server/index.js ",
+    "server": "supervisor --watch server server/index.js",
     "client": "webpack-dev-server --env development",
     "doc": "node utils/docs_build.js"
   },
