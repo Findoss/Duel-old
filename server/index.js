@@ -8,9 +8,11 @@ const runes = require('./configs/runes')
 const key = 'generationRuneKey'
 
 // classes
+const Changes = require('./classes/changes')
 const Board = require('./classes/board')
 const log = require('../libs/log')
 
+const changes = new Changes()
 const board = new Board(runes, key)
 
 io.on('connection', (socket) => {
@@ -22,65 +24,41 @@ io.on('connection', (socket) => {
   })
 
   socket.on('lobby/ready', () => {
-    log('server',
-        '[.] generation board',
-        '[←] new board',
-        '[←] all suggestion')
-    io.emit('generation', board.generationBoard())
-    io.emit('suggestion', board.findMoves())
+    io.emit('board/load', board.generationBoard())
   })
 
-  socket.on('board/pick', (coord) => {
-    log('client', '[→] pick: ' + coord)
-    if (board.isActiveRune()) {
-      if (!board.isEqualCoords(coord, board.activeRune)) {
-        if (board.isAdjacent(coord, board.activeRune)) {
-          board.swap(coord, board.activeRune)
-          board.findClusters(coord)
-          board.findClusters(board.activeRune)
-          if (board.isClusters()) {
-            log('server',
-                '[←] swap',
-                '[←] deactive rune')
-            io.emit('swap', [coord, board.activeRune])
-            io.emit('deactive', board.deActiveRune())
-            do {
-              log('server',
-                  '[←] delete rune clusters',
-                  '[←] drop runes',
-                  '[←] refill runes')
-              io.emit('deleteRunes', board.deleteClusters())
-              io.emit('drop', board.drop())
-              io.emit('refill', board.refill())
-              board.findAllClusters()
-            } while (board.isClusters())
-          } else {
-            board.swap(coord, board.activeRune)
-            log('server', '[←] fake swap')
-            io.emit('swap', [coord, board.activeRune])
-            io.emit('swap', [coord, board.activeRune])
-          }
-          log('server', '[←] all suggestion')
-          io.emit('suggestion', board.findMoves())
-        } else {
-          log('server',
-              '[←] deactive rune',
-              '[←] pick new active rune')
-          io.emit('deactive', board.deActiveRune())
-          io.emit('active', board.pickActiveRune(coord))
-        }
+  socket.on('board/suggestion', () => {
+    io.emit('board/suggestion', board.findMoves())
+  })
+
+  socket.on('board/swap', (coordOne, coordTwo) => {
+    if (!board.isEqualCoords(coordOne, coordTwo) &&
+         board.isAdjacent(coordOne, coordTwo)) {
+      board.swap(coordOne, coordTwo)
+      board.findClusters(coordOne)
+      board.findClusters(coordTwo)
+      if (board.isClusters()) {
+        changes.add('board/swap', [coordOne, coordTwo])
+        do {
+          changes.add('board/deleteRunes', board.deleteClusters())
+          changes.add('board/drop', board.drop())
+          changes.add('board/refill', board.refill())
+          board.findAllClusters()
+        } while (board.isClusters())
+        io.emit('changes', changes)
+        changes.clean()
       } else {
-        log('server', '[←] deactive rune')
-        io.emit('deactive', board.deActiveRune())
+        board.swap(coordOne, coordTwo)
+        board.cleanClusters()
+        io.emit('board/fakeSwap', [coordOne, coordTwo])
       }
     } else {
-      log('server', '[←] pick active rune')
-      io.emit('active', board.pickActiveRune(coord))
+      io.emit('msg', 'error')
     }
   })
 
   socket.on('disconnect', () => {
-    log('server', '[.] user disconnected')
+    log('server', `[.] ${userName} disconnected`)
   })
 })
 
