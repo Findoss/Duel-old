@@ -272,7 +272,7 @@ class Board {
         }
       }
     }
-    this.cleanClusters ()
+    this.cleanClusters()
     return coordDestroyedRunes
   }
 
