@@ -10,6 +10,10 @@ class Changes {
     this.events.push({event, data})
   }
 
+  isEmpty () {
+    return this.events.length < 0
+  }
+
   clean () {
     this.events = []
   }
