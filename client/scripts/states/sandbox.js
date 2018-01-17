@@ -60,7 +60,7 @@ class Sandbox extends Phaser.State {
 
     //
     this.socket.emit('msg', 'lobby/ready')
-    this.socket.emit('lobby/ready')
+    this.socket.emit('lobby/readya')
   }
 
   update () {
@@ -104,6 +104,26 @@ class Sandbox extends Phaser.State {
     }
   }
 
+  bindEvents () {
+    this.socket.on('changes', (changes) => {
+      log('server', changes[0]['event'])
+      for (var i = 0; i < changes.length; i++) {
+        this[changes[i]['event']].call(this, changes[i]['data'])
+      }
+    })
+
+    this.socket.on('msg', (msg) => {
+      log(msg)
+    })
+  }
+
+  // ***************** //
+
+  isAdjacent (coordOne, coordTwo) {
+    return (Math.abs(coordTwo.i - coordOne.i) === 1 && Math.abs(coordTwo.j - coordOne.j) === 0) ||
+           (Math.abs(coordTwo.i - coordOne.i) === 0 && Math.abs(coordTwo.j - coordOne.j) === 1)
+  }
+
   active (rune) {
     this.activeRune = rune
     this.activeRune.animations.play('pick', 4, true)
@@ -118,56 +138,40 @@ class Sandbox extends Phaser.State {
     this.view.cleanSuggestion()
   }
 
-  isAdjacent (coordOne, coordTwo) {
-    return (Math.abs(coordTwo.i - coordOne.i) === 1 && Math.abs(coordTwo.j - coordOne.j) === 0) ||
-           (Math.abs(coordTwo.i - coordOne.i) === 0 && Math.abs(coordTwo.j - coordOne.j) === 1)
+  loadBoard (newBoard) {
+    this.queue.add(this.view, 'renderBoard', true, newBoard)
+    this.socket.emit('board/suggestion')
   }
 
-  bindEvents () {
-    this.socket.on('board/load', (newBoard) => {
-      this.queue.add(this.view, 'renderBoard', true, newBoard)
-      this.socket.emit('board/suggestion')
-    })
+  suggestion (suggestions) {
+    this.queue.add(this.view, 'renderAllSuggestion', false, suggestions, textureSuggestion)
+  }
 
-    this.socket.on('changes', (changes) => {
-      for (var i = 0; i < changes.length; i++) {
-        //changes[i]
-      }
-    })
+  swap (coords) {
+    this.view.cleanSuggestion()
+    this.queue.add(this.view, 'renderSwap', true, coords[0], coords[1])
+  }
 
-    this.socket.on('board/suggestion', (suggestions) => {
-      this.queue.add(this.view, 'renderAllSuggestion', false, suggestions, textureSuggestion)
-    })
+  fakeSwap (coords) {
+    this.queue.add(this.view, 'renderSwap', true, coords[0], coords[1])
+    this.queue.add(this.view, 'renderSwap', true, coords[0], coords[1])
+    this.socket.emit('board/suggestion')
+  }
 
-    this.socket.on('board/swap', (coords) => {
-      this.view.cleanSuggestion()
-      this.queue.add(this.view, 'renderSwap', true, coords[0], coords[1])
-    })
+  delete (coords) {
+    this.queue.add(this.view, 'renderDeleteRunes', true, coords)
+  }
 
-    this.socket.on('board/fakeSwap', (coords) => {
-      this.queue.add(this.view, 'renderSwap', true, coords[0], coords[1])
-      this.queue.add(this.view, 'renderSwap', true, coords[0], coords[1])
-      this.socket.emit('board/suggestion')
-    })
+  drop (dropRunes) {
+    if (dropRunes.length !== 0) {
+      this.queue.add(this.view, 'renderDrop', true, dropRunes)
+    }
+  }
 
-    this.socket.on('board/deleteRunes', (coords) => {
-      this.queue.add(this.view, 'renderDeleteRunes', true, coords)
-    })
-
-    this.socket.on('board/drop', (dropRunes) => {
-      if (dropRunes.length !== 0) {
-        this.queue.add(this.view, 'renderDrop', true, dropRunes)
-      }
-    })
-
-    this.socket.on('board/refill', (coordRunes) => {
-      this.queue.add(this.view, 'renderRefull', true, coordRunes)
-      this.socket.emit('board/suggestion')
-    })
-
-    this.socket.on('msg', (msg) => {
-      log(msg)
-    })
+  refill (coordRunes) {
+    this.queue.add(this.view, 'renderRefull', true, coordRunes)
+    // временно
+    this.socket.emit('board/suggestion')
   }
 }
 
