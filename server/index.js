@@ -23,12 +23,22 @@ io.on('connection', (socket) => {
     log('client', `[→] msg: ${msg}`)
   })
 
-  socket.on('lobby/ready', () => {
-    io.emit('board/load', board.generationBoard())
+  socket.on('lobby/readya', () => {
+    changes.add('loadBoard', board.generationBoard())
+    //
+    if (!changes.isEmpty()) {
+      io.emit('changes', changes.events)
+      changes.clean()
+    }
   })
 
   socket.on('board/suggestion', () => {
-    io.emit('board/suggestion', board.findMoves())
+    changes.add('suggestion', board.findMoves())
+    //
+    if (!changes.isEmpty()) {
+      io.emit('changes', changes.events)
+      changes.clean()
+    }
   })
 
   socket.on('board/swap', (coordOne, coordTwo) => {
@@ -38,22 +48,25 @@ io.on('connection', (socket) => {
       board.findClusters(coordOne)
       board.findClusters(coordTwo)
       if (board.isClusters()) {
-        changes.add('board/swap', [coordOne, coordTwo])
+        changes.add('swap', [coordOne, coordTwo])
         do {
-          changes.add('board/deleteRunes', board.deleteClusters())
-          changes.add('board/drop', board.drop())
-          changes.add('board/refill', board.refill())
+          changes.add('delete', board.deleteClusters())
+          changes.add('drop', board.drop())
+          changes.add('refill', board.refill())
           board.findAllClusters()
         } while (board.isClusters())
-        io.emit('changes', changes)
-        changes.clean()
       } else {
         board.swap(coordOne, coordTwo)
         board.cleanClusters()
-        io.emit('board/fakeSwap', [coordOne, coordTwo])
+        changes.add('fakeSwap', [coordOne, coordTwo])
       }
     } else {
       io.emit('msg', 'error')
+    }
+    //
+    if (!changes.isEmpty()) {
+      io.emit('changes', changes.events)
+      changes.clean()
     }
   })
 
