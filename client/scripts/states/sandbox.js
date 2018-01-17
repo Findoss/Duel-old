@@ -52,9 +52,6 @@ class Sandbox extends Phaser.State {
 
   create () {
     //
-    this.socket.emit('msg', 'hello')
-
-    //
     this.queue = new Queue()
     this.view = new View(this, textureRune)
 
@@ -62,6 +59,7 @@ class Sandbox extends Phaser.State {
     this.bindEvents()
 
     //
+    this.socket.emit('msg', 'lobby/ready')
     this.socket.emit('lobby/ready')
   }
 
@@ -74,8 +72,24 @@ class Sandbox extends Phaser.State {
     game.debug.text('FPS: ' + this.game.time.fps, 20, 30, '#00ff00', '25px Arial')
   }
 
-  runeClick (pickRune, param, coordPickRune) {
-    this.socket.emit('board/pick', coordPickRune)
+  runeClick (rune, param, coordRune) {
+    this.cleanSuggestion()
+    if (this.activeRune !== null) {
+      if (this.activeRune !== rune) {
+        let coordactiveRune = this.view.getIndexs(this.activeRune)
+        if (this.isAdjacent(coordRune, coordactiveRune)) {
+          this.socket.emit('board/swap', coordRune, coordactiveRune)
+          this.deactive()
+        } else {
+          this.deactive()
+          this.active(rune)
+        }
+      } else {
+        this.deactive()
+      }
+    } else {
+      this.active(rune)
+    }
   }
 
   runeOver (rune) {
@@ -90,47 +104,69 @@ class Sandbox extends Phaser.State {
     }
   }
 
+  active (rune) {
+    this.activeRune = rune
+    this.activeRune.animations.play('pick', 4, true)
+  }
+
+  deactive () {
+    this.activeRune.animations.play('wait', 4, true)
+    this.activeRune = null
+  }
+
+  cleanSuggestion () {
+    this.view.cleanSuggestion()
+  }
+
+  isAdjacent (coordOne, coordTwo) {
+    return (Math.abs(coordTwo.i - coordOne.i) === 1 && Math.abs(coordTwo.j - coordOne.j) === 0) ||
+           (Math.abs(coordTwo.i - coordOne.i) === 0 && Math.abs(coordTwo.j - coordOne.j) === 1)
+  }
+
   bindEvents () {
-    this.socket.on('generation', (newBoard) => {
-      log('client', newBoard)
+    this.socket.on('board/load', (newBoard) => {
       this.queue.add(this.view, 'renderBoard', true, newBoard)
+      this.socket.emit('board/suggestion')
     })
 
-    this.socket.on('suggestion', (suggestions) => {
+    this.socket.on('changes', (changes) => {
+      for (var i = 0; i < changes.length; i++) {
+        //changes[i]
+      }
+    })
+
+    this.socket.on('board/suggestion', (suggestions) => {
       this.queue.add(this.view, 'renderAllSuggestion', false, suggestions, textureSuggestion)
     })
 
-    this.socket.on('load', (board) => {
-      this.queue.add(this.view, 'renderBoard', true, board)
-    })
-
-    this.socket.on('active', (coord) => {
-      this.activeRune = this.view.board[coord.i][coord.j]
-      this.view.board[coord.i][coord.j].animations.play('pick', 4, true)
-    })
-
-    this.socket.on('deactive', (coord) => {
-      this.activeRune.animations.play('wait', 4, true)
-      this.activeRune = null
-    })
-
-    this.socket.on('swap', (coords) => {
+    this.socket.on('board/swap', (coords) => {
       this.view.cleanSuggestion()
       this.queue.add(this.view, 'renderSwap', true, coords[0], coords[1])
     })
 
-    this.socket.on('deleteRunes', (coords) => {
+    this.socket.on('board/fakeSwap', (coords) => {
+      this.queue.add(this.view, 'renderSwap', true, coords[0], coords[1])
+      this.queue.add(this.view, 'renderSwap', true, coords[0], coords[1])
+      this.socket.emit('board/suggestion')
+    })
+
+    this.socket.on('board/deleteRunes', (coords) => {
       this.queue.add(this.view, 'renderDeleteRunes', true, coords)
     })
 
-    this.socket.on('drop', (dropRunes) => {
+    this.socket.on('board/drop', (dropRunes) => {
       if (dropRunes.length !== 0) {
         this.queue.add(this.view, 'renderDrop', true, dropRunes)
       }
     })
 
-    this.socket.on('refill', (coordRunes) => {
+    this.socket.on('board/refill', (coordRunes) => {
       this.queue.add(this.view, 'renderRefull', true, coordRunes)
+      this.socket.emit('board/suggestion')
+    })
+
+    this.socket.on('msg', (msg) => {
+      log(msg)
     })
   }
 }
