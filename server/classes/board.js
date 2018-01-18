@@ -148,8 +148,10 @@ class Board {
    * @return {Boolean}  Возвращает, true если руны соседние по горизонтали или вертикали, иначе false.
    */
   isAdjacent (coordOne, coordTwo) {
-    return (Math.abs(coordTwo.i - coordOne.i) === 1 && Math.abs(coordTwo.j - coordOne.j) === 0) ||
-           (Math.abs(coordTwo.i - coordOne.i) === 0 && Math.abs(coordTwo.j - coordOne.j) === 1)
+    const a = Math.abs(coordTwo.i - coordOne.i)
+    const b = Math.abs(coordTwo.j - coordOne.j)
+
+    return a + b === 1
   }
 
   /**
