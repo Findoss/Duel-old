@@ -23,7 +23,7 @@ io.on('connection', (socket) => {
     log('client', `[→] msg: ${msg}`)
   })
 
-  socket.on('lobby/readya', () => {
+  socket.on('lobby/ready', () => {
     changes.add('loadBoard', board.generationBoard())
     //
     if (!changes.isEmpty()) {

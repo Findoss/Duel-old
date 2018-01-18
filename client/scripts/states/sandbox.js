@@ -60,7 +60,7 @@ class Sandbox extends Phaser.State {
 
     //
     this.socket.emit('msg', 'lobby/ready')
-    this.socket.emit('lobby/readya')
+    this.socket.emit('lobby/ready')
   }
 
   update () {
@@ -106,9 +106,9 @@ class Sandbox extends Phaser.State {
 
   bindEvents () {
     this.socket.on('changes', (changes) => {
-      for (var i = 0; i < changes.length; i++) {
-        this[changes[i]['event']].call(this, changes[i]['data'])
-      }
+      changes.forEach(({ event, data }) => {
+        this[event](data)
+      })
     })
 
     this.socket.on('msg', (msg) => {

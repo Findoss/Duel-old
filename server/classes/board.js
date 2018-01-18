@@ -95,7 +95,10 @@ class Board {
      */
     this.board = []
     for (let i = 0; i < this.rows; i++) {
-      this.board[i] = [].fill(-1)
+      this.board[i] = []
+      for (let j = 0; j < this.columns; j++) {
+        this.board[i][j] = -1
+      }
     }
     /**
      * Массив линий
@@ -145,8 +148,10 @@ class Board {
    * @return {Boolean}  Возвращает, true если руны соседние по горизонтали или вертикали, иначе false.
    */
   isAdjacent (coordOne, coordTwo) {
-    return (Math.abs(coordTwo.i - coordOne.i) === 1 && Math.abs(coordTwo.j - coordOne.j) === 0) ||
-           (Math.abs(coordTwo.i - coordOne.i) === 0 && Math.abs(coordTwo.j - coordOne.j) === 1)
+    const a = Math.abs(coordTwo.i - coordOne.i)
+    const b = Math.abs(coordTwo.j - coordOne.j)
+
+    return a + b === 1
   }
 
   /**
@@ -264,14 +269,12 @@ class Board {
    */
   deleteClusters () {
     let coordDestroyedRunes = []
-    for (let l = 0; l < this.clusters.length; l++) {
-      for (let t = 0; t < this.clusters[l].length; t++) {
-        if (this.board[this.clusters[l][t].i][this.clusters[l][t].j] > -1) {
-          coordDestroyedRunes.push({i: this.clusters[l][t].i, j: this.clusters[l][t].j})
-          this.board[this.clusters[l][t].i][this.clusters[l][t].j] = -1
-        }
+    this.clusters.forEach((cluster) => cluster.forEach(({i, j}) => {
+      if (this.board[i][j] > -1) {
+        this.board[i][j] = -1
+        coordDestroyedRunes.push({i, j})
       }
-    }
+    }))
     this.cleanClusters()
     return coordDestroyedRunes
   }
@@ -340,18 +343,16 @@ class Board {
    */
   refill (minMoveCount = 1) {
     let newRunes = []
-    for (let i = 0; i < this.rows; i++) {
-      for (let j = 0; j < this.columns; j++) {
-        if (this.board[i][j] === -1) {
-          let randomType = -1
-          do {
-            randomType = this.generationRune()
-          } while (!this.isInLimit(randomType))
-          this.board[i][j] = randomType
-          newRunes.push({i, j, type: randomType})
-        }
+    this.board.forEach((row, i) => row.forEach((col, j) => {
+      if (this.board[i][j] === -1) {
+        let randomType = -1
+        do {
+          randomType = this.generationRune()
+        } while (!this.isInLimit(randomType))
+        this.board[i][j] = randomType
+        newRunes.push({i, j, type: randomType})
       }
-    }
+    }))
     return newRunes
   }
 
@@ -378,13 +379,10 @@ class Board {
     let countType = []
     for (let i = 0; i < this.runes.length; i++) countType[i] = 0
 
-    for (let i = 0; i < this.rows; i++) {
-      for (let j = 0; j < this.columns; j++) {
-        if (this.board[i][j] > -1) {
-          countType[this.board[i][j]]++
-        }
-      }
-    }
+    this.board.forEach((row, i) => row.forEach((col, j) => {
+      if (this.board[i][j] > -1) countType[this.board[i][j]]++
+    }))
+
     let limit = Math.round((this.columns * this.rows) / 100 * this.runes[type].limit)
     return (countType[type] + 1 <= limit)
   }
@@ -432,17 +430,15 @@ class Board {
    */
   generationBoard (minMoveCount = 3) {
     do {
-      for (let i = 0; i < this.rows; i++) {
-        for (let j = 0; j < this.columns; j++) {
-          let randomType = -1
-          do {
-            randomType = this.generationRune()
-          } while (!this.isInLimit(randomType) ||
-                   !this.isInRegion(i, j, randomType) ||
-                   this.isInNewCluster(i, j, randomType))
-          this.board[i][j] = randomType
-        }
-      }
+      this.board.forEach((row, i) => row.forEach((col, j) => {
+        let randomType = -1
+        do {
+          randomType = this.generationRune()
+        } while (!this.isInLimit(randomType) ||
+                 !this.isInRegion(i, j, randomType) ||
+                 this.isInNewCluster(i, j, randomType))
+        this.board[i][j] = randomType
+      }))
     } while (this.findMoves().length < minMoveCount)
     return this.board
   }
