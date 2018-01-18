@@ -60,7 +60,7 @@ class Sandbox extends Phaser.State {
 
     //
     this.socket.emit('msg', 'lobby/ready')
-    this.socket.emit('lobby/readya')
+    this.socket.emit('lobby/ready')
   }
 
   update () {
