@@ -280,15 +280,8 @@ class Board {
         this.board[i][j] = -1
         coordDestroyedRunes.push({i, j})
       }
-<<<<<<< HEAD:libs/board.js
-    }
-    this.clusters = []
-
-    this.signal.emit('onDeleteCluster', coordDestroyedRunes)
-=======
     }))
     this.cleanClusters()
->>>>>>> logic_1:server/classes/board.js
     return coordDestroyedRunes
   }
 

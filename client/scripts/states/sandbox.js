@@ -11,6 +11,8 @@ const Queue = require('../classes/queue')
 const View = require('../classes/view')
 const log = require('../../../libs/log')
 
+const scenarios = require('../scenarios/index')
+
 class Sandbox extends Phaser.State {
   constructor () {
     super()
@@ -72,24 +74,26 @@ class Sandbox extends Phaser.State {
     game.debug.text('FPS: ' + this.game.time.fps, 20, 30, '#00ff00', '25px Arial')
   }
 
-  runeClick (rune, param, coordRune) {
-    this.cleanSuggestion()
+  runeClick (rune) {
+    scenarios['cleanSuggestion'](this)()
+    this.viewBoard.blockBoard()
     if (this.activeRune !== null) {
       if (this.activeRune !== rune) {
-        let coordactiveRune = this.view.getIndexs(this.activeRune)
-        if (this.isAdjacent(coordRune, coordactiveRune)) {
-          this.socket.emit('board/swap', coordRune, coordactiveRune)
-          this.deactive()
+        if (this.isAdjacent(rune.coord, this.activeRune.coord)) {
+          this.socket.emit('board/swap', rune.coord, this.activeRune.coord)
+          scenarios['makeInactiveRune'](this)()
         } else {
-          this.deactive()
-          this.active(rune)
+          scenarios['makeInactiveRune'](this)()
+          scenarios['makeActiveRune'](this)(rune)
         }
       } else {
-        this.deactive()
+        scenarios['makeInactiveRune'](this)()
+        this.socket.emit('board/suggestion')
       }
     } else {
-      this.active(rune)
+      scenarios['makeActiveRune'](this)(rune)
     }
+    this.viewBoard.unblockBoard()
   }
 
   runeOver (rune) {
@@ -107,7 +111,7 @@ class Sandbox extends Phaser.State {
   bindEvents () {
     this.socket.on('changes', (changes) => {
       changes.forEach(({ event, data }) => {
-        this[event](data)
+        scenarios[event](this)(data)
       })
     })
 
@@ -117,60 +121,10 @@ class Sandbox extends Phaser.State {
   }
 
   // ***************** //
-
   isAdjacent (coordOne, coordTwo) {
-    return (Math.abs(coordTwo.i - coordOne.i) === 1 && Math.abs(coordTwo.j - coordOne.j) === 0) ||
-           (Math.abs(coordTwo.i - coordOne.i) === 0 && Math.abs(coordTwo.j - coordOne.j) === 1)
-  }
-
-  active (rune) {
-    this.activeRune = rune
-    this.activeRune.animations.play('pick', 4, true)
-  }
-
-  deactive () {
-    this.activeRune.animations.play('wait', 4, true)
-    this.activeRune = null
-  }
-
-  cleanSuggestion () {
-    this.view.cleanSuggestion()
-  }
-
-  loadBoard (newBoard) {
-    this.queue.add(this.view, 'renderBoard', true, newBoard)
-    this.socket.emit('board/suggestion')
-  }
-
-  suggestion (suggestions) {
-    this.queue.add(this.view, 'renderAllSuggestion', false, suggestions, textureSuggestion)
-  }
-
-  swap (coords) {
-    this.view.cleanSuggestion()
-    this.queue.add(this.view, 'renderSwap', true, coords[0], coords[1])
-  }
-
-  fakeSwap (coords) {
-    this.queue.add(this.view, 'renderSwap', true, coords[0], coords[1])
-    this.queue.add(this.view, 'renderSwap', true, coords[0], coords[1])
-    this.socket.emit('board/suggestion')
-  }
-
-  delete (coords) {
-    this.queue.add(this.view, 'renderDeleteRunes', true, coords)
-  }
-
-  drop (dropRunes) {
-    if (dropRunes.length !== 0) {
-      this.queue.add(this.view, 'renderDrop', true, dropRunes)
-    }
-  }
-
-  refill (coordRunes) {
-    this.queue.add(this.view, 'renderRefull', true, coordRunes)
-    // временно
-    this.socket.emit('board/suggestion')
+    const a = Math.abs(coordTwo.i - coordOne.i)
+    const b = Math.abs(coordTwo.j - coordOne.j)
+    return a + b === 1
   }
 }
 
