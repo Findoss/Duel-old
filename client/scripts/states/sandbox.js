@@ -106,7 +106,6 @@ class Sandbox extends Phaser.State {
 
   bindEvents () {
     this.socket.on('changes', (changes) => {
-      log('server', changes[0]['event'])
       for (var i = 0; i < changes.length; i++) {
         this[changes[i]['event']].call(this, changes[i]['data'])
       }
