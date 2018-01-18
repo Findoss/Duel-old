@@ -38,6 +38,11 @@ class Player {
      */
     this.attak = 5
     /**
+     * Энергия
+     * @type {Number}
+     */
+    this.energy = 5
+    /**
      * Лечение
      * @type {Number}
      */
@@ -59,6 +64,7 @@ class Player {
     this.luck = 0
     /**
      * Блок
+     * TODO dodge
      * @type {Number}
      */
     this.block = 0
@@ -74,8 +80,8 @@ class Player {
     this.runes = []
   }
 
-  // todo hpp
-  hpp () {
+  // TODO hpp
+  get hp () {
     return this.hp.value
   }
 
@@ -102,3 +108,5 @@ class Player {
     return this.hpp() > 0
   }
 }
+
+module.exports = Player
