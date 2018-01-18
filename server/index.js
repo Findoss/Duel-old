@@ -25,20 +25,12 @@ io.on('connection', (socket) => {
 
   socket.on('lobby/ready', () => {
     changes.add('loadBoard', board.generationBoard())
-    //
-    if (!changes.isEmpty()) {
-      io.emit('changes', changes.events)
-      changes.clean()
-    }
+    io.emit('changes', changes.release())
   })
 
   socket.on('board/suggestion', () => {
     changes.add('suggestion', board.findMoves())
-    //
-    if (!changes.isEmpty()) {
-      io.emit('changes', changes.events)
-      changes.clean()
-    }
+    io.emit('changes', changes.release())
   })
 
   socket.on('board/swap', (coordOne, coordTwo) => {
@@ -63,11 +55,7 @@ io.on('connection', (socket) => {
     } else {
       io.emit('msg', 'error')
     }
-    //
-    if (!changes.isEmpty()) {
-      io.emit('changes', changes.events)
-      changes.clean()
-    }
+    io.emit('changes', changes.release())
   })
 
   socket.on('disconnect', () => {
