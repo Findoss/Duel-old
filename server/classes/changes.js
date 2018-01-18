@@ -10,8 +10,13 @@ class Changes {
     this.events.push({event, data})
   }
 
-  isEmpty () {
-    return this.events.length < 0
+  release () {
+    let data = []
+    if (this.events.length > 0) {
+      data = this.events
+    }
+    this.clean()
+    return data
   }
 
   clean () {
