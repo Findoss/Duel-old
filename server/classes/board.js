@@ -111,11 +111,6 @@ class Board {
      * @type {Function}
      */
     this.seedRandom = SeedRandom(generationKey)
-    /**
-     * sadf
-     * @type {}
-     */
-    this.signal = new Signal()
   }
 
   /**
@@ -280,15 +275,8 @@ class Board {
         this.board[i][j] = -1
         coordDestroyedRunes.push({i, j})
       }
-<<<<<<< HEAD:libs/board.js
-    }
-    this.clusters = []
-
-    this.signal.emit('onDeleteCluster', coordDestroyedRunes)
-=======
     }))
     this.cleanClusters()
->>>>>>> logic_1:server/classes/board.js
     return coordDestroyedRunes
   }
 

@@ -15,7 +15,6 @@ const log = require('../libs/log')
 const changes = new Changes()
 const board = new Board(runes, key)
 
-
 io.on('connection', (socket) => {
   let userName = socket.id.slice(0, 5)
   log('server', `[.] ${userName} connected`)
