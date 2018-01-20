@@ -63,6 +63,7 @@ class Sandbox extends Phaser.State {
 
   create () {
     //
+    this.id = null
     this.queue = new Queue()
     this.viewBoard = new ViewBoard(this, textureRune, textureSuggestion)
     this.viewLoader = new ViewLoader(this, textureLoader)
@@ -90,7 +91,7 @@ class Sandbox extends Phaser.State {
     if (this.activeRune !== null) {
       if (this.activeRune !== rune) {
         if (this.isAdjacent(rune.coord, this.activeRune.coord)) {
-          this.socket.emit('board/swap', rune.coord, this.activeRune.coord)
+          this.socket.emit('board/swap', this.id, rune.coord, this.activeRune.coord)
           scenarios['makeInactiveRune'](this)()
         } else {
           scenarios['makeInactiveRune'](this)()
@@ -98,7 +99,7 @@ class Sandbox extends Phaser.State {
         }
       } else {
         scenarios['makeInactiveRune'](this)()
-        this.socket.emit('board/suggestion')
+        this.socket.emit('board/suggestion', this.id)
       }
     } else {
       scenarios['makeActiveRune'](this)(rune)

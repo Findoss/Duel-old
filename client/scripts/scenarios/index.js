@@ -10,5 +10,6 @@ scenarios.refillBoard = require('../scenarios/refillBoard')
 scenarios.dropRunes = require('../scenarios/dropRunes')
 scenarios.showSuggestion = require('../scenarios/showSuggestion')
 scenarios.cleanSuggestion = require('../scenarios/cleanSuggestion')
+scenarios.waitOpponent = require('../scenarios/waitOpponent')
 
 module.exports = scenarios
