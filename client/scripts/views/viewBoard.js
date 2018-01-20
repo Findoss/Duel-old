@@ -24,7 +24,7 @@ class View {
    * @param  {Number=}       marginBoardY     Отступ от края экрана по оси Y
 
    */
-  constructor (game, configSpriteRune, marginRune = 10, marginBoardX = 100, marginBoardY = 100) {
+  constructor (game, configSpriteRune, configSuggestion, marginRune = 10, marginBoardX = 100, marginBoardY = 100) {
     /**
      * Ссылка на игровую сцену
      * @type {Phaser.State}
@@ -79,13 +79,11 @@ class View {
      * @type {json}
      */
     this.configSpriteRune = configSpriteRune
-  }
-
-  /**
-   * Блокирует взаимодействие с рунами (`groupBoard`)
-   */
-  blockRunes () {
-    this.groupBoard.setAll('inputEnabled', false)
+    /**
+     * Конфигурация спрайта-руки
+     * @type {json}
+     */
+    this.configSuggestion = configSuggestion
   }
 
   /**
@@ -109,15 +107,6 @@ class View {
   }
 
   /**
-   * Возвращает координаты руны в массиве
-   * @param  {Phaser.Sprite} rune Спрайт-руны
-   * @return {coordRune}
-   */
-  getIndexs (rune) {
-    return rune.events.onInputDown['_bindings'][0]['_args'][0]
-  }
-
-  /**
    * Создает спрайт-руны
    * **! ВАЖНО** Предварительно в разделе `create` надо загрузить (`this.game.load`) спрайт
    * **! ВАЖНО** Используется только в пределах класса
@@ -133,7 +122,7 @@ class View {
    * @property {Number}            height=configSpriteRune.size.width     Высота
    * @property {Phaser.Animation}  animations=configSpriteRune.animations Анимации
    * @property {Phaser.Event}      events=configSpriteRune.events         События
-   * @return {Phaser.Sprite} Спрайт-руны
+   * @return   {Phaser.Sprite} Спрайт-руны
    */
   initRune (i, j, type) {
     let rune = this.linkGame.add.sprite(this.posXRune(j), this.posYRune(i) * -1, this.configSpriteRune.fileName + type)
@@ -141,6 +130,7 @@ class View {
     rune.height = this.configSpriteRune.size.height - 50
     rune.inputEnabled = false
     rune.anchor.set(0.5)
+    rune.coord = {i, j}
     if (this.configSpriteRune.animations !== undefined) {
       for (let animationName in this.configSpriteRune.animations) {
         rune.animations.add(animationName, this.configSpriteRune.animations[animationName])
@@ -149,7 +139,7 @@ class View {
       rune.animations.play(firstAnimation, this.configSpriteRune.animations[firstAnimation].length, true)
     }
     for (let eventName in this.configSpriteRune.events) {
-      rune.events[eventName].add(this.linkGame[ this.configSpriteRune.events[eventName] ], this.linkGame, 0, {i: i, j: j})
+      rune.events[eventName].add(this.linkGame[this.configSpriteRune.events[eventName]], this.linkGame)
     }
     return rune
   }
@@ -177,13 +167,12 @@ class View {
   /**
    * Отрисовывает все подсказки для возможных ходов
    * @param  {Array.Array.<coordAndTypeRune>} coordRunes             Массив пар координат рун
-   * @param  {Config.Sprite}                  configSuggestionSprite Конфигурация спрайта
    * @return {Phaser.Tween} Анимация подсказки
    */
-  renderAllSuggestion (coordRunes, configSuggestionSprite) {
+  renderAllSuggestion (coordRunes) {
     let tween = {}
     for (var l = 0; l < coordRunes.length; l++) {
-      tween = this.renderSuggestion(coordRunes[l].coordRuneO, coordRunes[l].coordRuneX, configSuggestionSprite)
+      tween = this.renderSuggestion(coordRunes[l].coordRuneO, coordRunes[l].coordRuneX)
     }
     return tween
   }
@@ -203,7 +192,7 @@ class View {
       }
     }
     lastTween.onComplete.add(() => {
-      this.groupBoard.setAll('inputEnabled', true)
+      this.unblockBoard()
     })
     return lastTween
   }
@@ -293,11 +282,11 @@ class View {
    * @param  {Array.<coordRune>} coordRunes Координаты рун
    * @return {Phaser.Tween} Анимация пополнения
    */
-  renderRefull (coordRunes) {
+  renderRefill (coordRunes) {
     this.cleanRunes(coordRunes)
     let tween = this.renderRunes(coordRunes, 120, 50)
     tween.onComplete.add(() => {
-      this.groupBoard.setAll('inputEnabled', true)
+      this.unblockBoard()
     })
     return tween
   }
@@ -345,21 +334,20 @@ class View {
    * **! ВАЖНО** предварительно в разделе `create` надо загрузить (`this.game.load`) изображение
    * @param    {coordRune}     coordRuneOne                              Координата первой руны
    * @param    {coordRune}     coordRuneTwo                              Координата второй руны
-   * @param    {Config.Sprite} configSuggestionSprite                    Конфигурация спрайта
    * @param    {Number=}       delayShow                                 Задержка показа подсказки
    * @property {Number}        x=posXRune(coordRuneOne.j)                Координата по Х
    * @property {Number}        y=posYRune(coordRuneOne.i)                Координата по Y
-   * @property {Number}        width=configSuggestionSprite.size.width   Ширина
-   * @property {Number}        height=configSuggestionSprite.size.height Высота
+   * @property {Number}        width=configSuggestion.size.width   Ширина
+   * @property {Number}        height=configSuggestion.size.height Высота
    * @property {Number}        alpha=0                                   Прозрачность
    * @property {Phaser.Point}  anchor=0.1                                Точка вращения
    * @return {Phaser.Tween} Анимация передвежения подсказки
    */
-  renderSuggestion (coordRuneOne, coordRuneTwo, configSuggestionSprite, delayShow = 3500) {
-    let suggestion = this.linkGame.add.image(0, 0, configSuggestionSprite.fileName)
+  renderSuggestion (coordRuneOne, coordRuneTwo, delayShow = 3500) {
+    let suggestion = this.linkGame.add.image(0, 0, this.configSuggestion.fileName)
     suggestion.anchor.set(0.1)
-    suggestion.width = configSuggestionSprite.size.width
-    suggestion.height = configSuggestionSprite.size.height
+    suggestion.width = this.configSuggestion.size.width
+    suggestion.height = this.configSuggestion.size.height
     suggestion.alpha = 0
     suggestion.x = this.posXRune(coordRuneOne.j)
     suggestion.y = this.posYRune(coordRuneOne.i)
@@ -437,8 +425,9 @@ class View {
    * @param  {coordRune} coordRuneTwo Координата второй руны
    */
   swap (coordRuneOne, coordRuneTwo) {
-    this.board[coordRuneOne.i][coordRuneOne.j].events.onInputDown['_bindings'][0]['_args'][0] = {i: coordRuneTwo.i, j: coordRuneTwo.j}
-    this.board[coordRuneTwo.i][coordRuneTwo.j].events.onInputDown['_bindings'][0]['_args'][0] = {i: coordRuneOne.i, j: coordRuneOne.j}
+    this.board[coordRuneOne.i][coordRuneOne.j].coord = {i: coordRuneTwo.i, j: coordRuneTwo.j}
+    this.board[coordRuneTwo.i][coordRuneTwo.j].coord = {i: coordRuneOne.i, j: coordRuneOne.j}
+
     let tmp = this.board[coordRuneOne.i][coordRuneOne.j]
     this.board[coordRuneOne.i][coordRuneOne.j] = this.board[coordRuneTwo.i][coordRuneTwo.j]
     this.board[coordRuneTwo.i][coordRuneTwo.j] = tmp
@@ -447,8 +436,15 @@ class View {
   /**
    * Рaзблокирует взаимодействие с рунами (`groupBoard`)
    */
-  unBlockRunes () {
+  unblockBoard () {
     this.groupBoard.setAll('inputEnabled', true)
+  }
+
+  /**
+   * Блокирует взаимодействие с рунами (`groupBoard`)
+   */
+  blockBoard () {
+    this.groupBoard.setAll('inputEnabled', false)
   }
 }
 
