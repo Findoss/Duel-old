@@ -29,28 +29,26 @@ io.on('connection', (socket) => {
   })
 
   socket.on('board/suggestion', () => {
-    changes.add('suggestion', board.findMoves())
+    changes.add('showSuggestion', board.findMoves())
     io.emit('changes', changes.release())
   })
 
   socket.on('board/swap', (coordOne, coordTwo) => {
     if (!board.isEqualCoords(coordOne, coordTwo) &&
          board.isAdjacent(coordOne, coordTwo)) {
-      board.swap(coordOne, coordTwo)
+      changes.add('swapRune', board.swap(coordOne, coordTwo))
       board.findClusters(coordOne)
       board.findClusters(coordTwo)
       if (board.isClusters()) {
-        changes.add('swap', [coordOne, coordTwo])
         do {
-          changes.add('delete', board.deleteClusters())
-          changes.add('drop', board.drop())
-          changes.add('refill', board.refill())
+          changes.add('deleteRune', board.deleteClusters())
+          changes.add('dropRunes', board.drop())
+          changes.add('refillBoard', board.refill())
           board.findAllClusters()
         } while (board.isClusters())
       } else {
-        board.swap(coordOne, coordTwo)
+        changes.add('swapRune', board.swap(coordOne, coordTwo))
         board.cleanClusters()
-        changes.add('fakeSwap', [coordOne, coordTwo])
       }
     } else {
       io.emit('msg', 'error')
