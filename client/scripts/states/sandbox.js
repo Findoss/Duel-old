@@ -6,10 +6,12 @@ const Utils = require('../utils')
 
 const configTextures = require('../configs/textures')
 const textureSuggestion = require('../textures/suggestion')
+const textureLoader = require('../textures/loader')
 const textureRune = require('../textures/rune')
 
 const Queue = require('../views/queue')
 const ViewBoard = require('../views/viewBoard')
+const ViewLoader = require('../views/viewLoader')
 
 const scenarios = require('../scenarios/index')
 
@@ -21,6 +23,7 @@ class Sandbox extends Phaser.State {
 
     this.queue = {}
     this.viewBoard = {}
+    this.viewLoader = {}
     this.activeRune = null
   }
 
@@ -34,6 +37,12 @@ class Sandbox extends Phaser.State {
   }
 
   preload () {
+    // загрузка спинера
+    this.game.load.image(
+      textureLoader.fileName,
+      configTextures.path + configTextures.skin + textureLoader.fileName + configTextures.ext
+    )
+
     // загрузка руки (подсказка)
     this.game.load.image(
       textureSuggestion.fileName,
@@ -56,6 +65,7 @@ class Sandbox extends Phaser.State {
     //
     this.queue = new Queue()
     this.viewBoard = new ViewBoard(this, textureRune, textureSuggestion)
+    this.viewLoader = new ViewLoader(this, textureLoader)
 
     //
     this.bindEvents()
