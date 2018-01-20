@@ -13,7 +13,7 @@
  * @class
  * @fires View
  */
-class View {
+class ViewBoard {
   /**
    * Конструктор объекта поля (визуальное)
    * @constructor
@@ -448,4 +448,4 @@ class View {
   }
 }
 
-module.exports = View
+module.exports = ViewBoard
