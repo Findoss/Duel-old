@@ -111,11 +111,6 @@ class Board {
      * @type {Function}
      */
     this.seedRandom = SeedRandom(generationKey)
-    /**
-     * sadf
-     * @type {}
-     */
-    this.signal = new Signal()
   }
 
   /**
