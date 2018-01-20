@@ -1,5 +1,6 @@
 /* globals Phaser, game */
 const IO = require('socket.io-client')
+const log = require('../../../libs/log')
 
 const Utils = require('../utils')
 
@@ -7,9 +8,8 @@ const configTextures = require('../configs/textures')
 const textureSuggestion = require('../textures/suggestion')
 const textureRune = require('../textures/rune')
 
-const Queue = require('../classes/queue')
-const View = require('../classes/view')
-const log = require('../../../libs/log')
+const Queue = require('../views/queue')
+const ViewBoard = require('../views/viewBoard')
 
 class Sandbox extends Phaser.State {
   constructor () {
@@ -17,8 +17,8 @@ class Sandbox extends Phaser.State {
     this.socket = new IO('http://localhost:8080')
     this.utils = new Utils()
 
-    this.view = {}
     this.queue = {}
+    this.viewBoard = {}
     this.activeRune = null
   }
 
@@ -53,7 +53,7 @@ class Sandbox extends Phaser.State {
   create () {
     //
     this.queue = new Queue()
-    this.view = new View(this, textureRune)
+    this.viewBoard = new ViewBoard(this, textureRune, textureSuggestion)
 
     //
     this.bindEvents()
