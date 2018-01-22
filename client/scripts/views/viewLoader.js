@@ -1,11 +1,9 @@
 /* globals Phaser */
-/**
- * asd
- */
-class ViewLoader {
+const View = require('../views/view');
+
+class ViewLoader extends View {
   constructor(game, configSpriteLoader) {
-    this.linkGame = game;
-    this.multiplierSpeedAnimation = 1;
+    super(game);
     this.configSpriteLoader = configSpriteLoader;
     this.loader = null;
     this.loaderTween = null;

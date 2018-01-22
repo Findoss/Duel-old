@@ -1,15 +1,7 @@
 /* globals Phaser */
-/**
- * todo Визуальное представление игрового поля
- *
- * Префикс методов | Назначение
- * :---------------|:--------------------
- * init            | создают объкты
- * render          | отрисовывают объкты
- * clean           | стирают объкты
- * @fires View
- */
-class ViewBoard {
+const View = require('../views/view');
+
+class ViewBoard extends View {
   /**
    * Конструктор объекта поля (визуальное)
    * @constructor
@@ -21,17 +13,7 @@ class ViewBoard {
 
    */
   constructor(game, configSpriteRune, configSuggestion, marginRune = 10, marginBoardX = 100, marginBoardY = 100) {
-    /**
-     * Ссылка на игровую сцену
-     * @type {Phaser.State}
-     */
-    this.linkGame = game;
-    /**
-     * Множитель скорости анимации
-     * @type {Number}
-     * @default 1
-     */
-    this.multiplierSpeedAnimation = 1;
+    super(game);
     /**
      * Игровое поле спрайтов-рун
      * @type {Array.<rune>}
