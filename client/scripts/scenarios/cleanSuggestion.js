@@ -1,3 +1,3 @@
 module.exports = world => () => {
-  world.viewBoard.cleanSuggestion()
-}
+  world.viewBoard.cleanSuggestion();
+};

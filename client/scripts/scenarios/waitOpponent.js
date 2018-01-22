@@ -1,3 +1,3 @@
 module.exports = world => () => {
-  world.viewLoader.renderLoder()
-}
+  world.viewLoader.renderLoder();
+};

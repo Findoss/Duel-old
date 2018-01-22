@@ -13,76 +13,76 @@ class Player {
    * @param {String} name
    * @param {String} avatar
    */
-  constructor (name = '', avatar = 'human') {
+  constructor(name = '', avatar = 'human') {
     /**
      * Имя персонажа
      * @type {String}
      */
-    this.name = name
+    this.name = name;
     /**
      * Аватар
      * @type {String}
      */
-    this.avatar = avatar
+    this.avatar = avatar;
     /**
      * Здоровье
      * @type {Object}
      */
     this.hp = {
       value: 150,
-      limit: 150
-    }
+      limit: 150,
+    };
     /**
      * Урон
      * @type {Number}
      */
-    this.attak = 5
+    this.attak = 5;
     /**
      * Энергия
      * @type {Number}
      */
-    this.energy = 5
+    this.energy = 5;
     /**
      * Лечение
      * @type {Number}
      */
-    this.heal = 5
+    this.heal = 5;
     /**
      * Броня
      * @type {Number}
      */
-    this.armor = 0
+    this.armor = 0;
     /**
      * Ярость
      * @type {Number}
      */
-    this.rage = 0
+    this.rage = 0;
     /**
      * Удача
      * @type {Number}
      */
-    this.luck = 0
+    this.luck = 0;
     /**
      * Блок
      * TODO dodge
      * @type {Number}
      */
-    this.block = 0
+    this.block = 0;
     /**
      * Массив накопленных рун
      * @type {Array} todo
      */
-    this.runes = []
+    this.runes = [];
     /**
      * Набор умений
      * @type {Array} todo
      */
-    this.runes = []
+    this.runes = [];
   }
 
   // TODO hpp
-  get hp () {
-    return this.hp.value
+  get hp() {
+    return this.hp.value;
   }
 
   /**
@@ -90,23 +90,23 @@ class Player {
    * @param  {Number} count Количество урона
    * @return {Number} Здоровье
    */
-  damage (player) {
+  damage(player) {
     if (this.runes[1]) {
-      let damage = this.runes[1] * this.attak
+      const damage = this.runes[1] * this.attak;
       // if (false) damage += damage
-      player.hp.value -= damage
-      this.runes[1] = 0
+      player.hp.value -= damage;
+      this.runes[1] = 0;
     }
-    return this.hpp()
+    return this.hpp();
   }
 
-  addRunes (runes) {
-    this.runes = runes
+  addRunes(runes) {
+    this.runes = runes;
   }
 
-  isLife () {
-    return this.hpp() > 0
+  isLife() {
+    return this.hpp() > 0;
   }
 }
 
-module.exports = Player
+module.exports = Player;

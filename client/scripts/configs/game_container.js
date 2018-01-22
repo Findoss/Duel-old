@@ -7,5 +7,5 @@ module.exports = {
   antialias: true,
   multiTexture: true,
   transparent: true,
-  enableDebug: true
-}
+  enableDebug: true,
+};
