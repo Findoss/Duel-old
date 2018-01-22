@@ -1,4 +1,4 @@
-const debug = require('./debug')
+const debug = require('./debug');
 
 /**
  * выводит лог в консоль
@@ -12,12 +12,12 @@ const debug = require('./debug')
  *
  * log('client', `[→] msg: ${msg}\)
  */
-module.exports = function log (tag, ...data) {
+module.exports = function log(tag, ...data) {
   if (debug[tag]) {
-    if (data.length > 1) console.groupCollapsed()
-    for (var i = 0; i < data.length; i++) {
-      console.log(data[i])
+    if (data.length > 1) console.groupCollapsed();
+    for (let i = 0; i < data.length; i++) {
+      console.log(data[i]);
     }
-    if (data.length > 1) console.groupEnd()
+    if (data.length > 1) console.groupEnd();
   }
-}
+};
