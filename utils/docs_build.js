@@ -1,33 +1,36 @@
-const fs = require('fs')
-const path = require('path')
-const jsdoc2md = require('jsdoc-to-markdown')
+/* eslint no-restricted-syntax: ["error", "BinaryExpression[operator='in']"] */
+
+const fs = require('fs');
+const path = require('path');
+const jsdoc2md = require('jsdoc-to-markdown');
 
 // path
 const pathInputs = [
-  'client/scripts/classes/*.js',
-  'server/classes/*.js'
-]
-const pathOutput = 'docs/'
-const pathTemplate = 'utils/docs_template/members.hbs'
+  'client/scripts/views/*.js',
+  'libs/*.js',
+  'server/classes/*.js',
+];
+const pathOutput = 'docs/';
+const pathTemplate = 'utils/docs_template/members.hbs';
 
-for (var i = 0; i < pathInputs.length; i++) {
-  let templateData = jsdoc2md.getTemplateDataSync({ files: pathInputs[i] })
-  let classNames = templateData.reduce((classNames, identifier) => {
+for (let i = 0; i < pathInputs.length; i++) {
+  const templateData = jsdoc2md.getTemplateDataSync({ files: pathInputs[i] });
+  const classes = templateData.reduce((classNames, identifier) => {
     if (identifier.kind === 'class') {
-      classNames.push(identifier.name)
+      classNames.push(identifier.name);
     }
-    return classNames
-  }, [])
+    return classNames;
+  }, []);
 
-  for (let className of classNames) {
-    console.log(`rendering class ${className}.js`)
-    let output = jsdoc2md.renderSync({
+  for (const className of classes) {
+    console.log(`rendering class ${className}.js`);
+    const output = jsdoc2md.renderSync({
       data: templateData,
       template: `{{#class name="${className}"}}{{>docs}}{{/class}}`,
       partial: [
-        pathTemplate
-      ]
-    })
-    fs.writeFileSync(path.resolve(pathOutput, `class_${className}.md`), output)
+        pathTemplate,
+      ],
+    });
+    fs.writeFileSync(path.resolve(pathOutput, `class_${className}.md`), output);
   }
 }

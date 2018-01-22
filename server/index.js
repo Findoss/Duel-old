@@ -1,98 +1,87 @@
 // vendor
-const app = require('express')
-const http = require('http').Server(app)
-const io = require('socket.io')(http)
+const app = require('express');
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const log = require('../libs/log');
 
 // configs
-const runes = require('./configs/runes')
-const key = 'generationRuneKey'
+const runes = require('./configs/runes');
+const crypto = require('crypto');
 
 // classes
-const Board = require('./classes/board')
-const DEBUG = require('./configs/debug')
+const Changes = require('./classes/changes');
+const Board = require('./classes/board');
+const Lobby = require('./classes/lobby');
 
-const board = new Board(runes, key)
-
-console.log('DEBUG.client: ' + DEBUG.client)
-console.log('DEBUG.server: ' + DEBUG.server)
+const lobby = new Lobby();
+const game = {};
 
 io.on('connection', (socket) => {
-  DEBUG.server && console.log('[.] ' + socket.id + ' connected')
+  const userName = socket.id.slice(0, 5);
+  log('server', `[.] ${userName} connected`);
 
-  socket.on('log', (msg) => {
-    DEBUG.client && console.log('[→] log: ' + msg)
-  })
+  socket.on('msg', (msg) => {
+    log('client', `[→] msg: ${msg}`);
+  });
 
-  socket.on('game', (cmd, param) => {
-    DEBUG.client && console.log('[→] game: ' + cmd)
-    DEBUG.server && console.log(param)
-    switch (cmd) {
-      case 'load':
-        // DEBUG.server && console.log('[.] load board')
-        // DEBUG.server && console.log('[←] board')
-        // io.emit('load', board.loadBoard(testBoard5))
-        break
-      case 'generation':
-        DEBUG.server && console.log('[.] generation board')
-        DEBUG.server && console.log('[←] new board')
-        DEBUG.server && console.log('[←] all suggestion')
-        io.emit('generation', board.generationBoard())
-        io.emit('suggestion', board.findMoves())
-        break
-      case 'pick':
-        if (board.isActiveRune()) {
-          if (!board.isEqualCoords(param, board.activeRune)) {
-            if (board.isAdjacent(param, board.activeRune)) {
-              board.swap(param, board.activeRune)
-              board.findClusters(param)
-              board.findClusters(board.activeRune)
-              if (board.isClusters()) {
-                DEBUG.server && console.log('[←] swap')
-                DEBUG.server && console.log('[←] deactive rune')
-                io.emit('swap', [param, board.activeRune])
-                io.emit('deactive', board.deActiveRune())
-                do {
-                  DEBUG.server && console.log('[←] delete rune clusters')
-                  DEBUG.server && console.log('[←] drop runes')
-                  DEBUG.server && console.log('[←] refill runes')
-                  io.emit('deleteRunes', board.deleteClusters())
-                  io.emit('drop', board.drop())
-                  io.emit('refill', board.refill())
-                  board.findAllClusters()
-                } while (board.isClusters())
-              } else {
-                board.swap(param, board.activeRune)
-                DEBUG.server && console.log('[←] fake swap')
-                io.emit('swap', [param, board.activeRune])
-                io.emit('swap', [param, board.activeRune])
-              }
-              DEBUG.server && console.log('[←] all suggestion')
-              io.emit('suggestion', board.findMoves())
-            } else {
-              DEBUG.server && console.log('[←] deactive rune')
-              DEBUG.server && console.log('[←] pick new active rune')
-              io.emit('deactive', board.deActiveRune())
-              io.emit('active', board.pickActiveRune(param))
-            }
-          } else {
-            DEBUG.server && console.log('[←] deactive rune')
-            io.emit('deactive', board.deActiveRune())
-          }
-        } else {
-          DEBUG.server && console.log('[←] pick active rune')
-          io.emit('active', board.pickActiveRune(param))
-        }
-        break
-      default:
-        DEBUG.server && console.log('error game command client')
+  socket.on('lobby/ready', () => {
+    if (lobby.isWaitOpponent()) {
+      //
+      const id = crypto.randomBytes(8).toString('hex').toUpperCase();
+
+      game[id] = {
+        changes: new Changes(),
+        board: new Board(runes, id),
+      };
+
+      const socketOpp = lobby.shiftPlayer();
+
+      socketOpp.join(id);
+      socket.join(id);
+
+      game[id].changes.add('loadBoard', { id, newBoard: game[id].board.generationBoard() });
+
+      io.to(id).emit('changes', game[id].changes.release());
+    } else {
+      lobby.addPlayer(socket);
+      socket.emit('changes', [{ event: 'waitOpponent', data: 0 }]);
     }
-  })
+  });
+
+  socket.on('board/suggestion', (id) => {
+    game[id].changes.add('showSuggestion', game[id].board.findMoves());
+    io.to(id).emit('changes', game[id].changes.release());
+  });
+
+  socket.on('board/swap', (id, coordOne, coordTwo) => {
+    if (!Board.isEqualCoords(coordOne, coordTwo) &&
+         Board.isAdjacent(coordOne, coordTwo)) {
+      game[id].changes.add('swapRune', game[id].board.swap(coordOne, coordTwo));
+      game[id].board.findClusters(coordOne);
+      game[id].board.findClusters(coordTwo);
+      if (game[id].board.isClusters()) {
+        do {
+          game[id].changes.add('deleteRune', game[id].board.deleteClusters());
+          game[id].changes.add('dropRunes', game[id].board.drop());
+          game[id].changes.add('refillBoard', game[id].board.refill());
+          game[id].board.findAllClusters();
+        } while (game[id].board.isClusters());
+      } else {
+        game[id].changes.add('swapRune', game[id].board.swap(coordOne, coordTwo));
+        game[id].board.cleanClusters();
+      }
+    } else {
+      io.to(id).emit('msg', 'error');
+    }
+    io.to(id).emit('changes', game[id].changes.release());
+  });
 
   socket.on('disconnect', () => {
-    DEBUG.server && console.log('[.] user disconnected')
-  })
-})
+    lobby.shiftPlayer();
+    log('server', `[.] ${userName} disconnected`);
+  });
+});
 
 http.listen(8080, () => {
-  DEBUG.server && console.log('listening on localhost:8080')
-})
+  log('server', 'listening on localhost:8080');
+});

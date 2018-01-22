@@ -1,43 +1,54 @@
-/* globals Phaser, io, game */
-import io from 'socket.io-client'
+/* globals Phaser, game */
+const IO = require('socket.io-client');
+const log = require('../../../libs/log');
 
-import Utils from '../utils'
+const Utils = require('../utils');
 
-import DEBUG from '../configs/debug'
-import configTextures from '../configs/textures'
+const configTextures = require('../configs/textures');
+const textureSuggestion = require('../textures/suggestion');
+const textureLoader = require('../textures/loader');
+const textureRune = require('../textures/rune');
 
-import textureSuggestion from '../textures/suggestion'
-import textureRune from '../textures/rune'
+const Queue = require('../views/queue');
+const ViewBoard = require('../views/viewBoard');
+const ViewLoader = require('../views/viewLoader');
 
-import Queue from '../classes/queue'
-import View from '../classes/view'
+const scenarios = require('../scenarios/index');
 
-export default class extends Phaser.State {
-
-  constructor () {
-    super()
-    this.utils = new Utils()
-    this.view = {}
-    this.queue = {}
-    this.activeRune = null
-    this.socket = new io('http://localhost:8080')
+class Sandbox extends Phaser.State {
+  constructor() {
+    super();
+    this.socket = new IO('http://localhost:8080');
   }
 
-  init () {
+  init() {
     // отрисовывка в фоне
-    game.stage.disableVisibilityChange = true
+    game.stage.disableVisibilityChange = true;
     // влючаем время для вывода FPS
-    this.game.time.advancedTiming = true
+    this.game.time.advancedTiming = true;
     // влючаем возможность разворачивать на весь экран F11
-    this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL
+    this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
+
+    //
+    this.id = null;
+    this.activeRune = null;
+    this.queue = new Queue();
+    this.viewBoard = new ViewBoard(this, textureRune, textureSuggestion);
+    this.viewLoader = new ViewLoader(this, textureLoader);
   }
 
-  preload () {
+  preload() {
+    // загрузка спинера
+    this.game.load.image(
+      textureLoader.fileName,
+      configTextures.path + configTextures.skin + textureLoader.fileName + configTextures.ext,
+    );
+
     // загрузка руки (подсказка)
     this.game.load.image(
       textureSuggestion.fileName,
-      configTextures.path + configTextures.skin + textureSuggestion.fileName + configTextures.ext
-    )
+      configTextures.path + configTextures.skin + textureSuggestion.fileName + configTextures.ext,
+    );
 
     // загрузка рун
     for (let i = 0; i < 6; i++) {
@@ -46,100 +57,76 @@ export default class extends Phaser.State {
         configTextures.path + textureRune.fileName + i + configTextures.ext,
         textureRune.size.width,
         textureRune.size.height,
-        12
-      )
+        12,
+      );
     }
   }
 
-  create () {
-    //
-    DEBUG.socket && this.socket.emit('log', 'connected')
+  create() {
+    this.bindEvents();
 
-    //
-    this.queue = new Queue()
-    this.view = new View(this, textureRune)
-
-    //
-    this.bindEvents()
-
-    //
-    this.socket.emit('game', 'generation')
+    this.socket.emit('msg', 'lobby/ready');
+    this.socket.emit('lobby/ready');
   }
 
-  update () {
-    // перехватываем ресайз игры и масштабируем
-    this.utils.resizeGame(this.game)
+  update() {
+    Utils.resizeGame(this.game);
   }
 
-  render () {
-    DEBUG.fps && game.debug.text('FPS: ' + this.game.time.fps, 20, 30, '#00ff00', '25px Arial')
+  render() {
+    Utils.fps(this.game);
   }
 
-  bindEvents () {
-    this.socket.on('generation', (newBoard) => {
-      DEBUG.socket && console.log(newBoard)
-      this.queue.add(this.view, 'renderBoard', true, newBoard)
-    })
-
-    this.socket.on('suggestion', (suggestions) => {
-      DEBUG.socket && console.log(suggestions)
-      this.queue.add(this.view, 'renderAllSuggestion', false, suggestions, textureSuggestion)
-    })
-
-    this.socket.on('load', (board) => {
-      DEBUG.socket && console.log(board)
-      this.queue.add(this.view, 'renderBoard', true, board)
-    })
-
-    this.socket.on('active', (coord) => {
-      DEBUG.socket && console.log(coord)
-      this.activeRune = this.view.board[coord.i][coord.j]
-      this.view.board[coord.i][coord.j].animations.play('pick', 4, true)
-    })
-
-    this.socket.on('deactive', (coord) => {
-      DEBUG.socket && console.log(coord)
-      this.activeRune.animations.play('wait', 4, true)
-      this.activeRune = null
-    })
-
-    this.socket.on('swap', (coords) => {
-      DEBUG.socket && console.log(coords)
-      this.view.cleanSuggestion()
-      this.queue.add(this.view, 'renderSwap', true, coords[0], coords[1])
-    })
-
-    this.socket.on('deleteRunes', (coords) => {
-      DEBUG.socket && console.log(coords)
-      this.queue.add(this.view, 'renderDeleteRunes', true, coords)
-    })
-
-    this.socket.on('drop', (dropRunes) => {
-      DEBUG.socket && console.log(dropRunes)
-      if (dropRunes.length !== 0) {
-        this.queue.add(this.view, 'renderDrop', true, dropRunes)
+  runeClick(rune) {
+    scenarios.cleanSuggestion(this)();
+    this.viewBoard.blockBoard();
+    if (this.activeRune !== null) {
+      if (this.activeRune !== rune) {
+        if (Utils.isAdjacent(rune.coord, this.activeRune.coord)) {
+          this.socket.emit('board/swap', this.id, rune.coord, this.activeRune.coord);
+          scenarios.makeInactiveRune(this)();
+        } else {
+          scenarios.makeInactiveRune(this)();
+          scenarios.makeActiveRune(this)(rune);
+        }
+      } else {
+        scenarios.makeInactiveRune(this)();
+        this.socket.emit('board/suggestion', this.id);
       }
-    })
-
-    this.socket.on('refill', (coordRunes) => {
-      DEBUG.socket && console.log(coordRunes)
-      this.queue.add(this.view, 'renderRefull', true, coordRunes)
-    })
+    } else {
+      scenarios.makeActiveRune(this)(rune);
+    }
+    this.viewBoard.unblockBoard();
   }
 
-  runeClick (pickRune, param, coordPickRune) {
-    this.socket.emit('game', 'pick', coordPickRune)
-  }
-
-  runeOver (rune) {
+  runeOver(rune) {
     if (rune !== this.activeRune) {
-      rune.animations.play('focus', 1, true)
+      rune.animations.play('focus', 1, true);
     }
   }
 
-  runeOut (rune) {
+  runeOut(rune) {
     if (rune !== this.activeRune) {
-      rune.animations.play('wait', 4, true)
+      rune.animations.play('wait', 4, true);
     }
+  }
+
+  bindEvents() {
+    this.socket.on('changes', (changes) => {
+      changes.forEach(({ event, data }) => {
+        scenarios[event](this)(data);
+      });
+    });
+
+    this.socket.on('msg', (msg) => {
+      log(msg);
+    });
+  }
+
+  //
+  setActiveRune(rune) {
+    this.activeRune = rune;
   }
 }
+
+module.exports = Sandbox;

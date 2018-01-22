@@ -1,39 +1,28 @@
-/* global Phaser */
-
 /**
  * Очередь команд/анимаци
  * ** ! ВАЖНО ** функции могут вставать в очередь в блокирущем режиме только если возвращают `Phaser.Tween` или `Phaser.Animation` или вызывают событие `onComplete` (`Phaser.Signal`)
  * @class
  * @fires Queue
  */
-export default class {
+class Queue {
   /**
    * @constructor
    */
-  constructor () {
+  constructor() {
     /**
      * Состояние очереди
      * TRUE  - исполение команд/анимаций
      * FALSE - ожидание команд/анимаций
+     * @protected
      * @type {Boolean}
      * @default false
      */
-    this.isRender = false
+    this.isRender = false;
     /**
      * Очередь
      * @type {Array}
      */
-    this.queue = []
-    /**
-     * Вызывается после запуска проигрывания очередной команды/анимации
-     * @event Queue#onPlay
-     */
-    this.onPlay = new Phaser.Signal()
-    /**
-     * Вызывается после добаления команды/анимации в очередь
-     * @event Queue#onAdd
-     */
-    this.onAdd = new Phaser.Signal()
+    this.queue = [];
   }
 
   /**
@@ -44,32 +33,34 @@ export default class {
    *                             FALSE - НЕ блокирущий режим (запускает сразу следущюю анимацию)
    * @param {...*}    args       Параметры команды/анимации
    */
-  add (context, command, isBlocking, ...args) {
-    this.queue.push({context, command, isBlocking, args})
-    this.onAdd.dispatch(command)
-    this.play()
+  add(context, command, isBlocking, ...args) {
+    this.queue.push({
+      context, command, isBlocking, args,
+    });
+    this.play();
   }
 
   /**
    * Воспроизведение команды/анимации из очереди (рекурсия)
    */
-  play () {
+  play() {
     if (!this.isRender) {
       if (this.queue.length) {
-        this.isRender = true
-        let command = this.queue.shift()
-        let anim = command.context[command.command].apply(command.context, command.args)
-        this.onPlay.dispatch(command)
+        this.isRender = true;
+        const command = this.queue.shift();
+        const anim = command.context[command.command].apply(command.context, command.args);
         if (command.isBlocking) {
           anim.onComplete.add(() => {
-            this.isRender = false
-            this.play()
-          })
+            this.isRender = false;
+            this.play();
+          });
         } else {
-          this.isRender = false
-          this.play()
+          this.isRender = false;
+          this.play();
         }
       }
     }
   }
 }
+
+module.exports = Queue;

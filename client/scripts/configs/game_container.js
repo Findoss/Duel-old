@@ -1,5 +1,5 @@
 /* globals Phaser */
-export default {
+module.exports = {
   width: 750,
   height: 1300,
   parent: 'game',
@@ -7,5 +7,5 @@ export default {
   antialias: true,
   multiTexture: true,
   transparent: true,
-  enableDebug: true
-}
+  enableDebug: true,
+};
