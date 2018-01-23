@@ -27,7 +27,7 @@ io.on('connection', (socket) => {
   socket.on('lobby/ready', () => {
     if (lobby.isWaitOpponent()) {
       //
-      const id = crypto.randomBytes(8).toString('hex').toUpperCase();
+      const id = crypto.randomBytes(4).toString('hex').toUpperCase();
 
       game[id] = {
         changes: new Changes(),
@@ -74,6 +74,13 @@ io.on('connection', (socket) => {
       io.to(id).emit('msg', 'error');
     }
     io.to(id).emit('changes', game[id].changes.release());
+  });
+
+  socket.on('game/reconnect', (id) => {
+    socket.join(id);
+    game[id].changes.add('loadBoard', { id, newBoard: game[id].board.getBoard() });
+    io.to(id).to(socket).emit('msg', 'game[id].changes.release()');
+    io.to(socket).emit('changes', game[id].changes.release());
   });
 
   socket.on('disconnect', () => {

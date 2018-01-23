@@ -131,6 +131,13 @@ class Board {
   }
 
   /**
+   * @return {Array.Number} Возвращает, игровое поле `this.board`
+   */
+  getBoard() {
+    return this.board;
+  }
+
+  /**
    * Выполняет сравнение между двумя координатами рун, чтобы определить, эквивалентны ли они.
    * @static
    * @param  {coord} coordOne Координата первой руны
