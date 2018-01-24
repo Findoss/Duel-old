@@ -9,10 +9,9 @@ const runes = require('./configs/runes');
 const server = require('./configs/server');
 const crypto = require('crypto');
 
-// classes game
+// classes
 const Changes = require('./classes/changes');
 const Board = require('./classes/board');
-// classes lobby
 const Lobby = require('./classes/lobby');
 
 const lobby = new Lobby();

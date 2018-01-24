@@ -57,16 +57,7 @@ const dev = {
       ],
     },
     compress: true,
-    stats: {
-      hash: false,
-      cached: false,
-      chunks: false,
-      source: false,
-      modules: false,
-      version: false,
-      children: false,
-      performance: false,
-    },
+    stats: 'errors-only',
   },
 };
 
