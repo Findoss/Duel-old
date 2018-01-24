@@ -6,11 +6,13 @@ const log = require('../libs/log');
 
 // configs
 const runes = require('./configs/runes');
+const server = require('./configs/server');
 const crypto = require('crypto');
 
-// classes
+// classes game
 const Changes = require('./classes/changes');
 const Board = require('./classes/board');
+// classes lobby
 const Lobby = require('./classes/lobby');
 
 const lobby = new Lobby();
@@ -50,7 +52,7 @@ io.on('connection', (socket) => {
 
   socket.on('board/suggestion', (id) => {
     game[id].changes.add('showSuggestion', game[id].board.findMoves());
-    io.to(id).emit('changes', game[id].changes.release());
+    socket.emit('changes', game[id].changes.release());
   });
 
   socket.on('board/swap', (id, coordOne, coordTwo) => {
@@ -77,10 +79,14 @@ io.on('connection', (socket) => {
   });
 
   socket.on('game/reconnect', (id) => {
-    socket.join(id);
-    game[id].changes.add('loadBoard', { id, newBoard: game[id].board.getBoard() });
-    io.to(id).to(socket).emit('msg', 'game[id].changes.release()');
-    io.to(socket).emit('changes', game[id].changes.release());
+    if (game.hasOwnProperty(id)) {
+      socket.join(id);
+      game[id].changes.add('loadBoard', { id, newBoard: game[id].board.getBoard() });
+      socket.emit('changes', game[id].changes.release());
+    } else {
+      lobby.addPlayer(socket);
+      socket.emit('changes', [{ event: 'waitOpponent', data: 0 }]);
+    }
   });
 
   socket.on('disconnect', () => {
@@ -89,6 +95,6 @@ io.on('connection', (socket) => {
   });
 });
 
-http.listen(8080, () => {
-  log('server', 'listening on localhost:8080');
+http.listen(server.port, () => {
+  log('server', `listening on localhost:${server.port}`);
 });
