@@ -1,3 +1,5 @@
+const log = require('../../libs/log');
+
 /**
  * Класс для подбора игроков
  * @class
@@ -17,10 +19,10 @@ class Lobby {
 
   /**
    * Возвращает есть ли в очереди подбора игроки
-   * @return {Boolean} [description]
+   * @return {Boolean}
    */
-  isWaitOpponent() {
-    return this.lobby.length > 0;
+  isThereAnEnemy() {
+    return this.lobby.length > 1;
   }
 
   /**
@@ -33,12 +35,28 @@ class Lobby {
 
   /**
    * Удаление игрока из очереди подбора
-   * @return {Socket} Возвращает сокет удаляемого игрока из очереди подбора
    */
-  shiftPlayer() {
-    const player = this.lobby[0];
-    this.lobby = [];
-    return player;
+  deletePlayer(player) {
+    const indexPlayer = this.isPlayerInLobby(player);
+    if (indexPlayer > -1) {
+      this.lobby.splice(indexPlayer, 1);
+    }
+  }
+
+  /**
+   *
+   */
+  isPlayerInLobby(player) {
+    return this.lobby.findIndex(lobbyPlayer => lobbyPlayer.id === player.id);
+  }
+
+  /**
+   *
+   */
+  pairOfPlayers() {
+    const playerOne = this.lobby.shift();
+    const playerTwo = this.lobby.shift();
+    return [playerOne, playerTwo];
   }
 }
 
