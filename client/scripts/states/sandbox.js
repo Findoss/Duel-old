@@ -121,7 +121,7 @@ class Sandbox extends Phaser.State {
     });
 
     this.socket.on('msg', (msg) => {
-      log(msg);
+      log('client', msg);
     });
   }
 
@@ -131,7 +131,7 @@ class Sandbox extends Phaser.State {
 
   setIdRoom(id) {
     this.idRoom = id;
-    window.history.pushState(null, null, `${this.idRoom}`);
+    window.history.pushState(null, null, '/'+this.idRoom);
   }
 }
 
