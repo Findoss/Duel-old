@@ -11,5 +11,6 @@ scenarios.dropRunes = require('../scenarios/dropRunes');
 scenarios.showSuggestion = require('../scenarios/showSuggestion');
 scenarios.cleanSuggestion = require('../scenarios/cleanSuggestion');
 scenarios.waitOpponent = require('../scenarios/waitOpponent');
+scenarios.noGame = require('../scenarios/noGame');
 
 module.exports = scenarios;

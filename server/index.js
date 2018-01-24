@@ -26,7 +26,8 @@ io.on('connection', (socket) => {
   });
 
   socket.on('lobby/ready', () => {
-    if (lobby.isWaitOpponent()) {
+    lobby.addPlayer(socket);
+    if (lobby.isThereAnEnemy()) {
       //
       const id = crypto.randomBytes(4).toString('hex').toUpperCase();
 
@@ -35,20 +36,35 @@ io.on('connection', (socket) => {
         board: new Board(runes, id),
       };
 
-      const socketOpp = lobby.shiftPlayer();
-
-      socketOpp.join(id);
-      socket.join(id);
+      const players = lobby.pairOfPlayers();
+      players[0].join(id);
+      players[1].join(id);
 
       game[id].changes.add('loadBoard', { id, newBoard: game[id].board.generationBoard() });
-
       io.to(id).emit('changes', game[id].changes.release());
+      //
     } else {
-      lobby.addPlayer(socket);
       socket.emit('changes', [{ event: 'waitOpponent', data: 0 }]);
     }
   });
 
+
+  socket.on('game/reconnect', (id) => {
+    if (Object.hasOwnProperty.call(game, id)) {
+      socket.join(id);
+      game[id].changes.add('loadBoard', { id, newBoard: game[id].board.getBoard() });
+      socket.emit('changes', game[id].changes.release());
+    } else {
+      socket.emit('changes', [{ event: 'noGame', data: 0 }]);
+    }
+  });
+
+  socket.on('disconnect', () => {
+    lobby.deletePlayer(socket);
+    log('server', `[.] ${userName} disconnected`);
+  });
+
+  // GAME
   socket.on('board/suggestion', (id) => {
     game[id].changes.add('showSuggestion', game[id].board.findMoves());
     socket.emit('changes', game[id].changes.release());
@@ -75,22 +91,6 @@ io.on('connection', (socket) => {
       io.to(id).emit('msg', 'error');
     }
     io.to(id).emit('changes', game[id].changes.release());
-  });
-
-  socket.on('game/reconnect', (id) => {
-    if (game.hasOwnProperty(id)) {
-      socket.join(id);
-      game[id].changes.add('loadBoard', { id, newBoard: game[id].board.getBoard() });
-      socket.emit('changes', game[id].changes.release());
-    } else {
-      lobby.addPlayer(socket);
-      socket.emit('changes', [{ event: 'waitOpponent', data: 0 }]);
-    }
-  });
-
-  socket.on('disconnect', () => {
-    lobby.shiftPlayer();
-    log('server', `[.] ${userName} disconnected`);
   });
 });
 
