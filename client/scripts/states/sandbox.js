@@ -30,7 +30,7 @@ class Sandbox extends Phaser.State {
     this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
 
     //
-    this.id = null;
+    this.idRoom = window.location.pathname.replace('/', '');
     this.activeRune = null;
     this.queue = new Queue();
     this.viewBoard = new ViewBoard(this, textureRune, textureSuggestion);
@@ -64,9 +64,11 @@ class Sandbox extends Phaser.State {
 
   create() {
     this.bindEvents();
-
-    this.socket.emit('msg', 'lobby/ready');
-    this.socket.emit('lobby/ready');
+    if (this.idRoom !== '') {
+      this.socket.emit('game/reconnect', this.idRoom);
+    } else {
+      this.socket.emit('lobby/ready');
+    }
   }
 
   update() {
@@ -83,7 +85,7 @@ class Sandbox extends Phaser.State {
     if (this.activeRune !== null) {
       if (this.activeRune !== rune) {
         if (Utils.isAdjacent(rune.coord, this.activeRune.coord)) {
-          this.socket.emit('board/swap', this.id, rune.coord, this.activeRune.coord);
+          this.socket.emit('board/swap', this.idRoom, rune.coord, this.activeRune.coord);
           scenarios.makeInactiveRune(this)();
         } else {
           scenarios.makeInactiveRune(this)();
@@ -91,7 +93,7 @@ class Sandbox extends Phaser.State {
         }
       } else {
         scenarios.makeInactiveRune(this)();
-        this.socket.emit('board/suggestion', this.id);
+        this.socket.emit('board/suggestion', this.idRoom);
       }
     } else {
       scenarios.makeActiveRune(this)(rune);
@@ -119,13 +121,17 @@ class Sandbox extends Phaser.State {
     });
 
     this.socket.on('msg', (msg) => {
-      log(msg);
+      log('client', msg);
     });
   }
 
-  //
   setActiveRune(rune) {
     this.activeRune = rune;
+  }
+
+  setIdRoom(id) {
+    this.idRoom = id;
+    window.history.pushState(null, null, '/'+this.idRoom);
   }
 }
 
