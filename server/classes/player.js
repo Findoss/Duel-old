@@ -1,17 +1,22 @@
 /**
+ * TODO
+ * Блокировку заменить уворотом
+ */
+
+/**
  * @typedef  {Object} hp
  * @property {Number} value  Текущее значение здоровья
  * @property {Number} limit  Максимальное значение здоровья
  */
 /**
+ * Класс игрока
  * @class
  */
 class Player {
   /**
-   * Конструктор персонажа
    * @constructor
-   * @param {String} name
-   * @param {String} avatar
+   * @param {String} name Имя игрока
+   * @param {String} avatar Название изображения игрока
    */
   constructor(name = 'name', avatar = 'human') {
     /**
@@ -64,40 +69,49 @@ class Player {
     this.luck = 0;
     /**
      * Блок
-     * TODO dodge
      * @type {Number}
      */
     this.block = 0;
     /**
      * Массив накопленных рун
-     * @type {Array} todo
+     * @type {Array}
      */
     this.runes = [];
     /**
      * Набор умений
-     * @type {Array} todo
+     * @type {Array}
      */
     this.runes = [];
   }
 
+  /**
+   * Возвращает объект игрока
+   * @return {Player} Возвращает, объект игрока
+   */
   getPlayer() {
     return this;
   }
 
-  // TODO hpp
+  /**
+   * Возвращает текущее здоровье игрока
+   * @return {Number} Возвращает, текущее здоровье игрока
+   */
   getHp() {
     return this.hp.value;
   }
 
-  // TODO hpp
+  /**
+   * Устанавливает текущее здоровье игрока, значение может бытиь отрицательным
+   * @param {Number} count Количество добавляемых едениц здоровья
+   */
   setHp(count) {
-    return this.hp.value + count
+    return this.hp.value + count;
   }
 
-  addRunes(runes) {
-    this.runes = runes;
-  }
-
+  /**
+   * Проверяет жив ли игрок (hp > 0)
+   * @return {Boolean} Возвращает, true если игрок жив, иначе false.
+   */
   isLife() {
     return this.hpp() > 0;
   }

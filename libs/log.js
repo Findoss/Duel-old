@@ -2,8 +2,8 @@ const debug = require('./debug');
 
 /**
  * выводит лог в консоль
- * @param   {String}    tag  тег для фильтрации
- * @param   {...Object} data данные для вывода
+ * @param   {String} tag  Тег для фильтрации
+ * @param   {...Any} data Данные для вывода
  * @example
  * log('server',
  *     '[.] generation board',

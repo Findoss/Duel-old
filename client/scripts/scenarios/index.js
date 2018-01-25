@@ -1,4 +1,7 @@
-// RE
+/**
+ * TODO
+ * Комментарии
+ */
 const scenarios = {};
 
 scenarios.makeActiveRune = require('../scenarios/makeActiveRune');

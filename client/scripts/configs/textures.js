@@ -1,3 +1,7 @@
+/**
+ * TODO
+ * Комментарии
+ */
 module.exports = {
   path: 'images/',
   skin: '',

@@ -1,3 +1,11 @@
+/**
+ * TODO
+ * разделить входящие сообщения на сценарии
+ * добавить коментарии
+ * добавить логирование
+ * добавить запись логирования
+ */
+
 // vendor
 const app = require('express');
 const http = require('http').Server(app);
@@ -16,13 +24,13 @@ const Changes = require('./classes/changes');
 const Board = require('./classes/board');
 const Lobby = require('./classes/lobby');
 const Step = require('./classes/step');
-const Player = require('./classes/Player');
+const Player = require('./classes/player');
 
 const lobby = new Lobby();
 const game = {};
 
-function isGame(game, id) {
-  return Object.hasOwnProperty.call(game, id)
+function isGame(id) {
+  return Object.hasOwnProperty.call(game, id);
 }
 
 io.on('connection', (socket) => {
@@ -48,9 +56,9 @@ io.on('connection', (socket) => {
         board: new Board(runes),
         players: [
           new Player(players[0].name),
-          new Player(players[1].name)
+          new Player(players[1].name),
         ],
-        step: new Step(players)
+        step: new Step(players),
         seedRandom: new SeedRandom(id),
       };
 
@@ -68,13 +76,13 @@ io.on('connection', (socket) => {
   });
 
   socket.on('game/connect', (id) => {
-    if (isGame(game, id)) {
+    if (isGame(id)) {
       socket.join(id);
       game[id].changes.add('loadGame', {
         gameID: id,
         newBoard: game[id].board.getBoard(),
         players: game[id].players,
-        step: game[id].step.getStep()
+        step: game[id].step.getStep(),
       });
       socket.emit('changes', game[id].changes.release());
     } else {
@@ -89,14 +97,14 @@ io.on('connection', (socket) => {
 
   // GAME
   socket.on('board/suggestion', (id) => {
-    if (isGame(game, id)) {
+    if (isGame(id)) {
       game[id].changes.add('showSuggestion', game[id].board.findMoves());
       socket.emit('changes', game[id].changes.release());
     }
   });
 
   socket.on('board/swap', (id, name, coordOne, coordTwo) => {
-    if (isGame(game, id)) {
+    if (isGame(id)) {
       if (game[id].step.isStep(name)) {
         if (!Board.isEqualCoords(coordOne, coordTwo) &&
              Board.isAdjacent(coordOne, coordTwo)) {

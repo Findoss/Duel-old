@@ -1,3 +1,7 @@
+/**
+ * TODO
+ * Комментарии
+ */
 module.exports = {
   fileName: 'finger',
   size: {
