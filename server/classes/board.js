@@ -92,18 +92,6 @@ class Board {
      */
     this.columns = columns;
     /**
-     * Поле
-     * @protected
-     * @type {Array.Number}
-     */
-    this.board = [];
-    for (let i = 0; i < this.rows; i++) {
-      this.board[i] = [];
-      for (let j = 0; j < this.columns; j++) {
-        this.board[i][j] = -1;
-      }
-    }
-    /**
      * Массив линий
      * @protected
      * @type {Array.<cluster>}
@@ -115,6 +103,19 @@ class Board {
      * @type {Function}
      */
     this.seedRandom = SeedRandom(generationKey);
+    /**
+     * Поле
+     * @protected
+     * @type {Array.Number}
+     */
+    this.board = [];
+    for (let i = 0; i < this.rows; i++) {
+      this.board[i] = [];
+      for (let j = 0; j < this.columns; j++) {
+        this.board[i][j] = -1;
+      }
+    }
+    this.generationBoard();
   }
 
   /**
