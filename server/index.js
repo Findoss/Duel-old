@@ -19,6 +19,10 @@ const Player = require('./classes/Player');
 const lobby = new Lobby();
 const game = {};
 
+function isGame(game, id) {
+  return Object.hasOwnProperty.call(game, id)
+}
+
 io.on('connection', (socket) => {
   const userName = socket.id.slice(0, 5);
   log('server', `[.] ${userName} connected`);
@@ -40,17 +44,17 @@ io.on('connection', (socket) => {
       game[id] = {
         changes: new Changes(),
         board: new Board(runes, id),
-        playerOne: new Player(players[0].name),
-        playerTwo: new Player(players[1].name),
-        step: new Step(),
-        round: 0
+        players: [
+          new Player(players[0].name),
+          new Player(players[1].name)
+        ],
+        step: new Step(players)
       };
 
       game[id].changes.add('loadGame', {
         gameID: id,
         newBoard: game[id].board.getBoard(),
-        playerOne: game[id].playerOne.getPlayer(),
-        playerTwo: game[id].playerTwo.getPlayer(),
+        players: game[id].players,
         step: game[id].step.getStep()
       });
       io.to(id).emit('changes', game[id].changes.release());
@@ -61,13 +65,12 @@ io.on('connection', (socket) => {
   });
 
   socket.on('game/connect', (id) => {
-    if (Object.hasOwnProperty.call(game, id)) {
+    if (isGame(game, id)) {
       socket.join(id);
       game[id].changes.add('loadGame', {
         gameID: id,
         newBoard: game[id].board.getBoard(),
-        playerOne: game[id].playerOne.getPlayer(),
-        playerTwo: game[id].playerTwo.getPlayer(),
+        players: game[id].players,
         step: game[id].step.getStep()
       });
       socket.emit('changes', game[id].changes.release());
@@ -83,33 +86,38 @@ io.on('connection', (socket) => {
 
   // GAME
   socket.on('board/suggestion', (id) => {
-    game[id].changes.add('showSuggestion', game[id].board.findMoves());
-    socket.emit('changes', game[id].changes.release());
+    if (isGame(game, id)) {
+      game[id].changes.add('showSuggestion', game[id].board.findMoves());
+      socket.emit('changes', game[id].changes.release());
+    }
   });
 
-  socket.on('board/swap', (id, coordOne, coordTwo) => {
-    if (!Board.isEqualCoords(coordOne, coordTwo) &&
-         Board.isAdjacent(coordOne, coordTwo)) {
-      game[id].changes.add('swapRune', game[id].board.swap(coordOne, coordTwo));
-      game[id].board.findClusters(coordOne);
-      game[id].board.findClusters(coordTwo);
-      if (game[id].board.isClusters()) {
-        do {
-          game[id].changes.add('deleteRune', game[id].board.deleteClusters());
-          game[id].changes.add('dropRunes', game[id].board.drop());
-          game[id].changes.add('refillBoard', game[id].board.refill());
-          game[id].board.findAllClusters();
-        } while (game[id].board.isClusters());
-        game[id].changes.add('nextStep', game[id].step.nextStep());
-      } else {
-        game[id].changes.add('swapRune', game[id].board.swap(coordOne, coordTwo));
-        game[id].board.cleanClusters();
+  socket.on('board/swap', (id, name, coordOne, coordTwo) => {
+    if (isGame(game, id)) {
+      if (game[id].step.isStep(name)) {
+        if (!Board.isEqualCoords(coordOne, coordTwo) &&
+             Board.isAdjacent(coordOne, coordTwo)) {
+          game[id].changes.add('swapRune', game[id].board.swap(coordOne, coordTwo));
+          game[id].board.findClusters(coordOne);
+          game[id].board.findClusters(coordTwo);
+          if (game[id].board.isClusters()) {
+            do {
+              game[id].changes.add('deleteRune', game[id].board.deleteClusters());
+              game[id].changes.add('dropRunes', game[id].board.drop());
+              game[id].changes.add('refillBoard', game[id].board.refill());
+              game[id].board.findAllClusters();
+            } while (game[id].board.isClusters());
+            game[id].changes.add('nextStep', game[id].step.nextStep());
+          } else {
+            game[id].changes.add('swapRune', game[id].board.swap(coordOne, coordTwo));
+            game[id].board.cleanClusters();
+          }
+          io.to(id).emit('changes', game[id].changes.release());
+        }
       }
-    } else {
-      io.to(id).emit('msg', 'error');
     }
-    io.to(id).emit('changes', game[id].changes.release());
   });
+
 });
 
 http.listen(server.port, () => {

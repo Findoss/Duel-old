@@ -1,7 +1,7 @@
 /**
  * @typedef  {Object} hp
- * @property {Number} value    Текущее значение здоровья
- * @property {Number} limitat  Максимальное значение здоровья
+ * @property {Number} value  Текущее значение здоровья
+ * @property {Number} limit  Максимальное значение здоровья
  */
 /**
  * @class
