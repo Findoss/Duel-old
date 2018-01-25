@@ -7,7 +7,9 @@ const log = require('../libs/log');
 // configs
 const runes = require('./configs/runes');
 const server = require('./configs/server');
+
 const crypto = require('crypto');
+const SeedRandom = require('seedrandom');
 
 // classes
 const Changes = require('./classes/changes');
@@ -43,19 +45,20 @@ io.on('connection', (socket) => {
 
       game[id] = {
         changes: new Changes(),
-        board: new Board(runes, id),
+        board: new Board(runes),
         players: [
           new Player(players[0].name),
           new Player(players[1].name)
         ],
         step: new Step(players)
+        seedRandom: new SeedRandom(id),
       };
 
       game[id].changes.add('loadGame', {
         gameID: id,
-        newBoard: game[id].board.getBoard(),
+        newBoard: game[id].board.generationBoard(game[id].seedRandom),
         players: game[id].players,
-        step: game[id].step.getStep()
+        step: game[id].step.coinToss(game[id].seedRandom),
       });
       io.to(id).emit('changes', game[id].changes.release());
       //
@@ -104,7 +107,7 @@ io.on('connection', (socket) => {
             do {
               game[id].changes.add('deleteRune', game[id].board.deleteClusters());
               game[id].changes.add('dropRunes', game[id].board.drop());
-              game[id].changes.add('refillBoard', game[id].board.refill());
+              game[id].changes.add('refillBoard', game[id].board.refill(game[id].seedRandom));
               game[id].board.findAllClusters();
             } while (game[id].board.isClusters());
             game[id].changes.add('nextStep', game[id].step.nextStep());
@@ -117,7 +120,6 @@ io.on('connection', (socket) => {
       }
     }
   });
-
 });
 
 http.listen(server.port, () => {
