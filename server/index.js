@@ -13,6 +13,8 @@ const crypto = require('crypto');
 const Changes = require('./classes/changes');
 const Board = require('./classes/board');
 const Lobby = require('./classes/lobby');
+const Step = require('./classes/step');
+const Player = require('./classes/Player');
 
 const lobby = new Lobby();
 const game = {};
@@ -25,22 +27,32 @@ io.on('connection', (socket) => {
     log('client', `[→] msg: ${msg}`);
   });
 
-  socket.on('lobby/ready', () => {
-    lobby.addPlayer(socket);
+  socket.on('lobby/ready', (name) => {
+    lobby.addPlayer(socket, name);
     if (lobby.isThereAnEnemy()) {
       //
       const id = crypto.randomBytes(4).toString('hex').toUpperCase();
 
+      const players = lobby.pairOfPlayers();
+      players[0].socket.join(id);
+      players[1].socket.join(id);
+
       game[id] = {
         changes: new Changes(),
         board: new Board(runes, id),
+        playerOne: new Player(players[0].name),
+        playerTwo: new Player(players[1].name),
+        step: new Step(),
+        round: 0
       };
 
-      const players = lobby.pairOfPlayers();
-      players[0].join(id);
-      players[1].join(id);
-
-      game[id].changes.add('loadBoard', { id, newBoard: game[id].board.generationBoard() });
+      game[id].changes.add('loadGame', {
+        gameID: id,
+        newBoard: game[id].board.getBoard(),
+        playerOne: game[id].playerOne.getPlayer(),
+        playerTwo: game[id].playerTwo.getPlayer(),
+        step: game[id].step.getStep()
+      });
       io.to(id).emit('changes', game[id].changes.release());
       //
     } else {
@@ -48,11 +60,16 @@ io.on('connection', (socket) => {
     }
   });
 
-
-  socket.on('game/reconnect', (id) => {
+  socket.on('game/connect', (id) => {
     if (Object.hasOwnProperty.call(game, id)) {
       socket.join(id);
-      game[id].changes.add('loadBoard', { id, newBoard: game[id].board.getBoard() });
+      game[id].changes.add('loadGame', {
+        gameID: id,
+        newBoard: game[id].board.getBoard(),
+        playerOne: game[id].playerOne.getPlayer(),
+        playerTwo: game[id].playerTwo.getPlayer(),
+        step: game[id].step.getStep()
+      });
       socket.emit('changes', game[id].changes.release());
     } else {
       socket.emit('changes', [{ event: 'noGame', data: 0 }]);
@@ -83,6 +100,7 @@ io.on('connection', (socket) => {
           game[id].changes.add('refillBoard', game[id].board.refill());
           game[id].board.findAllClusters();
         } while (game[id].board.isClusters());
+        game[id].changes.add('nextStep', game[id].step.nextStep());
       } else {
         game[id].changes.add('swapRune', game[id].board.swap(coordOne, coordTwo));
         game[id].board.cleanClusters();

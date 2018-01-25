@@ -13,9 +13,9 @@ class Player {
    * @param {String} name
    * @param {String} avatar
    */
-  constructor(name = '', avatar = 'human') {
+  constructor(name = 'name', avatar = 'human') {
     /**
-     * Имя персонажа
+     * Имя игрока
      * @type {String}
      */
     this.name = name;
@@ -80,24 +80,18 @@ class Player {
     this.runes = [];
   }
 
+  getPlayer() {
+    return this;
+  }
+
   // TODO hpp
-  get hp() {
+  getHp() {
     return this.hp.value;
   }
 
-  /**
-   * Нанесение урона
-   * @param  {Number} count Количество урона
-   * @return {Number} Здоровье
-   */
-  damage(player) {
-    if (this.runes[1]) {
-      const damage = this.runes[1] * this.attak;
-      // if (false) damage += damage
-      player.hp.value -= damage;
-      this.runes[1] = 0;
-    }
-    return this.hpp();
+  // TODO hpp
+  setHp(count) {
+    return this.hp.value + count
   }
 
   addRunes(runes) {

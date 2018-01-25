@@ -19,7 +19,6 @@ class Lobby {
 
   /**
    * Возвращает есть ли в очереди подбора игроки
-   * @return {Boolean}
    */
   isThereAnEnemy() {
     return this.lobby.length > 1;
@@ -27,17 +26,16 @@ class Lobby {
 
   /**
    * Добавление игрока в очередь подбора
-   * @param {Socket} player сокет игрока
    */
-  addPlayer(player) {
-    this.lobby.push(player);
+  addPlayer(socket, name) {
+    this.lobby.push({socket, name});
   }
 
   /**
    * Удаление игрока из очереди подбора
    */
-  deletePlayer(player) {
-    const indexPlayer = this.isPlayerInLobby(player);
+  deletePlayer(socket) {
+    const indexPlayer = this.isPlayerInLobby(socket);
     if (indexPlayer > -1) {
       this.lobby.splice(indexPlayer, 1);
     }
@@ -46,8 +44,8 @@ class Lobby {
   /**
    *
    */
-  isPlayerInLobby(player) {
-    return this.lobby.findIndex(lobbyPlayer => lobbyPlayer.id === player.id);
+  isPlayerInLobby(socket) {
+    return this.lobby.findIndex(lobbyPlayer => lobbyPlayer.socket.id === socket.id);
   }
 
   /**

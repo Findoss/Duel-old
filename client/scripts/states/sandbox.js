@@ -33,6 +33,9 @@ class Sandbox extends Phaser.State {
     this.idRoom = window.location.pathname.replace('/', '');
     this.activeRune = null;
     this.queue = new Queue();
+    this.playerOne = 'ooo'
+    this.playerTwo = 'xxx'
+    this.step = '='
     this.viewBoard = new ViewBoard(this, textureRune, textureSuggestion);
     this.viewLoader = new ViewLoader(this, textureLoader);
   }
@@ -77,6 +80,9 @@ class Sandbox extends Phaser.State {
 
   render() {
     Utils.fps(this.game);
+    game.debug.text(this.playerOne, 150, 30, '#ffffff', '25px Arial');
+    game.debug.text(this.step, 250, 30, '#ffffff', '25px Arial');
+    game.debug.text(this.playerTwo, 300, 30, '#ffffff', '25px Arial');
   }
 
   runeClick(rune) {
