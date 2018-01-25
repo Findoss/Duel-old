@@ -65,9 +65,9 @@ class Sandbox extends Phaser.State {
   create() {
     this.bindEvents();
     if (this.idRoom !== '') {
-      this.socket.emit('game/reconnect', this.idRoom);
+      this.socket.emit('game/connect', this.idRoom);
     } else {
-      this.socket.emit('lobby/ready');
+      this.socket.emit('lobby/ready', 'Deved');
     }
   }
 
