@@ -14,7 +14,7 @@
     "doc": "node utils/docs_build.js",
     "test": "mocha",
     "test-w": "mocha -w",
-    "travis": "npm run build && npm run test && npm run doc"
+    "travis": "npm run build && npm run test"
   },
   "dependencies": {
     "express": "^4.16.2",
