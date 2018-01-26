@@ -5,12 +5,16 @@
   "main": "index.js",
   "author": "Findoss",
   "scripts": {
-    "start": "node server/index.js",
-    "test": "mocha",
     "build": "webpack --env production",
+    "start": "node server/index.js",
+
     "server": "nodemon server/index.js --watch server",
     "client": "webpack-dev-server --env development",
-    "doc": "node utils/docs_build.js"
+
+    "doc": "node utils/docs_build.js",
+    "test": "mocha",
+    "testa": "mocha -w",
+    "travis": "npm run build && npm run test && npm run doc"
   },
   "dependencies": {
     "express": "^4.16.2",
