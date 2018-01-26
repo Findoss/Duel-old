@@ -169,9 +169,6 @@ class ViewBoard extends View {
         lastTween = this.renderRunes([{ i, j, type: board[i][j] }], 100, (80 * (board.length - i + 1)) + j * -10);
       }
     }
-    lastTween.onComplete.add(() => {
-      this.unblockBoard();
-    });
     return lastTween;
   }
 
@@ -251,9 +248,6 @@ class ViewBoard extends View {
   renderRefill(coordRunes) {
     this.cleanRunes(coordRunes);
     const tween = this.renderRunes(coordRunes, 120, 50);
-    tween.onComplete.add(() => {
-      this.unblockBoard();
-    });
     return tween;
   }
 
@@ -376,6 +370,7 @@ class ViewBoard extends View {
    * Рaзблокирует взаимодействие с рунами (`groupBoard`)
    */
   unblockBoard() {
+    this.groupBoard.setAll('tint', '0xffffff');
     this.groupBoard.setAll('inputEnabled', true);
   }
 
@@ -383,6 +378,7 @@ class ViewBoard extends View {
    * Блокирует взаимодействие с рунами (`groupBoard`)
    */
   blockBoard() {
+    this.groupBoard.setAll('tint', '0x888888');
     this.groupBoard.setAll('inputEnabled', false);
   }
 }

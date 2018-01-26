@@ -1,3 +1,7 @@
+/**
+ * TODO
+ * Комментарии
+ */
 /* globals Phaser */
 module.exports = {
   width: 768,

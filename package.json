@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node server/index.js",
     "build": "webpack --env production",
-    "server": "supervisor --watch server server/index.js",
+    "server": "nodemon server/index.js --watch server",
     "client": "webpack-dev-server --env development",
     "doc": "node utils/docs_build.js"
   },
@@ -26,8 +26,8 @@
     "html-webpack-plugin": "^2.30.1",
     "jsdoc": "^3.5.5",
     "jsdoc-to-markdown": "latest",
+    "nodemon": "^1.14.11",
     "script-loader": "^0.7.2",
-    "supervisor": "^0.12.0",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.10.0",
     "webpack-merge": "^4.1.1"
@@ -39,8 +39,16 @@
       "node": true
     },
     "rules": {
-      "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
+      "no-plusplus": [
+        "error",
+        {
+          "allowForLoopAfterthoughts": true
+        }
+      ]
     }
+  },
+  "nodemonConfig": {
+    "delay": "500"
   },
   "license": " todo license "
 }
