@@ -1,7 +1,11 @@
+/**
+ * TODO
+ * Комментарии
+ */
 /* globals Phaser */
 module.exports = {
-  width: 750,
-  height: 1300,
+  width: 768,
+  height: 432,
   parent: 'game',
   renderer: Phaser.AUTO,
   antialias: true,

@@ -1,11 +1,13 @@
-/* TODO LIST
+/*
+ * TODO
+ * при пополнении поля - отсутствует проверка на возможные ходы
+ * оптимизировать инициализацию поля
+ * переделать генерацию рун на поле (лимиты заменить шансом)
  * оптимизировать - поиск цепей и их комбинаций
  * оптимизировать - поиск возможных ходов
  * рассмотреть возможность не хранить значения линий внутри класса
- * при пополнении поля - проверка на возможные ходы
  * проверка на вхождение в поле не нужна если проверять паттерны в поиске ходов
  */
-const SeedRandom = require('seedrandom');
 
 /**
  * @typedef  {Object} coord Координата
@@ -68,11 +70,10 @@ class Board {
    * Конструктор объекта поля
    * @constructor
    * @param {Array.<rune>} runes         Список генерируемых рун
-   * @param {String}       generationKey Ключ для генерации поля
    * @param {Number=}      rows          Количество строк поля
    * @param {Number=}      columns       Количество колонок поля
    */
-  constructor(runes, generationKey, rows = 6, columns = 6) {
+  constructor(runes, rows = 6, columns = 6) {
     /**
      * Список генерируемых рун
      * @protected
@@ -92,6 +93,12 @@ class Board {
      */
     this.columns = columns;
     /**
+     * Массив линий
+     * @protected
+     * @type {Array.<cluster>}
+     */
+    this.clusters = [];
+    /**
      * Поле
      * @protected
      * @type {Array.Number}
@@ -103,30 +110,26 @@ class Board {
         this.board[i][j] = -1;
       }
     }
-    /**
-     * Массив линий
-     * @protected
-     * @type {Array.<cluster>}
-     */
-    this.clusters = [];
-    /**
-     * Функция для генерации псевдослучайных чисел
-     * @protected
-     * @type {Function}
-     */
-    this.seedRandom = SeedRandom(generationKey);
   }
 
   /**
    * Загружает сохраненное поле
    * @param  {Array.Number} savedBoard сохраненное поле
-   * @return {Array.Number} Возвращает, игровое поле `this.board`
+   * @return {Array.Number} Возвращает, игровое поле
    */
   loadBoard(savedBoard) {
     this.board = [];
     this.rows = savedBoard.length;
     this.columns = savedBoard[0].length;
     this.board = savedBoard;
+    return this.board;
+  }
+
+  /**
+   * Возвращает, текущее игровое поле
+   * @return {Array.Number} Возвращает, игровое поле
+   */
+  getBoard() {
     return this.board;
   }
 
@@ -150,8 +153,8 @@ class Board {
    *     x
    * ```
    * @static
-   * @param  {coord}   coordOne Координата первой руны
-   * @param  {coord}   coordTwo Координата второй руны
+   * @param  {coord} coordOne Координата первой руны
+   * @param  {coord} coordTwo Координата второй руны
    * @return {Boolean} Возвращает, true если руны соседние по горизонтали или вертикали, иначе false
    */
   static isAdjacent(coordOne, coordTwo) {
@@ -165,7 +168,7 @@ class Board {
    * Меняет местами руны
    * @param  {coord} coordOne Координата первой руны
    * @param  {coord} coordTwo Координата второй руны
-   * @return {Array.<coord>}      Координаты обмененых рун
+   * @return {Array.<coord>} Возвращает, координаты обмененых рун
    */
   swap(coordOne, coordTwo) {
     const tmp = this.board[coordOne.i][coordOne.j];
@@ -192,7 +195,7 @@ class Board {
   /**
    * Выполняет сравнение между типом основной руны и типом каждой руны в массиве, чтобы определить,
    * эквивалентны ли они.
-   * @param  {coord}    coord  Координата основной руны
+   * @param  {coord} coord  Координата основной руны
    * @param  {...coord} coords Координаты проверямых рун
    * @return {Boolean} Возвращает, true если тип каждой руны в массиве
    * эквивалентен типу основной руны, иначе false.
@@ -344,17 +347,17 @@ class Board {
   }
 
   /**
-   * TODO что если нет возможных ходов ?
    * Пополняет поле, заменет пустые руны случайными рунами с учетом их шанса и региона
+   * @param  {Function} random Функция псевдослучайного генератора
    * @return {Array.<coordAndType>} Возвращает, массив координаты и тип новых рун
    */
-  refill() {
+  refill(random) {
     const newRunes = [];
     this.board.forEach((row, i) => row.forEach((col, j) => {
       if (this.board[i][j] === -1) {
         let randomType = -1;
         do {
-          randomType = this.generationRune();
+          randomType = this.generationRune(random);
         } while (!this.isInLimit(randomType));
         this.board[i][j] = randomType;
         newRunes.push({ i, j, type: randomType });
@@ -424,23 +427,31 @@ class Board {
   }
 
   /**
-   * Генерирует случайное целое число в диапозоне [0, `this.runes.length`]
-   * @return {Number} Возвращает случайное целое число
+
+
    */
-  generationRune() {
-    return Math.floor(this.seedRandom() * (this.runes.length));
+
+  /**
+   * Генерирует случайное целое число в диапозоне [0, `this.runes.length`]
+   * @param  {Function} random Функция псевдослучайного генератора
+   * @return {Number} Возвращает случайное целое число в диапозоне [0, `this.runes.length`]
+   */
+  generationRune(random) {
+    return Math.floor(random() * (this.runes.length));
   }
 
   /**
    * Генерирует случайное игровое поле
-   * @return {Array} Возвращает, массив `this.board`
+   * @param  {Function} random Функция псевдослучайного генератора
+   * @param  {Number=} minMoveCount Минимальное количество доступных ходов
+   * @return {Array} Возвращает, игровое поле
    */
-  generationBoard(minMoveCount = 3) {
+  generationBoard(random, minMoveCount = 3) {
     do {
       this.board.forEach((row, i) => row.forEach((col, j) => {
         let randomType = -1;
         do {
-          randomType = this.generationRune();
+          randomType = this.generationRune(random);
         } while (!this.isInLimit(randomType) ||
                  !this.isInRegion(i, j, randomType) ||
                  this.isInNewCluster(i, j, randomType));
@@ -451,7 +462,6 @@ class Board {
   }
 
   /**
-   * TODO **! ВАЖНО - ЭТО В РАЗРАБОТКЕ !, не оптимально !!!**
    * Возвращает массив возможных ходов
    * 1 - Первая руна
    * 2 - Вторая руна
@@ -482,7 +492,7 @@ class Board {
    *   2
    * ```
 
-   * @return {Array.Array.<coordRune>} Массив пар координат рун для обмена
+   * @return {Array.Array.<coordRune>} Возвращает, массив пар координат рун для обмена
    */
   findMoves() {
     const moves = [];

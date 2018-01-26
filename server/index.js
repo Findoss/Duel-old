@@ -1,3 +1,11 @@
+/**
+ * TODO
+ * разделить входящие сообщения на сценарии
+ * добавить коментарии
+ * добавить логирование
+ * добавить запись логирования
+ */
+
 // vendor
 const app = require('express');
 const http = require('http').Server(app);
@@ -6,15 +14,24 @@ const log = require('../libs/log');
 
 // configs
 const runes = require('./configs/runes');
+const server = require('./configs/server');
+
 const crypto = require('crypto');
+const SeedRandom = require('seedrandom');
 
 // classes
 const Changes = require('./classes/changes');
 const Board = require('./classes/board');
 const Lobby = require('./classes/lobby');
+const Step = require('./classes/step');
+const Player = require('./classes/player');
 
 const lobby = new Lobby();
 const game = {};
+
+function isGame(id) {
+  return Object.hasOwnProperty.call(game, id);
+}
 
 io.on('connection', (socket) => {
   const userName = socket.id.slice(0, 5);
@@ -24,64 +41,95 @@ io.on('connection', (socket) => {
     log('client', `[→] msg: ${msg}`);
   });
 
-  socket.on('lobby/ready', () => {
-    if (lobby.isWaitOpponent()) {
+  socket.on('lobby/ready', (name) => {
+    lobby.addPlayer(socket, name);
+    if (lobby.isThereAnEnemy()) {
       //
-      const id = crypto.randomBytes(8).toString('hex').toUpperCase();
+      const id = crypto.randomBytes(4).toString('hex').toUpperCase();
+
+      const players = lobby.pairOfPlayers();
+      players[0].socket.join(id);
+      players[1].socket.join(id);
 
       game[id] = {
         changes: new Changes(),
-        board: new Board(runes, id),
+        board: new Board(runes),
+        players: [
+          new Player(players[0].name),
+          new Player(players[1].name),
+        ],
+        step: new Step(players),
+        seedRandom: new SeedRandom(id),
       };
 
-      const socketOpp = lobby.shiftPlayer();
-
-      socketOpp.join(id);
-      socket.join(id);
-
-      game[id].changes.add('loadBoard', { id, newBoard: game[id].board.generationBoard() });
-
+      game[id].changes.add('loadGame', {
+        gameID: id,
+        newBoard: game[id].board.generationBoard(game[id].seedRandom),
+        players: game[id].players,
+        step: game[id].step.coinToss(game[id].seedRandom),
+      });
       io.to(id).emit('changes', game[id].changes.release());
+      //
     } else {
-      lobby.addPlayer(socket);
       socket.emit('changes', [{ event: 'waitOpponent', data: 0 }]);
     }
   });
 
-  socket.on('board/suggestion', (id) => {
-    game[id].changes.add('showSuggestion', game[id].board.findMoves());
-    io.to(id).emit('changes', game[id].changes.release());
-  });
-
-  socket.on('board/swap', (id, coordOne, coordTwo) => {
-    if (!Board.isEqualCoords(coordOne, coordTwo) &&
-         Board.isAdjacent(coordOne, coordTwo)) {
-      game[id].changes.add('swapRune', game[id].board.swap(coordOne, coordTwo));
-      game[id].board.findClusters(coordOne);
-      game[id].board.findClusters(coordTwo);
-      if (game[id].board.isClusters()) {
-        do {
-          game[id].changes.add('deleteRune', game[id].board.deleteClusters());
-          game[id].changes.add('dropRunes', game[id].board.drop());
-          game[id].changes.add('refillBoard', game[id].board.refill());
-          game[id].board.findAllClusters();
-        } while (game[id].board.isClusters());
-      } else {
-        game[id].changes.add('swapRune', game[id].board.swap(coordOne, coordTwo));
-        game[id].board.cleanClusters();
-      }
+  socket.on('game/connect', (id) => {
+    if (isGame(id)) {
+      socket.join(id);
+      game[id].changes.add('loadGame', {
+        gameID: id,
+        newBoard: game[id].board.getBoard(),
+        players: game[id].players,
+        step: game[id].step.getStep(),
+      });
+      socket.emit('changes', game[id].changes.release());
     } else {
-      io.to(id).emit('msg', 'error');
+      socket.emit('changes', [{ event: 'noGame', data: 0 }]);
     }
-    io.to(id).emit('changes', game[id].changes.release());
   });
 
   socket.on('disconnect', () => {
-    lobby.shiftPlayer();
+    lobby.deletePlayer(socket);
     log('server', `[.] ${userName} disconnected`);
+  });
+
+  // GAME
+  socket.on('board/suggestion', (id) => {
+    if (isGame(id)) {
+      game[id].changes.add('showSuggestion', game[id].board.findMoves());
+      socket.emit('changes', game[id].changes.release());
+    }
+  });
+
+  socket.on('board/swap', (id, name, coordOne, coordTwo) => {
+    if (isGame(id)) {
+      if (game[id].step.isStep(name)) {
+        if (!Board.isEqualCoords(coordOne, coordTwo) &&
+             Board.isAdjacent(coordOne, coordTwo)) {
+          game[id].changes.add('swapRune', game[id].board.swap(coordOne, coordTwo));
+          game[id].board.findClusters(coordOne);
+          game[id].board.findClusters(coordTwo);
+          if (game[id].board.isClusters()) {
+            do {
+              game[id].changes.add('deleteRune', game[id].board.deleteClusters());
+              game[id].changes.add('dropRunes', game[id].board.drop());
+              game[id].changes.add('refillBoard', game[id].board.refill(game[id].seedRandom));
+              game[id].board.findAllClusters();
+            } while (game[id].board.isClusters());
+            game[id].changes.add('nextStep', game[id].step.nextStep());
+          } else {
+            game[id].changes.add('swapRune', game[id].board.swap(coordOne, coordTwo));
+            game[id].board.cleanClusters();
+          }
+          io.to(id).emit('changes', game[id].changes.release());
+        }
+      }
+    }
   });
 });
 
-http.listen(8080, () => {
-  log('server', 'listening on localhost:8080');
+http.listen(server.port, () => {
+  log('server', `listening on localhost:${server.port}`);
 });

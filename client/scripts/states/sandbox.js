@@ -29,10 +29,17 @@ class Sandbox extends Phaser.State {
     // влючаем возможность разворачивать на весь экран F11
     this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
 
+    // this break point
+    // sessionStorage.setItem('myName', 'Tom');
+
     //
-    this.id = null;
+    this.name = sessionStorage.getItem('myName')
+    this.idRoom = window.location.pathname.replace('/', '');
     this.activeRune = null;
     this.queue = new Queue();
+    this.playerLeft = 'ooo'
+    this.playerRight = 'xxx'
+    this.step = '='
     this.viewBoard = new ViewBoard(this, textureRune, textureSuggestion);
     this.viewLoader = new ViewLoader(this, textureLoader);
   }
@@ -64,9 +71,11 @@ class Sandbox extends Phaser.State {
 
   create() {
     this.bindEvents();
-
-    this.socket.emit('msg', 'lobby/ready');
-    this.socket.emit('lobby/ready');
+    if (this.idRoom !== '') {
+      this.socket.emit('game/connect', this.idRoom);
+    } else {
+      this.socket.emit('lobby/ready', this.name);
+    }
   }
 
   update() {
@@ -75,6 +84,9 @@ class Sandbox extends Phaser.State {
 
   render() {
     Utils.fps(this.game);
+    game.debug.text(this.playerLeft.name, 150, 30, '#ffffff', '25px Arial');
+    game.debug.text(this.step, 250, 30, '#ffffff', '25px Arial');
+    game.debug.text(this.playerRight.name, 300, 30, '#ffffff', '25px Arial');
   }
 
   runeClick(rune) {
@@ -83,19 +95,23 @@ class Sandbox extends Phaser.State {
     if (this.activeRune !== null) {
       if (this.activeRune !== rune) {
         if (Utils.isAdjacent(rune.coord, this.activeRune.coord)) {
-          this.socket.emit('board/swap', this.id, rune.coord, this.activeRune.coord);
+          this.socket.emit('board/swap', this.idRoom, this.name, rune.coord, this.activeRune.coord);
           scenarios.makeInactiveRune(this)();
         } else {
           scenarios.makeInactiveRune(this)();
           scenarios.makeActiveRune(this)(rune);
+          this.viewBoard.unblockBoard();
         }
       } else {
         scenarios.makeInactiveRune(this)();
-        this.socket.emit('board/suggestion', this.id);
+        this.viewBoard.unblockBoard();
+        this.socket.emit('board/suggestion', this.idRoom);
       }
     } else {
       scenarios.makeActiveRune(this)(rune);
+      this.viewBoard.unblockBoard();
     }
+    // hack
     this.viewBoard.unblockBoard();
   }
 
@@ -119,13 +135,17 @@ class Sandbox extends Phaser.State {
     });
 
     this.socket.on('msg', (msg) => {
-      log(msg);
+      log('client', msg);
     });
   }
 
-  //
   setActiveRune(rune) {
     this.activeRune = rune;
+  }
+
+  setIdRoom(id) {
+    this.idRoom = id;
+    window.history.pushState(null, null, '/'+this.idRoom);
   }
 }
 

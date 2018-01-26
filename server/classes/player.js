@@ -1,21 +1,26 @@
 /**
+ * TODO
+ * Блокировку заменить уворотом
+ */
+
+/**
  * @typedef  {Object} hp
- * @property {Number} value    Текущее значение здоровья
- * @property {Number} limitat  Максимальное значение здоровья
+ * @property {Number} value  Текущее значение здоровья
+ * @property {Number} limit  Максимальное значение здоровья
  */
 /**
+ * Класс игрока
  * @class
  */
 class Player {
   /**
-   * Конструктор персонажа
    * @constructor
-   * @param {String} name
-   * @param {String} avatar
+   * @param {String} name Имя игрока
+   * @param {String} avatar Название изображения игрока
    */
-  constructor(name = '', avatar = 'human') {
+  constructor(name = 'name', avatar = 'human') {
     /**
-     * Имя персонажа
+     * Имя игрока
      * @type {String}
      */
     this.name = name;
@@ -64,46 +69,49 @@ class Player {
     this.luck = 0;
     /**
      * Блок
-     * TODO dodge
      * @type {Number}
      */
     this.block = 0;
     /**
      * Массив накопленных рун
-     * @type {Array} todo
+     * @type {Array}
      */
     this.runes = [];
     /**
      * Набор умений
-     * @type {Array} todo
+     * @type {Array}
      */
     this.runes = [];
   }
 
-  // TODO hpp
-  get hp() {
+  /**
+   * Возвращает объект игрока
+   * @return {Player} Возвращает, объект игрока
+   */
+  getPlayer() {
+    return this;
+  }
+
+  /**
+   * Возвращает текущее здоровье игрока
+   * @return {Number} Возвращает, текущее здоровье игрока
+   */
+  getHp() {
     return this.hp.value;
   }
 
   /**
-   * Нанесение урона
-   * @param  {Number} count Количество урона
-   * @return {Number} Здоровье
+   * Устанавливает текущее здоровье игрока, значение может бытиь отрицательным
+   * @param {Number} count Количество добавляемых едениц здоровья
    */
-  damage(player) {
-    if (this.runes[1]) {
-      const damage = this.runes[1] * this.attak;
-      // if (false) damage += damage
-      player.hp.value -= damage;
-      this.runes[1] = 0;
-    }
-    return this.hpp();
+  setHp(count) {
+    return this.hp.value + count;
   }
 
-  addRunes(runes) {
-    this.runes = runes;
-  }
-
+  /**
+   * Проверяет жив ли игрок (hp > 0)
+   * @return {Boolean} Возвращает, true если игрок жив, иначе false.
+   */
   isLife() {
     return this.hpp() > 0;
   }

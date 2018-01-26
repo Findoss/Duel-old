@@ -3,5 +3,5 @@
  * Комментарии
  */
 module.exports = world => () => {
-  world.viewBoard.cleanSuggestion();
+  world.setIdRoom('');
 };
