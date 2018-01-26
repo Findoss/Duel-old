@@ -13,7 +13,7 @@
 
     "doc": "node utils/docs_build.js",
     "test": "mocha",
-    "testa": "mocha -w",
+    "test-w": "mocha -w",
     "travis": "npm run build && npm run test && npm run doc"
   },
   "dependencies": {
