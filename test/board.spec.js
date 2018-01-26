@@ -31,12 +31,11 @@ mocha.describe('border', () => {
   });
 
   mocha.it('3 swap - параметры не корректные 2', () => {
-    //
     const testBoard = [
       [1, 2, 3],
       [4, 5, 1],
       [2, 3, 4]];
-    //
+
     board.loadBoard(testBoard);
     const badFn = () => {
       board.swap({ i: 2, j: 4 }, { i: 3, j: 4 });
@@ -45,7 +44,6 @@ mocha.describe('border', () => {
   });
 
   mocha.it('4 swap - параметры корректные (поле)', () => {
-    //
     const boards = [
       [
         [1, 2, 3],
@@ -56,7 +54,7 @@ mocha.describe('border', () => {
         [5, 4, 1],
         [2, 3, 4]],
     ];
-    //
+
     board.loadBoard(boards[0]);
     board.swap({ i: 1, j: 0 }, { i: 1, j: 1 });
     chai.expect(board.getBoard()).to.eql(boards[1]);
@@ -79,7 +77,7 @@ mocha.describe('border', () => {
       { i: 1, j: 0 },
       { i: 1, j: 1 },
     ];
-    //
+
     board.loadBoard(boards[0]);
     const result = board.swap(coords[0], coords[1]);
 
