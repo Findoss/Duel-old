@@ -6,6 +6,8 @@
   "author": "Findoss",
   "scripts": {
     "start": "node server/index.js",
+    "test": "mocha",
+    "travis": "npm run build && npm run test && npm run doc",
     "build": "webpack --env production",
     "server": "nodemon server/index.js --watch server",
     "client": "webpack-dev-server --env development",

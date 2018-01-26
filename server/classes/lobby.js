@@ -24,10 +24,6 @@ class Lobby {
   }
 
   /**
-   *
-   */
-
-  /**
    * Добавление игрока в очередь подбора
    * @param {Socket} socket Сокет игрока
    * @param {String} name Имя игрока
@@ -49,7 +45,7 @@ class Lobby {
 
   /**
    * Проверяет есть ли игрок в очереди для подбора
-   * @param  {[type]} socket Сокет игрока
+   * @param  {Socket} socket Сокет игрока
    * @return {Boolean} Возвращает, true если есть игрок в очереди, иначе false.
    */
   isPlayerInLobby(socket) {
