@@ -150,7 +150,7 @@ class ViewBoard extends View {
   renderAllSuggestion(coordRunes) {
     let tween = {};
     for (let l = 0; l < coordRunes.length; l++) {
-      tween = this.renderSuggestion(coordRunes[l].coordRuneO, coordRunes[l].coordRuneX);
+      tween = this.renderSuggestion(coordRunes[l][0], coordRunes[l][1]);
     }
     return tween;
   }
