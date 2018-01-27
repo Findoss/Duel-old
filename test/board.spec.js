@@ -8,7 +8,7 @@ const rune = require('../server/configs/runes.js');
 
 const board = new Board(rune);
 
-describe('board', () => {
+describe('Board', () => {
   //
   it('isEqualCoords', () => {
     const result1 = Board.isEqualCoords({ i: 0, j: 3 }, { i: 0, j: 3 });
@@ -241,7 +241,7 @@ describe('board', () => {
     });
   });
   describe('drop', () => {
-    it('drop 1', () => {
+    it('drop', () => {
       const testBoards = [
         [
           [1, 2, 3, 4, 5, 3],
@@ -279,7 +279,7 @@ describe('board', () => {
       expect(board.getBoard()).to.eql(testBoards[1], 'state');
     });
 
-    it('drop 2', () => {
+    it('drop no move', () => {
       const testBoard = [
         [1, -1, -1, -1, -1, 3],
         [3, -1, -1, -1, 5, 5],
