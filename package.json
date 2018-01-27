@@ -5,11 +5,15 @@
   "main": "index.js",
   "author": "Findoss",
   "scripts": {
-    "start": "node server/index.js",
     "build": "webpack --env production",
+    "start": "node server/index.js",
     "server": "nodemon server/index.js --watch server",
     "client": "webpack-dev-server --env development",
-    "doc": "node utils/docs_build.js"
+    "doc": "node utils/docs_build.js",
+    "test": "nyc --reporter=text-summary mocha",
+    "test-w": "mocha -w",
+    "travis": "npm run build && npm test",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
     "express": "^4.16.2",
@@ -18,6 +22,8 @@
     "socket.io": "^2.0.4"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
+    "coveralls": "^3.0.0",
     "css-loader": "^0.28.8",
     "eslint": "^4.16.0",
     "eslint-config-airbnb-base": "^12.1.0",
@@ -26,7 +32,9 @@
     "html-webpack-plugin": "^2.30.1",
     "jsdoc": "^3.5.5",
     "jsdoc-to-markdown": "latest",
+    "mocha": "^5.0.0",
     "nodemon": "^1.14.11",
+    "nyc": "^11.4.1",
     "script-loader": "^0.7.2",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.10.0",
@@ -41,11 +49,20 @@
     "rules": {
       "no-plusplus": [
         "error",
-        {
-          "allowForLoopAfterthoughts": true
-        }
+        {"allowForLoopAfterthoughts": true}
       ]
     }
+  },
+  "nyc": {
+    "temp-directory": "./docs/.nyc",
+    "exclude": [
+      "**/*.spec.js",
+      "build",
+      "client",
+      "test",
+      "server/configs",
+      "utils"
+    ]
   },
   "nodemonConfig": {
     "delay": "500"

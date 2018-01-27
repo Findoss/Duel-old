@@ -2,9 +2,11 @@
  * TODO
  * при пополнении поля - отсутствует проверка на возможные ходы
  * оптимизировать инициализацию поля
- * переделать генерацию рун на поле (лимиты заменить шансом)
+ * переделать генерацию рун на поле - лимиты заменить шансом
  * оптимизировать - поиск цепей и их комбинаций
- * оптимизировать - поиск возможных ходов
+ * оптимизировать - поиск цепей и их комбинаций по координатам
+ * оптимизировать - поиск возможных ходов - патерны
+ * оптимизировать - поиск возможных ходов - поиск в прямоугольнике
  * рассмотреть возможность не хранить значения линий внутри класса
  * проверка на вхождение в поле не нужна если проверять паттерны в поиске ходов
  */
@@ -275,6 +277,18 @@ class Board {
   }
 
   /**
+   * Проверяет поле на наличие вертикальных и горизонтальных линий
+   * @return {Array.<claster>} Возвращает, массив координат рун `this.clusters`, иначе пустой массив
+   */
+  findAllClusters() {
+    this.cleanClusters();
+    for (let l = 0; l < this.rows; l++) {
+      this.findClusters({ i: l, j: l });
+    }
+    return this.clusters;
+  }
+
+  /**
    * Разрушает руны (задает руне новый тип = -1) входящие в линию, количество разрушенных рун
    * по типам добавляет в объект `destroyedRunes` и очищает массив `clusters`
    * @return {Array.<coord>} Возвращает, массив координат разрушенных рун
@@ -296,6 +310,14 @@ class Board {
    */
   cleanClusters() {
     this.clusters = [];
+  }
+
+  /**
+   * Возвращает массив линии
+   * @return Возвращает массив линии
+   */
+  getClusters() {
+    return this.clusters;
   }
 
   /**
@@ -333,17 +355,6 @@ class Board {
    */
   isClusters() {
     return this.clusters.length > 0;
-  }
-
-  /**
-   * Проверяет поле на наличие вертикальных и горизонтальных линий
-   * @return {Array.<claster>} Возвращает, массив координат рун `this.clusters`, иначе пустой массив
-   */
-  findAllClusters() {
-    for (let l = 0; l < this.rows; l++) {
-      this.findClusters({ i: l, j: l });
-    }
-    return this.clusters;
   }
 
   /**
@@ -505,56 +516,56 @@ class Board {
         if (this.isEqualType(coordRune1, coordRune2)) {
           coordRuneO = { i, j: j + 2 };
           coordRuneX = { i: i - 1, j: j + 2 };
-          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({ coordRuneO, coordRuneX });
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push([coordRuneO, coordRuneX]);
           coordRuneX = { i, j: j + 3 };
-          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({ coordRuneO, coordRuneX });
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push([coordRuneO, coordRuneX]);
           coordRuneX = { i: i + 1, j: j + 2 };
-          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({ coordRuneO, coordRuneX });
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push([coordRuneO, coordRuneX]);
 
           coordRuneO = { i, j: j - 1 };
           coordRuneX = { i: i - 1, j: j - 1 };
-          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({ coordRuneO, coordRuneX });
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push([coordRuneO, coordRuneX]);
           coordRuneX = { i, j: j - 2 };
-          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({ coordRuneO, coordRuneX });
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push([coordRuneO, coordRuneX]);
           coordRuneX = { i: i + 1, j: j - 1 };
-          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({ coordRuneO, coordRuneX });
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push([coordRuneO, coordRuneX]);
         }
 
         coordRune2 = { i: i + 1, j };
         if (this.isEqualType(coordRune1, coordRune2)) {
           coordRuneO = { i: i + 2, j };
           coordRuneX = { i: i + 2, j: j - 1 };
-          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({ coordRuneO, coordRuneX });
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push([coordRuneO, coordRuneX]);
           coordRuneX = { i: i + 3, j };
-          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({ coordRuneO, coordRuneX });
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push([coordRuneO, coordRuneX]);
           coordRuneX = { i: i + 2, j: j + 1 };
-          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({ coordRuneO, coordRuneX });
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push([coordRuneO, coordRuneX]);
 
           coordRuneO = { i: i - 1, j };
           coordRuneX = { i: i - 1, j: j - 1 };
-          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({ coordRuneO, coordRuneX });
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push([coordRuneO, coordRuneX]);
           coordRuneX = { i: i - 2, j };
-          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({ coordRuneO, coordRuneX });
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push([coordRuneO, coordRuneX]);
           coordRuneX = { i: i - 1, j: j + 1 };
-          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({ coordRuneO, coordRuneX });
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push([coordRuneO, coordRuneX]);
         }
 
         coordRune2 = { i, j: j + 2 };
         if (this.isEqualType(coordRune1, coordRune2)) {
           coordRuneO = { i, j: j + 1 };
           coordRuneX = { i: i + 1, j: j + 1 };
-          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({ coordRuneO, coordRuneX });
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push([coordRuneO, coordRuneX]);
           coordRuneX = { i: i - 1, j: j + 1 };
-          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({ coordRuneO, coordRuneX });
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push([coordRuneO, coordRuneX]);
         }
 
         coordRune2 = { i: i + 2, j };
         if (this.isEqualType(coordRune1, coordRune2)) {
           coordRuneO = { i: i + 1, j };
           coordRuneX = { i: i + 1, j: j - 1 };
-          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({ coordRuneO, coordRuneX });
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push([coordRuneO, coordRuneX]);
           coordRuneX = { i: i + 1, j: j + 1 };
-          if (this.isEqualType(coordRune1, coordRuneX)) moves.push({ coordRuneO, coordRuneX });
+          if (this.isEqualType(coordRune1, coordRuneX)) moves.push([coordRuneO, coordRuneX]);
         }
       }
     }
