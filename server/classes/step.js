@@ -13,16 +13,16 @@
 class Step {
   /**
    * @constructor
-   * @param {Array} players Массив игроков (между кем будет меняться ход)
+   * @param {Array} players Имена игроков (между кем будет меняться ход)
    */
-  constructor(players) {
+  constructor(...players) {
     /**
      * Массив имен игроков
      * @type {Array}
      */
     this.names = [
-      players[0].name,
-      players[1].name,
+      players[0],
+      players[1],
     ];
     /**
      * Текущий ход (содержит имя игрока)
@@ -63,15 +63,17 @@ class Step {
   }
 
   /**
-   * Случайным образом определяет первый ход
+   * Случайным образом определяет ход
    * @param  {Function} random Функция псевдослучайного генератора
    * @return {String} Имя игрока
    */
   coinToss(random) {
-    if (Math.floor(random() * 2) === 0) {
+    const result = random();
+    if (Math.floor(result * 2) === 0) {
       this.step = this.names[0];
+    } else {
+      this.step = this.names[1];
     }
-    this.step = this.names[1];
     return this.step;
   }
 }
