@@ -10,9 +10,9 @@
     "server": "nodemon server/index.js --watch server",
     "client": "webpack-dev-server --env development",
     "doc": "node utils/docs_build.js",
-    "test": "nyc mocha",
+    "test": "nyc --reporter=text-summary mocha",
     "test-w": "mocha -w",
-    "travis": "npm run build && npm run test",
+    "travis": "npm run build && npm test",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
