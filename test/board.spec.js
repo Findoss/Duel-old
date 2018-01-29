@@ -1,3 +1,7 @@
+/**
+ * TODO
+ * write statistical test
+ */
 /* globals describe, it */
 
 const mocha = require('mocha');
@@ -5,6 +9,7 @@ const { expect } = require('chai');
 
 const Board = require('../server/classes/board.js');
 const rune = require('../server/configs/runes.js');
+const SeedRandom = require('seedrandom');
 
 const board = new Board(rune);
 
@@ -99,6 +104,47 @@ describe('Board', () => {
     const result = board.findMoves();
 
     expect(result).to.eql(resultCoords, 'return');
+  });
+
+  it('refill', () => {
+    const seedRandom = new SeedRandom('stability-seed');
+
+    const testBoard = [
+      [3, 3, -1, -1, -1, 3],
+      [4, 4, -1, 5, 1, 0],
+      [0, 2, -1, 1, 4, 4],
+      [1, 3, 0, 0, 1, 2],
+      [2, 2, 1, 2, 3, 0],
+      [0, 3, 4, -1, -1, -1],
+    ];
+
+    const resultBoard = [
+      [3, 3, 0, 0, 5, 3],
+      [4, 4, 2, 5, 1, 0],
+      [0, 2, 0, 1, 4, 4],
+      [1, 3, 0, 0, 1, 2],
+      [2, 2, 1, 2, 3, 0],
+      [0, 3, 4, 2, 0, 3],
+    ];
+
+    const resultCoords = [
+      { i: 0, j: 2, type: 0 },
+      { i: 0, j: 3, type: 0 },
+      { i: 0, j: 4, type: 5 },
+      { i: 1, j: 2, type: 2 },
+      { i: 2, j: 2, type: 0 },
+      { i: 5, j: 3, type: 2 },
+      { i: 5, j: 4, type: 0 },
+      { i: 5, j: 5, type: 3 }];
+
+    const countCoords = 8;
+
+    board.loadBoard(testBoard);
+    const result = board.refill(seedRandom);
+
+    expect(board.getBoard()).to.eql(resultBoard, 'state');
+    expect(result.length).to.eql(countCoords, 'return 2');
+    expect(result).to.eql(resultCoords, 'return 2');
   });
 
   describe('clusters', () => {
@@ -292,5 +338,38 @@ describe('Board', () => {
       const result = board.drop();
       expect(result).to.be.empty;
     });
+  });
+
+  it('generationBoard', () => {
+    const seedRandom = new SeedRandom('stability-seed');
+
+    const resultBoard = [
+      [0, 0, 5, 2, 0, 2],
+      [0, 3, 2, 4, 1, 4],
+      [4, 3, 5, 3, 4, 3],
+      [2, 0, 2, 0, 2, 3],
+      [4, 4, 2, 3, 2, 2],
+      [2, 2, 4, 0, 3, 0],
+    ];
+
+    board.generationBoard(seedRandom);
+
+    expect(board.getBoard()).to.eql(resultBoard, 'state');
+  });
+
+
+  it('generationBoard (statistical test)', () => {
+    const seedRandom = new SeedRandom('stability-seed');
+
+    const countType = [];
+    for (let t = 0; t < board.runes.length; t++) countType[t] = 0;
+
+    for (let l = 0; l < 100; l++) {
+      board.generationBoard(seedRandom);
+      board.board.forEach((row, i) => row.forEach((col, j) => {
+        if (board.board[i][j] > -1) countType[board.board[i][j]] += 1;
+      }));
+    }
+    console.log(countType);
   });
 });
