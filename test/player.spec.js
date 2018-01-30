@@ -9,6 +9,29 @@ const player = new Player();
 
 describe('Player', () => {
   //
+  it('getPlayer', () => {
+    const testPlayer = {
+      name: "name",
+      avatar: "human",
+      hp: {
+        value: 150,
+        limit: 150,
+      },
+      attak: 5,
+      energy: 5,
+      heal: 5,
+      armor: 0,
+      rage: 0,
+      luck: 0,
+      block: 0,
+      runes: [],
+      spells: []
+    };
+
+    const result = player.getPlayer();
+    expect(result).to.eql(testPlayer);
+  });
+
   it('getHp', () => {
     const result = player.getHp();
     expect(result).to.equal(150);

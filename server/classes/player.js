@@ -81,7 +81,7 @@ class Player {
      * Набор умений
      * @type {Array}
      */
-    this.runes = [];
+    this.spells = [];
   }
 
   /**
