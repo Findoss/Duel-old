@@ -1,7 +1,3 @@
-/**
- * TODO
- * write statistical test
- */
 /* globals describe, it */
 
 const mocha = require('mocha');
@@ -370,6 +366,6 @@ describe('Board', () => {
         if (board.board[i][j] > -1) countType[board.board[i][j]] += 1;
       }));
     }
-    console.log(countType);
+    // console.log(countType);
   });
 });
