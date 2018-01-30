@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
           new Player(players[0].name),
           new Player(players[1].name),
         ],
-        step: new Step(players[0].name, players[1].name),
+        step: new Step(players),
         seedRandom: new SeedRandom(id),
       };
 

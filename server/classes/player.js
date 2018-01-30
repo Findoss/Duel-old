@@ -105,10 +105,7 @@ class Player {
    * @param {Number} count Количество добавляемых едениц здоровья
    */
   setHp(count) {
-    this.hp.value += count;
-    if (this.hp.value > this.hp.limit) this.hp.value = this.hp.limit;
-    if (this.hp.value < 0) this.hp.value = 0;
-    return this.hp.value;
+    return this.hp.value + count;
   }
 
   /**
@@ -116,7 +113,7 @@ class Player {
    * @return {Boolean} Возвращает, true если игрок жив, иначе false.
    */
   isLife() {
-    return this.getHp() > 0;
+    return this.hpp() > 0;
   }
 }
 

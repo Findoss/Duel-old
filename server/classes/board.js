@@ -2,6 +2,7 @@
  * TODO
  * при пополнении поля - отсутствует проверка на возможные ходы
  * оптимизировать инициализацию поля
+ * переделать генерацию рун на поле - лимиты заменить шансом
  * оптимизировать - поиск цепей и их комбинаций
  * оптимизировать - поиск цепей и их комбинаций по координатам
  * оптимизировать - поиск возможных ходов - патерны
@@ -365,12 +366,46 @@ class Board {
     const newRunes = [];
     this.board.forEach((row, i) => row.forEach((col, j) => {
       if (this.board[i][j] === -1) {
-        const randomType = this.generationRune(random);
+        let randomType = -1;
+        do {
+          randomType = this.generationRune(random);
+        } while (!this.isInLimit(randomType));
         this.board[i][j] = randomType;
         newRunes.push({ i, j, type: randomType });
       }
     }));
     return newRunes;
+  }
+
+  /**
+   * Проверяет имеет ли возможность руна данного типа входить в данный регион
+   * @param  {Number} i Номер строки
+   * @param  {Number} j Номер столбца
+   * @param  {Number} type Тип руны
+   * @return {Boolean} Возвращает, true если руне можно входить в регион, иначе false.
+   */
+  isInRegion(i, j, type) {
+    return (i >= Math.round((this.rows / 100) * this.runes[type].region.start.i) &&
+            j >= Math.round((this.columns / 100) * this.runes[type].region.start.j) &&
+            i <= Math.round((this.rows / 100) * this.runes[type].region.end.i) &&
+            j <= Math.round((this.columns / 100) * this.runes[type].region.end.j));
+  }
+
+  /**
+   * Проверяет не привышает ли руна данного типа лимиты (% от общего числа рун)
+   * @param  {Number} Тип руны
+   * @return {Boolean} Возвращает, true если руна не привышает лимит, иначе false.
+   */
+  isInLimit(type) {
+    const countType = [];
+    for (let i = 0; i < this.runes.length; i++) countType[i] = 0;
+
+    this.board.forEach((row, i) => row.forEach((col, j) => {
+      if (this.board[i][j] > -1) countType[this.board[i][j]] += 1;
+    }));
+
+    const limit = Math.round((this.columns * (this.rows / 100)) * this.runes[type].limit);
+    return (countType[type] + 1 <= limit);
   }
 
   /**
@@ -413,11 +448,7 @@ class Board {
    * @return {Number} Возвращает случайное целое число в диапозоне [0, `this.runes.length`]
    */
   generationRune(random) {
-    let randomType = -1;
-    do {
-      randomType = Math.floor(random() * (this.runes.length));
-    } while (Math.floor(random() * (100)) >= this.runes[randomType]);
-    return randomType;
+    return Math.floor(random() * (this.runes.length));
   }
 
   /**
@@ -432,7 +463,9 @@ class Board {
         let randomType = -1;
         do {
           randomType = this.generationRune(random);
-        } while (this.isInNewCluster(i, j, randomType));
+        } while (!this.isInLimit(randomType) ||
+                 !this.isInRegion(i, j, randomType) ||
+                 this.isInNewCluster(i, j, randomType));
         this.board[i][j] = randomType;
       }));
     } while (this.findMoves().length < minMoveCount);
