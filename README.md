@@ -1,17 +1,19 @@
 # Duel
+[![GitHub Release Date](https://img.shields.io/github/release-date/Findoss/Duel.svg)]()  
+[![GitHub issues](https://img.shields.io/github/issues/Findoss/Duel.svg)]()
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/Findoss/Duel.svg)]()
 
-[![GitHub Release Date](https://img.shields.io/github/release-date/Findoss/Duel.svg?style=for-the-badge)]()
+[![Travis](https://img.shields.io/travis/Findoss/Duel.svg)]()
+[![Coveralls](https://img.shields.io/coveralls/github/Findoss/Duel.svg)]()
+[![bitHound](https://img.shields.io/bithound/code/github/Findoss/Duel.svg)]()
+[![bitHound](https://img.shields.io/bithound/dependencies/github/Findoss/Duel.svg)]()
+[![bitHound](https://img.shields.io/bithound/devDependencies/github/Findoss/Duel.svg)]()
 
-[![Travis](https://img.shields.io/travis/Findoss/Duel.svg?style=for-the-badge)]()
-[![Coveralls github](https://img.shields.io/coveralls/github/Findoss/Duel.svg?style=for-the-badge)]()
+[![GitHub top language](https://img.shields.io/github/languages/top/Findoss/Duel.svg)]()
+[![Code style](https://img.shields.io/badge/code%20style-airbnb-lightgrey.svg)]()
 
-[![GitHub pull requests](https://img.shields.io/github/issues-pr/Findoss/Duel.svg?style=for-the-badge)]()
-[![GitHub issues](https://img.shields.io/github/issues/Findoss/Duel.svg?style=for-the-badge)]()
-
-[![GitHub top language](https://img.shields.io/github/languages/top/Findoss/Duel.svg?style=for-the-badge)]()[![Code style](https://img.shields.io/badge/code%20style-airbnb-lightgrey.svg?style=for-the-badge)]()
-
-[![GitHub contributors](https://img.shields.io/github/contributors/Findoss/Duel.svg?style=for-the-badge)]()
-[![GitHub license](https://img.shields.io/github/license/Findoss/Duel.svg?style=for-the-badge)]()
+[![GitHub contributors](https://img.shields.io/github/contributors/Findoss/Duel.svg)]()
+[![GitHub license](https://img.shields.io/github/license/Findoss/Duel.svg)]()
 
 
 ## Оглавление
