@@ -1,10 +1,4 @@
 /* eslint prefer-destructuring: ["error", {AssignmentExpression: {array: false}}] */
-/**
- * TODO
- * Проверить более оптимальные варианты
- * Реализовать механику удачного хода -
- * принимать входящий шанс или сохранять из объекта игрока
- */
 
 /**
  * Класс смены хода
@@ -50,14 +44,18 @@ class Step {
 
   /**
    * Определяет следующий ход
+   * @param  {Function} random Функция псевдослучайного генератора
    * @param  {Number=} chance Шанс игрока на удачный ход (смена хода не происходит)
    * @return {String} Имя игрока
    */
-  nextStep(chance = 0) {
-    if (this.step === this.names[0]) {
-      this.step = this.names[1];
-    } else {
-      this.step = this.names[0];
+  nextStep(random, chance = 0) {
+    if ((Math.floor((random() * 100) + 1)) >= chance) {
+      // смена хода
+      if (this.step === this.names[0]) {
+        this.step = this.names[1];
+      } else {
+        this.step = this.names[0];
+      }
     }
     return this.step;
   }
