@@ -49,7 +49,7 @@ class Lobby {
    * @return {Boolean} Возвращает, true если есть игрок в очереди, иначе false.
    */
   isPlayerInLobby(socket) {
-    return this.lobby.findIndex(lobbyPlayer => lobbyPlayer.socket.id === socket.id);
+    return this.lobby.findIndex(playerInLobby => playerInLobby.socket.id === socket.id);
   }
 
   /**
