@@ -11,24 +11,24 @@ describe('Changes', () => {
   //
   it('add', () => {
     const testEvent = 'Drag';
-    const testData = {x:5, y:6};
+    const testData = { x: 5, y: 6 };
 
     changes.add(testEvent, testData);
-    expect(changes.events).to.eql({testEvent, testData});
+    expect(changes.events[0]).to.eql({ event: testEvent, data: testData });
   });
 
   it('clean', () => {
-    const testEvent = 'Drag';
-    const testData = {x:5, y:6};
-
     changes.clean();
     expect(changes.events).to.empty;
   });
 
   it('release', () => {
-    const result = changes.release();
+    const testEvent = 'Drag';
+    const testData = { x: 5, y: 6 };
+    changes.add(testEvent, testData);
 
-    expect(result).to.eql({testEvent, testData});
+    const result = changes.release();
+    expect(result).to.eql([{ event: testEvent, data: testData }]);
     expect(changes.events).to.empty;
   });
 });
