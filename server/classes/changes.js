@@ -29,10 +29,7 @@ class Changes {
    * @return {Array} Возвращает все накопленные промежуточные состояния игры
    */
   release() {
-    let data = [];
-    if (this.events.length > 0) {
-      data = this.events;
-    }
+    const data = this.events;
     this.clean();
     return data;
   }
