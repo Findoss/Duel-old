@@ -3,8 +3,8 @@
 [![GitHub issues](https://img.shields.io/github/issues/Findoss/Duel.svg)]()
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/Findoss/Duel.svg)]()
 
-[![Travis](https://img.shields.io/travis/Findoss/Duel.svg)]()
-[![Coveralls](https://img.shields.io/coveralls/github/Findoss/Duel.svg)]()
+[![Travis](https://img.shields.io/travis/Findoss/Duel.svg)](https://travis-ci.org/Findoss/Duel/)
+[![Coveralls](https://img.shields.io/coveralls/github/Findoss/Duel.svg)](https://coveralls.io/github/Findoss/Duel)
 [![bitHound](https://img.shields.io/bithound/code/github/Findoss/Duel.svg)]()
 [![bitHound](https://img.shields.io/bithound/dependencies/github/Findoss/Duel.svg)]()
 [![bitHound](https://img.shields.io/bithound/devDependencies/github/Findoss/Duel.svg)]()
