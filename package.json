@@ -2,9 +2,17 @@
   "name": "duel",
   "version": "1.0.0",
   "description": "game",
-  "main": "index.js",
+  "main": "server/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build-api": "aglio --theme-variables flatly -i docs/source/api.apib -o docs/build/API.html",
+    "build-client": "",
+    "build-doc": "",
+    "build-docs": "",
+    "build-project": "",
+    "dev-api": "aglio --theme-variables flatly -i docs/source/api.apib --server",
+    "dev-api-mock": "drakov -f docs/source/api.apib -s docs/source/api.apib -p 3001 --watch --discover", 
+    "dev-server": "",
+    "dev-client": ""
   },
   "repository": {
     "type": "git",
@@ -18,7 +26,9 @@
   "homepage": "https://github.com/Findoss/Duel#readme",
   "dependencies": {},
   "devDependencies": {
+    "aglio": "^2.3.0",
     "eslint": "^4.19.1",
+    "drakov": "^1.0.4",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.9.0"
   }
