@@ -1,31 +1,110 @@
 FORMAT: 1A
+HOST: http://127.0.0.1:3001
 
-# The Simplest API
-This is one of the simplest APIs written in the **API Blueprint**. One plain
-resource combined with a method and that's it! We will explain what is going on
-in the next installment - 
-[Resource and Actions](02.%20Resource%20and%20Actions.md).
+# API Duel
 
-**Note:** As we progress through the examples, do not also forget to view the
-[Raw](https://raw.github.com/apiaryio/api-blueprint/master/examples/01.%20Simplest%20API.md)
-code to see what is really going on in the API Blueprint, as opposed to just
-seeing the output of the Github Markdown parser.
+## API Duel
 
-Also please keep in mind that every single example in this course is a **real
-API Blueprint** and as such you can **parse** it with the 
-[API Blueprint parser](https://github.com/apiaryio/drafter) or one of its
-[bindings](https://github.com/apiaryio/drafter#bindings).
+# Group Users API
 
-## API Blueprint
-+ [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/01.%20Simplest%20API.md)
-+ [Next: Resource and Actions](02.%20Resource%20and%20Actions.md)
+## User
 
-# GET /message
-+ Response 200 (text/plain)
++ Model (application/json)
+    + Body
 
-        Hello World!
+            {
+                "nickname": [ "nickname" ],
+                "email":  String,
+                "rank": Number,
+                "avatarLink":  String
+            }
 
-# GET /
-+ Response 404 (text/plain)
+# GET /users/{id}
+Получение информации о пользователе
 
-        Hello World!
++ Parameters
+    + id: 000001  (number) - ID пользователя.
+
++ Response 200 (application/json; charset=utf-8)
+
+            [Model][asd]
+
++ Response 404 (application/json; charset=utf-8)
+
+            {
+                "message": "User with id not found",
+                "code": "not_found"
+            }
+
+# GET /users/scoreboard
+Список лидеров
+
++ Parameters
+    + offset: 0  (number, optional) - Номер страницы.
+    + limit:  10 (number, optional) - Количество элементов на странице.
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+            "users": [
+                {
+                    "id": 0,
+                    "nickname": "nick1",
+                    "email": "email1",
+                    "rank": 10
+                },
+                {
+                    "id": 3,
+                    "nickname": "nick2",
+                    "email": "email2",
+                    "rank": 4
+                },
+                {
+                    "id": 2,
+                    "nickname": "nick100",
+                    "email": "email91",
+                    "rank": 1
+                }
+            ],
+            "prevPage": "http://example.com/users/leaderboard/?page=1",
+            "nextPage": "http://example.com/users/leaderboard/?page=3"
+        }
+
++ Response 404 (application/json; charset=utf-8)
+
+            {
+                "message": "Users with id not found",
+                "code": "not_found"
+            }
+
+# POST /users
+Создание пользователя
+
++ Body
+
+        {
+            "nickname": "string",
+            "email": "string",
+            "password": "string"
+        }
+
++ Response 201 (application/json; charset=utf-8)
+
+            {
+                "message": "User has been created successfully"
+            }
+
++ Response 400 (application/json; charset=utf-8)
+
+            {
+                "message": "Invalid user params",
+                "code": "invalid_user_params"
+            }
+
+# Group Tool API
+API для сервисных функций
+
+## HEAD /ping
+Проверка доступности сервиса
+
++ Response 200

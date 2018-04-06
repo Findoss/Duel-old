@@ -10,9 +10,11 @@
     "build-docs": "",
     "build-project": "",
     "dev-api": "aglio --theme-variables flatly -i docs/source/api.apib --server",
-    "dev-api-mock": "drakov -f docs/source/api.apib -s docs/source/api.apib -p 3001 --watch --discover", 
+    "dev-api-mock": "drakov -f docs/source/api.apib -s docs/source/api.apib -p 3001 --watch --discover",
     "dev-server": "",
-    "dev-client": ""
+    "dev-client": "",
+    "test-api": "dredd docs/source/api.apib http://127.0.0.1:3001",
+    "test-js": ""
   },
   "repository": {
     "type": "git",
@@ -27,8 +29,9 @@
   "dependencies": {},
   "devDependencies": {
     "aglio": "^2.3.0",
-    "eslint": "^4.19.1",
     "drakov": "^1.0.4",
+    "dredd": "^5.1.5",
+    "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.9.0"
   }
