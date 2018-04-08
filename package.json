@@ -15,12 +15,13 @@
     "dev-api": "aglio --theme-variables flatly -i docs/source/index.apib --server",
     "dev-api-mock": "drakov -f docs/source/*.apib -s docs/source/index.apib -p 3001 --watch --discover",
     "dev-server": "nodemon server/index.js --watch server",
-    "dev-client": "vue-cli-service serve",
+    "dev-client": "vue-cli-service serve --port 3002",
     "dev-test": "mocha -w",
     "test-api": "dredd docs/source/*.apib http://127.0.0.1:3001",
     "test-js": "nyc --reporter=text-summary mocha",
     "test-push-report": "nyc report --reporter=text-lcov | coveralls",
-    "start": "node server/index.js"
+    "start": "node server/index.js",
+    "vue-inspect": "vue inspect > docs/build/Webpack-config.js"
   },
   "dependencies": {
     "vue": "^2.5.13",

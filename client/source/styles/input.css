@@ -1,0 +1,30 @@
+input {
+  padding: 4px 4px 4px 8px;
+  margin-top: 4px;
+
+  font-size: 14pt;
+
+  background-color: #000;
+  color: var(--color-text);
+
+  border: var(--border);
+  border-color: var(--color1);
+  border-radius: 3px;
+
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+
+
+  box-shadow: inset 0px 0px 25px rgb(49, 49, 49);
+}
+
+input:hover {
+  outline: none;
+  border-color: var(--color-1-hover);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--color-1-focus);
+}

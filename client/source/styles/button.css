@@ -1,0 +1,28 @@
+button {
+  padding: 4px;
+  margin-top: 4px;
+
+  font-size: 14pt;
+
+  background-color: var(--background-2);
+  color: var(--color-1);
+
+  border: var(--border);
+  border-style: outset;
+  border-color: var(--color-1);
+  border-radius: 3px;
+  outline: none;
+
+  width: 100%;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--background-2-hover);
+  border-color: var(--color-1-hover);
+}
+
+button:focus {
+  background-color: var(--background-2);
+  border-color: var(--color-1-focus);
+}
