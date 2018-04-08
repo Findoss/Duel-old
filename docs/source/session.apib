@@ -11,6 +11,7 @@
         }
 
 + Response 200 (application/json; charset=utf-8)
+Вход осуществлен успешно
     + Headers
 
             Set-Cookie: stringToken
@@ -20,18 +21,21 @@
         + message: You are signed in
 
 + Response 403 (application/json; charset=utf-8)
+Переданы неверные параметры входа
     + Attributes
         + message: Forbidden
         + code: forbidden
 
-## Выход [DELETE /signout]
+## # Выход [DELETE /signout]
 Осуществляет выход из приложения.
 
 + Response 200 (application/json; charset=utf-8)
+Выход из приложения осуществлен залогиненым пользователем
     + Attributes
         + message: You are signed out
     
 + Response 403 (application/json; charset=utf-8)
+Переданы неверные параметры входа
     + Attributes
         + message: Forbidden
         + code: forbidden

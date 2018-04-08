@@ -10,11 +10,13 @@
         + password: password
 
 + Response 201 (application/json; charset=utf-8)
+Пользователь создан успешно
     + Attributes
         + message: User has been created successfully
 
 
 + Response 400 (application/json; charset=utf-8)
+Заданы неверные параметры
     + Attributes
         + message: Invalid user params
         + code: invalid_user_params
@@ -72,6 +74,7 @@
             }
    
 + Response 404 (application/json; charset=utf-8)
+Нет ни одного пользователя
     + Attributes
         + message: Users with id not found
         + code: not_found
@@ -91,6 +94,7 @@
         }
 
 + Response 404 (application/json; charset=utf-8)
+Пользователь не найден
     + Attributes
         + message: User with id not found
         + code: not_found
