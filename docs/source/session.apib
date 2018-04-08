@@ -1,0 +1,37 @@
+# Group Sessions API
+
+## Вход [POST /signin]
+Осуществляет аутентификацию пользователя. Устанавливает TOKEN в localstarage
+
++ Request User data
+
+        {
+            "email": "ivan@mail.ru",
+            "password": "password"
+        }
+
++ Response 200 (application/json; charset=utf-8)
+    + Headers
+
+            Set-Cookie: stringToken
+
+    + Body
+    + Attributes
+        + message: You are signed in
+
++ Response 403 (application/json; charset=utf-8)
+    + Attributes
+        + message: Forbidden
+        + code: forbidden
+
+## Выход [DELETE /signout]
+Осуществляет выход из приложения.
+
++ Response 200 (application/json; charset=utf-8)
+    + Attributes
+        + message: You are signed out
+    
++ Response 403 (application/json; charset=utf-8)
+    + Attributes
+        + message: Forbidden
+        + code: forbidden
