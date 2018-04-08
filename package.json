@@ -1,40 +1,53 @@
 {
   "name": "duel",
-  "version": "1.0.0",
-  "description": "game",
-  "main": "server/index.js",
-  "scripts": {
-    "build-api": "aglio --theme-variables flatly -i docs/source/index.apib -o docs/build/API.html",
-    "build-client": "",
-    "build-doc": "",
-    "dev-api": "aglio --theme-variables flatly -i docs/source/index.apib --server",
-    "dev-api-mock": "drakov -f docs/source/*.apib -s docs/source/index.apib -p 3001 --watch --discover",
-    "dev-server": "nodemon server/index.js --watch server",
-    "dev-client": "",
-    "dev-test": "mocha -w",
-    "test-api": "dredd docs/source/*.apib http://127.0.0.1:3001",
-    "test-js": "nyc --reporter=text-summary mocha",
-    "test-push-report": "nyc report --reporter=text-lcov | coveralls",
-    "start": "node server/index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Findoss/Duel.git"
-  },
+  "version": "1.1.0",
+  "private": true,
   "author": "Findoss",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Findoss/Duel/issues"
   },
   "homepage": "https://github.com/Findoss/Duel#readme",
-  "dependencies": {},
+  "scripts": {
+    "build-api": "aglio --theme-variables flatly -i docs/source/index.apib -o docs/build/API.html",
+    "build-client": "vue-cli-service build",
+    "build-doc": "",
+    "dev-api": "aglio --theme-variables flatly -i docs/source/index.apib --server",
+    "dev-api-mock": "drakov -f docs/source/*.apib -s docs/source/index.apib -p 3001 --watch --discover",
+    "dev-server": "nodemon server/index.js --watch server",
+    "dev-client": "vue-cli-service serve --port 3002",
+    "dev-test": "mocha -w",
+    "test-api": "dredd docs/source/*.apib http://127.0.0.1:3001",
+    "test-js": "nyc --reporter=text-summary mocha",
+    "test-push-report": "nyc report --reporter=text-lcov | coveralls",
+    "start": "node server/index.js",
+    "vue-inspect": "vue inspect > docs/build/Webpack-config.js"
+  },
+  "dependencies": {
+    "vue": "^2.5.13",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
+  },
   "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.0.0-beta.6",
+    "@vue/cli-service": "^3.0.0-beta.6",
+    "vue-template-compiler": "^2.5.13",
     "aglio": "^2.3.0",
     "drakov": "^1.0.4",
     "dredd": "^5.1.5",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.9.0"
+  },
+  "babel": {
+    "presets": [
+      "@vue/app"
+    ]
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
   },
   "eslintConfig": {
     "extends": "airbnb-base",
@@ -50,5 +63,9 @@
         }
       ]
     }
-  }
+  },
+  "browserslist": [
+    "last 2 versions",
+    "not ie <= 10"
+  ]
 }

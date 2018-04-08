@@ -1,0 +1,59 @@
+:root {
+  --color-text: #ece3d3;
+  --color-text-strong: #e5dba0;
+  --color-text-heading: #ebcb8b;
+
+  --background-1: #0e0f11;
+
+  --background-2: #1f1515;
+  --background-2-hover: #241919;
+
+  --color-1: #bf616a;
+  --color-1-hover: #d08770;
+  --color-1-focus: #ebcb8b;
+
+  --color-2: #81a1c1;
+  --color-2-hover: #88c0d0;
+  --color-2-focus: #8fbcbb;
+
+  --color-3: #ebcb8b;
+
+  --border: solid 2px;
+
+
+
+  --color-12: #81a1c1;
+  --color-12-hover: #88c0d0;
+  --color-12-focus: #ebcb8b;
+  --color0: #2e3440;
+  --color1: #3b4252;
+  --color2: #434c5e;
+  --color3: #4c566a;
+  --color4: #d8dee9;
+  --color5: #e5e9f0;
+  --color7: #8fbcbb;
+  --color8: #88c0d0;
+  --color9: #81a1c1;
+  --color10: #5e81ac;
+  --color11: #bf616a;
+  --color12: #d08770;
+  --color13: #ebcb8b;
+  --color14: #a3be8c;
+  --color15: #b48ead;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--color-text);
+
+  font-family: 'Segoe UI';
+  font-size: 14pt;
+
+  background-color: #020202;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-x: center;
+  background-position-y: bottom;
+  background-attachment: fixed;
+  background-image: url("../assets/background.jpg");
+}
