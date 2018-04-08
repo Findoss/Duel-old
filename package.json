@@ -4,17 +4,18 @@
   "description": "game",
   "main": "server/index.js",
   "scripts": {
-    "build-api": "aglio --theme-variables flatly -i docs/source/api.apib -o docs/build/API.html",
+    "build-api": "aglio --theme-variables flatly -i docs/source/index.apib -o docs/build/API.html",
     "build-client": "",
     "build-doc": "",
-    "build-docs": "",
-    "build-project": "",
-    "dev-api": "aglio --theme-variables flatly -i docs/source/api.apib --server",
-    "dev-api-mock": "drakov -f docs/source/api.apib -s docs/source/api.apib -p 3001 --watch --discover",
-    "dev-server": "",
+    "dev-api": "aglio --theme-variables flatly -i docs/source/index.apib --server",
+    "dev-api-mock": "drakov -f docs/source/*.apib -s docs/source/index.apib -p 3001 --watch --discover",
+    "dev-server": "nodemon server/index.js --watch server",
     "dev-client": "",
-    "test-api": "dredd docs/source/api.apib http://127.0.0.1:3001",
-    "test-js": ""
+    "dev-test": "mocha -w",
+    "test-api": "dredd docs/source/*.apib http://127.0.0.1:3001",
+    "test-js": "nyc --reporter=text-summary mocha",
+    "test-push-report": "nyc report --reporter=text-lcov | coveralls",
+    "start": "node server/index.js"
   },
   "repository": {
     "type": "git",
@@ -34,5 +35,20 @@
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.9.0"
+  },
+  "eslintConfig": {
+    "extends": "airbnb-base",
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "rules": {
+      "no-plusplus": [
+        "error",
+        {
+          "allowForLoopAfterthoughts": true
+        }
+      ]
+    }
   }
 }
