@@ -1,0 +1,100 @@
+# Group Users API
+
+## Создание пользователя [POST /users]
+Регистрация пользователя
+
++ Request User data
+    + Attributes
+        + nickname: Ivan
+        + email: Ivan@email.ru
+        + password: password
+
++ Response 201 (application/json; charset=utf-8)
+Пользователь создан успешно
+    + Attributes
+        + message: User has been created successfully
+
+
++ Response 400 (application/json; charset=utf-8)
+Заданы неверные параметры
+    + Attributes
+        + message: Invalid user params
+        + code: invalid_user_params
+
+## Список пользователей [GET /users{?offset,limit}]
+Получить список лидеров
+
++ Parameters
+    + offset: 0  (number, optional) - Номер страницы.
+    + limit:  10 (number, optional) - Количество элементов на странице.
+
++ Response 200 (application/json; charset=utf-8)
+    + Attributes
+        + users (array)
+            + (object)
+                + id: 1
+                + nickname: Ivan
+                + avatar: http://example.com/statics/avatar.png
+                + rank: 14
+            + (object)
+                + id: 2
+                + nickname: Oleg
+                + avatar: http://example.com/statics/avatar.png
+                + rank: 15
+
+
+    + Schema
+
+            {
+                "title": "Users",
+                "description": "",
+                "type": "object",
+                "properties": {
+                    "users": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "number"
+                                },
+                                "nickname": {
+                                    "type": "string"
+                                },
+                                "avatar": {
+                                    "type": "string"
+                                },
+                                "rank": {
+                                    "type": "number"
+                                },
+                            }
+                        },
+                    }
+                }
+            }
+   
++ Response 404 (application/json; charset=utf-8)
+Нет ни одного пользователя
+    + Attributes
+        + message: Users with id not found
+        + code: not_found
+
+## Информация о пользователе [GET /users/{id}]
+Получить информацию о пользователе по id
+
++ Parameters
+    + id: 000001  (number) - ID пользователя.
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+            "nickname": "nick100",
+            "avatar": "http://example.com/statics/avatar.png",
+            "rank": 1
+        }
+
++ Response 404 (application/json; charset=utf-8)
+Пользователь не найден
+    + Attributes
+        + message: User with id not found
+        + code: not_found
