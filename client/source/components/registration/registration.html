@@ -2,31 +2,35 @@
   <h1 class="title">Join Duel</h1>
   <p>Create your personal account</p>
 
-  <p v-if="errors.length" class="errors">
+  <div v-if="errors.length" class="alert-error">
     <b>Please correct the following error(s):</b>
     <ul>
       <li v-for="error in errors">{{ error }}</li>
     </ul>
-  </p>
+  </div>
 
-  <form action="/reg" accept-charset="UTF-8" method="post" @submit="checkForm">
+  <form accept-charset="UTF-8" @submit.prevent="submit">
     
-    <label for="nickname" class="form-input-label">Nickname</label>
-    <input name="nickname" id="nickname" class="form-control form-input" tabindex="1" autofocus="autofocus" type="text">
+    <label for="nickname">Nickname</label>
+    <input name="nickname" id="nickname" tabindex="1" autofocus="autofocus" type="text" v-model="nickname">
     <small class="tooltip">Lorem ipsum dolor sit amet consectetur adipisicing elit.</small>
     <br>
-    <label for="email" class="form-input-label">Email</label>
-    <input name="email" id="email" class="form-control form-input" tabindex="2" type="email">
+    <label for="email">Email</label>
+    <input name="email" id="email" tabindex="2" type="email" v-model="email">
     <small class="tooltip">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</small>
     <br>
-    <label for="password" class="form-input-label">Password</label>
-    <input name="password" id="password" class="form-control form-input" tabindex="3" type="password">
+    <label for="password">Password</label>
+    <input name="password" id="password" tabindex="3" type="password" v-model="password">
     <small class="tooltip">Lorem ipsum dolor sit amet consectetur adipisicing.</small>
-
+    <br>
+    <label for="password">Password</label>
+    <input name="password" id="password" tabindex="3" type="password" v-model="password">
+    <small class="tooltip">Lorem ipsum dolor sit amet consectetur adipisicing.</small>
+    
     <hr>
     <p>By clicking “Create an account” below, you agree to our terms of service and privacy statement. We’ll occasionally send you account related emails
     </p>
     <hr>
-    <button class="form-control button-primary" tabindex="4" type="submit">Create an account</button>
+    <button type="submit" tabindex="4">Create an account</button>
   </form>
 </div>

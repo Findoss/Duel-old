@@ -3,6 +3,7 @@
 @import "../../styles/link.css";
 @import "../../styles/button.css";
 @import "../../styles/card.css";
+@import "../../styles/alert.css";
 
 .tooltip {
   top: -25px;
