@@ -1,0 +1,28 @@
+<div class="card">
+
+  <h1 class="card-title">Sign in to Duel</h1>
+  
+  <div class="error">{{ errors }}</div>
+
+  <form action="/session" accept-charset="UTF-8" method="post">
+    <label for="email">Email</label>
+    <input name="email" id="email" tabindex="1" autofocus="autofocus" type="text" placeholder="email@email.com">
+
+    <label for="email">Password</label>
+    <input name="password" id="password" tabindex="2" type="password" placeholder="your password">
+
+    <button tabindex="3" type="submit">Sing in</button>
+
+    <!-- <center>sign with:</center>
+    <img src="../../assets/000.png" alt="" class="social" tabindex="4">
+    <img src="../../assets/000.png" alt="" class="social" tabindex="5">
+    <img src="../../assets/000.png" alt="" class="social" tabindex="6">
+    <img src="../../assets/000.png" alt="" class="social" tabindex="7">
+    <img src="../../assets/000.png" alt="" class="social" tabindex="8"> -->
+   
+</form>
+<p class="new-acc">
+  <router-link to="/password_reset">Forgot password?</router-link>
+  <br><br>
+  New to Duel? <router-link to="/registration">Create an account</router-link>.</p>
+</div>

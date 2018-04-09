@@ -3,14 +3,14 @@ input {
   background-color: var(--background-0);
 
   border: var(--border);
-  border-image: linear-gradient(to right, #070000, var(--color-yellow), #070000);
+  border-image: linear-gradient(to right, var(--color-yellow), var(--background-1));
   border-image-slice: 1;
-  border-right: none;
-  border-left: none;
+  /* border-right: none; */
+  /* border-left: none; */
   
   outline: none;
 
-  padding: 6px 6px 4px 8px;
+  padding: 6px 6px 6px 8px;
   margin-top: 6px;
 
   font-size: 14pt;
@@ -19,13 +19,21 @@ input {
   box-sizing: border-box;
 }
 
+input::-webkit-input-placeholder {
+  color: var(--color-gray);
+}
+
+input:hover::-webkit-input-placeholder {
+  color: var(--color-gray-hover);
+}
+
 input:hover {
+  border-image: none;
   border-color: var(--color-yellow-hover);
 }
 
 input:focus {
   border-color: var(--color-yellow-focus);
-
   outline: 3px solid var(--color-yellow);
   outline-style: outset;
 }

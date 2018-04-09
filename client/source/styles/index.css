@@ -1,6 +1,5 @@
 :root {
   --color-text:	hsl(40, 40%, 90%);
-  --color-text-invert:	hsl(40, 40%, 10%);
   --color-text-strong: hsl(40, 60%, 65%);
   --color-text-heading: hsl(40, 65%, 65%);
 
@@ -60,8 +59,8 @@ body {
   background-color: var(--background);
   color: var(--color-text);
 
-  font-family: -apple-system, BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-  font-weight: 400;
+  font-family: -apple-system, BlinkMacSystemFont,"Segoe UI",Helvetica,Arial;
+  font-weight: normal;
   font-size: 14pt;
 
   background-size: cover;
@@ -71,6 +70,4 @@ body {
   background-attachment: fixed;
   background-color: var(--background-1);
   background-image: url("../assets/background.jpg");
-
-  border: 4px rgba(240, 210, 75, 0.493)
 }

@@ -6,17 +6,25 @@ button {
   border-image: linear-gradient(to right, #250000, #800002, #250000);
   border-image-slice: 1;
 
-  padding: 4px;
+  padding: 1px;
   margin-top: 4px;
-  font-size: 14pt;
-  outline: none;
   width: 100%;
+
+  font-size: 25pt;
+  font-family: King;
+
+  outline: none;
+
   cursor: pointer;
 }
 
-button:hover {
-  
+button:hover, 
+button:focus {
+  border-image: none;
+  border-color: hsl(360,100%,30%);
+  color: hsl(360,100%,30%);
 }
+
 
 button:disabled {
 }
