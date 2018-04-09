@@ -1,28 +1,42 @@
 :root {
-  --color-text: #ece3d3;
-  --color-text-strong: #e5dba0;
-  --color-text-heading: #ebcb8b;
+  --color-text:	hsl(40, 40%, 90%);
+  --color-text-invert:	hsl(40, 40%, 10%);
+  --color-text-strong: hsl(40, 60%, 65%);
+  --color-text-heading: hsl(40, 65%, 65%);
 
-  --background-1: #0e0f11;
+  --background-0: hsl(0, 0%, 0%);
+  --background-1: hsl(0, 0%, 5%);
+  --background-2: hsl(0, 0%, 7%);
 
-  --background-2: #1f1515;
-  --background-2-hover: #241919;
+  --color-red: hsl(355, 40%, 56%);
+  --color-red-hover: hsl(355, 50%, 56%);
+  --color-red-focus: hsl(355, 70%, 56%);
 
-  --color-1: #bf616a;
-  --color-1-hover: #d08770;
-  --color-1-focus: #ebcb8b;
+  --color-gray: #2e3440;
+  --color-gray-hover: #434c5e;
+  --color-gray-focus: #4c566a;
 
-  --color-2: #81a1c1;
-  --color-2-hover: #88c0d0;
-  --color-2-focus: #8fbcbb;
+  --color-yellow: hsl(40, 60%, 70%);
+  --color-yellow-hover: hsl(40, 60%, 65%);
+  --color-yellow-focus: hsl(40, 70%, 60%);
 
-  --color-3: #ebcb8b;
+  --color-blue: #81a1c1;
+  --color-blue-hover: #88c0d0;
+  --color-blue-focus: #8fbcbb;
+
+
+
+
+
+
+
+  --color-3: #5f2121;
 
   --border: solid 2px;
 
+  
 
-
-  --color-12: #81a1c1;
+  --color-1: #81a1c1;
   --color-12-hover: #88c0d0;
   --color-12-focus: #ebcb8b;
   --color0: #2e3440;
@@ -46,14 +60,17 @@ body {
   background-color: var(--background);
   color: var(--color-text);
 
-  font-family: 'Segoe UI';
+  font-family: -apple-system, BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  font-weight: 400;
   font-size: 14pt;
 
-  background-color: #020202;
-  background-repeat: no-repeat;
   background-size: cover;
+  background-repeat: no-repeat;
   background-position-x: center;
   background-position-y: bottom;
   background-attachment: fixed;
+  background-color: var(--background-1);
   background-image: url("../assets/background.jpg");
+
+  border: 4px rgba(240, 210, 75, 0.493)
 }

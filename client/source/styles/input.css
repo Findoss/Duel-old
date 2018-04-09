@@ -1,30 +1,35 @@
 input {
-  padding: 4px 4px 4px 8px;
-  margin-top: 4px;
+  color: var(--color-text);
+  background-color: var(--background-0);
+
+  border: var(--border);
+  border-image: linear-gradient(to right, #070000, var(--color-yellow), #070000);
+  border-image-slice: 1;
+  border-right: none;
+  border-left: none;
+  
+  outline: none;
+
+  padding: 6px 6px 4px 8px;
+  margin-top: 6px;
 
   font-size: 14pt;
 
-  background-color: #000;
-  color: var(--color-text);
-
-  border: var(--border);
-  border-color: var(--color1);
-  border-radius: 3px;
-
-  outline: none;
   width: 100%;
   box-sizing: border-box;
-
-
-  box-shadow: inset 0px 0px 25px rgb(49, 49, 49);
 }
 
 input:hover {
-  outline: none;
-  border-color: var(--color-1-hover);
+  border-color: var(--color-yellow-hover);
 }
 
 input:focus {
-  outline: none;
-  border-color: var(--color-1-focus);
+  border-color: var(--color-yellow-focus);
+
+  outline: 3px solid var(--color-yellow);
+  outline-style: outset;
+}
+
+input:disabled {
+  background-color: 
 }

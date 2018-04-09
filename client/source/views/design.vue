@@ -11,7 +11,6 @@
   </p>
   <br>
 
-  
   <a href="">Link</a>
   <br><br>
 
@@ -30,6 +29,12 @@
       <tr>
         <td>password</td>
         <td><input type="password" name="password"></input></td>
+      </tr>
+      <tr>
+        <td>placeholder</td>
+        <td>
+            <input type="password" name="password" placeholder="*****"></input>
+        </td>
       </tr>
       <tr>
         <td>button</td>
