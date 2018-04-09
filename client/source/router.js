@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Login from './views/login.vue';
-import Registration from './views/registration.vue';
+import Signin from './components/signin/index.vue';
+import Registration from './components/registration/index.vue';
 import Profile from './views/profile.vue';
 import Design from './views/design.vue';
 
@@ -11,8 +11,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'login',
-      component: Login,
+      name: 'signin',
+      component: Signin,
     },
     {
       path: '/registration',

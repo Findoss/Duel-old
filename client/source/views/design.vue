@@ -1,17 +1,25 @@
 <template>
-<div>
+<div class="card">
 
-  <h1>h1. Heading</h1>
-  <h2>h2. Heading</h2>
-  <h3>h3. Heading</h3>
-  <h4>h4. Heading</h4>
+  <h1>h1. Heading Заголовок</h1>
+  <h2>h2. Heading Заголовок</h2>
+  <h3>h3. Heading Заголовок</h3>
+  <h4>h4. Heading Заголовок</h4>
 
+  <h4>
+    1 2 3 4 5 6 7 8 9 0
+  </h4>
   <p>
-    Lorem <strong>ipsum dolor sit</strong>, amet consectetur adipisicing elit. Sit commodi necessitatibus dicta mollitia? Incidunt, odit consequuntur cumque saepe quasi temporibus error maxime autem corporis, numquam eaque minima similique laudantium voluptatem?
+    1 2 3 4 5 6 7 8 9 0
+  </p>
+  <p>
+    Lorem <strong>ipsum dolor sit</strong>, amet consectetur adipisicing elit. <small>numquam eaque minima similique</small> laudantium voluptatem?
+  </p>
+  <p>
+    Текст на русском <strong>языке</strong>, съешь <small>еще булок</small>.
   </p>
   <br>
 
-  
   <a href="">Link</a>
   <br><br>
 
@@ -32,6 +40,12 @@
         <td><input type="password" name="password"></input></td>
       </tr>
       <tr>
+        <td>placeholder</td>
+        <td>
+            <input type="password" name="password" placeholder="placeholder"></input>
+        </td>
+      </tr>
+      <tr>
         <td>button</td>
         <td><button type="submit">Hello Button</button></td>
       </tr>
@@ -47,4 +61,5 @@
   @import "../styles/input.css";
   @import "../styles/link.css";
   @import "../styles/button.css";
+  @import "../styles/card.css";
 </style>
