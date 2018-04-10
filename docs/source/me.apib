@@ -1,7 +1,9 @@
 # Group Me API
+\* - Авторизованн
 
 ## Текущий пользователь [/me]
-### # Получение информации [GET]
+
+### * Получение информации [GET]
 Получение информации о своем аккаунте
 
 + Response 201 (application/json; charset=utf-8)
@@ -19,7 +21,7 @@
         + message: Forbidden
         + code: forbidden
 
-### # Удаление аккаунта [DELETE]
+### * Удаление аккаунта [DELETE]
 Удаление своего аккаунта
 
 + Response 200 (application/json; charset=utf-8)
@@ -33,7 +35,7 @@
         + message: Forbidden
         + code: forbidden
 
-### # Полное изменение [PUT]
+### * Полное изменение [PUT]
 Полное изменение информации о текущем пользователе (то, что не передано, стирается)
 
 + Request User data
@@ -59,7 +61,7 @@
         + message: Forbidden
         + code: forbidden
 
-### # Частичное изменение [PATCH]
+### * Частичное изменение [PATCH]
 астичое изменение информации о текущем пользователе (то, что не передано, остается)
 
 + Request User data
