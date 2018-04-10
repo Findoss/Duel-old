@@ -1,5 +1,5 @@
 :root {
-  --color-text:	hsl(40, 40%, 90%);
+  --color-text: hsl(40, 40%, 90%);
   --color-text-strong: hsl(40, 60%, 65%);
   --color-text-heading: hsl(40, 65%, 65%);
 
@@ -22,6 +22,8 @@
   --color-blue: #81a1c1;
   --color-blue-hover: #88c0d0;
   --color-blue-focus: #8fbcbb;
+
+  --border: solid 2px;
 }
 
 body {
