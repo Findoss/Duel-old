@@ -1,7 +1,7 @@
 a {
-  color: var(--color-1);
+  color: var(--color-blue);
 }
 
 a:hover {
-  color: var(--color-1-hover);
+  color: var(--color-blue-hover);
 }
