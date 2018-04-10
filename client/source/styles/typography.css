@@ -20,11 +20,11 @@ h1 {
 }
 
 h2 {
-  font-size: 36pt;
+  font-size: 34pt;
 }
 
 h3 {
-  font-size: 32pt;
+  font-size: 30pt;
 }
 
 h4 {
@@ -38,7 +38,7 @@ strong, label {
 
 small {
   font-size: 10pt;
-  font-weight: 200;
+  font-weight: 400;
 }
 
 p {

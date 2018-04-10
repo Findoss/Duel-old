@@ -4,24 +4,6 @@
 @import "../../styles/button.css";
 @import "../../styles/card.css";
 
-/* .card input {
-  text-align: center;
-  margin-bottom: 10px;
-  border-image: linear-gradient(to right, var(--background-1), var(--color-yellow), var(--background-1));
-  border-image-slice: 1;
-}
-
-
-
-.error {
-  color: var(--color-red);
-  /* border: 1px solid;
-  border-color: var(--color-red);
-  padding: 10px;
-  text-align: center;
-  margin-bottom: 15px;
-}*/
-
 .social {
   margin: 10px;
   width: 60px;
@@ -37,4 +19,8 @@ input {
 
 button {
   margin-bottom: 20px;
+}
+
+.password-reset {
+  float: right;
 }

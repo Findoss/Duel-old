@@ -1,0 +1,25 @@
+.error {
+  background-color: var(--background-0);
+
+  border: 2px solid;
+  border-color: var(--color-red);
+
+  padding-left: 30px;
+  padding-bottom: 5px;
+
+  margin-top: 8px;
+}
+
+.error::before {
+  content: ''; 
+  display: block;
+
+  width: 0; 
+  height: 0; 
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid var(--color-red);
+
+  position: relative;
+  top: -10px;
+}

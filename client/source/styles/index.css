@@ -7,7 +7,7 @@
   --background-1: hsl(0, 0%, 5%);
   --background-2: hsl(0, 0%, 7%);
 
-  --color-red: hsl(355, 40%, 56%);
+  --color-red: hsl(355, 83%, 55%);
   --color-red-hover: hsl(355, 50%, 56%);
   --color-red-focus: hsl(355, 70%, 56%);
 
@@ -22,37 +22,6 @@
   --color-blue: #81a1c1;
   --color-blue-hover: #88c0d0;
   --color-blue-focus: #8fbcbb;
-
-
-
-
-
-
-
-  --color-3: #5f2121;
-
-  --border: solid 2px;
-
-  
-
-  --color-1: #81a1c1;
-  --color-12-hover: #88c0d0;
-  --color-12-focus: #ebcb8b;
-  --color0: #2e3440;
-  --color1: #3b4252;
-  --color2: #434c5e;
-  --color3: #4c566a;
-  --color4: #d8dee9;
-  --color5: #e5e9f0;
-  --color7: #8fbcbb;
-  --color8: #88c0d0;
-  --color9: #81a1c1;
-  --color10: #5e81ac;
-  --color11: #bf616a;
-  --color12: #d08770;
-  --color13: #ebcb8b;
-  --color14: #a3be8c;
-  --color15: #b48ead;
 }
 
 body {
