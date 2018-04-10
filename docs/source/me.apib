@@ -7,17 +7,16 @@
 + Response 201 (application/json; charset=utf-8)
 Пользователь авторизован
     + Attributes
-        + nickname: Ivan
-        + email: Ivan@email.ru
-        + avatar: http://example.com/statics/avatar.png
-        + rank: 14
-
+        + nickname: Ivan (string)
+        + email: Ivan@email.ru (string)
+        + avatar: avatar (string)
+        + rank: 14 (number)
 
 + Response 403 (application/json; charset=utf-8)
 Переданы неверные параметры входа
     + Attributes
-        + message: Forbidden
-        + code: forbidden
+        + message: Forbidden (string)
+        + code: forbidden (string)
 
 ### # Удаление аккаунта [DELETE]
 Удаление своего аккаунта
@@ -25,62 +24,62 @@
 + Response 200 (application/json; charset=utf-8)
 Профиль текущего пользователя удален успешно
     + Attributes
-        + message: Your profile is updated successfully
+        + message: Your profile is updated successfully (string)
    
 + Response 403 (application/json; charset=utf-8)
 Переданы неверные параметры входа
     + Attributes
-        + message: Forbidden
-        + code: forbidden
+        + message: Forbidden (string)
+        + code: forbidden (string)
 
 ### # Полное изменение [PUT]
 Полное изменение информации о текущем пользователе (то, что не передано, стирается)
 
 + Request User data
     + Attributes
-        + nickname: Ivan
-        + email: Ivan@email.ru
-        + password: password
+        + nickname: Ivan (string)
+        + email: Ivan@email.ru (string)
+        + password: password (string)
 
 + Response 200 (application/json; charset=utf-8)
 Профиль текущего пользователя обновлен успешно
     + Attributes
-        + message: Your profile is updated successfully
+        + message: Your profile is updated successfully (string)
    
 + Response 400 (application/json; charset=utf-8)
 Заданы неверные параметры
     + Attributes
-        + message: Invalid user params
-        + code: invalid_user_params
+        + message: Invalid user params (string)
+        + code: invalid_user_params (string)
 
 + Response 403 (application/json; charset=utf-8)
 Переданы неверные параметры входа
     + Attributes
-        + message: Forbidden
-        + code: forbidden
+        + message: Forbidden (string)
+        + code: forbidden (string)
 
 ### # Частичное изменение [PATCH]
 астичое изменение информации о текущем пользователе (то, что не передано, остается)
 
 + Request User data
     + Attributes
-        + nickname: Ivan
-        + email: Ivan@email.ru
-        + password: password
+        + nickname: Ivan (string)
+        + email: Ivan@email.ru (string)
+        + password: password (string)
 
 + Response 200 (application/json; charset=utf-8)
 Профиль текущего пользователя обновлен успешно
     + Attributes
-        + message: Your profile is updated successfully
+        + message: Your profile is updated successfully (string)
    
 + Response 400 (application/json; charset=utf-8)
 Заданы неверные параметры
     + Attributes
-        + message: Invalid user params
-        + code: invalid_user_params
+        + message: Invalid user params (string)
+        + code: invalid_user_params (string)
 
 + Response 403 (application/json; charset=utf-8)
 Переданы неверные параметры входа
     + Attributes
-        + message: Forbidden
-        + code: forbidden
+        + message: Forbidden (string)
+        + code: forbidden (string)
