@@ -2,35 +2,59 @@
   <h1 class="title">Join Duel</h1>
   <p>Create your personal account</p>
 
-  <div v-if="errors.length" class="alert-error">
-    <b>Please correct the following error(s):</b>
-    <ul>
-      <li v-for="error in errors">{{ error }}</li>
-    </ul>
-  </div>
-
   <form accept-charset="UTF-8" @submit.prevent="submit">
     
     <label for="nickname">Nickname</label>
-    <input name="nickname" id="nickname" tabindex="1" autofocus="autofocus" type="text" v-model="nickname">
-    <small class="tooltip">Lorem ipsum dolor sit amet consectetur adipisicing elit.</small>
-    <br>
+    <input
+      tabindex="1"
+      type="text"
+      name="nickname"
+      id="nickname"
+      autofocus="autofocus" 
+      autocapitalize="off" 
+      autocorrect="off" 
+      v-model="nickname" 
+      :class="qqq"
+    >
+    <ul v-if="nicknameErrors.length" class="error">
+      <li v-for="error in nicknameErrors">{{ error }}</li>
+    </ul>
+
     <label for="email">Email</label>
-    <input name="email" id="email" tabindex="2" type="email" v-model="email">
-    <small class="tooltip">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</small>
-    <br>
+    <input
+      tabindex="2" 
+      type="email" 
+      name="email" 
+      id="email" 
+      autocapitalize="off" 
+      autocorrect="off" 
+      v-model="email"
+      :class="qqq"
+    >
+    <ul v-if="emailErrors.length" class="error">
+      <li v-for="error in emailErrors">{{ error }}</li>
+    </ul>
+    <!-- <small class="tooltip">We'll never share your email address with anyone.</small> -->
+
+
     <label for="password">Password</label>
-    <input name="password" id="password" tabindex="3" type="password" v-model="password">
-    <small class="tooltip">Lorem ipsum dolor sit amet consectetur adipisicing.</small>
-    <br>
-    <label for="password">Password</label>
-    <input name="password" id="password" tabindex="3" type="password" v-model="password">
-    <small class="tooltip">Lorem ipsum dolor sit amet consectetur adipisicing.</small>
-    
-    <hr>
-    <p>By clicking “Create an account” below, you agree to our terms of service and privacy statement. We’ll occasionally send you account related emails
+    <input 
+      tabindex="3" 
+      type="password" 
+      name="password" 
+      id="password" 
+      autocapitalize="off" 
+      autocorrect="off" 
+      v-model="password"
+      :class="qqq"
+    >
+    <ul v-if="passwordErrors.length" class="error">
+      <li v-for="error in passwordErrors">{{ error }}</li>
+    </ul>
+    <!-- <small class="tooltip">Use at least one lowercase letter, one numeral, and seven characters.</small> -->
+
+    <p class="info">By clicking “Create an account” below, you agree to our terms of service and privacy statement. We’ll occasionally send you account related emails
     </p>
-    <hr>
     <button type="submit" tabindex="4">Create an account</button>
   </form>
 </div>

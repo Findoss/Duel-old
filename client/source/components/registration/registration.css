@@ -4,12 +4,9 @@
 @import "../../styles/button.css";
 @import "../../styles/card.css";
 @import "../../styles/alert.css";
+@import "../../styles/list.css";
 
-.tooltip {
-  top: -25px;
-  position: relative;
-}
-
-input {
-  margin-bottom: 20px;
+label {
+  margin-top: 15px;
+  display: inline-block;
 }
