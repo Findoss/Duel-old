@@ -1,16 +1,16 @@
 input {
   color: var(--color-text);
   background-color: var(--background-0);
+  background-repeat: no-repeat;
+  background-position: right 8px center;
 
   border: var(--border);
   border-image: linear-gradient(to right, var(--color-yellow), var(--background-1));
   border-image-slice: 1;
-  /* border-right: none; */
-  /* border-left: none; */
   
   outline: none;
 
-  padding: 6px 6px 6px 8px;
+  padding: 6px 30px 6px 8px;
   margin-top: 6px;
 
   font-size: 14pt;
@@ -39,5 +39,18 @@ input:focus {
 }
 
 input:disabled {
-  background-color: 
+  border-image: none;
+  border-color: var(--color-gray);
+}
+
+.is-autocheck-loading {
+  background-image: url(../assets/Rolling-1s-16px-1.gif);
+}
+
+.is-autocheck-successful {
+  background-image: url(../assets/success.png);
+}
+
+.is-autocheck-error {
+  background-image: url(../assets/error.png);
 }
