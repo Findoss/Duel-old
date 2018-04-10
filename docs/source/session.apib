@@ -6,10 +6,9 @@
 
 + Request User data
 
-        {
-            "email": "ivan@mail.ru",
-            "password": "password"
-        }
+    + Attributes
+        + email: ivan@mail.ru (string)
+        + password: password  (string)
 
 + Response 200 (application/json; charset=utf-8)
 Вход осуществлен успешно
@@ -19,13 +18,13 @@
 
     + Body
     + Attributes
-        + message: You are signed in
+        + message: You are signed in (string)
 
 + Response 403 (application/json; charset=utf-8)
 Переданы неверные параметры входа
     + Attributes
-        + message: Forbidden
-        + code: forbidden
+        + message: Forbidden (string)
+        + code: forbidden (string)
 
 ## * Выход [DELETE /signout]
 Осуществляет выход из приложения.
@@ -33,10 +32,10 @@
 + Response 200 (application/json; charset=utf-8)
 Выход из приложения осуществлен залогиненым пользователем
     + Attributes
-        + message: You are signed out
+        + message: You are signed out (string)
     
 + Response 403 (application/json; charset=utf-8)
 Переданы неверные параметры входа
     + Attributes
-        + message: Forbidden
-        + code: forbidden
+        + message: Forbidden (string)
+        + code: forbidden (string)
