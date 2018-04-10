@@ -16,7 +16,7 @@
     Lorem <strong>ipsum dolor sit</strong>, amet consectetur adipisicing elit. <small>numquam eaque minima similique</small> laudantium voluptatem?
   </p>
   <p>
-    Текст на русском <strong>языке</strong>, съешь <small>еще булок</small>.
+    Текст на русском <strong>языке</strong>, <small>съешь еще</small> французских булок.
   </p>
   <br>
 
@@ -36,14 +36,39 @@
         <td><input type="text" name="text"></input></td>
       </tr>
       <tr>
-        <td>password</td>
-        <td><input type="password" name="password"></input></td>
+        <td>disabled</td>
+        <td><input type="text" name="text" disabled></input></td>
+      </tr>
+      <tr>
+        <td>value</td>
+        <td><input type="text" name="text" value="Lorem ipsum dolor sit amet"></input></td>
+      </tr>
+      <tr>
+        <td>loading</td>
+        <td><input type="text" name="text" class="is-autocheck-loading"></input></td>
+      </tr>
+      <tr>
+        <td>successful</td>
+        <td><input type="text" name="text" class="is-autocheck-successful"></input></td>
+      </tr>
+      <tr>
+        <td>error</td>
+        <td>
+          <input type="text" name="text" class="is-autocheck-error"></input>
+          <ul v-if="errors.length" class="error">
+            <li v-for="error in errors">{{ error }}</li>
+          </ul>
+        </td>
       </tr>
       <tr>
         <td>placeholder</td>
         <td>
-            <input type="password" name="password" placeholder="placeholder"></input>
+            <input type="text" name="password" placeholder="placeholder"></input>
         </td>
+      </tr>
+      <tr>
+        <td>password</td>
+        <td><input type="password" name="password"></input></td>
       </tr>
       <tr>
         <td>button</td>
@@ -62,4 +87,19 @@
   @import "../styles/link.css";
   @import "../styles/button.css";
   @import "../styles/card.css";
+  @import "../styles/alert.css";
+  @import "../styles/list.css";
 </style>
+
+<script>
+export default {
+  data() {
+    return {
+      errors: [
+        'Ошибка введенных данных',
+        'Error entering data',
+      ]
+    }
+  }
+};
+</script>
