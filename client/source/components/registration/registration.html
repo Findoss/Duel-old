@@ -14,7 +14,7 @@
       autocapitalize="off" 
       autocorrect="off" 
       v-model="nickname" 
-      :class="qqq"
+      :class="nicknameStyles"
     >
     <ul v-if="nicknameErrors.length" class="error">
       <li v-for="error in nicknameErrors">{{ error }}</li>
@@ -29,7 +29,7 @@
       autocapitalize="off" 
       autocorrect="off" 
       v-model="email"
-      :class="qqq"
+      :class="emailStyles"
     >
     <ul v-if="emailErrors.length" class="error">
       <li v-for="error in emailErrors">{{ error }}</li>
@@ -46,7 +46,7 @@
       autocapitalize="off" 
       autocorrect="off" 
       v-model="password"
-      :class="qqq"
+      :class="passwordStyles"
     >
     <ul v-if="passwordErrors.length" class="error">
       <li v-for="error in passwordErrors">{{ error }}</li>

@@ -4,7 +4,9 @@ export default {
       nicknameErrors: [],
       emailErrors: [],
       passwordErrors: [],
-      qqq: '',
+      nicknameStyles: '',
+      emailStyles: '',
+      passwordStyles: '',
       nickname: '',
       email: '',
       password: '',
@@ -16,31 +18,45 @@ export default {
       this.emailErrors = [];
       this.passwordErrors = [];
 
-      this.nicknameErrors.push('Nickname can\'t be blank');
-      this.nicknameErrors.push('Nickname is already taken');
+      this.nicknameStyles = '';
+      this.emailStyles = '';
+      this.passwordStyles = '';
 
-      this.passwordErrors.push('Password is too short (minimum is 7 characters) and needs at least one number');
-      this.passwordErrors.push('Password can\'t be blank');
 
-      this.emailErrors.push('Email is invalid or already taken');
-      this.emailErrors.push('Email can\'t be blank');
+      // this.nicknameErrors.push('Nickname is already taken');
+
+      // this.passwordErrors.push('Password is too short (minimum is 7 characters) and needs at least one number');
+      // this.passwordErrors.push('Password can\'t be blank');
+
+      // this.emailErrors.push('Email is invalid or already taken');
+      // this.emailErrors.push('Email can\'t be blank');
 
 
       if (this.nickname === '') {
-        this.qqq = 'is-autocheck-error';
+        this.nicknameStyles = 'is-autocheck-error';
+        this.nicknameErrors.push('Nickname can\'t be blank');
       } else {
-        this.qqq = 'is-autocheck-successful';
+        console.log(this.nickname.length);
+        this.nicknameStyles = 'is-autocheck-successful';
+      }
+
+      if (this.email === '') {
+        this.emailStyles = 'is-autocheck-error';
+        this.emailErrors.push('Email can\'t be blank');
+      } else {
+        this.emailStyles = 'is-autocheck-successful';
       }
 
 
-      // this.errors = [];
-      // if(!this.name) this.errors.push("Name required.");
-      // if(!this.email) {
-      //   this.errors.push("Email required.");
-      // } else if(!this.validEmail(this.email)) {
-      //   this.errors.push("Valid email required.");
-      // }
-      // if(!this.errors.length) return true;
+      if (this.password === '') {
+        this.passwordStyles = 'is-autocheck-error';
+        this.passwordErrors.push('Password can\'t be blank');
+      } else if (this.password.length < 7) {
+        this.passwordStyles = 'is-autocheck-error';
+        this.passwordErrors.push('Password is too short (minimum is 7 characters) and needs at least one number');
+      } else {
+        this.passwordStyles = 'is-autocheck-successful';
+      }
     },
     validEmail(email) {
       const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
