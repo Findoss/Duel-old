@@ -13,13 +13,12 @@
       autofocus="autofocus" 
       autocapitalize="off" 
       autocorrect="off" 
-      v-model="nickname" 
       class="base-input"
+      v-model="nickname" 
       :class="nicknameStyles"
+      @input="updateNickname($event.target.value)"
     >
-    <ul v-if="nicknameErrors.length" class="error">
-      <li v-for="error in nicknameErrors">{{ error }}</li>
-    </ul>
+    <p v-if="nicknameError" class="error">{{ nicknameError }}</p>
 
     <label for="email">Email</label>
     <input
@@ -29,13 +28,12 @@
       id="email" 
       autocapitalize="off" 
       autocorrect="off" 
-      v-model="email"
       class="base-input"
+      v-model="email"
       :class="emailStyles"
+      @input="updateEmail($event.target.value)"
     >
-    <ul v-if="emailErrors.length" class="error">
-      <li v-for="error in emailErrors">{{ error }}</li>
-    </ul>
+    <p v-if="emailError" class="error">{{ emailError }}</p>
     <!-- <small class="tooltip">We'll never share your email address with anyone.</small> -->
 
 
@@ -50,10 +48,11 @@
       v-model="password"
       class="base-input"
       :class="passwordStyles"
+      @input="updatePassword($event.target.value)"
     >
-    <ul v-if="passwordErrors.length" class="error">
-      <li v-for="error in passwordErrors">{{ error }}</li>
-    </ul>
+    <p v-if="passwordError" class="error">{{ passwordError }}</p>
+
+
     <!-- <small class="tooltip">Use at least one lowercase letter, one numeral, and seven characters.</small> -->
 
     <p class="info">By clicking “Create an account” below, you agree to our terms of service and privacy statement. We’ll occasionally send you account related emails
