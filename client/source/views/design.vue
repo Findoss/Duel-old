@@ -72,7 +72,7 @@
       </tr>
       <tr>
         <td>button</td>
-        <td><button type="submit">Hello Button</button></td>
+        <td><button type="submit" class="base-button">Hello Button</button></td>
       </tr>
     </tbody>
   </table>
@@ -81,7 +81,7 @@
 </div>
 </template>
 
-<style scope>
+<style scoped>
   @import "../styles/typography.css";
   @import "../styles/input.css";
   @import "../styles/link.css";

@@ -4,13 +4,28 @@
 
   <form action="/session" accept-charset="UTF-8" method="post">
     <label for="email">Email</label>
-    <input name="email" id="email" tabindex="1" autofocus="autofocus" type="text" placeholder="email@email.com">
+    <input
+      tabindex="1"
+      name="email"
+      id="email"
+      autofocus="autofocus"
+      type="text"
+      placeholder="email@email.com"
+      class="base-input"
+    >
 
     <label for="email">Password</label>
     <router-link to="/password_reset" class="password-reset">Forgot password?</router-link>
-    <input name="password" id="password" tabindex="2" type="password" placeholder="your password">
+    <input
+      tabindex="2"
+      name="password"
+      id="password"
+      type="password"
+      placeholder="your password"
+      class="base-input"
+    >
 
-    <button tabindex="3" type="submit">Sing in</button>
+    <button tabindex="3" type="submit" class="base-button">Sing in</button>
 
     <!-- <center>sign with:</center>
     <img src="../../assets/000.png" alt="" class="social" tabindex="4">

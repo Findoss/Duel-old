@@ -1,4 +1,4 @@
-input {
+.base-input {
   color: var(--color-text);
   background-color: var(--background-0);
   background-repeat: no-repeat;
@@ -19,26 +19,26 @@ input {
   box-sizing: border-box;
 }
 
-input::-webkit-input-placeholder {
+.base-input::-webkit-input-placeholder {
   color: var(--color-gray);
 }
 
-input:hover::-webkit-input-placeholder {
+.base-input:hover::-webkit-input-placeholder {
   color: var(--color-gray-hover);
 }
 
-input:hover {
+.base-input:hover {
   border-image: none;
   border-color: var(--color-yellow-hover);
 }
 
-input:focus {
+.base-input:focus {
   border-color: var(--color-yellow-focus);
   outline: 3px solid var(--color-yellow);
   outline-style: outset;
 }
 
-input:disabled {
+.base-input:disabled {
   border-image: none;
   border-color: var(--color-gray);
 }

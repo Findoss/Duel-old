@@ -12,5 +12,8 @@ label {
 }
 
 .info {
-
+  border-top: 1px solid var(--color-yellow);
+  border-bottom: 1px solid var(--color-yellow);
+  padding-top: 8px;
+  padding-bottom: 8px; 
 }
