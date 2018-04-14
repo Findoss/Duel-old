@@ -13,11 +13,11 @@
   text-align: center;
 }
 
-input {
+.base-input {
   margin-bottom: 20px;
 }
 
-button {
+.base-button {
   margin-bottom: 20px;
 }
 

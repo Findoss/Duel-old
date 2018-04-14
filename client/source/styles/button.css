@@ -1,4 +1,4 @@
-button {
+.base-button {
   background-color: var(--background-0);
   color: hsl(360,100%,30%);
 
@@ -18,13 +18,13 @@ button {
   cursor: pointer;
 }
 
-button:hover, 
-button:focus {
+.base-button:hover,
+.base-button:focus {
   border-image: none;
   border-color: hsl(360,100%,30%);
   color: hsl(360,100%,30%);
 }
 
 
-button:disabled {
+.base-button:disabled {
 }

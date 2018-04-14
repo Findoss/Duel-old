@@ -1,3 +1,3 @@
 <template src="./signin.html"></template>
 <script src="./signin.js"></script>
-<style src="./signin.css" scope></style>
+<style src="./signin.css" scoped></style>

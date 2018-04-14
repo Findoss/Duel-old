@@ -10,3 +10,11 @@ label {
   margin-top: 15px;
   display: inline-block;
 }
+
+.info {
+  border-bottom: 1px solid var(--color-yellow);
+  padding-top: 8px;
+  padding-bottom: 8px; 
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
