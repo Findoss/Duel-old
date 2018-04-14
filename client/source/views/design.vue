@@ -33,28 +33,28 @@
     <tbody>
       <tr>
         <td>text</td>
-        <td><input type="text" name="text"></input></td>
+        <td><input type="text" name="text" class="base-input"></input></td>
       </tr>
       <tr>
         <td>disabled</td>
-        <td><input type="text" name="text" disabled></input></td>
+        <td><input type="text" name="text" class="base-input" disabled></input></td>
       </tr>
       <tr>
         <td>value</td>
-        <td><input type="text" name="text" value="Lorem ipsum dolor sit amet"></input></td>
+        <td><input type="text" name="text" class="base-input" value="Lorem ipsum dolor sit amet"></input></td>
       </tr>
       <tr>
         <td>loading</td>
-        <td><input type="text" name="text" class="is-autocheck-loading"></input></td>
+        <td><input type="text" name="text" class="base-input  is-autocheck-loading"></input></td>
       </tr>
       <tr>
         <td>successful</td>
-        <td><input type="text" name="text" class="is-autocheck-successful"></input></td>
+        <td><input type="text" name="text" class="base-input is-autocheck-successful"></input></td>
       </tr>
       <tr>
         <td>error</td>
         <td>
-          <input type="text" name="text" class="is-autocheck-error"></input>
+          <input type="text" name="text" class="base-input is-autocheck-error"></input>
           <ul v-if="errors.length" class="error">
             <li v-for="error in errors">{{ error }}</li>
           </ul>
@@ -63,12 +63,12 @@
       <tr>
         <td>placeholder</td>
         <td>
-            <input type="text" name="password" placeholder="placeholder"></input>
+            <input type="text" name="password" class="base-input" placeholder="placeholder"></input>
         </td>
       </tr>
       <tr>
         <td>password</td>
-        <td><input type="password" name="password"></input></td>
+        <td><input type="password" class="base-input" name="password"></input></td>
       </tr>
       <tr>
         <td>button</td>
