@@ -13,7 +13,7 @@ export default class UserService {
   //   Http.Post('/check',{password});
   // }
 
-  // registration() {
-
-  // }
+  static registration(user) {
+    return Http.Post('/users', user);
+  }
 }
