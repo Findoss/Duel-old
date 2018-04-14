@@ -4,11 +4,10 @@
 ## Вход [POST /signin]
 Осуществляет аутентификацию пользователя. Устанавливает TOKEN в localstarage
 
-+ Request User data
-
++ Request (application/json)
     + Attributes
-        + email: ivan@mail.ru (string)
-        + password: password  (string)
+        + email: ivan@mail.ru (string, required)
+        + password: password  (string, required)
 
 + Response 200 (application/json; charset=utf-8)
 Вход осуществлен успешно
