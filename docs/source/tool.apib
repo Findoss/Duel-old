@@ -6,7 +6,6 @@ API для сервисных функций
 
 + Response 200
 
-<<<<<<< HEAD
 ## Доступность почты [GET /checkEmail{?email}]
 Проверка доступности почты
 + Parameters
@@ -35,41 +34,13 @@ API для сервисных функций
 
 + Response 200 (application/json; charset=utf-8)
 Никнейм **можно** использовать  
-=======
-## Доступность никнейма и почты [GET /check{?nickname,email}]
-Проверка доступности никнейма
-
-+ Parameters
-    + nickname: Ivan (string, optional) - никнейм
-    + email: Ivan@email.com (string, optional) - почта
-
-+ Response 200 (application/json; charset=utf-8)
-Никнейм **можно** использовать
     + Attributes
-        + nickname: true (boolean)
-
-
-+ Response 200 (application/json; charset=utf-8)
-Никнейм **нельзя** использовать
-    + Attributes
-        + nickname: false (boolean)
+        + used: true (boolean)
 
 + Response 200 (application/json; charset=utf-8)
-Почту **можно** использовать
->>>>>>> registration
-    + Attributes
-        + email: true (boolean)
-
-+ Response 200 (application/json; charset=utf-8)
-<<<<<<< HEAD
 Никнейм **нельзя** использовать  
     + Attributes
         + used: false (boolean)
-=======
-Почту **нельзя** использовать
-    + Attributes
-        + email: false (boolean)
->>>>>>> registration
 
 + Response 400 (application/json; charset=utf-8)
 Заданы неверные параметры
