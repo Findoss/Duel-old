@@ -14,7 +14,7 @@
       autocapitalize="off" 
       autocorrect="off" 
       class="base-input"
-      v-model="nickname" 
+      v-model.trim="nickname" 
       :class="nicknameStyles"
       @input="updateNickname($event.target.value)"
     >
