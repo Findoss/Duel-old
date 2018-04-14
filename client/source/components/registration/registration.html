@@ -16,7 +16,7 @@
       class="base-input"
       v-model.trim="nickname" 
       :class="nicknameStyles"
-      @input="updateNickname($event.target.value)"
+      @input="updateNickname()"
     >
     <p v-if="nicknameError" class="error">{{ nicknameError }}</p>
 
@@ -31,10 +31,9 @@
       class="base-input"
       v-model="email"
       :class="emailStyles"
-      @input="updateEmail($event.target.value)"
+      @input="updateEmail()"
     >
     <p v-if="emailError" class="error">{{ emailError }}</p>
-    <!-- <small class="tooltip">We'll never share your email address with anyone.</small> -->
 
 
     <label for="password">Password</label>
@@ -48,12 +47,9 @@
       v-model="password"
       class="base-input"
       :class="passwordStyles"
-      @input="updatePassword($event.target.value)"
+      @input="updatePassword()"
     >
     <p v-if="passwordError" class="error">{{ passwordError }}</p>
-
-
-    <!-- <small class="tooltip">Use at least one lowercase letter, one numeral, and seven characters.</small> -->
 
     <p class="info">By clicking “Create an account” below, you agree to our terms of service and privacy statement. We’ll occasionally send you account related emails
     </p>

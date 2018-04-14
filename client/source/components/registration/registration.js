@@ -12,14 +12,26 @@ export default {
       emailStyles: '',
       passwordStyles: '',
 
-      nickname: '',
-      email: '',
-      password: '',
+      nickname: 'Ivan',
+      email: 'Ivan@email.ru',
+      password: 'password123',
     };
   },
   methods: {
     submit() {
-
+      if (
+        // !this.validPassword(this.password) &&
+        // !this.validEmail(this.email) &&
+        // !this.validNickname(this.nickname)
+        true
+      ) {
+        const user = { nickname: this.nickname, email: this.email, password: this.password };
+        UserService.registration(user)
+          .then((result) => {
+            if (!result.error) console.log(result.message);
+            else console.error(result.error);
+          });
+      }
     },
     validPassword(password) {
       if (password !== '') {
@@ -36,9 +48,9 @@ export default {
       }
       return 'Password can\'t be blank';
     },
-    updatePassword(password) {
+    updatePassword() {
       this.passwordError = '';
-      const result = this.validPassword(password);
+      const result = this.validPassword(this.password);
       if (!result) {
         this.passwordStyles = 'is-autocheck-successful';
       } else {
@@ -57,10 +69,10 @@ export default {
         } else return 'Email is invalid';
       } else return 'Email can\'t be blank';
     },
-    updateEmail(email) {
+    updateEmail() {
       this.emailError = '';
       this.emailStyles = 'is-autocheck-loading';
-      const result = this.validEmail(email);
+      const result = this.validEmail(this.email);
       setTimeout(() => {
         if (!result) this.emailStyles = 'is-autocheck-successful';
         else this.emailStyles = 'is-autocheck-error';
@@ -81,9 +93,9 @@ export default {
         } else return 'Nickname is too short (minimum is 4 characters)';
       } else return 'Nickname can\'t be blank';
     },
-    updateNickname(nickname) {
+    updateNickname() {
       this.nicknameStyles = 'is-autocheck-loading';
-      const result = this.validNickname(nickname);
+      const result = this.validNickname(this.nickname);
       setTimeout(() => {
         if (!result) this.nicknameStyles = 'is-autocheck-successful';
         else this.nicknameStyles = 'is-autocheck-error';
