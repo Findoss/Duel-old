@@ -37,11 +37,11 @@
 ### * Полное изменение [PUT]
 Полное изменение информации о текущем пользователе (то, что не передано, стирается)
 
-+ Request User data
++ Request (application/json)
     + Attributes
-        + nickname: Ivan (string)
-        + email: Ivan@email.ru (string)
-        + password: password (string)
+        + nickname: Ivan (string, required)
+        + email: Ivan@email.ru (string, required)
+        + password: password (string, required)
 
 + Response 200 (application/json; charset=utf-8)
 Профиль текущего пользователя обновлен успешно
@@ -63,11 +63,11 @@
 ### * Частичное изменение [PATCH]
 астичое изменение информации о текущем пользователе (то, что не передано, остается)
 
-+ Request User data
++ Request (application/json)
     + Attributes
-        + nickname: Ivan (string)
-        + email: Ivan@email.ru (string)
-        + password: password (string)
+        + nickname: Ivan (string, optional)
+        + email: Ivan@email.ru (string, optional)
+        + password: password (string, optional)
 
 + Response 200 (application/json; charset=utf-8)
 Профиль текущего пользователя обновлен успешно

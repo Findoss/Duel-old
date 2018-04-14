@@ -3,11 +3,11 @@
 ## Создание пользователя [POST /users]
 Регистрация пользователя
 
-+ Request User data
-    + Attributes
-        + nickname: Ivan (string)
-        + email: Ivan@email.ru (string)
-        + password: password (string)
++ Request (application/json; charset=utf-8)
+    + Attributes (object)
+        + nickname: Ivan (string, required)
+        + email: Ivan@email.ru (string, required)
+        + password: password123 (string, required)
 
 + Response 201 (application/json; charset=utf-8)
 Пользователь создан успешно
