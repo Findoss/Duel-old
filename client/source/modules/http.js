@@ -21,12 +21,11 @@ export default class Http {
         'Content-Type': 'application/json; charset=utf-8;',
       },
       body: JSON.stringify(param),
-      // mode: 'no-cors',
     };
     const result = fetch(`${host}${path}`, attr)
       .then((response) => {
-        if (response.status !== 200) console.log(`Status Code: ${response.status}`);
-        response.json();
+        if (response.status !== 201) console.log(`Status Code: ${response.status}`);
+        return response.json();
       })
       .then(data => data)
       .catch((error) => {
