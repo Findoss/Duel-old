@@ -1,6 +1,7 @@
 # Group Users API
 
-## Создание пользователя [POST /users]
+## Создание пользователя [/users]
+### Создание пользователя [POST]
 Регистрация пользователя
 
 + Request (application/json; charset=utf-8)
@@ -20,6 +21,13 @@
     + Attributes
         + message: Invalid user params (string)
         + code: invalid_user_params (string)
+
+### Создание пользователя [OPTIONS]
+
++ Response 200 (text/plain)
+    + Headers
+        
+            Allow: HEAD,GET,PUT,DELETE,OPTIONS
 
 ## Список пользователей [GET /users{?offset,limit}]
 Получить список лидеров
