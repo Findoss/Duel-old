@@ -16,6 +16,7 @@
       class="base-input"
       v-model.trim="nickname" 
       :class="nicknameStyles"
+      @input="updateNickname()"
     >
     <p v-if="nicknameError" class="error">{{ nicknameError }}</p>
 
@@ -30,6 +31,7 @@
       class="base-input"
       v-model="email"
       :class="emailStyles"
+      @input="updateEmail()"
     >
     <p v-if="emailError" class="error">{{ emailError }}</p>
 
@@ -45,6 +47,7 @@
       v-model="password"
       class="base-input"
       :class="passwordStyles"
+      @input="updatePassword()"
     >
     <p v-if="passwordError" class="error">{{ passwordError }}</p>
 

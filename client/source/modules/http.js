@@ -2,16 +2,15 @@ const host = 'http://localhost:3001';
 
 export default class Http {
   static Get(path, param, value) {
-    const result = fetch(`${host}${path}?${param}=${value}`)
+    return fetch(`${host}${path}?${param}=${value}`)
       .then((response) => {
         if (response.status !== 200) console.log(`Status Code: ${response.status}`);
         return response.json();
       })
-      .then(data => data)
+      .then(response => response)
       .catch((error) => {
         console.error(error);
       });
-    return result;
   }
 
   static Post(path, param) {
@@ -22,16 +21,14 @@ export default class Http {
       },
       body: JSON.stringify(param),
     };
-    const result = fetch(`${host}${path}`, attr)
+    return fetch(`${host}${path}`, attr)
       .then((response) => {
         if (response.status !== 201) console.log(`Status Code: ${response.status}`);
         return response.json();
       })
-      .then(data => data)
       .catch((error) => {
         console.error(error);
       });
-    return result;
   }
 
   // static Delete() {
