@@ -2,29 +2,43 @@
 
   <h1 class="card-title">Sign in to Duel</h1>
 
-  <form action="/session" accept-charset="UTF-8" method="post">
+  <form accept-charset="UTF-8"  @submit.prevent="submit">
+    <p v-if="formError" class="error">{{ formError }}</p>
+
     <label for="email">Email</label>
     <input
       tabindex="1"
       name="email"
       id="email"
       autofocus="autofocus"
+      autocapitalize="off" 
+      autocorrect="off" 
       type="text"
       placeholder="email@email.com"
       class="base-input"
+      :class="emailStyles"
+      v-model.trim="email"
+      @input="updateEmail()"
     >
+    <p v-if="emailError" class="error arrow-error">{{ emailError }}</p>
 
-    <label for="email">Password</label>
-    <router-link to="/password_reset" class="password-reset">Forgot password?</router-link>
+    <label for="email">
+      Password
+      <router-link to="/password_reset" class="password-reset">Forgot password?</router-link>
+    </label>
+    
     <input
       tabindex="2"
       name="password"
       id="password"
+      autocapitalize="off" 
+      autocorrect="off" 
       type="password"
       placeholder="your password"
       class="base-input"
+      v-model="password"
     >
-
+    <br><br>
     <button tabindex="3" type="submit" class="base-button">Sing in</button>
 
     <!-- <center>sign with:</center>
@@ -35,5 +49,6 @@
     <img src="../../assets/000.png" alt="" class="social" tabindex="8"> -->
    
 </form>
+<br>
 <p class="new-acc">New to Duel? <router-link to="/registration">Create an account</router-link>.</p>
 </div>
