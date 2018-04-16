@@ -11,7 +11,7 @@
       type="text"
       name="nickname"
       id="nickname"
-      autofocus="autofocus" 
+      autofocus="autofocus"
       autocapitalize="off"
       autocorrect="off"
       class="base-input"
@@ -19,14 +19,14 @@
       v-model.trim="nickname"
       @input="updateNickname()"
     >
-    <p v-if="nicknameError" class="error">{{ nicknameError }}</p>
+    <p v-if="nicknameError" class="error arrow-error">{{ nicknameError }}</p>
 
     <label for="email">Email</label>
     <input
-      tabindex="2" 
-      type="email" 
-      name="email" 
-      id="email" 
+      tabindex="2"
+      type="email"
+      name="email"
+      id="email"
       autocapitalize="off"
       autocorrect="off"
       class="base-input"
@@ -34,8 +34,7 @@
       v-model="email"
       @input="updateEmail()"
     >
-    <p v-if="emailError" class="error">{{ emailError }}</p>
-
+    <p v-if="emailError" class="error arrow-error">{{ emailError }}</p>
 
     <label for="password">Password</label>
     <input 
@@ -50,7 +49,7 @@
       v-model="password"
       @input="updatePassword()"
     >
-    <p v-if="passwordError" class="error">{{ passwordError }}</p>
+    <p v-if="passwordError" class="error arrow-error">{{ passwordError }}</p>
 
     <p class="info">By clicking “Create an account” below, you agree to our terms of service and privacy statement. We’ll occasionally send you account related emails
     </p>
