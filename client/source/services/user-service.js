@@ -12,4 +12,8 @@ export default class UserService {
   static registration(user) {
     return Http.Post('/users', user);
   }
+
+  static signin(user) {
+    return Http.Post('/signin', user);
+  }
 }
