@@ -4,13 +4,13 @@
   border: 2px solid;
   border-color: var(--color-red);
 
-  padding-left: 30px;
+  padding-left: 10px;
   padding-bottom: 5px;
 
   margin-top: 8px;
 }
 
-.error::before {
+.arrow-error::before {
   content: ''; 
   display: block;
 

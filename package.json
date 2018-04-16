@@ -24,6 +24,7 @@
     "vue-inspect": "vue inspect > docs/build/Webpack-config.js"
   },
   "dependencies": {
+    "debounce": "^1.1.0",
     "vue": "^2.5.13",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"

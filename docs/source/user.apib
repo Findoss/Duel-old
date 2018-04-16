@@ -1,13 +1,14 @@
 # Group Users API
 
-## Создание пользователя [POST /users]
+## Создание пользователя [/users]
+### Создание пользователя [POST]
 Регистрация пользователя
 
-+ Request User data
-    + Attributes
-        + nickname: Ivan (string)
-        + email: Ivan@email.ru (string)
-        + password: password (string)
++ Request (application/json; charset=utf-8)
+    + Attributes (object)
+        + nickname: Ivan (string, required)
+        + email: Ivan@email.ru (string, required)
+        + password: password123 (string, required)
 
 + Response 201 (application/json; charset=utf-8)
 Пользователь создан успешно
@@ -20,6 +21,13 @@
     + Attributes
         + message: Invalid user params (string)
         + code: invalid_user_params (string)
+
+### Создание пользователя [OPTIONS]
+
++ Response 200 (text/plain)
+    + Headers
+        
+            Allow: HEAD,GET,PUT,DELETE,OPTIONS
 
 ## Список пользователей [GET /users{?offset,limit}]
 Получить список лидеров

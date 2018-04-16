@@ -3,6 +3,7 @@
   <p>Create your personal account</p>
 
   <form accept-charset="UTF-8" @submit.prevent="submit">
+    <p v-if="formError" class="error">{{ formError }}</p>
     
     <label for="nickname">Nickname</label>
     <input
@@ -10,32 +11,30 @@
       type="text"
       name="nickname"
       id="nickname"
-      autofocus="autofocus" 
-      autocapitalize="off" 
-      autocorrect="off" 
+      autofocus="autofocus"
+      autocapitalize="off"
+      autocorrect="off"
       class="base-input"
-      v-model.trim="nickname" 
       :class="nicknameStyles"
-      @input="updateNickname($event.target.value)"
+      v-model.trim="nickname"
+      @input="updateNickname()"
     >
-    <p v-if="nicknameError" class="error">{{ nicknameError }}</p>
+    <p v-if="nicknameError" class="error arrow-error">{{ nicknameError }}</p>
 
     <label for="email">Email</label>
     <input
-      tabindex="2" 
-      type="email" 
-      name="email" 
-      id="email" 
-      autocapitalize="off" 
-      autocorrect="off" 
+      tabindex="2"
+      type="email"
+      name="email"
+      id="email"
+      autocapitalize="off"
+      autocorrect="off"
       class="base-input"
-      v-model="email"
       :class="emailStyles"
-      @input="updateEmail($event.target.value)"
+      v-model="email"
+      @input="updateEmail()"
     >
-    <p v-if="emailError" class="error">{{ emailError }}</p>
-    <!-- <small class="tooltip">We'll never share your email address with anyone.</small> -->
-
+    <p v-if="emailError" class="error arrow-error">{{ emailError }}</p>
 
     <label for="password">Password</label>
     <input 
@@ -45,15 +44,12 @@
       id="password" 
       autocapitalize="off" 
       autocorrect="off" 
-      v-model="password"
       class="base-input"
       :class="passwordStyles"
-      @input="updatePassword($event.target.value)"
+      v-model="password"
+      @input="updatePassword()"
     >
-    <p v-if="passwordError" class="error">{{ passwordError }}</p>
-
-
-    <!-- <small class="tooltip">Use at least one lowercase letter, one numeral, and seven characters.</small> -->
+    <p v-if="passwordError" class="error arrow-error">{{ passwordError }}</p>
 
     <p class="info">By clicking “Create an account” below, you agree to our terms of service and privacy statement. We’ll occasionally send you account related emails
     </p>

@@ -23,6 +23,8 @@
   <a href="">Link</a>
   <br><br>
 
+  <p class="error">error alert</p>
+
   <table>
     <thead>
       <tr>
@@ -55,9 +57,7 @@
         <td>error</td>
         <td>
           <input type="text" name="text" class="base-input is-autocheck-error"></input>
-          <ul v-if="errors.length" class="error">
-            <li v-for="error in errors">{{ error }}</li>
-          </ul>
+          <p v-if="error" class="error arrow-error">{{ error }}</p>
         </td>
       </tr>
       <tr>
@@ -95,10 +95,7 @@
 export default {
   data() {
     return {
-      errors: [
-        'Ошибка введенных данных',
-        'Error entering data',
-      ]
+      error: 'Ошибка введенных данных, Error entering data',
     }
   }
 };
