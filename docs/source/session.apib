@@ -1,7 +1,8 @@
 # Group Sessions API
 \* - Авторизованн
 
-## Вход [POST /signin]
+## Вход [/signin]
+### Вход [POST]
 Осуществляет аутентификацию пользователя. Устанавливает TOKEN в localstarage
 
 + Request (application/json)
@@ -24,6 +25,13 @@
     + Attributes
         + message: Forbidden (string)
         + code: forbidden (string)
+
+### Вход [OPTIONS]
+
++ Response 200 (text/plain)
+    + Headers
+        
+            Allow: HEAD,GET,PUT,DELETE,OPTIONS
 
 ## * Выход [DELETE /signout]
 Осуществляет выход из приложения.
