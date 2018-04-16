@@ -23,7 +23,10 @@ export default class Http {
     };
     return fetch(`${host}${path}`, attr)
       .then((response) => {
-        if (response.status !== 201) console.log(`Status Code: ${response.status}`);
+        if (response.status !== 200 &&
+            response.status !== 201) {
+          console.log(`Status Code: ${response.status}`);
+        }
         return response.json();
       })
       .catch((error) => {
