@@ -3,6 +3,7 @@
   <p>Create your personal account</p>
 
   <form accept-charset="UTF-8" @submit.prevent="submit">
+    <p v-if="formError" class="error">{{ formError }}</p>
     
     <label for="nickname">Nickname</label>
     <input
@@ -11,11 +12,11 @@
       name="nickname"
       id="nickname"
       autofocus="autofocus" 
-      autocapitalize="off" 
-      autocorrect="off" 
+      autocapitalize="off"
+      autocorrect="off"
       class="base-input"
-      v-model.trim="nickname" 
       :class="nicknameStyles"
+      v-model.trim="nickname"
       @input="updateNickname()"
     >
     <p v-if="nicknameError" class="error">{{ nicknameError }}</p>
@@ -26,11 +27,11 @@
       type="email" 
       name="email" 
       id="email" 
-      autocapitalize="off" 
-      autocorrect="off" 
+      autocapitalize="off"
+      autocorrect="off"
       class="base-input"
-      v-model="email"
       :class="emailStyles"
+      v-model="email"
       @input="updateEmail()"
     >
     <p v-if="emailError" class="error">{{ emailError }}</p>
@@ -44,9 +45,9 @@
       id="password" 
       autocapitalize="off" 
       autocorrect="off" 
-      v-model="password"
       class="base-input"
       :class="passwordStyles"
+      v-model="password"
       @input="updatePassword()"
     >
     <p v-if="passwordError" class="error">{{ passwordError }}</p>

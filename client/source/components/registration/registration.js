@@ -6,6 +6,8 @@ export default {
 
   data() {
     return {
+      formError: '',
+
       nicknameError: '',
       emailError: '',
       passwordError: '',
@@ -17,75 +19,72 @@ export default {
       nickname: '',
       email: '',
       password: '',
+
+      nicknameValidStatus: false,
+      emailValidStatus: false,
+      passwordValidStatus: false,
     };
   },
   created() {
-    this.updateNickname = debounce(function updateNickname() {
-      return new Promise((resolve) => {
-        this.nicknameError = '';
-        this.nicknameStyles = 'is-autocheck-loading';
-        this.rulesNickname(this.nickname)
-          .then(() => {
-            this.nicknameStyles = 'is-autocheck-successful';
-            resolve('sd');
-          })
-          .catch((error) => {
-            this.nicknameStyles = 'is-autocheck-error';
-            this.nicknameError = error.message;
-            // reject();
-          });
-      });
+    this.updateNickname = debounce(() => {
+      this.nicknameError = '';
+      this.nicknameValidStatus = false;
+      this.nicknameStyles = 'is-autocheck-loading';
+      this.rulesNickname(this.nickname)
+        .then(() => {
+          this.nicknameStyles = 'is-autocheck-successful';
+          this.nicknameValidStatus = true;
+        })
+        .catch((error) => {
+          this.nicknameStyles = 'is-autocheck-error';
+          this.nicknameError = error.message;
+        });
     }, 500);
-    this.updateEmail = debounce(() => new Promise((resolve) => {
+    this.updateEmail = debounce(() => {
       this.emailError = '';
+      this.emailValidStatus = false;
       this.emailStyles = 'is-autocheck-loading';
       this.rulesEmail(this.email)
         .then(() => {
           this.emailStyles = 'is-autocheck-successful';
-          resolve();
+          this.emailValidStatus = true;
         })
         .catch((error) => {
           this.emailStyles = 'is-autocheck-error';
           this.emailError = error.message;
         });
-    }), 500);
-    this.updatePassword = debounce(() => new Promise((resolve) => {
+    }, 500);
+    this.updatePassword = debounce(() => {
       this.passwordError = '';
+      this.passwordValidStatus = false;
       this.rulesPassword(this.password)
         .then(() => {
           this.passwordStyles = 'is-autocheck-successful';
-          resolve();
+          this.passwordValidStatus = true;
         })
         .catch((error) => {
           this.passwordStyles = 'is-autocheck-error';
           this.passwordError = error.message;
         });
-    }), 500);
+    }, 500);
   },
   methods: {
     submit() {
-      this.updateNickname(this.nickname)
-        .then(() => {
-          console.log('YES');
-        }).catch(() => {
-          console.log('NOPE');
-        });
-
-
-      // Promise.all([
-      //   this.updateNickname(this.nickname),
-      //   this.updateEmail(this.email),
-      //   this.updatePassword(this.password),
-      // ]).then(() => {
-      //   console.log('YES');
-      //   const user = { nickname: this.nickname, email: this.email, password: this.password };
-      //   UserService.registration(user).then((result) => {
-      //     if (result.error === undefined) console.log(result.message);
-      //     else console.error(result.error);
-      //   });
-      // }).catch(() => {
-      //   console.log('NOPE');
-      // });
+      if (!this.nicknameValidStatus) {
+        return this.updateNickname(this.nickname);
+      } else if (!this.emailValidStatus) {
+        return this.updateEmail(this.email);
+      } else if (!this.passwordValidStatus) {
+        return this.updatePassword(this.password);
+      }
+      const user = { nickname: this.nickname, email: this.email, password: this.password };
+      UserService.registration(user).then((result) => {
+        if (result.code === undefined) {
+          this.$router.push({ path: 'profile' });
+        } else {
+          this.formError = 'There were problems creating your account.';
+        }
+      });
     },
     rulesNickname(nickname) {
       return new Promise((resolve, reject) => {
