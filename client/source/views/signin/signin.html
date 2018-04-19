@@ -3,42 +3,38 @@
   <h1 class="card-title">Sign in to Duel</h1>
 
   <form accept-charset="UTF-8"  @submit.prevent="submit">
-    <p v-if="formError" class="error">{{ formError }}</p>
+    <p v-if="form.error" class="error">{{ form.error }}</p>
 
-    <label for="email">Email</label>
-    <input
+    <text-field
       tabindex="1"
       name="email"
-      id="email"
+      label="Email"
+      type="email"
+      autocorrect="off"
+      autocapitalize="off"
       autofocus="autofocus"
-      autocapitalize="off" 
-      autocorrect="off" 
-      type="text"
       placeholder="email@email.com"
-      class="base-input"
-      :class="emailStyles"
-      v-model.trim="email"
-      @input="updateEmail()"
-    >
-    <p v-if="emailError" class="error arrow-error">{{ emailError }}</p>
+      v-model="form.email.value"
+      :validationStatus="form.email.status"
+      :validationError="form.email.error"
+      @input="validation(form.email)"
+    />
 
-    <label for="email">
-      Password
-      <router-link to="/password_reset" class="password-reset">Forgot password?</router-link>
-    </label>
-    
-    <input
+    <router-link to="/password_reset" class="password-reset">Forgot password?</router-link>
+    <text-field
       tabindex="2"
       name="password"
-      id="password"
-      autocapitalize="off" 
-      autocorrect="off" 
+      label="Password"
       type="password"
+      autocorrect="off"
+      autocapitalize="off"
       placeholder="your password"
-      class="base-input"
-      v-model="password"
-    >
-    <br><br>
+      v-model="form.password.value"
+      :validationStatus="form.password.status"
+      :validationError="form.password.error"
+    />
+
+    <br>
     <button tabindex="3" type="submit" class="base-button">Sing in</button>
 
     <!-- <center>sign with:</center>

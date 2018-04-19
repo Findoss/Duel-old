@@ -1,61 +1,69 @@
 import debounce from 'debounce';
+import Rules from '@/modules/validation-rules';
 import UserService from '@/services/user-service';
-import Regexp from '@/modules/regexp';
+import BaseTextField from '@/components/BaseTextField/BaseTextField.vue';
 
 export default {
+
+  components: {
+    'text-field': BaseTextField,
+  },
+
   data() {
     return {
-      formError: '',
-
-      email: '',
-      emailError: '',
-      emailStyles: '',
-
-      password: '',
+      form: {
+        error: '',
+        email: {
+          error: '',
+          value: '',
+          status: '',
+          rules: Rules.email,
+        },
+        password: {
+          value: '',
+          error: '',
+          status: '',
+        },
+      },
     };
   },
+
   created() {
-    this.updateEmail = debounce(() => {
-      this.emailError = '';
-      this.emailValidStatus = false;
-      this.emailStyles = 'is-autocheck-loading';
-      this.rulesEmail(this.email)
+    this.validation = debounce((formField) => {
+      const field = formField;
+      field.error = '';
+      field.status = 'pending';
+      field.rules(field.value)
         .then(() => {
-          this.emailStyles = '';
-          this.emailValidStatus = true;
+          field.status = 'valid';
         })
         .catch((error) => {
-          this.emailStyles = 'is-autocheck-error';
-          this.emailError = error.message;
+          field.status = 'invalid';
+          field.error = error.message;
         });
     }, 500);
   },
+
   methods: {
     submit() {
-      if (
-        this.emailValidStatus &&
-        this.password !== ''
-      ) {
-        const user = { email: this.email, password: this.password };
-        UserService.signin(user).then((result) => {
-          if (result.code === undefined) {
-            this.$router.push({ path: 'profile' });
-          } else {
-            this.formError = 'Incorrect username or password.';
-          }
-        });
-      } else {
-        this.updateEmail(this.email);
+      if (this.form.email.status !== 'valid') {
+        return this.validation(this.form.email);
+      } else if (this.form.password.value === '') {
+        this.form.password.status = 'invalid';
+        this.form.password.error = 'Password can\'t be blank';
+        return false;
       }
-    },
-    rulesEmail(email) {
-      return new Promise((resolve, reject) => {
-        if (email === '') {
-          reject(new Error('Email can\'t be blank'));
-        } else if (!Regexp.email.test(email)) {
-          reject(new Error('Email is invalid'));
+
+      const user = {
+        email: this.form.email.value,
+        password: this.form.password.value,
+      };
+
+      UserService.signin(user).then((result) => {
+        if (result.code === undefined) {
+          this.$router.push({ path: 'profile' });
         } else {
-          resolve();
+          this.form.error = 'Incorrect username or password.';
         }
       });
     },
