@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Signin from './components/signin/index.vue';
-import Registration from './components/registration/index.vue';
-import Profile from './views/profile.vue';
-import Design from './views/design.vue';
+import Signin from '@/views/signin/index.vue';
+import Registration from '@/views/registration/index.vue';
+import Profile from '@/views/profile.vue';
+import Design from '@/views/design.vue';
 
 Vue.use(Router);
 

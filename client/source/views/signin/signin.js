@@ -1,6 +1,6 @@
 import debounce from 'debounce';
-import UserService from '../../services/user-service';
-import Regexp from '../../modules/regexp';
+import UserService from '@/services/user-service';
+import Regexp from '@/modules/regexp';
 
 export default {
   data() {
