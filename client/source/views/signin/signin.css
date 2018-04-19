@@ -4,13 +4,6 @@
 @import "../../styles/card.css";
 @import "../../styles/alert.css";
 
-label {
-  display: block;
-  padding: 0;
-  margin: 0;
-  margin-top: 15px;
-}
-
 .social {
   margin: 10px;
   width: 60px;
