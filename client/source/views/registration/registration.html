@@ -11,12 +11,10 @@
       name="nickname"
       label="Nickname"
       autofocus="autofocus"
-      autocapitalize="off"
-      autocorrect="off"
-      v-model.trim="form.nickname.value"
-      :validationStatus="form.nickname.status"
-      :validationError="form.nickname.error"
-      @input="validation(form.nickname)"
+      ref="nickname"
+      :rules="form.nickname.rules"
+      @input="form.nickname.value = $event"
+      @validation="form.nickname.status = $event"
     />
 
     <text-field
@@ -24,12 +22,10 @@
       name="email"
       label="Email"
       type="email"
-      autocapitalize="off"
-      autocorrect="off"
-      v-model="form.email.value"
-      :validationStatus="form.email.status"
-      :validationError="form.email.error"
-      @input="validation(form.email)"
+      ref="email"
+      :rules="form.email.rules"
+      @input="form.email.value = $event"
+      @validation="form.email.status = $event"
     />
 
     <text-field
@@ -37,12 +33,10 @@
       name="password"
       label="Password"
       type="password"
-      autocapitalize="off"
-      autocorrect="off"
-      v-model="form.password.value"
-      :validationStatus="form.password.status"
-      :validationError="form.password.error"
-      @input="validation(form.password)"
+      ref="password"
+      :rules="form.password.rules"
+      @input="form.password.value = $event"
+      @validation="form.password.status = $event"
     />
 
     <p class="info">By clicking “Create an account” below, you agree to our terms of service and privacy statement. We’ll occasionally send you account related emails
