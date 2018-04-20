@@ -2,7 +2,7 @@ import Regexp from '@/modules/regexp';
 import UserService from '@/services/user-service';
 
 export default {
-  nickname(nickname, check = false) {
+  nickname(nickname) {
     return new Promise((resolve, reject) => {
       if (nickname === '') {
         reject(new Error('Nickname can\'t be blank'));
@@ -12,29 +12,25 @@ export default {
         reject(new Error('Nickname is too long (maximum is 20 characters)'));
       } else if (!Regexp.nickname.test(nickname)) {
         reject(new Error('Nickname contains invalid characters'));
-      } else if (check) {
+      } else {
         UserService.checkNickname(nickname).then((result) => {
           if (result.used) resolve();
           reject(new Error('Nickname is already taken'));
         });
-      } else {
-        resolve();
       }
     });
   },
-  email(email, check = false) {
+  email(email) {
     return new Promise((resolve, reject) => {
       if (email === '') {
         reject(new Error('Email can\'t be blank'));
       } else if (!Regexp.email.test(email)) {
         reject(new Error('Email is invalid'));
-      } else if (check) {
+      } else {
         UserService.checkEmail(email).then((result) => {
           if (result.used) resolve();
           reject(new Error('Email is already taken'));
         });
-      } else {
-        resolve();
       }
     });
   },
