@@ -1,13 +1,12 @@
 <div class="base-input-group">
   <label v-if="label" for="name">{{ label }}</label>
   <input
-    :name="name"
     :id="name"
+    :name="name"
     :type="type"
     :class="classes"
     v-model="value"
     v-bind="$attrs"
-    @input="$emit('input', $event.target.value)"
   >
-  <p v-if="validationError" class="error arrow-error">{{ validationError }}</p>
+  <p v-if="error" class="error arrow-error">{{ error }}</p>
 </div>

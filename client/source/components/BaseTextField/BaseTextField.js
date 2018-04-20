@@ -1,7 +1,8 @@
+import debounce from 'debounce';
+
 export default {
 
   name: 'text-field',
-
   inheritAttrs: false,
 
   props: {
@@ -21,21 +22,21 @@ export default {
       type: String,
       default: '',
     },
+    autocapitalize: {
+      type: String,
+      default: 'off',
+    },
+    autocorrect: {
+      type: String,
+      default: 'off',
+    },
     customClasses: {
       type: String,
     },
-    validationStatus: {
-      type: String,
-      default: '',
-      validator(value) {
-        return ['', 'valid', 'invalid', 'pending'].indexOf(value) !== -1;
-      },
+    rules: {
+      type: Function,
     },
-    validationError: {
-      type: String,
-      default: '',
-    },
-    validationIcon: {
+    icon: {
       type: Boolean,
       default: true,
     },
@@ -44,7 +45,35 @@ export default {
   data() {
     return {
       value: this.initialValue,
+      status: '',
+      error: '',
     };
+  },
+
+  watch: {
+    value() {
+      if (this.rules) {
+        this.$emit('validation', false);
+        this.validation();
+      }
+      this.$emit('input', this.value);
+    },
+  },
+
+  created() {
+    this.validation = debounce(() => {
+      this.error = '';
+      this.status = 'pending';
+      this.rules(this.value)
+        .then(() => {
+          this.status = 'valid';
+          this.$emit('validation', true);
+        })
+        .catch((error) => {
+          this.status = 'invalid';
+          this.error = error.message;
+        });
+    }, 500);
   },
 
   computed: {
@@ -53,8 +82,8 @@ export default {
         'base-input': true,
       };
 
-      if (this.validationIcon) {
-        switch (this.validationStatus) {
+      if (this.icon) {
+        switch (this.status) {
           case 'valid':
             classes['is-autocheck-successful'] = true;
             break;
