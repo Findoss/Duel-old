@@ -23,7 +23,34 @@
   <a href="">Link</a>
   <br><br>
 
-  <p class="error">error alert</p>
+  <alert-box
+    :initShow="alert"
+  >
+    default info + dismissible
+  </alert-box>
+
+  <alert-box
+    :initShow="true"
+    type="error"
+  >
+    error content
+  </alert-box>
+
+  <alert-box
+    :initShow="true"
+    :dismissible="true"
+    type="warning"
+  >
+    warning content
+  </alert-box>
+
+  <alert-box
+    :initShow="true"
+    :dismissible="true"
+    type="success"
+  >
+    success content more Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum voluptate officiis sapiente impedit ullam velit.
+  </alert-box>
 
   <table>
     <thead>
@@ -92,11 +119,20 @@
 </style>
 
 <script>
+
+import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
+
 export default {
+
+   components: {
+    'alert-box': BaseAlert,
+  },
+
   data() {
     return {
       error: 'Ошибка введенных данных, Error entering data',
+      alert: true,
     }
-  }
+  },
 };
 </script>
