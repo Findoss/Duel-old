@@ -140,7 +140,7 @@ export default {
   
   components: {
     'z-alert': BaseAlert,
-    'text-field': BaseTextField,
+    'z-text-field': BaseTextField,
     'z-button': BaseButton,
   },
 
