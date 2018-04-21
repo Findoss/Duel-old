@@ -18,52 +18,52 @@
   </p>
   <br>
   <p>
-    Текст <a href="">на русском</a><strong> языке</strong>, <small>съешь еще</small> французских булок.
+    Лорем <strong>высший боль сидеть</strong> Амет, консерваторские <a href="">скидки</a>. Я никогда <small>не люблю болеть очень</small> маленькое удовольствие?
   </p>
 
   <br>
 
-  <alert-box
-    :initShow="alert"
+  <z-alert
+    :show="true"
   >
     default info + dismissible
-  </alert-box>
+  </z-alert>
 
-  <alert-box
-    :initShow="true"
+  <z-alert
+    :show="true"
     type="error"
   >
     error content
-  </alert-box>
+  </z-alert>
 
-  <alert-box
-    :initShow="true"
+  <z-alert
+    v-model="alert"
     :dismissible="true"
     type="warning"
   >
     warning content
-  </alert-box>
+  </z-alert>
 
-  <alert-box
-    :initShow="true"
+  <z-alert
+    v-model="alert2"
     type="success"
     :dismissible="true"
   >
     success content more Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum voluptate officiis sapiente impedit ullam velit.
-  </alert-box>
+  </z-alert>
 
   <br>
 
-  <text-field
-    label="text-field rules"
+  <z-text-field
+    label="text field rules"
     name="field1"
     :rules="field.rules"
     @input="field.value = $event"
     @validation="field.status = $event"
   />
 
-  <text-field
-    label="text-field rules - icon off"
+  <z-text-field
+    label="text field rules - icon off"
     name="field9"
     :icon="false"
     :rules="field2.rules"
@@ -71,51 +71,51 @@
     @validation="field2.status = $event"
   />
 
-  <text-field
-    label="text-field disabled"
+  <z-text-field
+    label="text field disabled"
     name="field2"
     disabled="disabled"
   />
 
-  <text-field
-    label="text-field value"
+  <z-text-field
+    label="text field value"
     name="field3"
     initialValue="Lorem ipsum dolor sit amet"
   />
 
-  <text-field
-    label="text-field placeholder"
+  <z-text-field
+    label="text field placeholder"
     name="field4"
     placeholder="placeholder"
   />
 
-  <text-field
-    label="text-field password"
+  <z-text-field
+    label="text field password"
     name="field5"
     type="password"
   />
 
-  <text-field
-    label="text-field - pending"
+  <z-text-field
+    label="text field - pending"
     name="field6"
     customClasses="is-autocheck-loading"
   />
 
-  <text-field
-    label="text-field - valid"
+  <z-text-field
+    label="text field - valid"
     name="field7"
     customClasses="is-autocheck-successful"
   />
 
-  <text-field
-    label="text-field - invalid + error"
+  <z-text-field
+    label="text field - invalid + error"
     name="field8"
     ref="textFieldError"
     initialValue="123"
     :rules="field2.rules"
   />
 
-  <button type="submit" class="base-button">Hello Button</button>
+  <z-button type="submit">Hello Button</z-button>
 
   <br>
 
@@ -125,9 +125,7 @@
 <style scoped>
   @import "../styles/typography.css";
   @import "../styles/link.css";
-  @import "../styles/button.css";
   @import "../styles/card.css";
-  @import "../styles/alert.css";
   @import "../styles/list.css";
 </style>
 
@@ -136,18 +134,21 @@ import Rules from '@/modules/validation-rules';
 import UserService from '@/services/user-service';
 import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
 import BaseTextField from '@/components/BaseTextField/BaseTextField.vue';
+import BaseButton from '@/components/BaseButton/BaseButton.vue';
 
 export default {
   
   components: {
-    'alert-box': BaseAlert,
-    'text-field': BaseTextField,
+    'z-alert': BaseAlert,
+    'z-text-field': BaseTextField,
+    'z-button': BaseButton,
   },
 
   data() {
     return {
       error: 'Ошибка введенных данных, Error entering data',
       alert: true,
+      alert2: true,
       field: {
         value: '',
         status: false,

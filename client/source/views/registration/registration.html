@@ -4,9 +4,15 @@
 
   <form accept-charset="UTF-8" @submit.prevent="submit">
 
-    <p v-if="form.error" class="error">{{ form.error }}</p>
+    <z-alert 
+      type="error" 
+      v-model="form.error"
+      :dismissible="true"
+    >
+      {{ form.error }}
+    </z-alert>
     
-    <text-field
+    <z-text-field
       tabindex="1"
       name="nickname"
       label="Nickname"
@@ -17,7 +23,7 @@
       @validation="form.nickname.status = $event"
     />
 
-    <text-field
+    <z-text-field
       tabindex="2"
       name="email"
       label="Email"
@@ -28,7 +34,7 @@
       @validation="form.email.status = $event"
     />
 
-    <text-field
+    <z-text-field
       tabindex="3"
       name="password"
       label="Password"
@@ -41,6 +47,6 @@
 
     <p class="info">By clicking “Create an account” below, you agree to our terms of service and privacy statement. We’ll occasionally send you account related emails
     </p>
-    <button tabindex="4" type="submit" class="base-button">Create an account</button>
+    <z-button tabindex="4" type="submit">Create an account</z-button>
   </form>
 </div>

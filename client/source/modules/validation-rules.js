@@ -14,7 +14,7 @@ export default {
       } else if (!Regexp.nickname.test(nickname)) {
         reject(new Error('Nickname contains invalid characters'));
       } else {
-        resolve();
+        resolve(nickname);
       }
     });
   },
@@ -22,7 +22,7 @@ export default {
   checkNickname(nickname) {
     return new Promise((resolve, reject) => {
       UserService.checkNickname(nickname).then((result) => {
-        if (result.used) resolve();
+        if (result.used) resolve(nickname);
         reject(new Error('Nickname is already taken'));
       });
     });
@@ -35,16 +35,15 @@ export default {
       } else if (!Regexp.email.test(email)) {
         reject(new Error('Email is invalid'));
       } else {
-        resolve();
+        resolve(email);
       }
     });
   },
 
-
   checkEmail(email) {
     return new Promise((resolve, reject) => {
       UserService.checkEmail(email).then((result) => {
-        if (result.used) resolve();
+        if (result.used) resolve(email);
         reject(new Error('Email is already taken'));
       });
     });
@@ -61,7 +60,7 @@ export default {
       } else if (!Regexp.password.test(password)) {
         reject(new Error('Password needs at least one number and at least one characters'));
       } else {
-        resolve();
+        resolve(password);
       }
     });
   },
