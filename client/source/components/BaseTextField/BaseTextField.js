@@ -2,7 +2,7 @@ import debounce from 'debounce';
 
 export default {
 
-  name: 'text-field',
+  name: 'z-text-field',
   inheritAttrs: false,
 
   props: {
@@ -62,14 +62,9 @@ export default {
 
   created() {
     this.validation = debounce(() => {
-      const resultRules = [];
-      for (let index = 0; index < this.rules.length; index++) {
-        resultRules.push(this.rules[index](this.value));
-      }
-
       this.error = '';
       this.status = 'pending';
-      Promise.all(resultRules)
+      this.rules.reduce((acc, rule) => acc.then(rule), Promise.resolve(this.value))
         .then(() => {
           this.status = 'valid';
           this.$emit('validation', true);
