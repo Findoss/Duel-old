@@ -18,7 +18,7 @@
   </p>
   <br>
   <p>
-    Текст <a href="">на русском</a><strong> языке</strong>, <small>съешь еще</small> французских булок.
+    Лорем <strong>высший боль сидеть</strong> Амет, консерваторские <a href="">скидки</a>. Я никогда <small>не люблю болеть очень</small> маленькое удовольствие?
   </p>
 
   <br>
@@ -54,16 +54,16 @@
 
   <br>
 
-  <text-field
-    label="text-field rules"
+  <z-text-field
+    label="text field rules"
     name="field1"
     :rules="field.rules"
     @input="field.value = $event"
     @validation="field.status = $event"
   />
 
-  <text-field
-    label="text-field rules - icon off"
+  <z-text-field
+    label="text field rules - icon off"
     name="field9"
     :icon="false"
     :rules="field2.rules"
@@ -71,44 +71,44 @@
     @validation="field2.status = $event"
   />
 
-  <text-field
-    label="text-field disabled"
+  <z-text-field
+    label="text field disabled"
     name="field2"
     disabled="disabled"
   />
 
-  <text-field
-    label="text-field value"
+  <z-text-field
+    label="text field value"
     name="field3"
     initialValue="Lorem ipsum dolor sit amet"
   />
 
-  <text-field
-    label="text-field placeholder"
+  <z-text-field
+    label="text field placeholder"
     name="field4"
     placeholder="placeholder"
   />
 
-  <text-field
-    label="text-field password"
+  <z-text-field
+    label="text field password"
     name="field5"
     type="password"
   />
 
-  <text-field
-    label="text-field - pending"
+  <z-text-field
+    label="text field - pending"
     name="field6"
     customClasses="is-autocheck-loading"
   />
 
-  <text-field
-    label="text-field - valid"
+  <z-text-field
+    label="text field - valid"
     name="field7"
     customClasses="is-autocheck-successful"
   />
 
-  <text-field
-    label="text-field - invalid + error"
+  <z-text-field
+    label="text field - invalid + error"
     name="field8"
     ref="textFieldError"
     initialValue="123"
@@ -134,6 +134,7 @@ import Rules from '@/modules/validation-rules';
 import UserService from '@/services/user-service';
 import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
 import BaseTextField from '@/components/BaseTextField/BaseTextField.vue';
+import BaseButton from '@/components/BaseButton/BaseButton.vue';
 
 export default {
   
