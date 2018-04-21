@@ -15,17 +15,23 @@ export default {
         nickname: {
           value: '',
           status: '',
-          rules: Rules.nickname,
+          rules: [
+            Rules.nickname,
+            Rules.checkNickname,
+          ],
         },
         email: {
           value: '',
           status: '',
-          rules: Rules.email,
+          rules: [
+            Rules.email,
+            Rules.checkEmail,
+          ],
         },
         password: {
           value: '',
           status: '',
-          rules: Rules.password,
+          rules: [Rules.password],
         },
       },
     };

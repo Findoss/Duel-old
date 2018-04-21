@@ -34,7 +34,7 @@ export default {
       type: String,
     },
     rules: {
-      type: Function,
+      type: Array,
     },
     icon: {
       type: Boolean,
@@ -62,9 +62,14 @@ export default {
 
   created() {
     this.validation = debounce(() => {
+      const resultRules = [];
+      for (let index = 0; index < this.rules.length; index++) {
+        resultRules.push(this.rules[index](this.value));
+      }
+
       this.error = '';
       this.status = 'pending';
-      this.rules(this.value)
+      Promise.all(resultRules)
         .then(() => {
           this.status = 'valid';
           this.$emit('validation', true);

@@ -2,6 +2,7 @@ import Regexp from '@/modules/regexp';
 import UserService from '@/services/user-service';
 
 export default {
+
   nickname(nickname) {
     return new Promise((resolve, reject) => {
       if (nickname === '') {
@@ -13,13 +14,20 @@ export default {
       } else if (!Regexp.nickname.test(nickname)) {
         reject(new Error('Nickname contains invalid characters'));
       } else {
-        UserService.checkNickname(nickname).then((result) => {
-          if (result.used) resolve();
-          reject(new Error('Nickname is already taken'));
-        });
+        resolve();
       }
     });
   },
+
+  checkNickname(nickname) {
+    return new Promise((resolve, reject) => {
+      UserService.checkNickname(nickname).then((result) => {
+        if (result.used) resolve();
+        reject(new Error('Nickname is already taken'));
+      });
+    });
+  },
+
   email(email) {
     return new Promise((resolve, reject) => {
       if (email === '') {
@@ -27,13 +35,21 @@ export default {
       } else if (!Regexp.email.test(email)) {
         reject(new Error('Email is invalid'));
       } else {
-        UserService.checkEmail(email).then((result) => {
-          if (result.used) resolve();
-          reject(new Error('Email is already taken'));
-        });
+        resolve();
       }
     });
   },
+
+
+  checkEmail(email) {
+    return new Promise((resolve, reject) => {
+      UserService.checkEmail(email).then((result) => {
+        if (result.used) resolve();
+        reject(new Error('Email is already taken'));
+      });
+    });
+  },
+
   password(password) {
     return new Promise((resolve, reject) => {
       if (password === '') {
@@ -49,4 +65,5 @@ export default {
       }
     });
   },
+
 };
