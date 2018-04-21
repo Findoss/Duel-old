@@ -1,0 +1,18 @@
+@import "../../styles/typography.css";
+@import "../../styles/link.css";
+@import "../../styles/button.css";
+@import "../../styles/card.css";
+@import "../../styles/alert.css";
+
+.social {
+  margin: 10px;
+  width: 60px;
+} 
+
+.new-acc {
+  text-align: center;
+}
+
+.password-reset {
+  float: right;
+}

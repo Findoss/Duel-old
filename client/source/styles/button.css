@@ -1,0 +1,30 @@
+.base-button {
+  background-color: var(--background-0);
+  color: hsl(360,100%,30%);
+
+  border: 3px solid;
+  border-image: linear-gradient(to right, #250000, #800002, #250000);
+  border-image-slice: 1;
+
+  padding: 1px;
+  margin-top: 4px;
+  width: 100%;
+
+  font-size: 25pt;
+  font-family: King;
+
+  outline: none;
+
+  cursor: pointer;
+}
+
+.base-button:hover,
+.base-button:focus {
+  border-image: none;
+  border-color: hsl(360,100%,30%);
+  color: hsl(360,100%,30%);
+}
+
+
+.base-button:disabled {
+}

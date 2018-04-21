@@ -1,0 +1,46 @@
+<div class="card">
+  <h1 class="title">Join Duel</h1>
+  <p>Create your personal account</p>
+
+  <form accept-charset="UTF-8" @submit.prevent="submit">
+
+    <p v-if="form.error" class="error">{{ form.error }}</p>
+    
+    <text-field
+      tabindex="1"
+      name="nickname"
+      label="Nickname"
+      autofocus="autofocus"
+      ref="nickname"
+      :rules="form.nickname.rules"
+      @input="form.nickname.value = $event"
+      @validation="form.nickname.status = $event"
+    />
+
+    <text-field
+      tabindex="2"
+      name="email"
+      label="Email"
+      type="email"
+      ref="email"
+      :rules="form.email.rules"
+      @input="form.email.value = $event"
+      @validation="form.email.status = $event"
+    />
+
+    <text-field
+      tabindex="3"
+      name="password"
+      label="Password"
+      type="password"
+      ref="password"
+      :rules="form.password.rules"
+      @input="form.password.value = $event"
+      @validation="form.password.status = $event"
+    />
+
+    <p class="info">By clicking “Create an account” below, you agree to our terms of service and privacy statement. We’ll occasionally send you account related emails
+    </p>
+    <button tabindex="4" type="submit" class="base-button">Create an account</button>
+  </form>
+</div>

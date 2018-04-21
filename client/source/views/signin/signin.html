@@ -1,0 +1,46 @@
+<div class="card">
+
+  <h1 class="card-title">Sign in to Duel</h1>
+
+  <form accept-charset="UTF-8"  @submit.prevent="submit">
+    <p v-if="form.error" class="error">{{ form.error }}</p>
+
+    <text-field
+      tabindex="1"
+      name="email"
+      type="email"
+      label="Email"
+      autofocus="autofocus"
+      placeholder="email@email.com"
+      ref="email"
+      :icon="false"
+      :rules="form.email.rules"
+      @input="form.email.value = $event"
+      @validation="form.email.status = $event"
+    />
+
+    <router-link to="/password_reset" class="password-reset">Forgot password?</router-link>
+    <text-field
+      tabindex="2"
+      name="password"
+      type="password"
+      label="Password"
+      placeholder="your password"
+      ref="password"
+      @input="form.password.value = $event"
+    />
+
+    <br>
+    <button tabindex="3" type="submit" class="base-button">Sing in</button>
+
+    <!-- <center>sign with:</center>
+    <img src="../../assets/000.png" alt="" class="social" tabindex="4">
+    <img src="../../assets/000.png" alt="" class="social" tabindex="5">
+    <img src="../../assets/000.png" alt="" class="social" tabindex="6">
+    <img src="../../assets/000.png" alt="" class="social" tabindex="7">
+    <img src="../../assets/000.png" alt="" class="social" tabindex="8"> -->
+   
+</form>
+<br>
+<p class="new-acc">New to Duel? <router-link to="/registration">Create an account</router-link>.</p>
+</div>
