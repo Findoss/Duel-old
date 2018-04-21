@@ -6,7 +6,7 @@
 
     <p v-if="form.error" class="error">{{ form.error }}</p>
     
-    <text-field
+    <z-text-field
       tabindex="1"
       name="nickname"
       label="Nickname"
@@ -17,7 +17,7 @@
       @validation="form.nickname.status = $event"
     />
 
-    <text-field
+    <z-text-field
       tabindex="2"
       name="email"
       label="Email"
@@ -28,7 +28,7 @@
       @validation="form.email.status = $event"
     />
 
-    <text-field
+    <z-text-field
       tabindex="3"
       name="password"
       label="Password"
