@@ -1,14 +1,14 @@
 @font-face {
   font-family: King;
-  /* src: url(../../statics/fonts/King Arthur Legend.ttf); */
   src: url(../../statics/fonts/DwarvenAxe.ttf);
+  /* src: url(../../statics/fonts/King Arthur Legend.ttf); */
   /* src: url(../../statics/fonts/Rudelsberg.ttf); */
   /* src: url(../../statics/fonts/Sebaldus-Gotisch.ttf); */
   /* src: url(../../statics/fonts/Sketch Gothic School.ttf); */
 }
 
 h1, h2, h3, h4 {
-  font-family: King, -apple-system, BlinkMacSystemFont,"Segoe UI",Helvetica,Arial;
+  font-family: King, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial;
   font-weight: 400;
   color: var(--color-text-heading);
   margin-top: 0;
