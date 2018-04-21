@@ -1,11 +1,15 @@
 export default {
 
-  name: 'alert-box',
+  name: 'z-alert',
+
+  model: {
+    prop: 'show',
+    event: 'click',
+  },
 
   props: {
-    initShow: {
-      type: Boolean,
-      default: false,
+    show: {
+      type: null,
     },
     type: {
       type: String,
@@ -20,15 +24,9 @@ export default {
     },
   },
 
-  data() {
-    return {
-      show: this.initShow,
-    };
-  },
-
   methods: {
     close() {
-      this.show = false;
+      this.$emit('click', false);
     },
   },
 

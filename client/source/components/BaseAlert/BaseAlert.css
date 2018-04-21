@@ -33,6 +33,7 @@
 
 .base-alert-button:hover {
   background-color: var(--background-2);
+  cursor: pointer;
 }
 
 .base-alert-button:focus {
