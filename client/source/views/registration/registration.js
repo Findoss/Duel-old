@@ -1,11 +1,13 @@
 import Rules from '@/modules/validation-rules';
 import UserService from '@/services/user-service';
 import BaseTextField from '@/components/BaseTextField/BaseTextField.vue';
+import BaseButton from '@/components/BaseButton/BaseButton.vue';
 
 export default {
 
   components: {
     'text-field': BaseTextField,
+    'z-button': BaseButton,
   },
 
   data() {

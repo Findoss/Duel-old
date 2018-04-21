@@ -20,6 +20,7 @@
 
 .base-button:hover,
 .base-button:focus {
+  background-color: var(--background-1);
   border-image: none;
   border-color: hsl(360,100%,30%);
   color: hsl(360,100%,30%);
