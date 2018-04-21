@@ -14,7 +14,7 @@ export default {
         error: '',
         nickname: {
           value: '',
-          status: '',
+          status: false,
           rules: [
             Rules.nickname,
             Rules.checkNickname,
@@ -22,7 +22,7 @@ export default {
         },
         email: {
           value: '',
-          status: '',
+          status: false,
           rules: [
             Rules.email,
             Rules.checkEmail,
@@ -30,7 +30,7 @@ export default {
         },
         password: {
           value: '',
-          status: '',
+          status: false,
           rules: [Rules.password],
         },
       },
