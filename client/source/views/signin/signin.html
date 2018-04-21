@@ -3,42 +3,34 @@
   <h1 class="card-title">Sign in to Duel</h1>
 
   <form accept-charset="UTF-8"  @submit.prevent="submit">
-    <p v-if="formError" class="error">{{ formError }}</p>
+    <p v-if="form.error" class="error">{{ form.error }}</p>
 
-    <label for="email">Email</label>
-    <input
+    <text-field
       tabindex="1"
       name="email"
-      id="email"
+      type="email"
+      label="Email"
       autofocus="autofocus"
-      autocapitalize="off" 
-      autocorrect="off" 
-      type="text"
       placeholder="email@email.com"
-      class="base-input"
-      :class="emailStyles"
-      v-model.trim="email"
-      @input="updateEmail()"
-    >
-    <p v-if="emailError" class="error arrow-error">{{ emailError }}</p>
+      ref="email"
+      :icon="false"
+      :rules="form.email.rules"
+      @input="form.email.value = $event"
+      @validation="form.email.status = $event"
+    />
 
-    <label for="email">
-      Password
-      <router-link to="/password_reset" class="password-reset">Forgot password?</router-link>
-    </label>
-    
-    <input
+    <router-link to="/password_reset" class="password-reset">Forgot password?</router-link>
+    <text-field
       tabindex="2"
       name="password"
-      id="password"
-      autocapitalize="off" 
-      autocorrect="off" 
       type="password"
+      label="Password"
       placeholder="your password"
-      class="base-input"
-      v-model="password"
-    >
-    <br><br>
+      ref="password"
+      @input="form.password.value = $event"
+    />
+
+    <br>
     <button tabindex="3" type="submit" class="base-button">Sing in</button>
 
     <!-- <center>sign with:</center>

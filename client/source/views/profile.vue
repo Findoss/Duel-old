@@ -16,7 +16,5 @@
       password: '0000'
     }
   },
-  methods:{
-  }
 }
 </script>

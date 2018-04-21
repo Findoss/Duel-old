@@ -12,16 +12,18 @@
   <p>
     1 2 3 4 5 6 7 8 9 0
   </p>
+  <br>
   <p>
-    Lorem <strong>ipsum dolor sit</strong>, amet consectetur adipisicing elit. <small>numquam eaque minima similique</small> laudantium voluptatem?
-  </p>
-  <p>
-    Текст на русском <strong>языке</strong>, <small>съешь еще</small> французских булок.
+    Lorem <strong>ipsum dolor sit</strong>, amet consectetur adipisicing <a href="">elit</a>. <small>numquam eaque minima similique</small> laudantium voluptatem?
   </p>
   <br>
+  <p>
+    Текст <a href="">на русском</a><strong> языке</strong>, <small>съешь еще</small> французских булок.
+  </p>
 
-  <a href="">Link</a>
-  <br><br>
+  <br>
+
+  <p class="error arrow-error ">arrow-error alert</p>
 
   <alert-box
     :initShow="alert"
@@ -43,66 +45,79 @@
   >
     warning content
   </alert-box>
-
-  <alert-box
-    :initShow="true"
-    :dismissible="true"
-    type="success"
-  >
-    success content more Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum voluptate officiis sapiente impedit ullam velit.
   </alert-box>
+    success content more Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum voluptate officiis sapiente impedit ullam velit.
+    type="success"
+    :dismissible="true"
+  >
+    :initShow="true"
+  <alert-box
 
-  <table>
-    <thead>
-      <tr>
-        <th>Input</th>
-        <th>Example</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>text</td>
-        <td><input type="text" name="text" class="base-input"></input></td>
-      </tr>
-      <tr>
-        <td>disabled</td>
-        <td><input type="text" name="text" class="base-input" disabled></input></td>
-      </tr>
-      <tr>
-        <td>value</td>
-        <td><input type="text" name="text" class="base-input" value="Lorem ipsum dolor sit amet"></input></td>
-      </tr>
-      <tr>
-        <td>loading</td>
-        <td><input type="text" name="text" class="base-input  is-autocheck-loading"></input></td>
-      </tr>
-      <tr>
-        <td>successful</td>
-        <td><input type="text" name="text" class="base-input is-autocheck-successful"></input></td>
-      </tr>
-      <tr>
-        <td>error</td>
-        <td>
-          <input type="text" name="text" class="base-input is-autocheck-error"></input>
-          <p v-if="error" class="error arrow-error">{{ error }}</p>
-        </td>
-      </tr>
-      <tr>
-        <td>placeholder</td>
-        <td>
-            <input type="text" name="password" class="base-input" placeholder="placeholder"></input>
-        </td>
-      </tr>
-      <tr>
-        <td>password</td>
-        <td><input type="password" class="base-input" name="password"></input></td>
-      </tr>
-      <tr>
-        <td>button</td>
-        <td><button type="submit" class="base-button">Hello Button</button></td>
-      </tr>
-    </tbody>
-  </table>
+  <br>
+
+  <text-field
+    label="text-field rules"
+    name="field1"
+    :rules="field.rules"
+    @input="field.value = $event"
+    @validation="field.status = $event"
+  />
+
+  <text-field
+    label="text-field rules - icon off"
+    name="field9"
+    :icon="false"
+    :rules="field2.rules"
+    @input="field2.value = $event"
+    @validation="field2.status = $event"
+  />
+
+  <text-field
+    label="text-field disabled"
+    name="field2"
+    disabled="disabled"
+  />
+
+  <text-field
+    label="text-field value"
+    name="field3"
+    initialValue="Lorem ipsum dolor sit amet"
+  />
+
+  <text-field
+    label="text-field placeholder"
+    name="field4"
+    placeholder="placeholder"
+  />
+
+  <text-field
+    label="text-field password"
+    name="field5"
+    type="password"
+  />
+
+  <text-field
+    label="text-field - pending"
+    name="field6"
+    customClasses="is-autocheck-loading"
+  />
+
+  <text-field
+    label="text-field - valid"
+    name="field7"
+    customClasses="is-autocheck-successful"
+  />
+
+  <text-field
+    label="text-field - invalid + error"
+    name="field8"
+    ref="textFieldError"
+    initialValue="123"
+    :rules="field2.rules"
+  />
+
+  <button type="submit" class="base-button">Hello Button</button>
+
   <br>
 
 </div>
@@ -110,7 +125,6 @@
 
 <style scoped>
   @import "../styles/typography.css";
-  @import "../styles/input.css";
   @import "../styles/link.css";
   @import "../styles/button.css";
   @import "../styles/card.css";
@@ -119,20 +133,33 @@
 </style>
 
 <script>
-
 import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
+import UserService from '@/services/user-service';
+import Rules from '@/modules/validation-rules';
+import BaseTextField from '@/components/BaseTextField/BaseTextField.vue'
 
 export default {
-
    components: {
     'alert-box': BaseAlert,
+    'text-field': BaseTextField
   },
-
   data() {
     return {
       error: 'Ошибка введенных данных, Error entering data',
       alert: true,
+      field: {
+        value: '',
+        status: false,
+        rules: [Rules.password]
+      },
+      field2: {
+        value: '',
+        status: false,
+        rules: [Rules.password]
+      }
     }
+  mounted() {
+    this.$refs.textFieldError.validation();
   },
 };
 </script>

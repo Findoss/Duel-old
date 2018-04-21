@@ -1,0 +1,12 @@
+<div class="base-input-group">
+  <label v-if="label" for="name">{{ label }}</label>
+  <input
+    :id="name"
+    :name="name"
+    :type="type"
+    :class="classes"
+    v-model="value"
+    v-bind="$attrs"
+  >
+  <p v-if="error" class="error arrow-error">{{ error }}</p>
+</div>

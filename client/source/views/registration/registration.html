@@ -3,53 +3,41 @@
   <p>Create your personal account</p>
 
   <form accept-charset="UTF-8" @submit.prevent="submit">
-    <p v-if="formError" class="error">{{ formError }}</p>
+
+    <p v-if="form.error" class="error">{{ form.error }}</p>
     
-    <label for="nickname">Nickname</label>
-    <input
+    <text-field
       tabindex="1"
-      type="text"
       name="nickname"
-      id="nickname"
+      label="Nickname"
       autofocus="autofocus"
-      autocapitalize="off"
-      autocorrect="off"
-      class="base-input"
-      :class="nicknameStyles"
-      v-model.trim="nickname"
-      @input="updateNickname()"
-    >
-    <p v-if="nicknameError" class="error arrow-error">{{ nicknameError }}</p>
+      ref="nickname"
+      :rules="form.nickname.rules"
+      @input="form.nickname.value = $event"
+      @validation="form.nickname.status = $event"
+    />
 
-    <label for="email">Email</label>
-    <input
+    <text-field
       tabindex="2"
-      type="email"
       name="email"
-      id="email"
-      autocapitalize="off"
-      autocorrect="off"
-      class="base-input"
-      :class="emailStyles"
-      v-model="email"
-      @input="updateEmail()"
-    >
-    <p v-if="emailError" class="error arrow-error">{{ emailError }}</p>
+      label="Email"
+      type="email"
+      ref="email"
+      :rules="form.email.rules"
+      @input="form.email.value = $event"
+      @validation="form.email.status = $event"
+    />
 
-    <label for="password">Password</label>
-    <input 
-      tabindex="3" 
-      type="password" 
-      name="password" 
-      id="password" 
-      autocapitalize="off" 
-      autocorrect="off" 
-      class="base-input"
-      :class="passwordStyles"
-      v-model="password"
-      @input="updatePassword()"
-    >
-    <p v-if="passwordError" class="error arrow-error">{{ passwordError }}</p>
+    <text-field
+      tabindex="3"
+      name="password"
+      label="Password"
+      type="password"
+      ref="password"
+      :rules="form.password.rules"
+      @input="form.password.value = $event"
+      @validation="form.password.status = $event"
+    />
 
     <p class="info">By clicking “Create an account” below, you agree to our terms of service and privacy statement. We’ll occasionally send you account related emails
     </p>

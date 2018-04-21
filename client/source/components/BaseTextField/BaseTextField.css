@@ -1,3 +1,7 @@
+.base-input-group {
+  margin-top: 15px;
+}
+
 .base-input {
   color: var(--color-text);
   background-color: var(--background-0);
@@ -44,13 +48,13 @@
 }
 
 .is-autocheck-loading {
-  background-image: url(../assets/Rolling-1s-16px-1.gif);
+  background-image: url(../../assets/Rolling-1s-16px-1.gif);
 }
 
 .is-autocheck-successful {
-  background-image: url(../assets/success.png);
+  background-image: url(../../assets/success.png);
 }
 
 .is-autocheck-error {
-  background-image: url(../assets/error.png);
+  background-image: url(../../assets/error.png);
 }
