@@ -34,7 +34,8 @@ export default {
   methods: {
     submit() {
       if (!this.form.email.status) {
-        return this.$refs.email.validation();
+        this.$refs.email.validation();
+        return false;
       }
 
       const user = {
@@ -49,6 +50,7 @@ export default {
           this.form.error = 'Incorrect username or password.';
         }
       });
+      return true;
     },
   },
 };

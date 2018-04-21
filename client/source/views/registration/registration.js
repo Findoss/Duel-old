@@ -45,11 +45,14 @@ export default {
   methods: {
     submit() {
       if (!this.form.nickname.status) {
-        return this.$refs.nickname.validation();
+        this.$refs.nickname.validation();
+        return false;
       } else if (!this.form.email.status) {
-        return this.$refs.email.validation();
+        this.$refs.email.validation();
+        return false;
       } else if (!this.form.password.status) {
-        return this.$refs.password.validation();
+        this.$refs.password.validation();
+        return false;
       }
 
       const user = {
@@ -65,6 +68,7 @@ export default {
           this.form.error = 'There were problems creating your account.';
         }
       });
+      return true;
     },
 
   },

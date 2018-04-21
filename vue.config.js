@@ -33,7 +33,7 @@ module.exports = {
   chainWebpack: (config) => {
     config
       .plugin('html')
-      .tap(args => [
+      .tap(() => [
         {
           filename: `${PATHS.build}\\index.html`,
           template: `${PATHS.statics}\\index.html`,
