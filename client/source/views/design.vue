@@ -23,8 +23,6 @@
 
   <br>
 
-  <p class="error arrow-error ">arrow-error alert</p>
-
   <alert-box
     :initShow="alert"
   >
@@ -45,13 +43,14 @@
   >
     warning content
   </alert-box>
-  </alert-box>
-    success content more Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum voluptate officiis sapiente impedit ullam velit.
+
+  <alert-box
+    :initShow="true"
     type="success"
     :dismissible="true"
   >
-    :initShow="true"
-  <alert-box
+    success content more Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum voluptate officiis sapiente impedit ullam velit.
+  </alert-box>
 
   <br>
 
@@ -133,16 +132,18 @@
 </style>
 
 <script>
-import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
-import UserService from '@/services/user-service';
 import Rules from '@/modules/validation-rules';
-import BaseTextField from '@/components/BaseTextField/BaseTextField.vue'
+import UserService from '@/services/user-service';
+import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
+import BaseTextField from '@/components/BaseTextField/BaseTextField.vue';
 
 export default {
-   components: {
+  
+  components: {
     'alert-box': BaseAlert,
-    'text-field': BaseTextField
+    'text-field': BaseTextField,
   },
+
   data() {
     return {
       error: 'Ошибка введенных данных, Error entering data',
@@ -150,16 +151,19 @@ export default {
       field: {
         value: '',
         status: false,
-        rules: [Rules.password]
+        rules: [Rules.password],
       },
       field2: {
         value: '',
         status: false,
-        rules: [Rules.password]
-      }
-    }
+        rules: [Rules.password],
+      },
+    };
+  },
+  
   mounted() {
     this.$refs.textFieldError.validation();
   },
+
 };
 </script>
