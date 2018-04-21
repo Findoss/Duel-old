@@ -115,7 +115,7 @@
     :rules="field2.rules"
   />
 
-  <button type="submit" class="base-button">Hello Button</button>
+  <z-button type="submit">Hello Button</z-button>
 
   <br>
 
@@ -125,7 +125,6 @@
 <style scoped>
   @import "../styles/typography.css";
   @import "../styles/link.css";
-  @import "../styles/button.css";
   @import "../styles/card.css";
   @import "../styles/list.css";
 </style>
@@ -141,6 +140,7 @@ export default {
   components: {
     'z-alert': BaseAlert,
     'text-field': BaseTextField,
+    'z-button': BaseButton,
   },
 
   data() {
