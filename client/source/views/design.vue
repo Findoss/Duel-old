@@ -23,34 +23,34 @@
 
   <br>
 
-  <alert-box
-    :initShow="alert"
+  <z-alert
+    :show="true"
   >
     default info + dismissible
-  </alert-box>
+  </z-alert>
 
-  <alert-box
-    :initShow="true"
+  <z-alert
+    :show="true"
     type="error"
   >
     error content
-  </alert-box>
+  </z-alert>
 
-  <alert-box
-    :initShow="true"
+  <z-alert
+    v-model="alert"
     :dismissible="true"
     type="warning"
   >
     warning content
-  </alert-box>
+  </z-alert>
 
-  <alert-box
-    :initShow="true"
+  <z-alert
+    v-model="alert2"
     type="success"
     :dismissible="true"
   >
     success content more Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum voluptate officiis sapiente impedit ullam velit.
-  </alert-box>
+  </z-alert>
 
   <br>
 
@@ -127,7 +127,6 @@
   @import "../styles/link.css";
   @import "../styles/button.css";
   @import "../styles/card.css";
-  @import "../styles/alert.css";
   @import "../styles/list.css";
 </style>
 
@@ -140,7 +139,7 @@ import BaseTextField from '@/components/BaseTextField/BaseTextField.vue';
 export default {
   
   components: {
-    'alert-box': BaseAlert,
+    'z-alert': BaseAlert,
     'text-field': BaseTextField,
   },
 
@@ -148,6 +147,7 @@ export default {
     return {
       error: 'Ошибка введенных данных, Error entering data',
       alert: true,
+      alert2: true,
       field: {
         value: '',
         status: false,

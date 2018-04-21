@@ -2,7 +2,6 @@
 @import "../../styles/link.css";
 @import "../../styles/button.css";
 @import "../../styles/card.css";
-@import "../../styles/alert.css";
 
 .info {
   border-bottom: 1px solid var(--color-yellow);
