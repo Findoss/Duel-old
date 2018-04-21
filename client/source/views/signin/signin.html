@@ -8,30 +8,26 @@
     <text-field
       tabindex="1"
       name="email"
-      label="Email"
       type="email"
-      autocorrect="off"
-      autocapitalize="off"
+      label="Email"
       autofocus="autofocus"
       placeholder="email@email.com"
-      v-model="form.email.value"
-      :validationStatus="form.email.status"
-      :validationError="form.email.error"
-      @input="validation(form.email)"
+      ref="email"
+      :icon="false"
+      :rules="form.email.rules"
+      @input="form.email.value = $event"
+      @validation="form.email.status = $event"
     />
 
     <router-link to="/password_reset" class="password-reset">Forgot password?</router-link>
     <text-field
       tabindex="2"
       name="password"
-      label="Password"
       type="password"
-      autocorrect="off"
-      autocapitalize="off"
+      label="Password"
       placeholder="your password"
-      v-model="form.password.value"
-      :validationStatus="form.password.status"
-      :validationError="form.password.error"
+      ref="password"
+      @input="form.password.value = $event"
     />
 
     <br>
