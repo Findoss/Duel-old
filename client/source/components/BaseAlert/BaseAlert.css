@@ -1,0 +1,60 @@
+.base-alert {
+  background-color: var(--background-0);
+  background-repeat: no-repeat;
+  background-position: left 8px center;
+
+  border: 1px solid;
+  border-top: 4px solid;
+  border-color: var(--color-gray);
+
+  padding: 5px;
+  padding-left: 32px;
+  padding-right: 12px;
+
+  margin-top: 8px;
+}
+
+.base-alert-button {
+  float: right;
+
+  background: none;
+  border: none;
+  padding: 0;
+
+  position: relative;
+  right: -8px;
+  margin-left: 28px;
+
+  height: 24px;
+  width: 24px;
+
+  font-size: 12pt;
+}
+
+.base-alert-button:hover {
+  background-color: var(--background-2);
+}
+
+.base-alert-button:focus {
+  outline: none;
+}
+
+.success {
+  background-image: url(../../assets/success.png);
+  border-color: var(--color-green-focus);
+}
+
+.error {
+  background-image: url(../../assets/error.png);
+  border-color: var(--color-red-focus);
+}
+
+.info {
+  background-image: url(../../assets/info.png);
+  border-color: var(--color-blue-focus);
+}
+
+.warning {
+  background-image: url(../../assets/warning.png);
+  border-color: var(--color-yellow-focus);
+}
