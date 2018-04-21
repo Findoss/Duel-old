@@ -32,20 +32,18 @@
   <text-field
     label="text-field rules"
     name="field1"
-    v-model="field.value"
-    :validationStatus="field.status"
-    :validationError="field.error"
-    @input="validation(field)"
+    :rules="field.rules"
+    @input="field.value = $event"
+    @validation="field.status = $event"
   />
 
   <text-field
     label="text-field rules - icon off"
     name="field9"
-    :validationIcon="false"
-    v-model="field2.value"
-    :validationStatus="field2.status"
-    :validationError="field2.error"
-    @input="validation(field2)"
+    :icon="false"
+    :rules="field2.rules"
+    @input="field2.value = $event"
+    @validation="field2.status = $event"
   />
 
   <text-field
@@ -75,20 +73,21 @@
   <text-field
     label="text-field - pending"
     name="field6"
-    validationStatus="pending"
+    customClasses="is-autocheck-loading"
   />
 
   <text-field
     label="text-field - valid"
     name="field7"
-    validationStatus="valid"
+    customClasses="is-autocheck-successful"
   />
 
   <text-field
     label="text-field - invalid + error"
     name="field8"
-    validationStatus="invalid"
-    validationError="error"
+    ref="textFieldError"
+    initialValue="123"
+    :rules="field2.rules"
   />
 
   <button type="submit" class="base-button">Hello Button</button>
@@ -123,35 +122,22 @@ export default {
       error: 'Ошибка введенных данных, Error entering data',
       field: {
         value: '',
-        error: '',
-        status: '',
-        rules: (value) => {
-          return value.length > 3
-        }
+        status: false,
+        rules: [Rules.password]
       },
       field2: {
         value: '',
-        error: '',
-        status: '',
-        rules: (value) => {
-          return value.length > 3
-        }
+        status: false,
+        rules: [Rules.password]
       }
     }
   },
 
-  methods: {
-    validation(formField) {
-      const field = formField;
-      field.error = '';
-      field.status = 'pending';
-      if (field.rules(field.value)) {
-        field.status = 'valid';
-      } else {
-        field.status = 'invalid';
-        field.error = 'error';
-      }
-    }
+  mounted() {
+    this.$refs.textFieldError.validation();
   },
+
+  methods: {},
+
 };
 </script>
