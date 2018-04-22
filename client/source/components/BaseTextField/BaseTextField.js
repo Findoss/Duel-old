@@ -18,7 +18,7 @@ export default {
       type: String,
       default: '',
     },
-    initialValue: {
+    value: {
       type: String,
       default: '',
     },
@@ -33,10 +33,10 @@ export default {
     customClasses: {
       type: String,
     },
-    rules: {
+    validationRules: {
       type: Array,
     },
-    icon: {
+    validationIcon: {
       type: Boolean,
       default: true,
     },
@@ -44,19 +44,23 @@ export default {
 
   data() {
     return {
-      value: this.initialValue,
       status: '',
       error: '',
     };
   },
 
-  watch: {
-    value() {
-      if (this.rules) {
+  methods: {
+    updateField(value) {
+      if (this.validationRules) {
         this.$emit('validation', false);
         this.validation();
       }
-      this.$emit('input', this.value);
+      this.$emit('input', value);
+    },
+    reset() {
+      this.error = '';
+      this.status = '';
+      this.$emit('input', '');
     },
   },
 
@@ -64,7 +68,7 @@ export default {
     this.validation = debounce(() => {
       this.error = '';
       this.status = 'pending';
-      this.rules.reduce((acc, rule) => acc.then(rule), Promise.resolve(this.value))
+      this.validationRules.reduce((acc, rule) => acc.then(rule), Promise.resolve(this.value))
         .then(() => {
           this.status = 'valid';
           this.$emit('validation', true);
@@ -82,7 +86,7 @@ export default {
         'base-input': true,
       };
 
-      if (this.icon) {
+      if (this.validationIcon) {
         switch (this.status) {
           case 'valid':
             classes['is-autocheck-successful'] = true;

@@ -5,7 +5,8 @@
     :name = "name"
     :type = "type"
     :class = "classes"
-    v-model = "value"
+    :value = "value"
+    @input="updateField($event.target.value)"
     v-bind = "$attrs"
   >
   <p v-if="error" class="error arrow-error">{{ error }}</p>

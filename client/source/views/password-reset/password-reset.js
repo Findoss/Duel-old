@@ -16,21 +16,17 @@ export default {
   data() {
     return {
       form: {
+        error: '',
         email: {
           value: '',
           status: false,
           rules: [
             Rules.email,
+            Rules.checkEmail,
           ],
         },
-        password: {
-          value: '',
-        },
       },
-      alert: {
-        type: 'error',
-        message: '',
-      },
+      success: false,
     };
   },
 
@@ -41,20 +37,20 @@ export default {
         return false;
       }
 
-      const user = {
+      const email = {
         email: this.form.email.value,
-        password: this.form.password.value,
       };
 
-      UserService.signin(user).then((result) => {
-        if (result.code === undefined) {
-          this.$router.push({ path: 'profile' });
-        } else {
-          this.alert.type = 'error';
-          this.alert.message = 'Incorrect username or password.';
-          this.$refs.password.reset();
-        }
-      });
+      console.log(email);
+      this.success = !this.success;
+
+      // UserService.signin(user).then((result) => {
+      //   if (result.code === undefined) {
+      //     this.$router.push({ path: 'profile' });
+      //   } else {
+      //     this.form.error = 'ERROR TODO.';
+      //   }
+      // });
       return true;
     },
   },
