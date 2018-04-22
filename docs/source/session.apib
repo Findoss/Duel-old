@@ -4,6 +4,28 @@
 ## Вход [/signin]
 ### Вход [POST]
 Осуществляет аутентификацию пользователя. Устанавливает TOKEN в localstarage
+```
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+{
+  "email": "ivan@mail.ru",
+  "nickname": "ivan"
+}
+```
+```
+HMACSHA256(
+  base64UrlEncode(header) + "." +
+  base64UrlEncode(payload),
+  secret
+) 
+```
+**Result token**
+```
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Iml2YW5AbWFpbC5ydSIsIm5pY2tuYW1lIjoiaXZhbiJ9.N4im2B_InVs69B0SMUjxOtSX0QXddjhcqnfX1CJMYv4
+```
+
 
 + Request (application/json)
     + Attributes
@@ -12,13 +34,9 @@
 
 + Response 200 (application/json; charset=utf-8)
 Вход осуществлен успешно
-    + Headers
-
-            Set-Cookie: stringToken
-
-    + Body
     + Attributes
         + message: You are signed in (string)
+        + token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Iml2YW5AbWFpbC5ydSIsIm5pY2tuYW1lIjoiaXZhbiJ9.N4im2B_InVs69B0SMUjxOtSX0QXddjhcqnfX1CJMYv4
 
 + Response 403 (application/json; charset=utf-8)
 Переданы неверные параметры входа
