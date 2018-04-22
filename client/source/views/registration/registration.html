@@ -13,36 +13,36 @@
     </z-alert>
     
     <z-text-field
-      tabindex="1"
-      name="nickname"
-      label="Nickname"
-      autofocus="autofocus"
-      ref="nickname"
-      :rules="form.nickname.rules"
-      @input="form.nickname.value = $event"
+      :validationRules="form.nickname.rules"
+      v-model="form.nickname.value"
       @validation="form.nickname.status = $event"
+      autofocus="autofocus"
+      label="Nickname"
+      name="nickname"
+      ref="nickname"
+      tabindex="1"
     />
 
     <z-text-field
-      tabindex="2"
-      name="email"
-      label="Email"
-      type="email"
-      ref="email"
-      :rules="form.email.rules"
-      @input="form.email.value = $event"
+      :validationRules="form.email.rules"
+      v-model="form.email.value"
       @validation="form.email.status = $event"
+      label="Email"
+      name="email"
+      ref="email"
+      tabindex="2"
+      type="email"
     />
 
     <z-text-field
-      tabindex="3"
-      name="password"
-      label="Password"
-      type="password"
-      ref="password"
-      :rules="form.password.rules"
-      @input="form.password.value = $event"
+      :validationRules="form.password.rules"
+      v-model="form.password.value"
       @validation="form.password.status = $event"
+      label="Password"
+      name="password"
+      ref="password"
+      tabindex="3"
+      type="password"
     />
 
     <p class="info">By clicking “Create an account” below, you agree to our terms of service and privacy statement. We’ll occasionally send you account related emails
