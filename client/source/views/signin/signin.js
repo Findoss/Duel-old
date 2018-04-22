@@ -48,6 +48,7 @@ export default {
 
       UserService.signin(user).then((result) => {
         if (result.code === undefined) {
+          localStorage.setItem('session-token', result.token);
           this.$router.push({ path: 'profile' });
         } else {
           this.alert.type = 'error';

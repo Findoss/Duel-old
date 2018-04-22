@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import Profile from '@/views/profile.vue';
+import Profile from '@/views/profile/index.vue';
 import Signin from '@/views/signin/index.vue';
 import PasswordNew from '@/views/password-new/index.vue';
 import Registration from '@/views/registration/index.vue';
