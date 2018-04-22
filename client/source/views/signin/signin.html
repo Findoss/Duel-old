@@ -3,37 +3,37 @@
   <h1 class="card-title">Sign in to Duel</h1>
 
   <form accept-charset="UTF-8"  @submit.prevent="submit">
-      <z-alert 
-      type="error" 
-      v-model="form.error"
+    <z-alert 
       :dismissible="true"
+      :type="alert.type" 
+      v-model="alert.message"
     >
-      {{ form.error }}
+      {{ alert.message }}
     </z-alert>
 
     <z-text-field
-      tabindex="1"
-      name="email"
-      type="email"
-      label="Email"
+      :validationIcon="false"
+      :validationRules="form.email.rules"
+      @validation="form.email.status = $event"
       autofocus="autofocus"
+      label="Email"
+      name="email"
       placeholder="email@email.com"
       ref="email"
-      :icon="false"
-      :rules="form.email.rules"
-      @input="form.email.value = $event"
-      @validation="form.email.status = $event"
+      tabindex="1"
+      type="email"
+      v-model="form.email.value"
     />
 
 
     <z-text-field
-      tabindex="2"
-      name="password"
-      type="password"
       label="Password"
+      name="password"
       placeholder="your password"
       ref="password"
-      @input="form.password.value = $event"
+      tabindex="2"
+      type="password"
+      v-model="form.password.value"
     />
 
     <br>
@@ -50,7 +50,7 @@
 
   <br>
   <p class="new-acc">
-    <router-link to="/password_reset" >Forgot password?</router-link>
+    <router-link to="/password-reset">Forgot password?</router-link>
     <br><br>
     New to Duel? <router-link to="/registration">Create an account</router-link>.
   </p>

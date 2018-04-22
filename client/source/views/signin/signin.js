@@ -16,7 +16,6 @@ export default {
   data() {
     return {
       form: {
-        error: '',
         email: {
           value: '',
           status: false,
@@ -27,6 +26,10 @@ export default {
         password: {
           value: '',
         },
+      },
+      alert: {
+        type: 'error',
+        message: '',
       },
     };
   },
@@ -47,7 +50,9 @@ export default {
         if (result.code === undefined) {
           this.$router.push({ path: 'profile' });
         } else {
-          this.form.error = 'Incorrect username or password.';
+          this.alert.type = 'error';
+          this.alert.message = 'Incorrect username or password.';
+          this.$refs.password.reset();
         }
       });
       return true;
