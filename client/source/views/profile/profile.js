@@ -11,14 +11,14 @@ export default {
         avatar: '',
         rank: '',
       },
-
     };
   },
 
   created() {
     MeService.getMe()
       .then((user) => {
-        this.setData(user);
+        this.user = user;
+        this.user.avatar = imgAvatar;
       })
       .catch((error) => {
         console.warn(error);
@@ -28,12 +28,8 @@ export default {
 
   methods: {
     signOut() {
-      localStorage.setItem('session-token', null);
+      localStorage.removeItem('session-token');
       this.$router.push({ path: '/' });
-    },
-    setData(user) {
-      this.user = user;
-      this.user.avatar = imgAvatar;
     },
   },
 };

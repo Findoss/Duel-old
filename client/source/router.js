@@ -45,3 +45,5 @@ export default new Router({
     },
   ],
 });
+
+// https://github.com/vuejs/vue-router/tree/dev/examples/auth-flow

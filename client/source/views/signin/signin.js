@@ -13,6 +13,16 @@ export default {
     'z-alert': BaseAlert,
   },
 
+  props: {
+    alert: {
+      type: Object,
+      default: () => ({
+        type: 'error',
+        message: '',
+      }),
+    },
+  },
+
   data() {
     return {
       form: {
@@ -26,10 +36,6 @@ export default {
         password: {
           value: '',
         },
-      },
-      alert: {
-        type: 'error',
-        message: '',
       },
     };
   },
@@ -49,7 +55,7 @@ export default {
       UserService.signin(user).then((result) => {
         if (result.code === undefined) {
           localStorage.setItem('session-token', result.token);
-          this.$router.push({ path: 'profile' });
+          this.$router.push({ path: '/profile' });
         } else {
           this.alert.type = 'error';
           this.alert.message = 'Incorrect username or password.';
