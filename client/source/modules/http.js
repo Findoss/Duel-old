@@ -16,10 +16,11 @@ export default class Http {
       fetch(string, attr)
         .then((response) => {
           if (response.status !== 200) {
-            console.error(`Status Code: ${response.status}`);
+            console.warn(`Status Code: ${response.status}`);
             reject(response);
+          } else {
+            resolve(response.json());
           }
-          resolve(response.json());
         })
         .catch((error) => {
           reject(error);
@@ -42,7 +43,7 @@ export default class Http {
         .then((response) => {
           if (response.status !== 200 &&
               response.status !== 201) {
-            console.error(`Status Code: ${response.status}`);
+            console.warn(`Status Code: ${response.status}`);
             reject(response);
           }
           resolve(response.json());

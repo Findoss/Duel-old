@@ -15,20 +15,15 @@ export default {
     };
   },
 
-  beforeRouteEnter(to, from, next) {
+  created() {
     MeService.getMe()
       .then((user) => {
-        next(vm => vm.setData(user));
+        this.setData(user);
       })
       .catch((error) => {
-        console.warn('asdas');
+        console.warn(error);
         this.$router.push({ path: '/' });
       });
-
-
-    // getPost(to.params.id, (err, post) => {
-    //   next(vm => vm.setData(user));
-    // });
   },
 
   methods: {
@@ -42,16 +37,3 @@ export default {
     },
   },
 };
-
-
-// export default {
-//   // если путь изменяется, а компонент уже отображён,
-//   // логика будет немного иной
-//   beforeRouteUpdate (to, from, next) {
-//     this.post = null
-//     getPost(to.params.id, (err, post) => {
-//       this.setData(err, post)
-//       next()
-//     })
-//   },
-// }
