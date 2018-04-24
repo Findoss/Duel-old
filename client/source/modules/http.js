@@ -1,24 +1,22 @@
-// todo list
-// get attr
-// get, post - header Authorization
-
 const host = 'http://localhost:3001';
 
 export default class Http {
-  static Get(path, param, value) {
+  static get(path, params = undefined) {
     const token = localStorage.getItem('session-token');
-    let attr = {};
-    if (token !== null) {
-      attr = {
-        headers: new Headers({
-          Authorization: token,
-          'Content-Type': 'application/json; charset=utf-8;',
-        }),
-      };
-    }
+    const attr = {
+      method: 'GET',
+      headers: new Headers(),
+    };
+    if (token !== null) attr.headers.append('Authorization', token);
 
     let string = `${host}${path}`;
-    if (param !== undefined && value !== undefined) string += `?${param}=${value}`;
+    if (params !== undefined) {
+      string += '?';
+      params.forEach((param) => {
+        string += `${param.name}=${param.value}&`;
+      });
+    }
+
     return new Promise((resolve, reject) => {
       fetch(string, attr)
         .then((response) => {
@@ -35,7 +33,7 @@ export default class Http {
     });
   }
 
-  static Post(path, param) {
+  static post(path, param) {
     const token = localStorage.getItem('session-token');
     const attr = {
       method: 'POST',
