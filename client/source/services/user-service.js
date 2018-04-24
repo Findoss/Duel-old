@@ -2,18 +2,20 @@ import Http from '../modules/http';
 
 export default class UserService {
   static checkEmail(email) {
-    return Http.Get('/checkEmail', 'email', email);
+    return Http.get('/checkEmail', [{
+      name: 'email',
+      value: email,
+    }]);
   }
 
   static checkNickname(nickname) {
-    return Http.Get('/checkNickname', 'nickname', nickname);
+    return Http.get('/checkNickname', [{
+      name: 'nickname',
+      value: nickname,
+    }]);
   }
 
   static registration(user) {
-    return Http.Post('/users', user);
-  }
-
-  static signin(user) {
-    return Http.Post('/signin', user);
+    return Http.post('/users', user);
   }
 }
