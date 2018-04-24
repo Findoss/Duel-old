@@ -13,7 +13,7 @@
     "build-client": "vue-cli-service build",
     "build-doc": "",
     "dev-api": "aglio --theme-variables slate -i docs/source/index.apib --server",
-    "dev-api-mock": "drakov -f docs/source/*.apib -s docs/source/index.apib -p 3001 --watch --discover --header Authorization",
+    "dev-api-mock": "drakov -f docs/source/*.apib -s docs/source/index.apib -p 3001 --watch --discover --header Authorization --stealthmode --delay 300",
     "dev-server": "nodemon server/index.js --watch server",
     "dev-client": "vue-cli-service serve --port 3002",
     "dev-test": "mocha -w",

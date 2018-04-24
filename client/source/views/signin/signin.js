@@ -1,5 +1,5 @@
 import Rules from '@/modules/validation-rules';
-import UserService from '@/services/user-service';
+import SessionService from '@/services/session-service';
 
 import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
@@ -52,9 +52,8 @@ export default {
         password: this.form.password.value,
       };
 
-      UserService.signin(user).then((result) => {
-        if (result.code === undefined) {
-          localStorage.setItem('session-token', result.token);
+      SessionService.signIn(user).then((result) => {
+        if (result) {
           this.$router.push({ path: '/profile' });
         } else {
           this.alert.type = 'error';

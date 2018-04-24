@@ -6,7 +6,17 @@ API для сервисных функций
 
 + Response 200
 
-## Доступность почты [GET /checkEmail{?email}]
+## Доступность почты [/checkEmail{?email}]
+
+### Доступность почты [OPTIONS]
+
++ Response 200 (text/plain)
+    + Headers
+        
+            Allow: HEAD,GET,PUT,DELETE,OPTIONS
+
+### Доступность почты [GET]
+
 Проверка доступности почты
 + Parameters
     + email: Ivan@email.com (string, optional) - почта
@@ -27,7 +37,18 @@ API для сервисных функций
         + message: Invalid params
         + code: invalid_params
 
-## Доступность никнейма [GET /checkNickname{?nickname}]
+## Доступность никнейма [/checkNickname{?nickname}]
+
+### Доступность никнейма [OPTIONS]
+
++ Response 200 (text/plain)
+    + Headers
+        
+            Allow: HEAD,GET,PUT,DELETE,OPTIONS
+
+
+### Доступность никнейма [GET] 
+
 Проверка доступности никнейма
 + Parameters
     + nickname: Ivan (string, optional) - никнейм

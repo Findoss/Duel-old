@@ -1,4 +1,6 @@
 import MeService from '@/services/me-service';
+import SessionService from '@/services/session-service';
+
 import imgAvatar from '@/assets/avatars/avatar.png';
 
 export default {
@@ -22,13 +24,14 @@ export default {
       })
       .catch((error) => {
         console.warn(error);
+        SessionService.signOut();
         this.$router.push({ path: '/' });
       });
   },
 
   methods: {
     signOut() {
-      localStorage.removeItem('session-token');
+      SessionService.signOut();
       this.$router.push({ path: '/' });
     },
   },
