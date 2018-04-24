@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+import SessionService from '@/services/session-service';
+
 import Profile from '@/views/profile/index.vue';
 import Signin from '@/views/signin/index.vue';
 import PasswordNew from '@/views/password-new/index.vue';
@@ -11,7 +13,7 @@ import Design from '@/views/design.vue';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -37,6 +39,7 @@ export default new Router({
       path: '/profile',
       name: 'profile',
       component: Profile,
+      meta: { requiresAuthorization: true },
     },
     {
       path: '/design',
@@ -46,4 +49,12 @@ export default new Router({
   ],
 });
 
-// https://github.com/vuejs/vue-router/tree/dev/examples/auth-flow
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuthorization) && !SessionService.signedIn()) {
+    next({ path: '/' });
+  } else {
+    next();
+  }
+});
+
+export default router;
