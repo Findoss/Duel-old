@@ -1,0 +1,15 @@
+<div class="card">
+  <h1>{{ user.nickname }}</h1>
+  <img 
+    :src="user.avatar"
+    alt="avatar"
+    class="avatar"
+  >
+  <p>Email <strong>{{ user.email }}</strong></p>
+  <p>Rank <strong>{{ user.rank }}</strong></p>
+  <button
+    @click="signOut()"
+  >
+    Sign out
+  </button>
+</div>
