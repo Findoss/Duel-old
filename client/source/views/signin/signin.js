@@ -13,15 +13,22 @@ export default {
     'z-alert': BaseAlert,
   },
 
-  props: {
-    alert: {
-      type: Object,
-      default: () => ({
-        type: 'error',
-        message: '',
-      }),
+  // props: {
+  //   alert: {
+  //     type: Object,
+  //     default: () => ({
+  //       type: 'error',
+  //       message: '',
+  //     }),
+  //   },
+  // },
+
+  computed: {
+    alert() {
+      return this.$store.state.alert;
     },
   },
+
 
   data() {
     return {

@@ -49,6 +49,13 @@ export default {
 
       console.log(this.form.password.value);
 
+      this.$store.commit('newAlert', {
+        type: 'success',
+        message: 'New password set successfully.',
+      });
+
+      this.$router.push({ path: '/' });
+
 
       // const email = {
       //   email: this.form.email.value,

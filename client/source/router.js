@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import store from '@/store';
 
 import SessionService from '@/services/session-service';
 
@@ -8,6 +9,7 @@ import Signin from '@/views/signin/index.vue';
 import PasswordNew from '@/views/password-new/index.vue';
 import Registration from '@/views/registration/index.vue';
 import PasswordReset from '@/views/password-reset/index.vue';
+
 
 import Design from '@/views/design.vue';
 
@@ -51,6 +53,10 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuthorization) && !SessionService.signedIn()) {
+    store.commit('newAlert', {
+      type: 'error',
+      message: 'Please log in to view this page.',
+    });
     next({ path: '/' });
   } else {
     next();
