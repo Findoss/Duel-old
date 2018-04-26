@@ -1,21 +1,23 @@
+// Core
 import Vue from 'vue';
 import Router from 'vue-router';
 import store from '@/store';
 
-import SessionService from '@/services/session-service';
+// Services
+import * as SessionService from '@/services/session';
 
-import Profile from '@/views/profile/index.vue';
-import Signin from '@/views/signin/index.vue';
-import PasswordNew from '@/views/password-new/index.vue';
-import Registration from '@/views/registration/index.vue';
-import PasswordReset from '@/views/password-reset/index.vue';
-
-
+// Views
 import Design from '@/views/design.vue';
+import PasswordNew from '@/views/password-new/index.vue';
+import PasswordReset from '@/views/password-reset/index.vue';
+import Profile from '@/views/profile/index.vue';
+import Registration from '@/views/registration/index.vue';
+import Signin from '@/views/signin/index.vue';
 
 Vue.use(Router);
 
 const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',

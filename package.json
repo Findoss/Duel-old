@@ -12,6 +12,7 @@
     "build-api": "aglio --theme-variables flatly -i docs/source/index.apib -o docs/build/API.html",
     "build-client": "vue-cli-service build",
     "build-doc": "",
+    "build-structure": "tree --ignore 'node_modules/, .git/' -l 10 -o 'docs/build/progect-structure.txt'",
     "dev-api": "aglio --theme-variables slate -i docs/source/index.apib --server",
     "dev-api-mock": "drakov -f docs/source/*.apib -s docs/source/index.apib -p 3001 --watch --discover --header Authorization --stealthmode --delay 300",
     "dev-server": "nodemon server/index.js --watch server",
@@ -21,7 +22,7 @@
     "test-js": "nyc --reporter=text-summary mocha",
     "test-push-report": "nyc report --reporter=text-lcov | coveralls",
     "start": "node server/index.js",
-    "vue-inspect": "vue inspect > docs/build/Webpack-config.js"
+    "vue-inspect": "vue inspect > docs/build/webpack-config.js"
   },
   "dependencies": {
     "debounce": "^1.1.0",

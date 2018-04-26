@@ -1,6 +1,10 @@
-import Rules from '@/modules/validation-rules';
-import SessionService from '@/services/session-service';
+// Utils
+import Rules from '@/utils/validation/rules';
 
+// Services
+import * as SessionService from '@/services/session';
+
+// Components
 import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseTextField from '@/components/BaseTextField/BaseTextField.vue';
