@@ -65,6 +65,7 @@ export default {
         if (result.code === undefined) {
           this.$router.push({ path: 'profile' });
         } else {
+          this.$refs.password.reset();
           this.form.error = 'There were problems creating your account.';
         }
       });

@@ -58,7 +58,7 @@ export default {
       } else if (password.length > 20) {
         reject(new Error('Password is too long (maximum is 20 characters)'));
       } else if (!Regexp.password.test(password)) {
-        reject(new Error('Password needs at least one number and at least one characters'));
+        reject(new Error('Password must contain least one number and at be least one characters'));
       } else {
         resolve(password);
       }

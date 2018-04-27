@@ -22,6 +22,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    icon: {
+      type: Boolean,
+      default: true,
+    },
   },
 
   methods: {
@@ -35,6 +39,10 @@ export default {
       const classes = {
         'base-alert': true,
       };
+      if (this.icon) {
+        classes.icon = true;
+        classes[`${this.type}-icon`] = true;
+      }
       classes[this.type] = true;
       return classes;
     },

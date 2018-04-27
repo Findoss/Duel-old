@@ -1,5 +1,5 @@
 import Rules from '@/modules/validation-rules';
-import SessionService from '@/services/session-service';
+import UserService from '@/services/user-service';
 
 import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
@@ -13,30 +13,20 @@ export default {
     'z-alert': BaseAlert,
   },
 
-  props: {
-    alert: {
-      type: Object,
-      default: () => ({
-        type: 'error',
-        message: '',
-      }),
-    },
-  },
-
   data() {
     return {
       form: {
+        error: '',
         email: {
           value: '',
           status: false,
           rules: [
             Rules.email,
+            Rules.checkEmail,
           ],
         },
-        password: {
-          value: '',
-        },
       },
+      success: false,
     };
   },
 
@@ -47,20 +37,20 @@ export default {
         return false;
       }
 
-      const user = {
+      const email = {
         email: this.form.email.value,
-        password: this.form.password.value,
       };
 
-      SessionService.signIn(user).then((result) => {
-        if (result) {
-          this.$router.push({ path: '/profile' });
-        } else {
-          this.alert.type = 'error';
-          this.alert.message = 'Incorrect username or password.';
-          this.$refs.password.reset();
-        }
-      });
+      console.log(email);
+      this.success = !this.success;
+
+      // UserService.signin(user).then((result) => {
+      //   if (result.code === undefined) {
+      //     this.$router.push({ path: 'profile' });
+      //   } else {
+      //     this.form.error = 'ERROR TODO.';
+      //   }
+      // });
       return true;
     },
   },
