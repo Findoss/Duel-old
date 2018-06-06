@@ -1,4 +1,5 @@
-<div class="card">
+<z-loading :show=!loading>
+  <div class="card">
   <h1>{{ user.nickname }}</h1>
   <img 
     :src="user.avatar"
@@ -7,9 +8,6 @@
   >
   <p>Email <strong>{{ user.email }}</strong></p>
   <p>Rank <strong>{{ user.rank }}</strong></p>
-  <button
-    @click="signOut()"
-  >
-    Sign out
-  </button>
-</div>
+  <z-button @click="signOut()">Sign out</z-button>
+  </div>
+</z-loading>
