@@ -1,6 +1,7 @@
-import Rules from '@/modules/validation-rules';
-import UserService from '@/services/user-service';
+// Utils
+import Rules from '@/utils/validation/rules';
 
+// Components
 import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseTextField from '@/components/BaseTextField/BaseTextField.vue';
@@ -48,6 +49,13 @@ export default {
       }
 
       console.log(this.form.password.value);
+
+      this.$store.commit('newAlert', {
+        type: 'success',
+        message: 'New password set successfully.',
+      });
+
+      this.$router.push({ path: '/' });
 
 
       // const email = {

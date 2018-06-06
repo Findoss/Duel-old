@@ -1,5 +1,6 @@
-import MeService from '@/services/me-service';
-import SessionService from '@/services/session-service';
+// Services
+import * as MeService from '@/services/me';
+import * as SessionService from '@/services/session';
 
 // Components
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
