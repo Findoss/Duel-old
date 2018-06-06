@@ -1,0 +1,8 @@
+<div>
+  <div v-show="show" class="background">
+    <h2 class="loading">LOADING</h2>
+  </div>
+  <div :class="{'blur':show}">
+    <slot></slot>
+  </div>
+</div> 
