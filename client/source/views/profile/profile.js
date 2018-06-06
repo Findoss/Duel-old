@@ -1,17 +1,28 @@
-import MeService from '@/services/me-service';
-import SessionService from '@/services/session-service';
+// Services
+import * as MeService from '@/services/me';
+import * as SessionService from '@/services/session';
+
+// Components
+import BaseButton from '@/components/BaseButton/BaseButton.vue';
+import BaseLoading from '@/components/BaseLoading/BaseLoading.vue';
 
 import imgAvatar from '@/assets/avatars/avatar.png';
 
 export default {
 
+  components: {
+    'z-button': BaseButton,
+    'z-loading': BaseLoading,
+  },
+
   data() {
     return {
+      loading: false,
       user: {
-        nickname: '----',
-        email: '----@----.--',
-        avatar: '',
-        rank: '',
+        nickname: null,
+        email: null,
+        avatar: null,
+        rank: null,
       },
     };
   },
@@ -21,6 +32,7 @@ export default {
       .then((user) => {
         this.user = user;
         this.user.avatar = imgAvatar;
+        this.loading = true;
       })
       .catch((error) => {
         console.warn(error);

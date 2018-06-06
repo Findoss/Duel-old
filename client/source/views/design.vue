@@ -165,11 +165,16 @@
 
 
 <script>
-  import Rules from '@/modules/validation-rules';
-  import UserService from '@/services/user-service';
+  // Services
+  import * as UserService from '@/services/user';
+
+  // Components
   import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
-  import BaseTextField from '@/components/BaseTextField/BaseTextField.vue';
   import BaseButton from '@/components/BaseButton/BaseButton.vue';
+  import BaseTextField from '@/components/BaseTextField/BaseTextField.vue';
+
+  // Utils
+  import Rules from '@/utils/validation/rules';
 
   export default {
     

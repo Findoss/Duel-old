@@ -8,7 +8,7 @@
       :type="alert.type" 
       v-model="alert.message"
     >
-      {{ alert.message }}
+      {{ $store.state.alert.message }}
     </z-alert>
 
     <z-text-field

@@ -3,6 +3,13 @@ TODO list
 readme  
 license  
 
+тесты
+покрытие тестами
+
+тревис
+
+разделение на подмодули с разным удаленным репо
+
 ### MAIL reset password
 Please reset your password  
   От кого: Duel <noreply@duel.com>  

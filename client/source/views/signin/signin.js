@@ -1,6 +1,10 @@
-import Rules from '@/modules/validation-rules';
-import SessionService from '@/services/session-service';
+// Utils
+import Rules from '@/utils/validation/rules';
 
+// Services
+import * as SessionService from '@/services/session';
+
+// Components
 import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseTextField from '@/components/BaseTextField/BaseTextField.vue';
@@ -13,15 +17,22 @@ export default {
     'z-alert': BaseAlert,
   },
 
-  props: {
-    alert: {
-      type: Object,
-      default: () => ({
-        type: 'error',
-        message: '',
-      }),
+  // props: {
+  //   alert: {
+  //     type: Object,
+  //     default: () => ({
+  //       type: 'error',
+  //       message: '',
+  //     }),
+  //   },
+  // },
+
+  computed: {
+    alert() {
+      return this.$store.state.alert;
     },
   },
+
 
   data() {
     return {
