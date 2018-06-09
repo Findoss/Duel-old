@@ -1,3 +1,5 @@
+import store from '@/store';
+
 // Utils
 import Rules from '@/utils/validation/rules';
 
@@ -29,7 +31,7 @@ export default {
 
   computed: {
     alert() {
-      return this.$store.state.alert;
+      return this.$store.state.authorization.alert;
     },
   },
 
@@ -67,12 +69,20 @@ export default {
         if (result) {
           this.$router.push({ path: '/profile' });
         } else {
-          this.alert.type = 'error';
-          this.alert.message = 'Incorrect username or password.';
+          store.commit('authorization/showAlert', {
+            type: 'error',
+            message: 'Incorrect username or password.',
+          });
           this.$refs.password.reset();
         }
       });
       return true;
+    },
+    closeAlert() {
+      store.commit('authorization/showAlert', {
+        type: 'error',
+        message: '',
+      });
     },
   },
 };
