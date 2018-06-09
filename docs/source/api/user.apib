@@ -9,6 +9,14 @@
         + nickname: Ivan (string, required)
         + email: Ivan@email.ru (string, required)
         + password: password123 (string, required)
+        + avatar: null (string)
+        + rank: 0 (number)
+        + gold: 0 (number)
+        + level: 1 (number)
+        + experience: 0 (number)
+        + karma: false (boolean)
+        + craftsmanship: 1 (number)
+        + skills: (array)
 
 + Response 201 (application/json; charset=utf-8)
 Пользователь создан успешно
@@ -26,7 +34,7 @@
 
 + Response 200 (text/plain)
     + Headers
-        
+
             Allow: HEAD,GET,PUT,DELETE,OPTIONS
 
 ## Список пользователей [GET /users{?offset,limit}]
