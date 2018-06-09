@@ -55,7 +55,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuthorization) && !SessionService.signedIn()) {
-    store.commit('newAlert', {
+    store.commit('authorization/showAlert', {
       type: 'error',
       message: 'Please log in to view this page.',
     });

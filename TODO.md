@@ -10,6 +10,8 @@ license
 
 разделение на подмодули с разным удаленным репо
 
+Вопрос локализации
+
 ### MAIL reset password
 Please reset your password  
   От кого: Duel <noreply@duel.com>  

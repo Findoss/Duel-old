@@ -2,13 +2,14 @@
 
   <h1 class="card-title">Sign in to Duel</h1>
 
-  <form accept-charset="UTF-8"  @submit.prevent="submit">
+  <form accept-charset="UTF-8" @submit.prevent="submit">
     <z-alert 
       :dismissible="true"
-      :type="alert.type" 
-      v-model="alert.message"
+      :type="alert.type"
+      :show="alert.message"
+      @click="closeAlert()"
     >
-      {{ $store.state.alert.message }}
+      {{ alert.message }}
     </z-alert>
 
     <z-text-field

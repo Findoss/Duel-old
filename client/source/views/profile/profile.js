@@ -6,8 +6,6 @@ import * as SessionService from '@/services/session';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseLoading from '@/components/BaseLoading/BaseLoading.vue';
 
-import imgAvatar from '@/assets/avatars/avatar.png';
-
 export default {
 
   components: {
@@ -21,17 +19,28 @@ export default {
       user: {
         nickname: null,
         email: null,
-        avatar: null,
+        avatar: 'avatar',
         rank: null,
+        gold: null,
+        level: null,
+        experience: null,
+        karma: false,
+        craftsmanship: null,
+        skills: [],
       },
     };
+  },
+
+  computed: {
+    avatarPath() {
+      return require(`@/assets/avatars/${this.user.avatar}.png`);
+    },
   },
 
   created() {
     MeService.getMe()
       .then((user) => {
         this.user = user;
-        this.user.avatar = imgAvatar;
         this.loading = true;
       })
       .catch((error) => {

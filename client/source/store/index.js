@@ -1,22 +1,19 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import actions from './actions';
+import mutations from './mutations';
+import getters from './getters';
+
+import authorization from './modules/authorization';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  strict: true,
-  state: {
-    alert: {
-      type: 'error',
-      message: '',
-    },
+  strict: process.env.NODE_ENV !== 'production',
+  modules: {
+    authorization,
   },
-  mutations: {
-    newAlert(state, payload) {
-      state.alert = payload;
-    },
-  },
-  actions: {
-
-  },
+  actions,
+  mutations,
+  getters,
 });

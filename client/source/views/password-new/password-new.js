@@ -50,7 +50,7 @@ export default {
 
       console.log(this.form.password.value);
 
-      this.$store.commit('newAlert', {
+      this.$store.commit('authorization/showAlert', {
         type: 'success',
         message: 'New password set successfully.',
       });
