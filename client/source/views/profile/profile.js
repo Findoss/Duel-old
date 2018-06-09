@@ -19,7 +19,7 @@ export default {
       user: {
         nickname: null,
         email: null,
-        avatar: 'avatar',
+        avatar: 'null',
         rank: null,
         gold: null,
         level: null,
