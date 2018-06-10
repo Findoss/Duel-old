@@ -32,7 +32,7 @@ export default {
   },
 
   computed: {
-    avatarPath() {
+    pathAvatar() {
       return require(`@/assets/avatars/${this.user.avatar}.png`);
     },
   },
@@ -46,14 +46,14 @@ export default {
       .catch((error) => {
         console.warn(error);
         SessionService.signOut();
-        this.$router.push({ path: '/' });
+        this.$router.push({ path: '/signin' });
       });
   },
 
   methods: {
     signOut() {
       SessionService.signOut();
-      this.$router.push({ path: '/' });
+      this.$router.push({ path: '/signin' });
     },
   },
 };

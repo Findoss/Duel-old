@@ -67,7 +67,7 @@ export default {
 
       UserService.registration(user).then((result) => {
         if (result.code === undefined) {
-          this.$router.push({ path: 'profile' });
+          this.$router.push({ path: '/signin' });
         } else {
           this.$refs.password.reset();
           this.form.error = 'There were problems creating your account.';
