@@ -7,9 +7,9 @@
   --background-1: hsl(0, 0%, 5%);
   --background-2: hsl(0, 0%, 7%);
 
-  --color-red-lite: hsl(355, 45%, 60%);
-  --color-red-norm: hsl(355, 55%, 60%);
-  --color-red-bright: hsl(355, 75%, 60%);
+  --color-red-lite: hsl(360, 80%, 60%);
+  --color-red-norm: hsl(355, 80%, 30%);
+  --color-red-dark: hsl(355, 80%, 20%);
 
   --color-gray-lite: hsl(220, 16%, 36%);
   --color-gray-norm: hsl(220, 16%, 30%);
@@ -26,8 +26,6 @@
   --color-green-lite: hsl(92, 28%, 65%);
   --color-green-norm: hsl(92, 49%, 58%);
   --color-green-bright: hsl(92, 60%, 56%);
-
-  --border: solid 2px;
 }
 
 body {

@@ -35,7 +35,7 @@
     <div class="color-row">
       <div class="color color-7">--color-red-lite</div>
       <div class="color color-8">--color-red-norm</div>
-      <div class="color color-9">--color-red-bright</div>
+      <div class="color color-9">--color-red-dark</div>
     </div>
     <div class="color-row">
       <div class="color color-13">--color-blue-lite</div>
@@ -275,7 +275,7 @@
   }
 
   .color-9 {
-    background-color: var(--color-red-bright);
+    background-color: var(--color-red-dark);
   }
 
   .color-10 {
