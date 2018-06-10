@@ -2,7 +2,7 @@
   <div class="card">
   <h1>{{ user.nickname }}</h1>
   <img 
-    :src="avatarPath"
+    :src="pathAvatar"
     alt="avatar"
     class="avatar"
   >
@@ -16,7 +16,7 @@
   <p>craftsmanship <strong>{{ user.craftsmanship }}</strong></p>
   <z-button>Play</z-button>
   <z-button>Skills</z-button>
-  <z-button>Liderboard</z-button>
+  <z-button>Scoreboard</z-button>
   <z-button>Setting</z-button>
   <z-button @click="signOut()">Sign out</z-button>
   </div>
