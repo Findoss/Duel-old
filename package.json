@@ -21,6 +21,7 @@
     "test-api": "dredd docs/source/*.apib http://127.0.0.1:3001",
     "test-js": "nyc --reporter=text-summary mocha",
     "test-push-report": "nyc report --reporter=text-lcov | coveralls",
+    "create": "sh ./client/utils/create.sh",
     "start": "node server/index.js",
     "vue-inspect": "vue inspect > docs/build/webpack-config.js"
   },
