@@ -10,4 +10,6 @@ export const checkNickname = nickname => Http.get('/checkNickname', [{
   value: nickname,
 }]);
 
+export const getAllUsers = () => Http.get('/users');
+
 export const registration = user => Http.post('/users', user);

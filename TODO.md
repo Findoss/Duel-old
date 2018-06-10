@@ -12,6 +12,40 @@ license
 
 Вопрос локализации
 
+переписать http методы
+
+
+добавть роуты + документация
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### MAIL reset password
 Please reset your password  
   От кого: Duel <noreply@duel.com>  
