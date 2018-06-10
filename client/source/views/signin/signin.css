@@ -1,16 +1,8 @@
-@import "../../styles/typography.css";
-@import "../../styles/link.css";
-@import "../../styles/card.css";
-
-.social {
+/* .social {
   margin: 10px;
   width: 60px;
-} 
+}  */
 
-.new-acc {
+.center-link {
   text-align: center;
-}
-
-.password-reset {
-  float: right;
 }

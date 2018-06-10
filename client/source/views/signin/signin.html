@@ -1,6 +1,6 @@
 <div class="card">
 
-  <h1 class="card-title">Sign in to Duel</h1>
+  <h1 class="card__title">Sign in to Duel</h1>
 
   <form accept-charset="UTF-8" @submit.prevent="submit">
     <z-alert 
@@ -40,7 +40,8 @@
     <br>
     <z-button tabindex="3" type="submit" class="base-button">Sing in</z-button>
 
-    <!-- <center>sign with:</center>
+    <!-- <br><br>
+    <center>sign with:</center>
     <img src="../../assets/000.png" alt="" class="social" tabindex="4">
     <img src="../../assets/000.png" alt="" class="social" tabindex="5">
     <img src="../../assets/000.png" alt="" class="social" tabindex="6">
@@ -50,7 +51,7 @@
   </form> 
 
   <br>
-  <p class="new-acc">
+  <p class="center-link">
     <router-link to="/password-reset">Forgot password?</router-link>
     <br><br>
     New to Duel? <router-link to="/registration">Create an account</router-link>.

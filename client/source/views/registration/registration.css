@@ -1,9 +1,5 @@
-@import "../../styles/typography.css";
-@import "../../styles/link.css";
-@import "../../styles/card.css";
-
 .info {
-  border-bottom: 1px solid var(--color-yellow);
+  border-bottom: 1px solid var(--color-yellow-lite);
   padding-top: 8px;
   padding-bottom: 8px; 
   margin-top: 12px;
