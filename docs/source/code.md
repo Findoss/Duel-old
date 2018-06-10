@@ -1,5 +1,7 @@
 # Требование к коду
 
+### JavaScript
+
 Airbnb JavaScript Style Guide
 
 ## Именование
@@ -23,3 +25,13 @@ Airbnb JavaScript Style Guide
 | COMBAK   | вернуться |  
 | BUG      | ошибка |  
 | QUESTION | вопрос |  
+
+### CSS
+
+Levels
+```
+0 - reset css
+1 - component \
+2 - page       |> BEM
+3 - theme     /
+```
