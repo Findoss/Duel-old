@@ -7,27 +7,25 @@
   --background-1: hsl(0, 0%, 5%);
   --background-2: hsl(0, 0%, 7%);
 
-  --color-red: hsl(355, 83%, 55%);
-  --color-red-hover: hsl(355, 50%, 56%);
-  --color-red-focus: hsl(355, 70%, 56%);
+  --color-red-lite: hsl(360, 80%, 60%);
+  --color-red-norm: hsl(355, 80%, 30%);
+  --color-red-dark: hsl(355, 80%, 20%);
 
-  --color-gray: #2e3440;
-  --color-gray-hover: #434c5e;
-  --color-gray-focus: #4c566a;
+  --color-gray-lite: hsl(220, 16%, 36%);
+  --color-gray-norm: hsl(220, 16%, 30%);
+  --color-gray-bright: hsl(220, 16%, 22%);
 
-  --color-yellow: hsl(40, 60%, 70%);
-  --color-yellow-hover: hsl(40, 60%, 65%);
-  --color-yellow-focus: hsl(40, 70%, 60%);
+  --color-yellow-lite: hsl(40, 60%, 70%);
+  --color-yellow-norm: hsl(40, 60%, 65%);
+  --color-yellow-bright: hsl(40, 70%, 60%);
 
-  --color-blue: #81a1c1;
-  --color-blue-hover: #88c0d0;
-  --color-blue-focus: #8fbcbb;
+  --color-blue-lite: hsl(180, 25%, 80%);
+  --color-blue-norm: hsl(180, 30%, 70%);
+  --color-blue-bright: hsl(180, 35%, 60%);
 
-  --color-green: #a3be8c;
-  --color-green-hover: #91c961;
-  --color-green-focus: #8ad847;
-
-  --border: solid 2px;
+  --color-green-lite: hsl(92, 28%, 65%);
+  --color-green-norm: hsl(92, 49%, 58%);
+  --color-green-bright: hsl(92, 60%, 56%);
 }
 
 body {
@@ -36,7 +34,7 @@ body {
 
   font-family: -apple-system, BlinkMacSystemFont,"Segoe UI",Helvetica,Arial;
   font-weight: normal;
-  font-size: 14pt;
+  font-size: 1.2em;
 
   background-size: cover;
   background-repeat: no-repeat;
@@ -46,3 +44,10 @@ body {
   background-color: var(--background-1);
   background-image: url("../assets/background.jpg");
 }
+
+@import "./0-foundation/typography.css";
+@import "./0-foundation/link.css";
+@import "./0-foundation/table.css";
+@import "./0-foundation/list.css";
+
+@import "./1-base/card.css";

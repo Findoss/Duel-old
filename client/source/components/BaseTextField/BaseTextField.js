@@ -89,13 +89,13 @@ export default {
       if (this.validationIcon) {
         switch (this.status) {
           case 'valid':
-            classes['is-autocheck-successful'] = true;
+            classes['base-input-group--check-successful'] = true;
             break;
           case 'invalid':
-            classes['is-autocheck-error'] = true;
+            classes['base-input-group--check-error'] = true;
             break;
           case 'pending':
-            classes['is-autocheck-loading'] = true;
+            classes['base-input-group--check-loading'] = true;
             break;
           default:
             break;

@@ -2,78 +2,95 @@
   background-color: var(--background-0);
   background-repeat: no-repeat;
   background-position: left 8px center;
-
   border: 1px solid;
   border-top: 4px solid;
-  border-color: var(--color-gray);
-
+  border-color: var(--color-gray-lite);
   padding: 5px;
-  padding-left: 24px;
+  padding-left: 10px;
   padding-right: 24px;
-
   margin-top: 8px;
 }
 
-.base-alert-button {
-  float: right;
-
-  background: none;
-  border: none;
-  padding: 0;
-
+.base-alert__button-close {
+  background-color: var(--background-2);
+  border: 0;
+  border-radius: 50%;
+  display: inline-block;
   position: relative;
+  float: right;
   right: -16px;
   margin-left: 28px;
-
   height: 24px;
   width: 24px;
-
-  font-size: 12pt;
+  overflow: hidden;
 }
 
-.base-alert-button:hover {
-  background-color: var(--background-2);
+.base-alert__button-close::before, 
+.base-alert__button-close::after {
+  content: "";
+  position: absolute;
+  background-color: var(--color-gray-lite);
+  height: 2px;
+  width: 15px;
+  top: 50%;
+  left: 5px;
+  margin-top: -1px;
+}
+
+.base-alert__button-close:hover {
+  background-color: var(--color-gray-bright);
   cursor: pointer;
 }
 
-.base-alert-button:focus {
+.base-alert__button-close:focus {
   outline: none;
 }
 
-.success {
-  border-color: var(--color-green-focus);
+.base-alert__button-close:hover::before, 
+.base-alert__button-close:hover::after {
+  background: var(--color-red-bright);
 }
 
-.error {
-  border-color: var(--color-red-focus);
+.base-alert__button-close::before {
+  transform: rotate(45deg);
 }
 
-.info {
-  border-color: var(--color-blue-focus);
+.base-alert__button-close::after {
+  transform: rotate(-45deg);
 }
 
-.warning {
-  border-color: var(--color-yellow-focus);
-}
-
-.icon {
-  background-repeat: no-repeat;
-  background-position: left 8px center;
+.base-alert--icon {
   padding-left: 32px;
 }
 
-.success-icon {
+.base-alert--icon-success {
   background-image: url(../../assets/success.png);
 }
 
-.error-icon {
+.base-alert--icon-error {
   background-image: url(../../assets/error.png);
 }
 
-.info-icon {
+.base-alert--icon-info {
   background-image: url(../../assets/info.png);
 }
 
-.warning-icon {
+.base-alert--icon-warning {
   background-image: url(../../assets/warning.png);
+}
+
+.base-alert--color-success {
+  border-color: var(--color-green-norm);
+}
+
+.base-alert--color-error {
+  border-color: var(--color-red-norm);
+}
+
+.base-alert--color-info {
+  border-color: var(--color-blue-norm);
+}
+
+.base-alert--color-warning {
+  border-color: var(--color-yellow-norm);
 }

@@ -4,12 +4,12 @@
   margin: 0 auto;
   margin-top: 30px;
   padding: 30px;
-  background-color: rgba(0, 0, 0, .8);
+  background-color: var(--background-0);
 
-  border: 4px hsla(32, 75%, 32%, 0.164);
+  border: 4px var(--color-gray-bright);
   border-style: solid double solid;
 }
 
-.card-title {
+.card__title {
   text-align: center;
 }

@@ -1,9 +1,9 @@
 <div v-show="show" :class="classes">
   <slot></slot>
   <button 
-    type="button"
+    type = "button"
     v-if = "dismissible" 
-    class = "base-alert-button"
+    class = "base-alert__button-close"
     @click = "close()"
-  >❌</button>
+  ></button>
 </div>
