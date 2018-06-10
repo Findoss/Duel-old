@@ -8,11 +8,12 @@ import * as SessionService from '@/services/session';
 
 // Views
 import Design from '@/views/design.vue';
-import PasswordNew from '@/views/password-new/index.vue';
-import PasswordReset from '@/views/password-reset/index.vue';
-import Profile from '@/views/profile/index.vue';
-import Registration from '@/views/registration/index.vue';
-import Signin from '@/views/signin/index.vue';
+import PasswordNew from '@/views/password-new/password-new.vue';
+import PasswordReset from '@/views/password-reset/password-reset.vue';
+import Profile from '@/views/profile/profile.vue';
+import Registration from '@/views/registration/registration.vue';
+import Signin from '@/views/signin/signin.vue';
+import Scoreboard from '@/views/scoreboard/scoreboard.vue';
 
 Vue.use(Router);
 
@@ -20,7 +21,7 @@ const router = new Router({
   mode: 'history',
   routes: [
     {
-      path: '/',
+      path: '/signin',
       name: 'signin',
       component: Signin,
     },
@@ -40,15 +41,27 @@ const router = new Router({
       component: PasswordNew,
     },
     {
-      path: '/profile',
-      name: 'profile',
-      component: Profile,
-      meta: { requiresAuthorization: true },
-    },
-    {
       path: '/design',
       name: 'design',
       component: Design,
+    },
+    {
+      path: '/scoreboard',
+      name: 'scoreboard',
+      component: Scoreboard,
+    },
+    {
+      path: '/:userId',
+      name: 'profile',
+      component: Profile,
+      meta: { requiresAuthorization: true },
+      children: [
+        {
+          // при совпадении пути с шаблоном /userId/setting
+          path: 'setting',
+          component: Profile,
+        },
+      ],
     },
   ],
 });
@@ -59,7 +72,9 @@ router.beforeEach((to, from, next) => {
       type: 'error',
       message: 'Please log in to view this page.',
     });
-    next({ path: '/' });
+    console.log('+++');
+
+    next({ path: '/signin' });
   } else {
     next();
   }
