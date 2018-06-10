@@ -2,18 +2,13 @@ export default {
 
   name: 'z-alert',
 
-  model: {
-    prop: 'show',
-    event: 'click',
-  },
-
   props: {
     show: {
       type: null,
     },
     type: {
       type: String,
-      default: 'info',
+      default: null,
       validator(val) {
         return ['info', 'error', 'success', 'warning'].includes(val);
       },
@@ -24,7 +19,7 @@ export default {
     },
     icon: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
 
@@ -40,10 +35,10 @@ export default {
         'base-alert': true,
       };
       if (this.icon) {
-        classes.icon = true;
-        classes[`${this.type}-icon`] = true;
+        classes['base-alert--icon'] = true;
+        classes[`base-alert--icon-${this.type}`] = true;
       }
-      classes[this.type] = true;
+      classes[`base-alert--color-${this.type}`] = true;
       return classes;
     },
   },

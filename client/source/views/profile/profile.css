@@ -1,7 +1,3 @@
-@import "../../styles/typography.css";
-@import "../../styles/link.css";
-@import "../../styles/card.css";
-
 .avatar {
-  width: 200px;
+  height: 200px;
 }

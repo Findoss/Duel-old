@@ -1,5 +1,5 @@
 .base-input-group {
-  margin-top: 15px;
+  margin-top: 14px;
 }
 
 .base-input {
@@ -8,8 +8,9 @@
   background-repeat: no-repeat;
   background-position: right 8px center;
 
-  border: var(--border);
-  border-image: linear-gradient(to right, var(--color-yellow), var(--background-1));
+  border: 2px solid;
+  border-color: var(--color-yellow-lite);
+  border-image: linear-gradient(to right, var(--color-yellow-lite), var(--color-gray-bright));
   border-image-slice: 1;
   
   outline: none;
@@ -17,53 +18,59 @@
   padding: 6px 30px 6px 8px;
   margin-top: 6px;
 
-  font-size: 14pt;
+  font-size: 1em;
 
   width: 100%;
   box-sizing: border-box;
 }
 
 .base-input::-webkit-input-placeholder {
-  color: var(--color-gray);
+  color: var(--color-gray-bright);
 }
 
 .base-input:hover::-webkit-input-placeholder {
-  color: var(--color-gray-hover);
+  color: var(--color-gray-norm);
 }
 
 .base-input:hover {
   border-image: none;
-  border-color: var(--color-yellow-hover);
+  border-color: var(--color-yellow-lite);
 }
 
 .base-input:focus {
-  border-color: var(--color-yellow-focus);
-  outline: 3px solid var(--color-yellow);
+  border-color: var(--color-yellow-norm);
+  outline: 3px solid var(--color-yellow-norm);
   outline-style: outset;
 }
 
 .base-input:disabled {
   border-image: none;
-  border-color: var(--color-gray);
+  border-color: var(--color-gray-norm);
 }
 
-.is-autocheck-loading {
+
+
+
+
+.base-input-group--check-loading {
   background-image: url(../../assets/Rolling-1s-16px-1.gif);
 }
 
-.is-autocheck-successful {
+.base-input-group--check-successful {
   background-image: url(../../assets/success.png);
 }
 
-.is-autocheck-error {
+.base-input-group--check-error {
   background-image: url(../../assets/error.png);
 }
 
-.error {
+
+
+.base-input-group__error {
   background-color: var(--background-0);
 
   border: 2px solid;
-  border-color: var(--color-red);
+  border-color: var(--color-red-norm);
 
   padding-left: 10px;
   padding-bottom: 5px;
@@ -71,7 +78,7 @@
   margin-top: 8px;
 }
 
-.arrow-error::before {
+.base-input-group__error::before {
   content: ''; 
   display: block;
 
@@ -79,7 +86,7 @@
   height: 0; 
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  border-bottom: 8px solid var(--color-red);
+  border-bottom: 8px solid var(--color-red-norm);
 
   position: relative;
   top: -10px;

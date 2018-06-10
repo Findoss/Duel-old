@@ -23,29 +23,29 @@
 
   <div class="colors">
     <div class="color-row">
-      <div class="color color-1">--color-yellow</div>
-      <div class="color color-2">--color-yellow-hover</div>
-      <div class="color color-3">--color-yellow-focus</div>
+      <div class="color color-1">--color-yellow-lite</div>
+      <div class="color color-2">--color-yellow-norm</div>
+      <div class="color color-3">--color-yellow-bright</div>
     </div>
     <div class="color-row">
-      <div class="color color-4">--color-green</div>
-      <div class="color color-5">--color-green-hover</div>
-      <div class="color color-6">--color-green-focus</div>
+      <div class="color color-4">--color-green-lite</div>
+      <div class="color color-5">--color-green-norm</div>
+      <div class="color color-6">--color-green-bright</div>
+    </div>
+    <div class="color-row">
+      <div class="color color-7">--color-red-lite</div>
+      <div class="color color-8">--color-red-norm</div>
+      <div class="color color-9">--color-red-dark</div>
+    </div>
+    <div class="color-row">
+      <div class="color color-13">--color-blue-lite</div>
+      <div class="color color-14">--color-blue-norm</div>
+      <div class="color color-15">--color-blue-bright</div>
     </div>
     <div class="color-row">
       <div class="color color-10">--color-gray</div>
-      <div class="color color-11">--color-gray-hover</div>
-      <div class="color color-12">--color-gray-focus</div>
-    </div>
-    <div class="color-row">
-      <div class="color color-7">--color-red</div>
-      <div class="color color-8">--color-red-hover</div>
-      <div class="color color-9">--color-red-focus</div>
-    </div>
-    <div class="color-row">
-      <div class="color color-13">--color-blue</div>
-      <div class="color color-14">--color-blue-hover</div>
-      <div class="color color-15">--color-blue-focus</div>
+      <div class="color color-11">--color-gray-norm</div>
+      <div class="color color-12">--color-gray-bright</div>
     </div>
     <div class="color-row">
       <div class="color color-16">--background-0</div>
@@ -58,7 +58,6 @@
 
     <z-alert
       :show="true"
-      :icon="false"
     >
       icon false
     </z-alert>
@@ -71,13 +70,23 @@
 
     <z-alert
       :show="true"
+      :icon="true"
+      type="info"
+    >
+      info
+    </z-alert>
+
+    <z-alert
+      :show="true"
+      :icon="true"
       type="error"
     >
       error content
     </z-alert>
 
     <z-alert
-      v-model="alert"
+      :show="alert"
+      :icon="true"
       :dismissible="true"
       type="warning"
     >
@@ -85,9 +94,10 @@
     </z-alert>
 
     <z-alert
-      v-model="alert2"
-      type="success"
+      :show="alert2"
+      :icon="true"
       :dismissible="true"
+      type="success"
     >
       success content more Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum voluptate officiis sapiente impedit ullam velit.  + dismissible
     </z-alert>
@@ -209,10 +219,10 @@
 </script>
 
 <style scoped>
-  @import "../styles/typography.css";
-  @import "../styles/link.css";
-  @import "../styles/card.css";
-  @import "../styles/list.css";
+  /* @import "../styles/typography.css"; */
+  /* @import "../styles/link.css"; */
+  /* @import "../styles/card.css"; */
+  /* @import "../styles/list.css"; */
 
   .colors {
     /*background-color: #fff;*/
@@ -233,63 +243,63 @@
   }
 
   .color-1 {
-    background-color: var(--color-yellow);
+    background-color: var(--color-yellow-lite);
   }
 
   .color-2 {
-    background-color: var(--color-yellow-hover);
+    background-color: var(--color-yellow-norm);
   }
 
   .color-3 {
-    background-color: var(--color-yellow-focus);
+    background-color: var(--color-yellow-bright);
   }
 
   .color-4 {
-    background-color: var(--color-green);
+    background-color: var(--color-green-lite);
   }
 
   .color-5 {
-    background-color: var(--color-green-hover);
+    background-color: var(--color-green-norm);
   }
 
   .color-6 {
-    background-color: var(--color-green-focus);
+    background-color: var(--color-green-bright);
   }
 
   .color-7 {
-    background-color: var(--color-red);
+    background-color: var(--color-red-lite);
   }
 
   .color-8 {
-    background-color: var(--color-red-hover);
+    background-color: var(--color-red-norm);
   }
 
   .color-9 {
-    background-color: var(--color-red-focus);
+    background-color: var(--color-red-dark);
   }
 
   .color-10 {
-    background-color: var(--color-gray);
+    background-color: var(--color-gray-lite);
   }
 
   .color-11 {
-    background-color: var(--color-gray-hover);
+    background-color: var(--color-gray-norm);
   }
 
   .color-12 {
-    background-color: var(--color-gray-focus);
+    background-color: var(--color-gray-bright);
   }
 
   .color-13 {
-    background-color: var(--color-blue);
+    background-color: var(--color-blue-lite);
   }
 
   .color-14 {
-    background-color: var(--color-blue-hover);
+    background-color: var(--color-blue-norm);
   }
 
   .color-15 {
-    background-color: var(--color-blue-focus);
+    background-color: var(--color-blue-bright);
   }
 
   .color-16 {

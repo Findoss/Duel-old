@@ -1,0 +1,7 @@
+a {
+  color: var(--color-blue-norm);
+}
+
+a:hover {
+  color: var(--color-blue-bright);
+}
