@@ -79,11 +79,11 @@
 }
 
 .base-input-group__error::before {
-  content: ''; 
+  content: '';
   display: block;
 
-  width: 0; 
-  height: 0; 
+  width: 0;
+  height: 0;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-bottom: 8px solid var(--color-red-norm);
