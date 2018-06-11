@@ -26,10 +26,15 @@
     "vue-inspect": "vue inspect > docs/build/webpack-config.js"
   },
   "dependencies": {
-    "debounce": "^1.1.0",
     "vue": "^2.5.13",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
+    "koa": "^2.5.1",
+    "koa-bodyparser": "^4.2.1",
+    "koa-logger": "^3.2.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^4.0.3"
+    "debounce": "^1.1.0",
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-beta.6",
