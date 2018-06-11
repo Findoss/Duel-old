@@ -1,0 +1,63 @@
+<z-loading :show=loading>
+  <div class="card">
+    <h4>Change password</h4>
+    <form accept-charset="UTF-8"  @submit.prevent="submit">
+      <z-text-field
+        label="Old password"
+        name="oldPassword"
+        ref="oldPassword"
+        tabindex="1"
+        type="password"
+        v-model="form.oldPassword.value"
+      />
+      
+      <z-text-field
+        :validationRules="form.newPassword.rules"
+        @validation="form.newPassword.status = $event"
+        label="New password"
+        name="newPassword"
+        ref="newPassword"
+        tabindex="2"
+        type="password"
+        v-model="form.newPassword.value"
+      />
+      
+      <z-text-field
+        :validationRules="form.confirmPassword.rules"
+        @validation="form.confirmPassword.status = $event"
+        label="Confirm new password"
+        name="confirmPassword"
+        ref="confirmPassword"
+        tabindex="3"
+        type="password"
+        v-model="form.confirmPassword.value"
+      />
+      <br>
+      <z-button tabindex="4" type="submit" class="base-button">Update password</z-button>
+    </form>
+    <br><br>
+    <h4>Change username</h4>
+    <form accept-charset="UTF-8"  @submit.prevent="submit">
+      <z-text-field
+        label="Enter a new nickname"
+        name="newNickname"
+        ref="newNickname"
+        tabindex="5"
+        type="text"
+        v-model="form2.newNickname.value"
+      />
+      <br>
+      <z-button tabindex="6" type="submit" class="base-button">Change my nickname</z-button>
+    </form>
+    <br><br>
+    <h4>Delete account</h4>
+    <z-alert 
+      type="error"
+      :icon="true"
+      :show="true"
+    >
+      Once you delete your account, there is no going back. Please be certain.
+    </z-alert>
+    <z-button tabindex="7" type="submit" class="base-button">Delete your account</z-button>
+  </div>
+</z-loading>
