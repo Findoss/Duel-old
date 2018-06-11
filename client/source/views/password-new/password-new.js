@@ -9,9 +9,9 @@ import BaseTextField from '@/components/BaseTextField/BaseTextField.vue';
 export default {
 
   components: {
-    'z-text-field': BaseTextField,
-    'z-button': BaseButton,
     'z-alert': BaseAlert,
+    'z-button': BaseButton,
+    'z-text-field': BaseTextField,
   },
 
   data() {

@@ -14,6 +14,7 @@ import Profile from '@/views/profile/profile.vue';
 import Registration from '@/views/registration/registration.vue';
 import Signin from '@/views/signin/signin.vue';
 import Scoreboard from '@/views/scoreboard/scoreboard.vue';
+import ProfileSetting from '@/views/profile-setting/profile-setting.vue';
 
 Vue.use(Router);
 
@@ -51,17 +52,33 @@ const router = new Router({
       component: Scoreboard,
     },
     {
+      path: '/test',
+      name: 'test',
+      component: ProfileSetting,
+    },
+    {
       path: '/:userId',
-      name: 'profile',
       component: Profile,
       meta: { requiresAuthorization: true },
-      children: [
-        {
-          // при совпадении пути с шаблоном /userId/setting
-          path: 'setting',
-          component: Profile,
-        },
-      ],
+      // children: [
+      //   {
+      //     // при совпадении пути с шаблоном /userId/setting
+      //     path: '/:userId',
+
+      //     component: Profile,
+      //   },
+      //   {
+      //     // при совпадении пути с шаблоном /userId/setting
+      //     path: '/:userId/setting',
+
+      //     component: ProfileSetting,
+      //   },
+      // ],
+    },
+    {
+      path: '/:userId/setting',
+      component: ProfileSetting,
+      meta: { requiresAuthorization: true },
     },
   ],
 });
@@ -72,12 +89,11 @@ router.beforeEach((to, from, next) => {
       type: 'error',
       message: 'Please log in to view this page.',
     });
-    console.log('+++');
-
     next({ path: '/signin' });
   } else {
     next();
   }
+  console.log(to);
 });
 
 export default router;

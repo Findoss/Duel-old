@@ -7,6 +7,7 @@
       <router-link to="password-reset">password-reset</router-link>  |
       <router-link to="password-new">password-new</router-link>  |
       <router-link to="/123">my profile</router-link>  |
+      <router-link to="/123/setting">profile-setting</router-link>  |
       <router-link to="scoreboard">scoreboard</router-link>  |
       <router-link to="design">design</router-link>  |
     </div>
