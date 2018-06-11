@@ -48,7 +48,7 @@
 
 .base-alert__button-close:hover::before, 
 .base-alert__button-close:hover::after {
-  background: var(--color-red-bright);
+  background: var(--color-red-lite);
 }
 
 .base-alert__button-close::before {
