@@ -1,11 +1,10 @@
 <z-loading :show=!loading>
   <div class="card">
-  <h1>{{ user.nickname }}</h1>
-  <img 
-    :src="pathAvatar"
-    alt="avatar"
-    class="avatar"
-  >
+    <router-link to="">Play</router-link> |
+    <router-link to="">Skills</router-link> |
+    <router-link to="/scoreboard">Scoreboard</router-link> |
+    <router-link to="/123/setting">Setting</router-link> |
+    <h1>{{ user.nickname }}</h1>
   <p>Email <strong>{{ user.email }}</strong></p>
   <p>Rank <strong>{{ user.rank }}</strong></p>
   <p>gold <strong>{{ user.gold }}</strong></p>
@@ -14,10 +13,7 @@
   <p>karma <strong>{{ user.karma }}</strong></p>
   <p>skills <strong>{{ user.skills }}</strong></p>
   <p>craftsmanship <strong>{{ user.craftsmanship }}</strong></p>
-  <z-button>Play</z-button>
-  <z-button>Skills</z-button>
-  <z-button>Scoreboard</z-button>
-  <z-button>Setting</z-button>
-  <z-button @click="signOut()">Sign out</z-button>
+    <img :src="pathAvatar" alt="avatar" class="avatar">
+    <z-button @click="signOut()">Sign out</z-button>
   </div>
 </z-loading>
