@@ -27,7 +27,7 @@
     "test-js": "nyc --reporter=text-summary mocha",
     "test-push-report": "nyc report --reporter=text-lcov | coveralls",
     "create": "sh ./client/utils/create.sh",
-    "start": "node server/index.js",
+    "start": "nodemon server/index.js --watch server/*",
     "vue-inspect": "vue inspect > docs/build/webpack-config.js"
   },
   "dependencies": {
