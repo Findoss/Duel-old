@@ -18,7 +18,7 @@ const routes = require('./middleware/routes');
 // config
 const config = {
   ...require('./config/default.json'),
-  ...require('./config/production.json')
+  ...require('./config/production.json'),
 };
 
 const app = new Koa();
@@ -33,7 +33,7 @@ app.use(passport.initialize());
 app.use(routes());
 
 // response
-app.use(ctx => {
+app.use((ctx) => {
   ctx.body = 'Hello World';
 });
 
