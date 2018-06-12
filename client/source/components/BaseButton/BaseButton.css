@@ -1,0 +1,35 @@
+.base-button {
+  background-color: var(--background-0);
+
+  border: 3px solid;
+
+  color: var(--color-red-norm);
+  border-color: var(--color-red-norm);
+  border-image: linear-gradient(to right, hsl(0, 100%, 7%), hsl(360, 100%, 25%), hsl(0, 100%, 7%));
+  
+  border-image-slice: 1;
+  
+  padding: 1px;
+  margin-top: 4px;
+  width: 100%;
+  
+  font-size: 1.7em;
+  font-family: King;
+  letter-spacing: 0.05em;
+  
+  outline: none;
+  cursor: pointer;
+}
+
+.base-button:hover,
+.base-button:focus {
+  color: var(--color-text-strong);
+  border-color: var(--color-yellow-lite);
+  border-image: linear-gradient(to right, hsl(40, 60%, 20%), hsl(40, 65%, 65%), hsl(40, 60%, 20%));
+  border-image-slice: 1;
+}
+
+.base-button:disabled {
+  border-color: var(--color-gray-bright);
+  border-image: linear-gradient(to right, hsl(0, 0%, 7%), hsl(220, 16%, 22%), hsl(0, 0%, 7%));
+}

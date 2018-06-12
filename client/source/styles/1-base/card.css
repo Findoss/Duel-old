@@ -1,0 +1,15 @@
+.card {
+  min-width: 250px;
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 30px;
+  padding: 30px;
+  background-color: var(--background-0);
+
+  border: 4px var(--color-gray-bright);
+  border-style: solid double solid;
+}
+
+.card__title {
+  text-align: center;
+}

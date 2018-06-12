@@ -1,0 +1,70 @@
+# Group Tool API
+API для сервисных функций
+
+## Ping [HEAD /ping]
+Проверка доступности сервиса
+
++ Response 200
+
+## Доступность почты [/checkEmail{?email}]
+
+### Доступность почты [OPTIONS]
+
++ Response 200 (text/plain)
+    + Headers
+        
+            Allow: HEAD,GET,PUT,DELETE,OPTIONS
+
+### Доступность почты [GET]
+
+Проверка доступности почты
++ Parameters
+    + email: Ivan@email.com (string, optional) - почта
+
++ Response 200 (application/json; charset=utf-8)
+Почту **можно** использовать
+    + Attributes
+        + used: true (boolean) 
+
++ Response 200 (application/json; charset=utf-8)
+Почту **нельзя** использовать
+    + Attributes
+        + used: false (boolean)
+
++ Response 400 (application/json; charset=utf-8)
+Заданы неверные параметры
+    + Attributes
+        + message: Invalid params
+        + code: invalid_params
+
+## Доступность никнейма [/checkNickname{?nickname}]
+
+### Доступность никнейма [OPTIONS]
+
++ Response 200 (text/plain)
+    + Headers
+        
+            Allow: HEAD,GET,PUT,DELETE,OPTIONS
+
+
+### Доступность никнейма [GET] 
+
+Проверка доступности никнейма
++ Parameters
+    + nickname: Ivan (string, optional) - никнейм
+
++ Response 200 (application/json; charset=utf-8)
+Никнейм **можно** использовать  
+    + Attributes
+        + used: true (boolean)
+
++ Response 200 (application/json; charset=utf-8)
+Никнейм **нельзя** использовать  
+    + Attributes
+        + used: false (boolean)
+
++ Response 400 (application/json; charset=utf-8)
+Заданы неверные параметры
+    + Attributes
+        + message: Invalid params
+        + code: invalid_params

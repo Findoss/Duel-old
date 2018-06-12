@@ -1,22 +1,35 @@
 {
   "name": "duel",
-  "version": "1.0.0",
-  "description": "game",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon ./server/index.js --watch server/*"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Findoss/Duel.git"
-  },
+  "version": "1.1.0",
+  "private": true,
   "author": "Findoss",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Findoss/Duel/issues"
   },
   "homepage": "https://github.com/Findoss/Duel#readme",
+  "scripts": {
+    "build-api": "aglio --theme-variables flatly -i docs/source/api/index.apib -o docs/build/API.html",
+    "build-client": "vue-cli-service build",
+    "build-doc": "",
+    "build-structure": "tree --ignore 'node_modules/, .git/' -l 10 -o 'docs/build/progect-structure.txt'",
+    "dev-api": "aglio --theme-variables slate -i docs/source/api/index.apib --server",
+    "dev-api-mock": "drakov -f docs/source/api/*.apib -s docs/source/api/index.apib -p 3001 --watch --discover --header Authorization --stealthmode --delay 300",
+    "dev-server": "nodemon server/index.js --watch server",
+    "dev-client": "vue-cli-service serve --port 3002",
+    "dev-test": "mocha -w",
+    "test-api": "dredd docs/source/*.apib http://127.0.0.1:3001",
+    "test-js": "nyc --reporter=text-summary mocha",
+    "test-push-report": "nyc report --reporter=text-lcov | coveralls",
+    "create": "sh ./client/utils/create.sh",
+    "start": "node server/index.js",
+    "vue-inspect": "vue inspect > docs/build/webpack-config.js"
+  },
   "dependencies": {
+    "debounce": "^1.1.0",
+    "vue": "^2.5.13",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
     "jsonwebtoken": "^8.3.0",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",
@@ -30,8 +43,45 @@
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.0.0-beta.6",
+    "@vue/cli-service": "^3.0.0-beta.6",
+    "vue-template-compiler": "^2.5.13",
+    "aglio": "^2.3.0",
+    "drakov": "^1.0.4",
+    "dredd": "^5.1.5",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.9.0"
-  }
+  },
+  "babel": {
+    "presets": [
+      "@vue/app"
+    ]
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "eslintConfig": {
+    "extends": "airbnb-base",
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "rules": {
+      "no-plusplus": [
+        "error",
+        {
+          "allowForLoopAfterthoughts": true
+        }
+      ],
+      "import/extensions": "off",
+      "import/no-unresolved": "off"
+    }
+  },
+  "browserslist": [
+    "last 2 versions",
+    "not ie <= 10"
+  ]
 }

@@ -1,0 +1,67 @@
+# Group Sessions API
+\* - Авторизованн
+
+## Вход [/signin]
+
+### Вход [OPTIONS]
+
++ Response 200 (text/plain)
+    + Headers
+        
+            Allow: HEAD,GET,PUT,DELETE,OPTIONS
+
+### Вход [POST]
+Осуществляет аутентификацию пользователя. Устанавливает TOKEN в localstarage
+```
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+{
+  "email": "ivan@mail.ru",
+  "nickname": "ivan"
+}
+```
+```
+HMACSHA256(
+  base64UrlEncode(header) + "." +
+  base64UrlEncode(payload),
+  secret
+) 
+```
+**Result token**
+```
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Iml2YW5AbWFpbC5ydSIsIm5pY2tuYW1lIjoiaXZhbiJ9.N4im2B_InVs69B0SMUjxOtSX0QXddjhcqnfX1CJMYv4
+```
+
+
++ Request (application/json)
+    + Attributes
+        + email: ivan@mail.ru (string, required)
+        + password: password  (string, required)
+
++ Response 200 (application/json; charset=utf-8)
+Вход осуществлен успешно
+    + Attributes
+        + message: You are signed in (string)
+        + token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Iml2YW5AbWFpbC5ydSIsIm5pY2tuYW1lIjoiaXZhbiJ9.N4im2B_InVs69B0SMUjxOtSX0QXddjhcqnfX1CJMYv4
+
++ Response 403 (application/json; charset=utf-8)
+Переданы неверные параметры входа
+    + Attributes
+        + message: Forbidden (string)
+        + code: forbidden (string)
+
+## * Выход [DELETE /signout]
+Осуществляет выход из приложения.
+
++ Response 200 (application/json; charset=utf-8)
+Выход из приложения осуществлен залогиненым пользователем
+    + Attributes
+        + message: You are signed out (string)
+    
++ Response 403 (application/json; charset=utf-8)
+Переданы неверные параметры входа
+    + Attributes
+        + message: Forbidden (string)
+        + code: forbidden (string)

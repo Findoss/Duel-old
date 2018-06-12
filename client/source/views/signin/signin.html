@@ -1,0 +1,59 @@
+<div class="card">
+
+  <h1 class="card__title">Sign in to Duel</h1>
+
+  <form accept-charset="UTF-8" @submit.prevent="submit">
+    <z-alert 
+      :dismissible="true"
+      :type="alert.type"
+      :show="alert.message"
+      @click="closeAlert()"
+    >
+      {{ alert.message }}
+    </z-alert>
+
+    <z-text-field
+      :validationIcon="false"
+      :validationRules="form.email.rules"
+      @validation="form.email.status = $event"
+      autofocus="autofocus"
+      label="Email"
+      name="email"
+      placeholder="email@email.com"
+      ref="email"
+      tabindex="1"
+      type="email"
+      v-model="form.email.value"
+    />
+
+
+    <z-text-field
+      label="Password"
+      name="password"
+      placeholder="your password"
+      ref="password"
+      tabindex="2"
+      type="password"
+      v-model="form.password.value"
+    />
+
+    <br>
+    <z-button tabindex="3" type="submit" class="base-button">Sing in</z-button>
+
+    <!-- <br><br>
+    <center>sign with:</center>
+    <img src="../../assets/000.png" alt="" class="social" tabindex="4">
+    <img src="../../assets/000.png" alt="" class="social" tabindex="5">
+    <img src="../../assets/000.png" alt="" class="social" tabindex="6">
+    <img src="../../assets/000.png" alt="" class="social" tabindex="7">
+    <img src="../../assets/000.png" alt="" class="social" tabindex="8"> -->
+   
+  </form> 
+
+  <br>
+  <p class="center-link">
+    <router-link to="/password-reset">Forgot password?</router-link>
+    <br><br>
+    New to Duel? <router-link to="/registration">Create an account</router-link>.
+  </p>
+</div>

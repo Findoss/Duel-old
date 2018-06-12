@@ -1,0 +1,33 @@
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: hsla(var(--background-0), 0.5);
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
+
+.blur {
+  filter: blur(5px);
+}
+
+.loading {
+  display: block;
+  margin: 20% auto;
+  width: 145px;
+  padding-top: 30px;
+  text-align: center;
+  background-color: var(--background-0);
+
+  border: 4px var(--color-gray-bright);
+  border-style: solid double solid;
+}
+
+.loading::before {
+  content: url('../../assets/loading.png');
+  display: block;
+  height: 0px;
+  position: relative;
+  top: -210px;
+}

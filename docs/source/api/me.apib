@@ -1,0 +1,86 @@
+# Group Me API
+\* - Авторизованн
+
+## Текущий пользователь [/me]
+
+### Текущий пользователь [OPTIONS]
+
++ Response 200 (text/plain)
+    + Headers
+
+            Allow: HEAD,GET,PUT,DELETE,OPTIONS
+
+### * Получение информации [GET]
+Получение информации о своем аккаунте
+
++ Request ()
+    + Headers
+
+            Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Iml2YW5AbWFpbC5ydSIsIm5pY2tuYW1lIjoiaXZhbiJ9.N4im2B_InVs69B0SMUjxOtSX0QXddjhcqnfX1CJMYv4
+
++ Response 200 (application/json; charset=utf-8)
+Пользователь авторизован
+    + Attributes
+        + nickname: Ivan (string)
+        + email: Ivan@email.ru (string)
+        + avatar: shooter_2 (string)
+        + rank: 14 (number)
+        + gold: 15 (number)
+        + level: 2 (number)
+        + experience: 16 (number)
+        + karma: false (boolean)
+        + craftsmanship: 17 (number)
+        + skills: 123, 456 (array)
+
++ Response 403 (application/json; charset=utf-8)
+Переданы неверные параметры входа
+    + Attributes
+        + message: Forbidden (string)
+        + code: forbidden (string)
+
+### * Удаление аккаунта [DELETE]
+Удаление своего аккаунта
+
++ Response 200 (application/json; charset=utf-8)
+Профиль текущего пользователя удален успешно
+    + Attributes
+        + message: Your profile is updated successfully (string)
+   
++ Response 403 (application/json; charset=utf-8)
+Переданы неверные параметры входа
+    + Attributes
+        + message: Forbidden (string)
+        + code: forbidden (string)
+
+### * Частичное изменение [PATCH]
+астичое изменение информации о текущем пользователе (то, что не передано, остается)
+
++ Request (application/json)
+    + Attributes
+        + nickname: Ivan (string, optional)
+        + email: Ivan@email.ru (string, optional)
+        + avatar: avatar (string, optional)
+        + rank: 14 (number, optional)
+        + gold: 15 (number, optional)
+        + level: 2 (number, optional)
+        + experience: 16 (number, optional)
+        + karma: false (boolean, optional)
+        + craftsmanship: 17 (number, optional)
+        + skills: 123, 456 (array, optional)
+
++ Response 200 (application/json; charset=utf-8)
+Профиль текущего пользователя обновлен успешно
+    + Attributes
+        + message: Your profile is updated successfully (string)
+   
++ Response 400 (application/json; charset=utf-8)
+Заданы неверные параметры
+    + Attributes
+        + message: Invalid user params (string)
+        + code: invalid_user_params (string)
+
++ Response 403 (application/json; charset=utf-8)
+Переданы неверные параметры входа
+    + Attributes
+        + message: Forbidden (string)
+        + code: forbidden (string)
