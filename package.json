@@ -4,7 +4,7 @@
   "description": "game",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon ./server/index.js --watch server/*"
   },
   "repository": {
     "type": "git",
@@ -17,11 +17,17 @@
   },
   "homepage": "https://github.com/Findoss/Duel#readme",
   "dependencies": {
+    "jsonwebtoken": "^8.3.0",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",
     "koa-logger": "^3.2.0",
+    "koa-passport": "^4.1.0",
     "koa-router": "^7.4.0",
-    "koa-static": "^4.0.3"
+    "koa-static": "^4.0.3",
+    "mongoose": "^5.1.5",
+    "nodemon": "^1.17.5",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
