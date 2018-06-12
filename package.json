@@ -2,6 +2,11 @@
   "name": "duel",
   "version": "1.1.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Findoss/Duel.git"
+  },
+    "start": "nodemon ./server/index.js --watch server/*"
   "author": "Findoss",
   "license": "MIT",
   "bugs": {
@@ -22,19 +27,26 @@
     "test-js": "nyc --reporter=text-summary mocha",
     "test-push-report": "nyc report --reporter=text-lcov | coveralls",
     "create": "sh ./client/utils/create.sh",
-    "start": "node server/index.js",
+    "start": "nodemon server/index.js --watch server/*",
     "vue-inspect": "vue inspect > docs/build/webpack-config.js"
   },
   "dependencies": {
     "vue": "^2.5.13",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
+    "jsonwebtoken": "^8.3.0",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",
     "koa-logger": "^3.2.0",
+    "koa-passport": "^4.1.0",
     "koa-router": "^7.4.0",
     "koa-static": "^4.0.3"
     "debounce": "^1.1.0",
+    "koa-static": "^4.0.3",
+    "mongoose": "^5.1.5",
+    "nodemon": "^1.17.5",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-beta.6",
