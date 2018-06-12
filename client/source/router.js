@@ -15,6 +15,7 @@ import Registration from '@/views/registration/registration.vue';
 import Signin from '@/views/signin/signin.vue';
 import Scoreboard from '@/views/scoreboard/scoreboard.vue';
 import ProfileSetting from '@/views/profile-setting/profile-setting.vue';
+import ProfileSkills from '@/views/profile-skills/profile-skills.vue';
 
 Vue.use(Router);
 
@@ -60,24 +61,15 @@ const router = new Router({
       path: '/:userId',
       component: Profile,
       meta: { requiresAuthorization: true },
-      // children: [
-      //   {
-      //     // при совпадении пути с шаблоном /userId/setting
-      //     path: '/:userId',
-
-      //     component: Profile,
-      //   },
-      //   {
-      //     // при совпадении пути с шаблоном /userId/setting
-      //     path: '/:userId/setting',
-
-      //     component: ProfileSetting,
-      //   },
-      // ],
     },
     {
       path: '/:userId/setting',
       component: ProfileSetting,
+      meta: { requiresAuthorization: true },
+    },
+    {
+      path: '/:userId/skills',
+      component: ProfileSkills,
       meta: { requiresAuthorization: true },
     },
   ],

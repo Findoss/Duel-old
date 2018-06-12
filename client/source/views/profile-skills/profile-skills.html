@@ -1,0 +1,22 @@
+<z-loading :show=!loading>
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th v-for="(value, key) in skills[0]" >
+          {{ key }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(skill) in skills" :key="skill.id">
+        <td>
+          <img :src="pathSkill(skill.id)" alt="" width="50px"> 
+        </td>
+        <td v-for="(value) in skill" >
+          {{ value }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</z-loading>
