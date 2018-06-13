@@ -7,7 +7,7 @@
       :dismissible="true"
       :type="alert.type"
       :show="alert.message"
-      @click="closeAlert()"
+      @close="closeAlert()"
     >
       {{ alert.message }}
     </z-alert>
@@ -25,7 +25,6 @@
       type="email"
       v-model="form.email.value"
     />
-
 
     <z-text-field
       label="Password"
