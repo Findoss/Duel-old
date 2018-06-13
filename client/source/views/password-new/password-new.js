@@ -55,7 +55,7 @@ export default {
         message: 'New password set successfully.',
       });
 
-      this.$router.push({ path: '/' });
+      this.$router.push({ path: '/signin' });
 
 
       // const email = {

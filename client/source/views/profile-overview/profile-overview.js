@@ -40,8 +40,6 @@ export default {
   created() {
     MeService.getMe()
       .then((response) => {
-        console.log(response);
-
         this.user = response;
         this.loading = true;
       })

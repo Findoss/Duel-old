@@ -21,8 +21,8 @@ export default {
 
   created() {
     SkillService.getAllSkills()
-      .then((data) => {
-        this.skills = data.skills;
+      .then((response) => {
+        this.skills = response.skills;
         this.loading = true;
       })
       .catch((error) => {
