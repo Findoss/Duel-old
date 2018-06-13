@@ -1,15 +1,6 @@
 # Group Skills API
 
-## Умения [/skills]
-
-### Умения [OPTIONS]
-
-+ Response 200 (text/plain)
-    + Headers
-
-            Allow: HEAD,GET,PUT,DELETE,OPTIONS
-
-### Все умения [GET]
+### Все умения [GET /skills]
 Получение всех умений
 
 + Response 200 (application/json; charset=utf-8)
@@ -64,8 +55,7 @@
         + message: Skills with id not found (string)
         + code: not_found (string)
 
-
-## Информация о умении [GET /skills/{id}]
+### Информация о умении [GET /skills/{id}]
 Получить информацию о умении по id
 
 + Parameters

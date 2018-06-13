@@ -1,21 +1,12 @@
 # Group Tool API
 API для сервисных функций
 
-## Ping [HEAD /ping]
+### Ping [HEAD /ping]
 Проверка доступности сервиса
 
 + Response 200
 
-## Доступность почты [/checkEmail{?email}]
-
-### Доступность почты [OPTIONS]
-
-+ Response 200 (text/plain)
-    + Headers
-        
-            Allow: HEAD,GET,PUT,DELETE,OPTIONS
-
-### Доступность почты [GET]
+### Доступность почты [GET /checkEmail{?email}]
 
 Проверка доступности почты
 + Parameters
@@ -26,28 +17,13 @@ API для сервисных функций
     + Attributes
         + used: true (boolean) 
 
-+ Response 200 (application/json; charset=utf-8)
-Почту **нельзя** использовать
-    + Attributes
-        + used: false (boolean)
-
 + Response 400 (application/json; charset=utf-8)
 Заданы неверные параметры
     + Attributes
         + message: Invalid params
         + code: invalid_params
 
-## Доступность никнейма [/checkNickname{?nickname}]
-
-### Доступность никнейма [OPTIONS]
-
-+ Response 200 (text/plain)
-    + Headers
-        
-            Allow: HEAD,GET,PUT,DELETE,OPTIONS
-
-
-### Доступность никнейма [GET] 
+### Доступность никнейма [GET /checkNickname{?nickname}] 
 
 Проверка доступности никнейма
 + Parameters
@@ -57,11 +33,6 @@ API для сервисных функций
 Никнейм **можно** использовать  
     + Attributes
         + used: true (boolean)
-
-+ Response 200 (application/json; charset=utf-8)
-Никнейм **нельзя** использовать  
-    + Attributes
-        + used: false (boolean)
 
 + Response 400 (application/json; charset=utf-8)
 Заданы неверные параметры
