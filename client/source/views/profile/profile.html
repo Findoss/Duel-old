@@ -1,20 +1,13 @@
-<z-loading :show=!loading>
-  <div class="card">
-    <router-link to="">Play</router-link> |
-    <router-link to="">Skills</router-link> |
-    <router-link to="/scoreboard">Scoreboard</router-link> |
-    <router-link to="/123/setting">Setting</router-link> |
-    <router-link to="/123/skills">Skills</router-link> |
-    <h1>{{ user.nickname }}</h1>
-  <p>Email <strong>{{ user.email }}</strong></p>
-  <p>Rank <strong>{{ user.rank }}</strong></p>
-  <p>gold <strong>{{ user.gold }}</strong></p>
-  <p>level <strong>{{ user.level }}</strong></p>
-  <p>experience <strong>{{ user.experience }}</strong></p>
-  <p>karma <strong>{{ user.karma }}</strong></p>
-  <p>skills <strong>{{ user.skills }}</strong></p>
-  <p>craftsmanship <strong>{{ user.craftsmanship }}</strong></p>
-    <img :src="pathAvatar" alt="avatar" class="avatar">
-    <z-button @click="signOut()">Sign out</z-button>
+<div class="profile card">
+  <div class="profile__navigation">
+    <z-button class="navigation__item" @click="">Play</z-button>
+    <router-link class="navigation__item" to="/123">Overview</router-link>
+    <router-link class="navigation__item" to="/123/skills">Skills</router-link>
+    <router-link class="navigation__item" to="/123/setting">Setting</router-link>
+    <router-link class="navigation__item" to="/scoreboard">Scoreboard</router-link>
+    <z-button class="navigation__item" @click="signOut()">Sign out</z-button>
   </div>
-</z-loading>
+  <div class="profile__body">
+    <router-view/>
+  </div>
+</div>
