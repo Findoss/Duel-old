@@ -31,10 +31,8 @@ export default {
 
   created() {
     UserService.getAllUsers()
-      .then((users) => {
-        console.log(users);
-
-        this.users = users.users;
+      .then((response) => {
+        this.users = response.users;
         this.loading = true;
       })
       .catch((error) => {
