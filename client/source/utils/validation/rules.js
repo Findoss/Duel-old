@@ -1,5 +1,5 @@
-import Regexp from './regexp';
 import * as UserService from '@/services/user';
+import Regexp from './regexp';
 
 export default {
 

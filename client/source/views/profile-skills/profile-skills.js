@@ -7,10 +7,7 @@ import BaseLoading from '@/components/BaseLoading/BaseLoading.vue';
 export default {
 
   components: {
-    'z-alert': BaseAlert,
-    'z-button': BaseButton,
     'z-loading': BaseLoading,
-    'z-text-field': BaseTextField,
   },
 
   data() {

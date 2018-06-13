@@ -1,3 +1,5 @@
+/* eslint guard-for-in: "error" */
+
 const host = 'http://localhost:3001';
 
 export default class Http {
@@ -12,8 +14,8 @@ export default class Http {
     let string = `${host}${path}`;
     if (params !== undefined) {
       string += '?';
-      params.forEach((param) => {
-        string += `${param.name}=${param.value}&`;
+      Object.keys(params).forEach((param) => {
+        string += `${param}=${params[param]}&`;
       });
     }
 

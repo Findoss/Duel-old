@@ -1,14 +1,8 @@
 import Http from '@/utils/http';
 
-export const checkEmail = email => Http.get('/checkEmail', [{
-  name: 'email',
-  value: email,
-}]);
+export const checkEmail = email => Http.get('/checkEmail', [{ email }]);
 
-export const checkNickname = nickname => Http.get('/checkNickname', [{
-  name: 'nickname',
-  value: nickname,
-}]);
+export const checkNickname = nickname => Http.get('/checkNickname', [{ nickname }]);
 
 export const getAllUsers = () => Http.get('/users');
 
