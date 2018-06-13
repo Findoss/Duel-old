@@ -1,16 +1,7 @@
 # Group Sessions API
 \* - Авторизованн
 
-## Вход [/signin]
-
-### Вход [OPTIONS]
-
-+ Response 200 (text/plain)
-    + Headers
-        
-            Allow: HEAD,GET,PUT,DELETE,OPTIONS
-
-### Вход [POST]
+### Вход [POST /signin]
 Осуществляет аутентификацию пользователя. Устанавливает TOKEN в localstarage
 ```
 {
@@ -49,10 +40,10 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Iml2YW5AbWFpbC5ydSIsIm5pY2tuYW1
 + Response 403 (application/json; charset=utf-8)
 Переданы неверные параметры входа
     + Attributes
-        + message: Forbidden (string)
+        + message: Incorrect username or password (string)
         + code: forbidden (string)
 
-## * Выход [DELETE /signout]
+### * Выход [DELETE /signout]
 Осуществляет выход из приложения.
 
 + Response 200 (application/json; charset=utf-8)

@@ -6,8 +6,10 @@
 
     <z-alert 
       type="error" 
-      v-model="form.error"
+      :icon="true"
+      :show="form.error"
       :dismissible="true"
+      @close="form.error = null;"
     >
       {{ form.error }}
     </z-alert>

@@ -7,10 +7,7 @@ import BaseLoading from '@/components/BaseLoading/BaseLoading.vue';
 export default {
 
   components: {
-    'z-alert': BaseAlert,
-    'z-button': BaseButton,
     'z-loading': BaseLoading,
-    'z-text-field': BaseTextField,
   },
 
   data() {
@@ -24,8 +21,8 @@ export default {
 
   created() {
     SkillService.getAllSkills()
-      .then((data) => {
-        this.skills = data.skills;
+      .then((response) => {
+        this.skills = response.skills;
         this.loading = true;
       })
       .catch((error) => {

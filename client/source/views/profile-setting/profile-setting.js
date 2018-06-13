@@ -1,6 +1,5 @@
 // Services
 import * as MeService from '@/services/me';
-// import * as SessionService from '@/services/session';
 
 // Components
 // Utils
@@ -49,31 +48,5 @@ export default {
         },
       },
     };
-  },
-
-  computed: {
-    // pathAvatar() {
-    //   return require(`@/assets/avatars/${this.user.avatar}.png`);
-    // },
-  },
-
-  created() {
-    // MeService.getMe()
-    //   .then((user) => {
-    //     this.user = user;
-    //     this.loading = true;
-    //   })
-    //   .catch((error) => {
-    //     console.warn(error);
-    //     SessionService.signOut();
-    //     this.$router.push({ path: '/signin' });
-    //   });
-  },
-
-  methods: {
-    // signOut() {
-    //   SessionService.signOut();
-    //   this.$router.push({ path: '/signin' });
-    // },
   },
 };

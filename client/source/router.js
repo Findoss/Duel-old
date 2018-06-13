@@ -7,15 +7,19 @@ import store from '@/store';
 import * as SessionService from '@/services/session';
 
 // Views
-import Design from '@/views/design.vue';
-import PasswordNew from '@/views/password-new/password-new.vue';
-import PasswordReset from '@/views/password-reset/password-reset.vue';
-import Profile from '@/views/profile/profile.vue';
 import Registration from '@/views/registration/registration.vue';
 import Signin from '@/views/signin/signin.vue';
-import Scoreboard from '@/views/scoreboard/scoreboard.vue';
-import ProfileSetting from '@/views/profile-setting/profile-setting.vue';
+import PasswordReset from '@/views/password-reset/password-reset.vue';
+import PasswordNew from '@/views/password-new/password-new.vue';
+
+import Profile from '@/views/profile/profile.vue';
+import ProfileOverview from '@/views/profile-overview/profile-overview.vue';
 import ProfileSkills from '@/views/profile-skills/profile-skills.vue';
+import ProfileSetting from '@/views/profile-setting/profile-setting.vue';
+
+import Scoreboard from '@/views/scoreboard/scoreboard.vue';
+
+import Design from '@/views/design.vue';
 
 Vue.use(Router);
 
@@ -61,16 +65,24 @@ const router = new Router({
       path: '/:userId',
       component: Profile,
       meta: { requiresAuthorization: true },
-    },
-    {
-      path: '/:userId/setting',
-      component: ProfileSetting,
-      meta: { requiresAuthorization: true },
-    },
-    {
-      path: '/:userId/skills',
-      component: ProfileSkills,
-      meta: { requiresAuthorization: true },
+      children: [
+        {
+          path: '',
+          component: ProfileOverview,
+        },
+        {
+          path: 'setting',
+          component: ProfileSetting,
+        },
+        {
+          path: 'skills',
+          component: ProfileSkills,
+        },
+        {
+          path: 'scoreboard',
+          component: Scoreboard,
+        },
+      ],
     },
   ],
 });

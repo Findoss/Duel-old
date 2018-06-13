@@ -1,5 +1,3 @@
-import store from '@/store';
-
 // Utils
 import Rules from '@/utils/validation/rules';
 
@@ -14,20 +12,10 @@ import BaseTextField from '@/components/BaseTextField/BaseTextField.vue';
 export default {
 
   components: {
-    'z-text-field': BaseTextField,
-    'z-button': BaseButton,
     'z-alert': BaseAlert,
+    'z-button': BaseButton,
+    'z-text-field': BaseTextField,
   },
-
-  // props: {
-  //   alert: {
-  //     type: Object,
-  //     default: () => ({
-  //       type: 'error',
-  //       message: '',
-  //     }),
-  //   },
-  // },
 
   computed: {
     alert() {
@@ -65,23 +53,23 @@ export default {
         password: this.form.password.value,
       };
 
-      SessionService.signIn(user).then((result) => {
-        if (result) {
+      SessionService.signIn(user).then((response) => {
+        if (response.code === undefined) {
           this.$router.push({ path: '/profile' });
         } else {
-          store.commit('authorization/showAlert', {
-            type: 'error',
-            message: 'Incorrect username or password.',
-          });
           this.$refs.password.reset();
+          this.$store.commit('authorization/showAlert', {
+            type: 'error',
+            message: response.message,
+          });
         }
       });
       return true;
     },
     closeAlert() {
-      store.commit('authorization/showAlert', {
+      this.$store.commit('authorization/showAlert', {
         type: 'error',
-        message: '',
+        message: null,
       });
     },
   },

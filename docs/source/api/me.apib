@@ -1,16 +1,7 @@
 # Group Me API
 \* - Авторизованн
 
-## Текущий пользователь [/me]
-
-### Текущий пользователь [OPTIONS]
-
-+ Response 200 (text/plain)
-    + Headers
-
-            Allow: HEAD,GET,PUT,DELETE,OPTIONS
-
-### * Получение информации [GET]
+### * Получение информации [GET /me]
 Получение информации о своем аккаунте
 
 + Request ()
@@ -29,8 +20,8 @@
         + level: 2 (number)
         + experience: 16 (number)
         + karma: false (boolean)
-        + craftsmanship: 17 (number)
-        + skills: 123, 456 (array)
+        + skillPoints: 17 (number)
+        + idSkills: 1, 3 (array)
 
 + Response 403 (application/json; charset=utf-8)
 Переданы неверные параметры входа
@@ -38,7 +29,7 @@
         + message: Forbidden (string)
         + code: forbidden (string)
 
-### * Удаление аккаунта [DELETE]
+### * Удаление аккаунта [DELETE /me]
 Удаление своего аккаунта
 
 + Response 200 (application/json; charset=utf-8)
@@ -52,7 +43,7 @@
         + message: Forbidden (string)
         + code: forbidden (string)
 
-### * Частичное изменение [PATCH]
+### * Частичное изменение [PATCH /me]
 астичое изменение информации о текущем пользователе (то, что не передано, остается)
 
 + Request (application/json)
@@ -65,8 +56,8 @@
         + level: 2 (number, optional)
         + experience: 16 (number, optional)
         + karma: false (boolean, optional)
-        + craftsmanship: 17 (number, optional)
-        + skills: 123, 456 (array, optional)
+        + skillPoints: 17 (number, optional)
+        + idSkills: 3, 2 (array, optional)
 
 + Response 200 (application/json; charset=utf-8)
 Профиль текущего пользователя обновлен успешно

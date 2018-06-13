@@ -1,11 +1,10 @@
 import Http from '@/utils/http';
 
-export const signIn = user => Http.post('/signin', user).then((result) => {
-  if (result.code === undefined) {
-    localStorage.setItem('session-token', result.token);
-    return true;
+export const signIn = user => Http.post('/signin', user).then((response) => {
+  if (response.code === undefined) {
+    localStorage.setItem('session-token', response.token);
   }
-  return false;
+  return response;
 });
 
 export const signOut = () =>
