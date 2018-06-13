@@ -1,3 +1,27 @@
-.avatar {
-  height: 200px;
+.profile {
+  display: flex;
+}
+
+.card {
+  max-width: 1980px;
+}
+
+.profile__navigation {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 50px;
+}
+
+.navigation__item {
+  padding: 5px;
+  text-decoration: none;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  border: 2px solid var(--color-green-lite)
+}
+
+.profile__body {
+  width: 100%;
 }

@@ -1,0 +1,40 @@
+.overview {
+  display: flex;
+}
+
+
+.overview__title-level {
+  font-size: 0.8em;
+  border: 2px solid var(--color-yellow-norm);
+  border-radius: 5px;
+  height: 40px;
+  padding-right: 10px;
+  padding-left: 10px;
+  display: inline-block;
+  margin-right: 10px;
+  text-align: center;
+}
+
+.overview__title-avatar {
+  height: 300px;
+  
+  /* background-size: contain; */
+  /* background-repeat: no-repeat; */
+  /* background-position-x: center; */
+  /* background-position-y: bottom; */
+  /* background-attachment: fixed; */
+  background-color: var(--background-0);
+  /* background-image: url('../../assets/ba.png'); */
+}
+
+.avatar__image {
+  height: 200px;
+}
+
+.overview__stats {
+  margin-left: 50px;
+}
+
+.stats__skill-image {
+  height: 50px;
+}

@@ -1,0 +1,28 @@
+<z-loading :show=!loading>
+  <div class="overview">
+    <div class="overview__title">
+      <h1><span class="overview__title-level">{{ user.level }}</span>{{ user.nickname }}</h1>
+      <div class="overview__title-avatar">
+        <img :src="pathAvatar" alt="avatar" class="avatar__image">
+      </div>
+    </div>
+    <div class="overview__stats">
+      <p>Email <strong>{{ user.email }}</strong></p>
+      <p>Rank <strong>{{ user.rank }}</strong></p>
+      <p>gold <strong>{{ user.gold }}</strong></p>
+      <p>experience <strong>{{ user.experience }}</strong></p>
+      <p>karma <strong>{{ user.karma }}</strong></p>
+      <p>skills 
+        <img 
+          v-for="(idSkill) in user.idSkills"
+          :src="pathSkill(idSkill)"
+          alt="skill" 
+          class="stats__skill-image"
+        >
+      </p>
+      <p>skill Points <strong>{{ user.skillPoints }}</strong></p>
+    </div>
+  </div>
+
+
+</z-loading>
