@@ -25,7 +25,7 @@ export default {
 
   methods: {
     close() {
-      this.$emit('click', false);
+      this.$emit('close', false);
     },
   },
 
