@@ -52,11 +52,6 @@ const router = new Router({
       component: Design,
     },
     {
-      path: '/scoreboard',
-      name: 'scoreboard',
-      component: Scoreboard,
-    },
-    {
       path: '/test',
       name: 'test',
       component: ProfileSetting,
@@ -71,7 +66,7 @@ const router = new Router({
           component: ProfileOverview,
         },
         {
-          path: 'setting',
+          path: 'settings',
           component: ProfileSetting,
         },
         {
