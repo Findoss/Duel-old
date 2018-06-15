@@ -17,11 +17,11 @@ export default {
     };
   },
 
-  // computed: {
-  //   pathAvatar(avatar) {
-  //     return require(`@/assets/avatars/${avatar}.png`);
-  //   },
-  // },
+  computed: {
+    myUserId() {
+      return this.$store.state.user.user.id;
+    },
+  },
 
   methods: {
     pathAvatar(avatar) {

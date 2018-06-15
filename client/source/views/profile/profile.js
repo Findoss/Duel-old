@@ -1,5 +1,4 @@
 // Services
-// import * as MeService from '@/services/me';
 import * as SessionService from '@/services/session';
 
 // Components
@@ -11,8 +10,10 @@ export default {
     'z-button': BaseButton,
   },
 
-  data() {
-    return {};
+  computed: {
+    userId() {
+      return this.$store.state.user.user.id;
+    },
   },
 
   methods: {
