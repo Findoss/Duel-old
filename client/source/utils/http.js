@@ -7,9 +7,10 @@ export default class Http {
     const token = localStorage.getItem('session-token');
     const attr = {
       method: 'GET',
-      headers: new Headers(),
+      headers: new Headers({
+        Authorization: token,
+      }),
     };
-    if (token !== null) attr.headers.append('Authorization', token);
 
     let string = `${host}${path}`;
     if (params !== undefined) {

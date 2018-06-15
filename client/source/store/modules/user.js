@@ -1,5 +1,8 @@
+import Router from '@/router';
+
 // Services
 import * as MeService from '@/services/me';
+import * as SessionService from '@/services/session';
 
 const state = {
   user: {
@@ -23,13 +26,11 @@ const actions = {
     MeService.getMe()
       .then((response) => {
         commit('setUserData', response);
-        // this.user = response;
-        // this.loading = true;
       })
       .catch((error) => {
         console.warn(error);
-        // SessionService.signOut();                 // ????
-        // this.$router.push({ path: '/signin' });   // ????
+        SessionService.signOut();
+        Router.push({ path: '/signin' });
       });
   },
 };
