@@ -21,7 +21,9 @@
         + experience: 16 (number)
         + karma: false (boolean)
         + skillPoints: 17 (number)
-        + idSkills: 1, 3 (array)
+        + idSkills (array, optional)
+            + 1 (number, optional)
+            + 2 (number, optional)
 
 + Response 403 (application/json; charset=utf-8)
 Переданы неверные параметры входа
@@ -44,7 +46,7 @@
         + code: forbidden (string)
 
 ### * Частичное изменение [PATCH /me]
-астичое изменение информации о текущем пользователе (то, что не передано, остается)
+частичое изменение информации о текущем пользователе (то, что не передано, остается)
 
 + Request (application/json)
     + Attributes
@@ -57,7 +59,9 @@
         + experience: 16 (number, optional)
         + karma: false (boolean, optional)
         + skillPoints: 17 (number, optional)
-        + idSkills: 3, 2 (array, optional)
+        + idSkills (array, optional)
+            + 3 (number, optional)
+            + 2 (number, optional)
 
 + Response 200 (application/json; charset=utf-8)
 Профиль текущего пользователя обновлен успешно
