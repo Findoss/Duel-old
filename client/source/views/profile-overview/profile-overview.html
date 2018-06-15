@@ -1,9 +1,9 @@
-<z-loading :show=!loading>
+<z-loading :show=!user.nickname>
   <div class="overview">
     <div class="overview__title">
       <h1><span class="overview__title-level">{{ user.level }}</span>{{ user.nickname }}</h1>
       <div class="overview__title-avatar">
-        <img :src="pathAvatar" alt="avatar" class="avatar__image">
+        <img :src="pathAvatar(user.avatar)" alt="avatar" class="avatar__image">
       </div>
     </div>
     <div class="overview__stats">
@@ -23,6 +23,4 @@
       <p>skill Points <strong>{{ user.skillPoints }}</strong></p>
     </div>
   </div>
-
-
 </z-loading>
