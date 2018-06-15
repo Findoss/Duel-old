@@ -30,7 +30,7 @@ export default {
   },
 
   created() {
-    UserService.getAllUsers()
+    UserService.getUsers()
       .then((response) => {
         this.users = response.users;
         this.loading = true;
