@@ -1,58 +1,31 @@
-// Services
-import * as MeService from '@/services/me';
-import * as SessionService from '@/services/session';
+import { mapState } from 'vuex';
 
 // Components
-import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseLoading from '@/components/BaseLoading/BaseLoading.vue';
 
 export default {
 
   components: {
-    'z-button': BaseButton,
     'z-loading': BaseLoading,
   },
 
-  data() {
-    return {
-      loading: false,
-      user: {
-        nickname: null,
-        email: null,
-        avatar: 'null',
-        rank: null,
-        gold: null,
-        level: null,
-        experience: null,
-        karma: false,
-        craftsmanship: null,
-        idSkills: [],
-      },
-    };
-  },
+  computed: mapState({
+    user: state => state.user.user,
+  }),
 
-  computed: {
-    pathAvatar() {
-      return require(`@/assets/avatars/${this.user.avatar}.png`);
+  methods: {
+
+    pathSkill(id) {
+      return require(`@/assets/skills/${id}.png`);
+    },
+
+    pathAvatar(avatar) {
+      return require(`@/assets/avatars/${avatar}.png`);
     },
   },
 
   created() {
-    MeService.getMe()
-      .then((response) => {
-        this.user = response;
-        this.loading = true;
-      })
-      .catch((error) => {
-        console.warn(error);
-        SessionService.signOut();
-        this.$router.push({ path: '/signin' });
-      });
+    this.$store.dispatch('user/getMe');
   },
 
-  methods: {
-    pathSkill(id) {
-      return require(`@/assets/skills/${id}.png`);
-    },
-  },
 };

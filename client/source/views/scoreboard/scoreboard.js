@@ -17,11 +17,11 @@ export default {
     };
   },
 
-  // computed: {
-  //   pathAvatar(avatar) {
-  //     return require(`@/assets/avatars/${avatar}.png`);
-  //   },
-  // },
+  computed: {
+    myUserId() {
+      return this.$store.state.user.user.id;
+    },
+  },
 
   methods: {
     pathAvatar(avatar) {
@@ -30,7 +30,7 @@ export default {
   },
 
   created() {
-    UserService.getAllUsers()
+    UserService.getUsers()
       .then((response) => {
         this.users = response.users;
         this.loading = true;

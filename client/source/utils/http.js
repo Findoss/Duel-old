@@ -7,9 +7,10 @@ export default class Http {
     const token = localStorage.getItem('session-token');
     const attr = {
       method: 'GET',
-      headers: new Headers(),
+      headers: new Headers({
+        Authorization: token,
+      }),
     };
-    if (token !== null) attr.headers.append('Authorization', token);
 
     let string = `${host}${path}`;
     if (params !== undefined) {
@@ -61,13 +62,58 @@ export default class Http {
     });
   }
 
-  // static Delete() {
-  // }
+  static delete(path) {
+    const token = localStorage.getItem('session-token');
+    const attr = {
+      method: 'DELETE',
+      headers: new Headers({
+        Authorization: token,
+        'Content-Type': 'application/json; charset=utf-8;',
+      }),
+    };
+    return new Promise((resolve, reject) => {
+      fetch(`${host}${path}`, attr)
+        .then((response) => {
+          if (response.status !== 200 &&
+              response.status !== 201) {
+            console.warn(`Status Code: ${response.status}`);
+            reject(response);
+          }
+          resolve(response.json());
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
+  static patch(path, param) {
+    const token = localStorage.getItem('session-token');
+    const attr = {
+      method: 'PATCH',
+      headers: new Headers({
+        Authorization: token,
+        'Content-Type': 'application/json; charset=utf-8;',
+      }),
+      body: JSON.stringify(param),
+    };
+    return new Promise((resolve, reject) => {
+      fetch(`${host}${path}`, attr)
+        .then((response) => {
+          if (response.status !== 200 &&
+              response.status !== 201) {
+            console.warn(`Status Code: ${response.status}`);
+            reject(response);
+          }
+          resolve(response.json());
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
 
   // static Put() {
-  // }
-
-  // static Patch() {
   // }
 
   // static Head() {
