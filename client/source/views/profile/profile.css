@@ -2,10 +2,6 @@
   display: flex;
 }
 
-.card {
-  max-width: 1980px;
-}
-
 .profile__navigation {
   width: 200px;
   display: flex;
