@@ -1,28 +1,30 @@
 <z-loading :show=!loading>
-  <h4>
-    <router-link :to="{ path: `/${myUserId}` }">MY PROFILE</router-link>
-  </h4>
-  <table>
-    <thead>
-      <tr>
-        <th>rank</th>
-        <th>avatar</th>
-        <th>nickname</th>
-        <th>level</th>
-        <th>link</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(user) in users" :key="user.id">
-        <td> {{ user.rank }} </td>
-        <td>
-          <img :src="pathAvatar(user.avatar)" alt="" width="50px"> </td>
-        <td> {{ user.nickname }} </td>
-        <td> {{ user.level }} </td>
-        <td>
-          <router-link :to="{ path: `/${user.id}` }">profile</router-link>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="scoreboard">
+    <h4>
+      <router-link :to="{ path: `/${myUserId}` }">Back my profile</router-link>
+    </h4>
+    <table>
+      <thead>
+        <tr>
+          <th>rank</th>
+          <th>avatar</th>
+          <th>nickname</th>
+          <th>level</th>
+          <th>link</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(user) in users" :key="user.id">
+          <td> {{ user.rank }} </td>
+          <td>
+            <img :src="pathAvatar(user.avatar)" alt="" width="50px"> </td>
+            <td> {{ user.nickname }} </td>
+            <td> {{ user.level }} </td>
+            <td>
+              <router-link :to="{ path: `/${user.id}` }">profile</router-link>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 </z-loading>
