@@ -1,6 +1,7 @@
 table {
   background-color: var(--background-0);
   border-collapse: collapse;
+  border: 1px solid var(--color-gray-norm);
 }
 
 th {
@@ -11,10 +12,10 @@ th {
 th, td {
   padding-top: 8px;
   padding-bottom: 8px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
   text-align: left;
-  border-bottom: 1px solid var(--color-text);
+  border-bottom: 1px solid var(--color-gray-norm);
 }
 
 tr:hover {
