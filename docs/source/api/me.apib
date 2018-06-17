@@ -80,3 +80,28 @@
     + Attributes
         + message: Forbidden (string)
         + code: forbidden (string)
+
+### * Изменение пароля [POST /me/password]
+Изменение пароля, для поддверждения необходимо указать старый пароль
+
++ Request (application/json)
+    + Attributes
+        + oldPassword: pass1234 (string)
+        + newPassword: 1234pass (string)
+
++ Response 200 (application/json; charset=utf-8)
+Профиль текущего пользователя обновлен успешно
+    + Attributes
+        + message: New password set successfully. (string)
+   
++ Response 400 (application/json; charset=utf-8)
+Заданы неверные параметры
+    + Attributes
+        + message: Invalid user params (string)
+        + code: invalid_user_params (string)
+
++ Response 403 (application/json; charset=utf-8)
+Переданы неверные параметры входа
+    + Attributes
+        + message: Incorrect password (string)
+        + code: forbidden (string)
