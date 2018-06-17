@@ -55,6 +55,21 @@
   </div>
 
   <div class="card">
+    <z-loading :show="true">
+      <h2>Us necessitatibus imp</h2>
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. In itaque nesciunt, libero accusantium doloribus necessitatibus impedit cum dicta, animi voluptatem modi rerum debitis, odit consequatur perferendis ratione dolorem magnam iste?
+        <a>Us necessitatibus imp</a>
+      </p>
+      <br>
+      <h4>rendis ratione dolor</h4>
+      <br>
+      <z-button type="submit">Hello Button</z-button>
+    </z-loading>
+  </div>
+
+
+  <div class="card">
 
     <z-alert
       :show="true"
@@ -88,6 +103,7 @@
       :show="alert"
       :icon="true"
       :dismissible="true"
+      @close="alert = false"
       type="warning"
     >
       warning content + dismissible
@@ -97,6 +113,7 @@
       :show="alert2"
       :icon="true"
       :dismissible="true"
+      @close="alert2 = false"
       type="success"
     >
       success content more Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum voluptate officiis sapiente impedit ullam velit.  + dismissible
@@ -181,6 +198,7 @@
   // Components
   import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
   import BaseButton from '@/components/BaseButton/BaseButton.vue';
+  import BaseLoading from '@/components/BaseLoading/BaseLoading.vue';
   import BaseTextField from '@/components/BaseTextField/BaseTextField.vue';
 
   // Utils
@@ -190,8 +208,9 @@
     
     components: {
       'z-alert': BaseAlert,
-      'z-text-field': BaseTextField,
       'z-button': BaseButton,
+      'z-loading': BaseLoading,
+      'z-text-field': BaseTextField,
     },
 
     data() {
