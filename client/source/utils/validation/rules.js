@@ -49,6 +49,13 @@ export default {
     });
   },
 
+  required(data) {
+    return new Promise((resolve, reject) => {
+      if (data !== '') resolve(true);
+      reject(new Error('Password can\'t be blank'));
+    });
+  },
+
   password(password) {
     return new Promise((resolve, reject) => {
       if (password === '') {

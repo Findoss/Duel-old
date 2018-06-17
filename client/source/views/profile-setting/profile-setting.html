@@ -1,7 +1,19 @@
 <div>
+  <z-alert
+    :icon="true"
+    :dismissible="true"
+    :type="alert.type"
+    :show="alert.message"
+    @close="alert.message = null;"
+  >
+    {{ alert.message }}
+  </z-alert>
+  <br>
   <h4>Change password</h4>
-  <form accept-charset="UTF-8"  @submit.prevent="submit">
+  <form accept-charset="UTF-8"  @submit.prevent="submitChangePassword">
     <z-text-field
+      :validationRules="form.oldPassword.rules"
+      @validation="form.oldPassword.status = $event"
       label="Old password"
       name="oldPassword"
       ref="oldPassword"
@@ -36,8 +48,10 @@
   </form>
   <br><br>
   <h4>Change username</h4>
-  <form accept-charset="UTF-8"  @submit.prevent="submit">
+  <form accept-charset="UTF-8" @submit.prevent="submitChangeNickname">
     <z-text-field
+      :validationRules="form2.newNickname.rules"
+      @validation="form2.newNickname.status = $event"
       label="Enter a new nickname"
       name="newNickname"
       ref="newNickname"
@@ -57,5 +71,5 @@
   >
     Once you delete your account, there is no going back. Please be certain.
   </z-alert>
-  <z-button tabindex="7" type="submit" class="base-button">Delete your account</z-button>
+  <z-button tabindex="7" type="submit" class="base-button" @click="submitDeleteAccount">Delete your account</z-button>
 </div>
