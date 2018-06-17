@@ -1,14 +1,18 @@
 .card {
+  box-sizing: content-box;
+  
   min-width: 250px;
   max-width: 400px;
+  min-height: 140px;
+
   margin: 0 auto;
   margin-top: 30px;
+
   padding: 30px;
   background-color: var(--background-0);
 
   border: 4px var(--color-gray-bright);
   border-style: solid double solid;
-  box-sizing: content-box;
 }
 
 .card__title {

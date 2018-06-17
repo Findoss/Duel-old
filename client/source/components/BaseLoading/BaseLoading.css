@@ -1,20 +1,19 @@
 .background {
   position: absolute;
-  top: 0;
-  left: 0;
+  left: 0; 
   background-color: hsla(var(--background-0), 0.5);
   width: 100%;
-  height: 100%;
   z-index: 999;
 }
 
 .blur {
   filter: blur(5px);
+  pointer-events: none;
 }
 
 .loading {
   display: block;
-  margin: 20% auto;
+  margin: 70px auto;
   width: 145px;
   padding-top: 30px;
   text-align: center;
