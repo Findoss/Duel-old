@@ -4,4 +4,6 @@ export const getMe = () => Http.get('/me');
 
 export const deleteAccount = () => Http.delete('/me');
 
-export const updateAccount = user => Http.patch('/me', user);
+export const updateAccount = userData => Http.patch('/me', userData);
+
+export const updateAccountPass = passwords => Http.post('/me/password', passwords);
