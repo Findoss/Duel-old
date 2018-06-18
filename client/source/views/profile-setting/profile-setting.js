@@ -64,8 +64,8 @@ export default {
             type: 'info',
             message: response.message,
           });
-          SessionService.signOut();
-          this.$router.push({ path: '/signin' });
+          SessionService.signOut()
+            .then(() => this.$router.push({ path: '/signin' }));
         })
         .catch((error) => {
           console.warn(error);
@@ -78,11 +78,7 @@ export default {
         return false;
       }
 
-      const userData = {
-        nickname: this.form2.newNickname.value,
-      };
-
-      MeService.updateAccount(userData)
+      MeService.updateNickname({ nickname: this.form2.newNickname.value })
         .then((response) => {
           if (response.code === undefined) this.alert.type = 'success';
           else this.alert.type = 'error';
@@ -119,7 +115,7 @@ export default {
         newPassword: this.form.newPassword.value,
       };
 
-      MeService.updateAccountPass(passwords)
+      MeService.updatePassword(passwords)
         .then((response) => {
           if (response.code === undefined) this.alert.type = 'success';
           else this.alert.type = 'error';
