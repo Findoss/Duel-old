@@ -1,23 +1,24 @@
 .profile {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 10px;
 }
 
 .profile__navigation {
-  width: 200px;
   display: flex;
-  flex-direction: column;
-  margin-right: 50px;
+  flex-direction: row;
 }
 
 .navigation__item {
-  padding: 5px;
+  padding: 10px;
+  margin: 5px;
   text-decoration: none;
-  margin-top: 5px;
-  margin-bottom: 5px;
   text-align: center;
-  border: 2px solid var(--color-green-lite)
+  border: 2px solid var(--color-gray-norm)
 }
 
 .profile__body {
   width: 100%;
+  padding-top: 50px;
 }
