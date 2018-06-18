@@ -9,7 +9,7 @@
       <router-link to="/123">profile-overview</router-link>  |
       <router-link to="/123/settings">profile-settings</router-link>  |
       <router-link to="/123/skills">profile-skills</router-link>  |
-      <router-link to="/scoreboard">scoreboard</router-link>  |
+      <router-link to="/123/scoreboard">scoreboard</router-link>  |
       <router-link to="/design">design</router-link>  |
     </div>
     <router-view/>
