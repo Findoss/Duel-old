@@ -12,14 +12,23 @@ export default {
 
   computed: {
     userId() {
-      return this.$store.state.user.user.id;
+      return this.$store.state.user.id;
     },
   },
 
   methods: {
     signOut() {
-      SessionService.signOut();
-      this.$router.push({ path: '/signin' });
+      SessionService.signOut()
+        .then((response) => {
+          this.$store.commit('authorization/showAlert', {
+            type: 'info',
+            message: response.message,
+          });
+          this.$router.push({ path: '/signin' });
+        })
+        .catch((error) => {
+          console.warn(error);
+        });
     },
   },
 };
