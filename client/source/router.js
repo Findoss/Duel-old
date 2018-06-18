@@ -1,7 +1,7 @@
 // Core
 import Vue from 'vue';
 import Router from 'vue-router';
-import store from '@/store';
+import store from '@/store/index';
 
 // Services
 import * as SessionService from '@/services/session';
@@ -30,31 +30,30 @@ const router = new Router({
       path: '/signin',
       name: 'signin',
       component: Signin,
+      meta: { goProfile: true },
     },
     {
       path: '/registration',
       name: 'registration',
       component: Registration,
+      meta: { goProfile: true },
     },
     {
       path: '/password-reset',
       name: 'password-reset',
       component: PasswordReset,
+      meta: { goProfile: true },
     },
     {
       path: '/password-new',
       name: 'password-new',
       component: PasswordNew,
+      meta: { goProfile: true },
     },
     {
       path: '/design',
       name: 'design',
       component: Design,
-    },
-    {
-      path: '/test',
-      name: 'test',
-      component: ProfileSetting,
     },
     {
       path: '/:userId',
@@ -83,15 +82,26 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuthorization) && !SessionService.signedIn()) {
+  const requiresAuthorization = to.matched.some(r => r.meta.requiresAuthorization);
+  const goProfile = to.matched.some(r => r.meta.goProfile);
+
+  if (requiresAuthorization && !SessionService.isLogin()) {
     store.commit('authorization/showAlert', {
       type: 'error',
-      message: 'Please log in to view this page.',
+      message: 'Please login to view this page.',
     });
     next({ path: '/signin' });
-  } else {
-    next();
+    return false;
   }
+
+  if (goProfile && SessionService.isLogin()) {
+    console.log(requiresAuthorization);
+
+    next({ path: `/${store.state.user.id}` });
+    return false;
+  }
+
+  next();
 });
 
 export default router;
