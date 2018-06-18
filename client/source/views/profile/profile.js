@@ -12,14 +12,14 @@ export default {
 
   computed: {
     userId() {
-      return this.$store.state.user.user.id;
+      return this.$store.state.user.id;
     },
   },
 
   methods: {
     signOut() {
       SessionService.signOut();
-      this.$router.push({ path: '/signin' });
+          this.$router.push({ path: '/signin' });
     },
   },
 };

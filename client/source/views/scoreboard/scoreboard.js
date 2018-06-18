@@ -19,7 +19,7 @@ export default {
 
   computed: {
     myUserId() {
-      return this.$store.state.user.user.id;
+      return this.$store.state.user.id;
     },
   },
 
