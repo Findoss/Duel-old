@@ -46,28 +46,19 @@
         + message: Forbidden (string)
         + code: forbidden (string)
 
-### * Частичное изменение [PATCH /me]
-частичое изменение информации о текущем пользователе (то, что не передано, остается)
+### * Изменение набора умений [PATCH /me/skills]
+Частичое или полное изменение выбранных умений текущего пользователя (то, что не передано, остается)
 
 + Request (application/json)
     + Attributes
-        + nickname: Ivan (string, optional)
-        + email: Ivan@email.ru (string, optional)
-        + avatar: avatar (string, optional)
-        + rank: 14 (number, optional)
-        + gold: 15 (number, optional)
-        + level: 2 (number, optional)
-        + experience: 16 (number, optional)
-        + karma: false (boolean, optional)
-        + skillPoints: 17 (number, optional)
-        + idSkills (array, optional)
+        + idSkills (array)
             + 3 (number, optional)
             + 2 (number, optional)
 
 + Response 200 (application/json; charset=utf-8)
-Профиль текущего пользователя обновлен успешно
+Выбранные умения текущего пользователя успешно обновлены 
     + Attributes
-        + message: Your profile is updated successfully (string)
+        + message: Your set of skills is updated successfully (string)
    
 + Response 400 (application/json; charset=utf-8)
 Заданы неверные параметры
@@ -81,7 +72,55 @@
         + message: Forbidden (string)
         + code: forbidden (string)
 
-### * Изменение пароля [POST /me/password]
+### * Изменение аватара [PATCH /me/avatar]
+Изменение аватара текущего пользователя
+
++ Request (application/json)
+    + Attributes
+        + avatar: avatar (string)
+
++ Response 200 (application/json; charset=utf-8)
+Аватар текущего пользователя обновлен успешно
+    + Attributes
+        + message: Your avatar is updated successfully (string)
+   
++ Response 400 (application/json; charset=utf-8)
+Заданы неверные параметры
+    + Attributes
+        + message: Invalid user params (string)
+        + code: invalid_user_params (string)
+
++ Response 403 (application/json; charset=utf-8)
+Переданы неверные параметры входа
+    + Attributes
+        + message: Forbidden (string)
+        + code: forbidden (string)
+
+### * Изменение никнейма [PATCH /me/nickname]
+Изменение никнейма текущего пользователя
+
++ Request (application/json)
+    + Attributes
+        + nickname: Ivan2000 (string)
+
++ Response 200 (application/json; charset=utf-8)
+Никнейм текущего пользователя обновлен успешно
+    + Attributes
+        + message: Your nickname is updated successfully (string)
+   
++ Response 400 (application/json; charset=utf-8)
+Заданы неверные параметры
+    + Attributes
+        + message: Invalid user params (string)
+        + code: invalid_user_params (string)
+
++ Response 403 (application/json; charset=utf-8)
+Переданы неверные параметры входа
+    + Attributes
+        + message: Forbidden (string)
+        + code: forbidden (string)
+
+### * Изменение пароля [PATCH /me/password]
 Изменение пароля, для поддверждения необходимо указать старый пароль
 
 + Request (application/json)
