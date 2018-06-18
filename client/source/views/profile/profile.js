@@ -18,8 +18,17 @@ export default {
 
   methods: {
     signOut() {
-      SessionService.signOut();
+      SessionService.signOut()
+        .then((response) => {
+          this.$store.commit('authorization/showAlert', {
+            type: 'info',
+            message: response.message,
+          });
           this.$router.push({ path: '/signin' });
+        })
+        .catch((error) => {
+          console.warn(error);
+        });
     },
   },
 };
