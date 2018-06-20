@@ -4,15 +4,36 @@
 Получение всех аватаров
 
 + Response 200 (application/json; charset=utf-8)
-Пользователь авторизован
     + Attributes
         + avatars (array)
             + shooter_1 (string)
             + shooter_2 (string)
             + shooter_3 (string)
 
-+ Response 403 (application/json; charset=utf-8)
-Переданы неверные параметры входа
++ Response 404 (application/json; charset=utf-8)
+Файл не найден
     + Attributes
-        + message: Forbidden (string)
-        + code: forbidden (string)
+        + message: File not found (string)
+        + code: not_found (string)
+
+### Получение аватаров [GET /static/user-parameters]
+Начальные значения игровых параметров для Пользователей
+
++ Response 200 (application/json; charset=utf-8)
+    + Attributes
+        + parameters (object)
+            + health: 100 (number)
+            + force: 10 (number)
+            + energy_1: 3 (number)
+            + energy_2: 3 (number)
+            + energy_3: 3 (number)
+            + armor: 5 (number)
+            + rage: 5 (number)
+            + luck: 5 (number)
+            + block: 5 (number)
+
++ Response 404 (application/json; charset=utf-8)
+Файл не найден
+    + Attributes
+        + message: File not found (string)
+        + code: not_found (string)
