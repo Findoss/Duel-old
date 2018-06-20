@@ -1,0 +1,18 @@
+# Group Static API
+
+### Получение аватаров [GET /static/avatars]
+Получение всех аватаров
+
++ Response 200 (application/json; charset=utf-8)
+Пользователь авторизован
+    + Attributes
+        + avatars (array)
+            + shooter_1 (string)
+            + shooter_2 (string)
+            + shooter_3 (string)
+
++ Response 403 (application/json; charset=utf-8)
+Переданы неверные параметры входа
+    + Attributes
+        + message: Forbidden (string)
+        + code: forbidden (string)
