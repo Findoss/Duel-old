@@ -2,6 +2,7 @@ import Router from '@/router';
 
 // Services
 import * as MeService from '@/services/me';
+import * as StaticService from '@/services/static';
 import * as SessionService from '@/services/session';
 
 const state = {
@@ -13,9 +14,20 @@ const state = {
   gold: 0,
   level: 0,
   experience: 0,
-  karma: false,
+  karma: 10,
   skillPoints: 10,
   idSkills: [],
+  parameters: {
+    health: 100,
+    force: 10,
+    energy_1: 3,
+    energy_2: 3,
+    energy_3: 3,
+    armor: 5,
+    rage: 5,
+    luck: 5,
+    block: 5,
+  },
 };
 
 const getters = {};
@@ -30,6 +42,10 @@ const actions = {
         console.warn(error);
         SessionService.signOut();
         Router.push({ path: '/signin' });
+      });
+    StaticService.getUserParameters()
+      .then((response) => {
+        commit('setUserParameters', response);
       });
   },
 };
@@ -51,6 +67,10 @@ const mutations = {
 
   setAvatar(state, avatar) {
     state.avatar = avatar;
+  },
+
+  setUserParameters(state, userData) {
+    state.parameters = userData.parameters;
   },
 };
 
