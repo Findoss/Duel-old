@@ -48,6 +48,10 @@ const mutations = {
     state.skillPoints = userData.skillPoints;
     state.idSkills = userData.idSkills;
   },
+
+  setAvatar(state, avatar) {
+    state.avatar = avatar;
+  },
 };
 
 export default {
