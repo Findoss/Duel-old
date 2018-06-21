@@ -45,9 +45,46 @@ body {
   background-image: url("../assets/background.jpg");
 }
 
-@import "./0-foundation/typography.css";
-@import "./0-foundation/link.css";
-@import "./0-foundation/table.css";
-@import "./0-foundation/list.css";
+@import "./reset/typography.css";
+@import "./reset/link.css";
+@import "./reset/table.css";
+@import "./reset/list.css";
 
-@import "./1-base/card.css";
+
+/* ↓ DEL !!! */
+/* ↓ DEL !!! */
+/* ↓ DEL !!! */
+.card {
+  box-sizing: content-box;
+  
+  min-width: 250px;
+  max-width: 400px;
+  min-height: 140px;
+
+  margin: 0 auto;
+  margin-top: 30px;
+
+  padding: 30px;
+  background-color: var(--background-0);
+
+  border: 4px var(--color-gray-bright);
+  border-style: solid double solid;
+}
+
+.card--no-border {
+  border: none;
+}
+
+.card--size-l {
+  max-width: 600px;
+  padding: 35px;
+}
+
+.card--size-xl {
+  max-width: 1000px;
+  padding: 40px;
+}
+
+.card__title {
+  text-align: center;
+}

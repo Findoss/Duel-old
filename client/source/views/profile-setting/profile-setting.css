@@ -7,3 +7,15 @@
 
   margin: 0 auto;
 }
+
+.avatar {
+  height: 120px;
+  margin: 10px;
+  padding: 10px;
+  cursor: pointer;
+  border: 2px solid var(--color-gray-norm);
+}
+
+.avatar-select {
+  border: 2px solid var(--color-yellow-norm);
+}
