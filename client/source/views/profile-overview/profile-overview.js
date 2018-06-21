@@ -23,9 +23,4 @@ export default {
       return require(`@/assets/avatars/${avatar}.png`);
     },
   },
-
-  created() {
-    this.$store.dispatch('user/getMe');
-  },
-
 };

@@ -1,6 +1,7 @@
 // Components
 import * as MeService from '@/services/me';
 import * as SessionService from '@/services/session';
+import * as StaticService from '@/services/static';
 
 // Utils
 import Rules from '@/utils/validation/rules';
@@ -8,6 +9,7 @@ import Rules from '@/utils/validation/rules';
 // Components
 import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
+import BaseLoading from '@/components/BaseLoading/BaseLoading.vue';
 import BaseTextField from '@/components/BaseTextField/BaseTextField.vue';
 
 export default {
@@ -15,11 +17,20 @@ export default {
   components: {
     'z-alert': BaseAlert,
     'z-button': BaseButton,
+    'z-loading': BaseLoading,
     'z-text-field': BaseTextField,
+  },
+
+  created() {
+    StaticService.getAvatars()
+      .then((response) => {
+        this.avatars = response.avatars;
+      });
   },
 
   data() {
     return {
+      avatars: null,
       alert: {
         type: 'info',
         message: '',
@@ -131,6 +142,25 @@ export default {
           console.warn(error);
         });
       return true; // ?? todo
+    },
+
+    pathAvatar(avatar) {
+      return require(`@/assets/avatars/${avatar}.png`);
+    },
+
+    isSelectedAvatar(avatar) {
+      return avatar === this.$store.state.user.avatar;
+    },
+
+    selectAvatar(avatar) {
+      MeService.updateAvatar({ avatar })
+        .then((response) => {
+          this.$store.commit('user/setAvatar', avatar);
+          this.alert = {
+            type: 'success',
+            message: response.message,
+          };
+        });
     },
 
   },
