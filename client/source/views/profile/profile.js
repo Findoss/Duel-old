@@ -10,6 +10,10 @@ export default {
     'z-button': BaseButton,
   },
 
+  created() {
+    this.$store.dispatch('user/getMe');
+  },
+
   computed: {
     userId() {
       return this.$store.state.user.id;
