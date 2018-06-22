@@ -1,4 +1,11 @@
-// initial state
+import Router from '@/router';
+
+// Services
+import * as MeService from '@/services/me';
+import * as StaticService from '@/services/static';
+import * as UserService from '@/services/user';
+
+
 const state = {
   alert: {
     type: 'error',
@@ -10,7 +17,23 @@ const state = {
 const getters = {};
 
 // actions
-const actions = {};
+const actions = {
+
+  registration({ commit }, user) {
+    console.log(user);
+
+    UserService.registration(user)
+      .then((response) => {
+        commit('showAlert', {
+          type: 'success',
+          message: response.message,
+        });
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
+  },
+};
 
 // mutations
 const mutations = {

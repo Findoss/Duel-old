@@ -4,24 +4,16 @@
 Регистрация пользователя
 
 + Request (application/json; charset=utf-8)
-    + Attributes (object)
-        + nickname: Ivan (string, required)
-        + email: Ivan@email.ru (string, required)
-        + password: password123 (string, required)
-        + avatar: null (string)
-        + rank: 0 (number)
-        + gold: 0 (number)
-        + level: 1 (number)
-        + experience: 0 (number)
-        + karma: 10 (boolean)
-        + skillPoints: 1 (number)
-        + idSkills (array)
+    + Attributes 
+        + user (object)
+            + nickname: Ivan (string, required)
+            + email: Ivan@email.ru (string, required)
+            + password: password123 (string, required)
 
 + Response 201 (application/json; charset=utf-8)
 Пользователь создан успешно
     + Attributes
         + message: User has been created successfully (string)
-
 
 + Response 400 (application/json; charset=utf-8)
 Заданы неверные параметры
