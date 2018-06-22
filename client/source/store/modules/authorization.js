@@ -19,10 +19,8 @@ const getters = {};
 // actions
 const actions = {
 
-  registration({ commit }, user) {
-    console.log(user);
-
-    UserService.registration(user)
+  registration({ commit }, data) {
+    UserService.registration(data.user)
       .then((response) => {
         commit('showAlert', {
           type: 'success',
