@@ -65,23 +65,25 @@ export default {
         password: this.form.password.value,
       };
 
-      UserService.registration(user)
-        .then((response) => {
-          if (response.code === undefined) {
-            // todo автомтическое залогивание и переход в профиль
-            this.$store.commit('authorization/showAlert', {
-              type: 'success',
-              message: response.message,
-            });
-            this.$router.push({ path: '/signin' });
-          } else {
-            this.$refs.password.reset();
-            this.form.error = response.message;
-          }
-        })
-        .catch((error) => {
-          console.warn(error);
-        });
+      // UserService.registration(user)
+      //   .then((response) => {
+      //     if (response.code === undefined) {
+      //       // todo автомтическое залогивание и переход в профиль
+      //       this.$store.commit('authorization/showAlert', {
+      //         type: 'success',
+      //         message: response.message,
+      //       });
+      //       this.$router.push({ path: '/signin' });
+      //     } else {
+      //       this.$refs.password.reset();
+      //       this.form.error = response.message;
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.warn(error);
+      //   });
+
+      this.$store.dispatch('authorization/registration', { user });
       return true;
     },
 
