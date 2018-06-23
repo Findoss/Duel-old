@@ -28,6 +28,9 @@
     />
 
     <z-text-field
+      :validationIcon="false"
+      :validationRules="form.password.rules"
+      @validation="form.password.status = $event"
       label="Password"
       name="password"
       placeholder="your password"

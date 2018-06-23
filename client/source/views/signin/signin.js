@@ -1,8 +1,8 @@
+import { mapActions } from 'vuex';
+
 // Utils
 import Rules from '@/utils/validation/rules';
-
-// Services
-import * as SessionService from '@/services/session';
+import validationForm from '@/utils/validation/form';
 
 // Components
 import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
@@ -19,7 +19,7 @@ export default {
 
   computed: {
     alert() {
-      return this.$store.state.authorization.alert;
+      return this.$store.state.user.signin.alert;
     },
   },
 
@@ -30,44 +30,39 @@ export default {
         email: {
           value: '',
           status: false,
-          rules: [
-            Rules.email,
-          ],
+          rules: [Rules.email],
         },
         password: {
           value: '',
+          status: false,
+          rules: [Rules.required],
         },
       },
     };
   },
 
   methods: {
+    ...mapActions({
+      signIn: 'user/signIn',
+      showAlert: 'user/signin/showAlert',
+    }),
+
     submit() {
-      if (!this.form.email.status) {
-        this.$refs.email.validation();
-        return false;
-      }
+      if (!validationForm(this, 'form')) return false;
 
       const user = {
         email: this.form.email.value,
         password: this.form.password.value,
       };
 
-      SessionService.signIn(user).then((response) => {
-        if (response.code === undefined) {
-          this.$router.push({ path: '/profile' });
-        } else {
+      this.signIn(user)
+        .catch(() => {
           this.$refs.password.reset();
-          this.$store.commit('authorization/showAlert', {
-            type: 'error',
-            message: response.message,
+          this.form.password.status = false;
         });
-        }
-        });
-      return true;
     },
     closeAlert() {
-      this.$store.commit('authorization/showAlert', {
+      this.showAlert({
         type: 'error',
         message: null,
       });
