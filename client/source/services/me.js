@@ -1,13 +1,13 @@
-import Http from '@/utils/http';
+import * as Http from '@/utils/http';
 
 export const getMe = () => Http.get('/me');
 
-export const deleteAccount = () => Http.delete('/me');
+export const deleteAccount = () => Http.send('DELETE', '/me');
 
-export const updateNickname = nickname => Http.patch('/me/nickname', nickname);
+export const updateNickname = nickname => Http.send('PATCH', '/me/nickname', nickname);
 
-export const updateAvatar = avatar => Http.patch('/me/avatar', avatar);
+export const updateAvatar = avatar => Http.send('PATCH', '/me/avatar', avatar);
 
-export const updateSkills = skills => Http.patch('/me/skills', skills);
+export const updateSkills = skills => Http.send('PATCH', '/me/skills', skills);
 
-export const updatePassword = passwords => Http.patch('/me/password', passwords);
+export const updatePassword = passwords => Http.send('PATCH', '/me/password', passwords);
