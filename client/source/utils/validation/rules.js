@@ -1,4 +1,4 @@
-import * as UserService from '@/services/user';
+import Http from '../http';
 import Regexp from './regexp';
 
 export default {
@@ -21,10 +21,21 @@ export default {
 
   checkNickname(nickname) {
     return new Promise((resolve, reject) => {
-      UserService.checkNickname(nickname).then((result) => {
-        if (result.used) resolve(nickname);
-        reject(new Error('Nickname is already taken'));
-      });
+      Http.get('/checkNickname', [{ nickname }])
+        .then((result) => {
+          if (result.used) resolve(nickname);
+          reject(new Error('Nickname is already taken'));
+        });
+    });
+  },
+
+  checkEmail(email) {
+    return new Promise((resolve, reject) => {
+      Http.get('/checkEmail', [{ email }])
+        .then((result) => {
+          if (result.used) resolve(email);
+          reject(new Error('Email is already taken'));
+        });
     });
   },
 
@@ -37,15 +48,6 @@ export default {
       } else {
         resolve(email);
       }
-    });
-  },
-
-  checkEmail(email) {
-    return new Promise((resolve, reject) => {
-      UserService.checkEmail(email).then((result) => {
-        if (result.used) resolve(email);
-        reject(new Error('Email is already taken'));
-      });
     });
   },
 
