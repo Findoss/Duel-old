@@ -1,5 +1,4 @@
-// Services
-import * as SessionService from '@/services/session';
+import { mapActions } from 'vuex';
 
 // Components
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
@@ -11,7 +10,12 @@ export default {
   },
 
   created() {
-    this.$store.dispatch('user/getMe');
+    this.loadMe();
+    this.loadSkills();
+    this.loadUserParameters();
+    // ...
+    // ...
+    // ...
   },
 
   computed: {
@@ -21,18 +25,11 @@ export default {
   },
 
   methods: {
-    signOut() {
-      SessionService.signOut()
-        .then((response) => {
-          this.$store.commit('authorization/showAlert', {
-            type: 'info',
-            message: response.message,
-          });
-          this.$router.push({ path: '/signin' });
-        })
-        .catch((error) => {
-          console.warn(error);
-        });
-    },
+    ...mapActions({
+      loadMe: 'user/loadMe',
+      loadUserParameters: 'user/loadUserParameters',
+      loadSkills: 'skills/loadSkills',
+      signOut: 'user/signOut',
+    }),
   },
 };

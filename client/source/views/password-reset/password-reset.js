@@ -1,5 +1,6 @@
 // Utils
 import Rules from '@/utils/validation/rules';
+import validationForm from '@/utils/validation/form';
 
 // Components
 import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
@@ -16,8 +17,8 @@ export default {
 
   data() {
     return {
+      error: '',
       form: {
-        error: '',
         email: {
           value: '',
           status: false,
@@ -33,7 +34,7 @@ export default {
 
   methods: {
     submit() {
-      if (!this.form.email.status) {
+      if (!validationForm(this, 'form')) {
         this.$refs.email.validation();
         return false;
       }
@@ -45,14 +46,7 @@ export default {
       console.log(email);
       this.success = !this.success;
 
-      // UserService.signin(user).then((result) => {
-      //   if (result.code === undefined) {
-      //     this.$router.push({ path: 'profile' });
-      //   } else {
-      //     this.form.error = 'ERROR TODO.';
-      //   }
-      // });
-      return true;
+      // look store user resetPassword
     },
   },
 };
