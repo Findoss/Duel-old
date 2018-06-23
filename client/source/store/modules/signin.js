@@ -7,12 +7,16 @@ const state = {
 
 const getters = {};
 
-const actions = {};
+const actions = {
+  showAlert({ commit }, alert) {
+    commit('setAlert', alert);
+  },
+};
 
 const mutations = {
 
-  showAlert(state, alertData) {
-    state.alert = alertData;
+  setAlert(state, alert) {
+    state.alert = alert;
   },
 
 };

@@ -1,9 +1,7 @@
+import Http from '@/utils/http';
 import Router from '@/router';
 
-// Services
-import * as MeService from '@/services/me';
-import * as StaticService from '@/services/static';
-import * as SessionService from '@/services/session';
+import signin from './signin';
 
 const state = {
   id: 0,
@@ -18,36 +16,107 @@ const state = {
   skillPoints: 10,
   idSkills: [],
   parameters: {
-    health: 100,
-    force: 10,
-    energy_1: 3,
-    energy_2: 3,
-    energy_3: 3,
-    armor: 5,
-    rage: 5,
-    luck: 5,
-    block: 5,
+    health: 0,
+    force: 0,
+    energy_1: 0,
+    energy_2: 0,
+    energy_3: 0,
+    armor: 0,
+    rage: 0,
+    luck: 0,
+    block: 0,
   },
 };
 
 const getters = {};
 
 const actions = {
-  getMe({ commit }) {
-    MeService.getMe()
+  loadMe({ commit, dispatch }) {
+    return new Promise((resolve, reject) => {
+      Http.get('/me')
+        .then((response) => {
+          commit('setUserData', response);
+        })
+        .catch((error) => {
+          // SessionService.signOut();
+          dispatch('signin/showAlert', {
+            type: 'error',
+            message: error.message,
+          });
+          Router.push({ path: '/signin' });
+        });
+    });
+  },
+
+  loadUserParameters({ commit }) {
+    Http.get('/static/user-parameters')
       .then((response) => {
-        commit('setUserData', response);
-      })
-      .catch((error) => {
-        console.warn(error);
-        SessionService.signOut();
-        Router.push({ path: '/signin' });
-      });
-    StaticService.getUserParameters()
-      .then((response) => {
+        console.log(response);
+
         commit('setUserParameters', response);
       });
   },
+
+  registration({ dispatch }, user) {
+    return new Promise((resolve, reject) => {
+      Http.send('POST', '/users', user)
+        .then((response) => {
+          dispatch('signin/showAlert', {
+            type: 'success',
+            message: response.message,
+          });
+          Router.push({ path: '/signin' });
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  },
+
+  // newPassword({ dispatch }, password) {
+  //   // ...
+  // },
+
+  // resetPassword({ dispatch }, email) {
+  //   // ...
+  // },
+
+  signIn({ dispatch }, user) {
+    return new Promise((resolve, reject) => {
+      Http.send('POST', '/signin', user)
+        .then((response) => {
+          localStorage.setItem('session-token', response.token);
+          Router.push({ path: '/profile' });
+        })
+        .catch((error) => {
+          dispatch('signin/showAlert', {
+            type: 'error',
+            message: error.message,
+          });
+          reject(error);
+        });
+    });
+  },
+
+  signOut({ dispatch }) {
+    Http.send('DELETE', '/signout')
+      .then((response) => {
+        localStorage.removeItem('session-token');
+        dispatch('signin/showAlert', {
+          type: 'info',
+          message: response.message,
+        });
+        Router.push({ path: '/signin' });
+      })
+      .catch((error) => {
+        dispatch('signin/showAlert', {
+          type: 'error',
+          message: error.message,
+        });
+      });
+  },
+
+
 };
 
 const mutations = {
@@ -69,9 +138,13 @@ const mutations = {
     state.avatar = avatar;
   },
 
-  setUserParameters(state, userData) {
-    state.parameters = userData.parameters;
+  setUserParameters(state, parameters) {
+    state.parameters = parameters;
   },
+};
+
+const modules = {
+  signin,
 };
 
 export default {
@@ -80,4 +153,5 @@ export default {
   getters,
   actions,
   mutations,
+  modules,
 };

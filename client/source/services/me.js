@@ -1,6 +1,5 @@
-import * as Http from '@/utils/http';
+import Http from '@/utils/http';
 
-export const getMe = () => Http.get('/me');
 
 export const deleteAccount = () => Http.send('DELETE', '/me');
 
