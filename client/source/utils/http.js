@@ -5,10 +5,13 @@ const HOST = 'http://localHOST:3001';
 function request(path, attr) {
   return new Promise((resolve, reject) => {
     fetch(path, attr)
-      .then(response => resolve(response.json()))
+      .then(response => response.json())
+      .then((data) => {
+        if (data.code === undefined) resolve(data);
+        reject(data);
+      })
       .catch((error) => {
         console.warn(error);
-        reject(error);
       });
   });
 }
@@ -47,4 +50,4 @@ const send = (method, path, param = undefined) => {
   return request(`${HOST}${path}`, attr);
 };
 
-export { get, send };
+export default { get, send };
