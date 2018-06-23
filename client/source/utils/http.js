@@ -1,121 +1,53 @@
 /* eslint guard-for-in: "error" */
 
-const host = 'http://localhost:3001';
+const HOST = 'http://localHOST:3001';
 
-export default class Http {
-  static get(path, params = undefined) {
-    const token = localStorage.getItem('session-token');
-    const attr = {
-      method: 'GET',
-      headers: new Headers({
-        Authorization: token,
-      }),
-    };
-
-    let string = `${host}${path}`;
-    if (params !== undefined) {
-      string += '?';
-      Object.keys(params).forEach((param) => {
-        string += `${param}=${params[param]}&`;
+function request(path, attr) {
+  return new Promise((resolve, reject) => {
+    fetch(path, attr)
+      .then(response => response.json())
+      .then((data) => {
+        if (data.code === undefined) resolve(data);
+        reject(data);
+      })
+      .catch((error) => {
+        console.warn(error);
       });
-    }
-
-    return new Promise((resolve, reject) => {
-      fetch(string, attr)
-        .then((response) => {
-          if (response.status !== 200) {
-            console.warn(`Status Code: ${response.status}`);
-            reject(response);
-          } else {
-            resolve(response.json());
-          }
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  }
-
-  static post(path, param) {
-    const token = localStorage.getItem('session-token');
-    const attr = {
-      method: 'POST',
-      headers: new Headers({
-        Authorization: token,
-        'Content-Type': 'application/json; charset=utf-8;',
-      }),
-      body: JSON.stringify(param),
-    };
-    return new Promise((resolve, reject) => {
-      fetch(`${host}${path}`, attr)
-        .then((response) => {
-          if (response.status !== 200 &&
-              response.status !== 201) {
-            console.warn(`Status Code: ${response.status}`);
-            reject(response);
-          }
-          resolve(response.json());
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  }
-
-  static delete(path) {
-    const token = localStorage.getItem('session-token');
-    const attr = {
-      method: 'DELETE',
-      headers: new Headers({
-        Authorization: token,
-        'Content-Type': 'application/json; charset=utf-8;',
-      }),
-    };
-    return new Promise((resolve, reject) => {
-      fetch(`${host}${path}`, attr)
-        .then((response) => {
-          if (response.status !== 200 &&
-              response.status !== 201) {
-            console.warn(`Status Code: ${response.status}`);
-            reject(response);
-          }
-          resolve(response.json());
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  }
-
-  static patch(path, param) {
-    const token = localStorage.getItem('session-token');
-    const attr = {
-      method: 'PATCH',
-      headers: new Headers({
-        Authorization: token,
-        'Content-Type': 'application/json; charset=utf-8;',
-      }),
-      body: JSON.stringify(param),
-    };
-    return new Promise((resolve, reject) => {
-      fetch(`${host}${path}`, attr)
-        .then((response) => {
-          if (response.status !== 200 &&
-              response.status !== 201) {
-            console.warn(`Status Code: ${response.status}`);
-            reject(response);
-          }
-          resolve(response.json());
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  }
-
-  // static Put() {
-  // }
-
-  // static Head() {
-  // }
+  });
 }
+
+
+const get = (path, params = undefined) => {
+  const token = localStorage.getItem('session-token');
+  const attr = {
+    method: 'GET',
+    headers: new Headers({
+      Authorization: token,
+    }),
+  };
+
+  let query = `${HOST}${path}`;
+  if (params !== undefined) {
+    query += '?';
+    Object.keys(params).forEach((param) => {
+      query += `${param}=${params[param]}&`;
+    });
+  }
+
+  return request(query, attr);
+};
+
+const send = (method, path, param = undefined) => {
+  const token = localStorage.getItem('session-token');
+  const attr = {
+    method,
+    headers: new Headers({
+      Authorization: token,
+      'Content-Type': 'application/json; charset=utf-8;',
+    }),
+    body: JSON.stringify(param) || undefined,
+  };
+  return request(`${HOST}${path}`, attr);
+};
+
+export default { get, send };

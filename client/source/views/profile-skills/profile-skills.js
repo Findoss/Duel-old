@@ -1,5 +1,4 @@
-// Services
-import * as SkillService from '@/services/skills';
+import { mapActions, mapState, mapGetters } from 'vuex';
 
 // Components
 import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
@@ -16,36 +15,22 @@ export default {
     'z-text-field': BaseTextField,
   },
 
-  data() {
-    return {
-      loading: false,
-      skills: [],
-      pressSkillId: 0,
-    };
-  },
-
   computed: {
-    selectedSkills() {
-      return this.$store.state.user.idSkills;
-    },
-  },
-
-
-  created() {
-    SkillService.getAllSkills()
-      .then((response) => {
-        this.skills = response.skills;
-        this.loading = true;
-      })
-      .catch((error) => {
-        console.warn(error);
-      });
+    ...mapState({
+      selectedSkills: state => state.user.idSkills,
+      skills: state => state.skills.skills,
+      infoSkillId: state => state.skills.infoSkillId,
+    }),
+    ...mapGetters({
+      getSkillInfo: 'skills/getSkillInfo',
+    }),
   },
 
   methods: {
-    pressSkill(idSkill) {
-      this.pressSkillId = idSkill - 1; // todo элеиент массива !== уменю
-    },
+    ...mapActions({
+      loadSkills: 'skills/loadSkills',
+      pressSkill: 'skills/pressSkill',
+    }),
 
     pathSkill(id) {
       return require(`@/assets/skills/${id}.png`);

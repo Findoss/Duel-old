@@ -86,7 +86,7 @@ router.beforeEach((to, from, next) => {
   const goProfile = to.matched.some(r => r.meta.goProfile);
 
   if (requiresAuthorization && !SessionService.isLogin()) {
-    store.commit('authorization/showAlert', {
+    store.dispatch('user/signin/showAlert', {
       type: 'error',
       message: 'Please login to view this page.',
     });

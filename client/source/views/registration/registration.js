@@ -1,8 +1,8 @@
+import { mapActions } from 'vuex';
+
 // Utils
 import Rules from '@/utils/validation/rules';
-
-// Services
-import * as UserService from '@/services/user';
+import validationForm from '@/utils/validation/form';
 
 // Components
 import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
@@ -19,10 +19,10 @@ export default {
 
   data() {
     return {
+      error: '',
       form: {
-        error: '',
         nickname: {
-          value: '',
+          value: 'aaaa',
           status: false,
           rules: [
             Rules.nickname,
@@ -30,7 +30,7 @@ export default {
           ],
         },
         email: {
-          value: '',
+          value: 'aa@aa.aa',
           status: false,
           rules: [
             Rules.email,
@@ -38,7 +38,7 @@ export default {
           ],
         },
         password: {
-          value: '',
+          value: 'asf5sd16f5a1s6',
           status: false,
           rules: [Rules.password],
         },
@@ -47,17 +47,12 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      registration: 'user/registration',
+    }),
+
     submit() {
-      if (!this.form.nickname.status) {
-        this.$refs.nickname.validation();
-        return false;
-      } else if (!this.form.email.status) {
-        this.$refs.email.validation();
-        return false;
-      } else if (!this.form.password.status) {
-        this.$refs.password.validation();
-        return false;
-      }
+      if (!validationForm(this, 'form')) return false;
 
       const user = {
         nickname: this.form.nickname.value,
@@ -65,26 +60,12 @@ export default {
         password: this.form.password.value,
       };
 
-      // UserService.registration(user)
-      //   .then((response) => {
-      //     if (response.code === undefined) {
-      //       // todo автомтическое залогивание и переход в профиль
-      //       this.$store.commit('authorization/showAlert', {
-      //         type: 'success',
-      //         message: response.message,
-      //       });
-      //       this.$router.push({ path: '/signin' });
-      //     } else {
-      //       this.$refs.password.reset();
-      //       this.form.error = response.message;
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.warn(error);
-      //   });
-
-      this.$store.dispatch('authorization/registration', { user });
-      return true;
+      this.registration(user)
+        .catch((error) => {
+          this.error = error.message;
+          this.$refs.password.reset();
+          this.form.password.status = false;
+        });
     },
 
   },

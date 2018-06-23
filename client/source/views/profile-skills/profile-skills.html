@@ -1,54 +1,68 @@
-<z-loading :show=!loading>
+<z-loading :show="Object.keys(skills).length === 0">
 
   <div class="conteiner">
     <div class="user">
-      <h2><span class="user__title-level">{{ this.$store.state.user.level }}</span>{{ this.$store.state.user.nickname }}</h2>
-      <span>skill points = <strong>{{ this.$store.state.user.skillPoints }}</strong></span>
-      <span>golds = <strong>{{ this.$store.state.user.gold }}</strong></span>
+      <h2>
+        <span class="user__title-level">{{ this.$store.state.user.level }}</span>{{ this.$store.state.user.nickname }}</h2>
+      <span>skill points =
+        <strong>{{ this.$store.state.user.skillPoints }}</strong>
+      </span>
+      <span>golds =
+        <strong>{{ this.$store.state.user.gold }}</strong>
+      </span>
       <br>
       <img :src="pathAvatar(this.$store.state.user.avatar)" alt="this.$store.state.user.avatar" class="user__avatar">
+      <div class="user__skills">
+        <img 
+        v-for="(idSkill) in this.$store.state.user.idSkills" 
+        :alt="idSkill" 
+        :src="pathSkill(idSkill)"
+        class="user__skill"
+        >
+        <div v-for="i in 8-this.$store.state.user.idSkills.length" class="user__skill--empty"></div>
+      </div>
       <div class="user__parameters">
-
         <table>
           <tbody>
             <tr v-for="(parameter, key) in this.$store.state.user.parameters">
-              <td><span v-if="key === 'force'">💪</span>{{ key }}</td>
-              <td><strong>{{ parameter }}</strong><strong><span class="p"> +10</span></strong></td>
+              <td>
+                <span v-if="key === 'force'">💪</span>{{ key }}</td>
+              <td>
+                <strong>{{ parameter }}</strong>
+                <strong>
+                  <span class="p"> +10</span>
+                </strong>
+              </td>
             </tr>
           </tbody>
         </table>
-      </div>
-      <div class="user__skills">
-        <img 
-          v-for="(idSkill) in this.$store.state.user.idSkills" 
-          alt="idSkill" 
-          class="user__skill"
-          :src="pathSkill(idSkill)"
-        >
-        <div v-for="i in 8-this.$store.state.user.idSkills.length" class="user__skill--empty"></div>
       </div>
     </div>
 
     <div class="skills">
       <div class="skills__info-skill info-skill">
-        <div class="info-skill__icon"></div>
-        <img :src="pathSkill(this.skills[pressSkillId].id)" :alt="this.skills[pressSkillId].title">
-        <h2 class="info-skill__title">{{ this.skills[pressSkillId].title  }}</h2>
-        <div class="info-skill__description">{{ this.skills[pressSkillId].description }}</div>
-        <div class="info-skill__duration">⊝ duration = {{ this.skills[pressSkillId].duration }}</div>
-        <div class="info-skill__cooldown">⊜ cooldown = {{ this.skills[pressSkillId].cooldown }}</div>
-        <div class="info-skill__changeCourse">changeCourse = {{ this.skills[pressSkillId].changeCourse }}</div>
-        <div class="info-skill__triggeringEvent">triggeringEvent = {{ this.skills[pressSkillId].triggeringEvent }}</div>
-        <div class="info-skill__energy_1">⦿ {{ this.skills[pressSkillId].energy_1 }}</div>
-        <div class="info-skill__energy_2">⦿ {{ this.skills[pressSkillId].energy_2 }}</div>
-        <div class="info-skill__energy_3">⦿ {{ this.skills[pressSkillId].energy_3 }}</div>
-        <div class="info-skill__skillPoints">{{ this.skills[pressSkillId].skillPoints }}</div>
-        <div class="info-skill__priceInGold">$ {{ this.skills[pressSkillId].priceInGold }}</div>
-        <div class="info-skill__minLevel">●●● {{ this.skills[pressSkillId].minLevel }}</div>
-        <z-button>ADD</z-button>
-        <z-button>BUY -{{ this.skills[pressSkillId].priceInGold }}</z-button>
+        <table>
+          <tbody>
+            <tr>
+                <td><img 
+                :src="pathSkill(this.getSkillInfo.id)" 
+              ></td>
+              <td></td>
+            </tr>
+            <tr v-for="(parameter, key) in this.getSkillInfo">
+              <td>{{ key }}</td>
+              <td>
+                <strong>{{ parameter }}</strong>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <br><br>
+      <z-button>ADD</z-button>
+      <z-button>BUY -{{ this.getSkillInfo.priceInGold }}</z-button>
+      <br>
+      <br>
+
       <div class="skills__info-filters">FILTER</div>
       <div class="skills__grid grid">
         <img 
@@ -61,5 +75,7 @@
         >
       </div>
     </div>
+
+
   </div>
 </z-loading>
