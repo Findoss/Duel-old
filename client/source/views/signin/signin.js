@@ -61,9 +61,9 @@ export default {
           this.$store.commit('authorization/showAlert', {
             type: 'error',
             message: response.message,
-          });
+        });
         }
-      });
+        });
       return true;
     },
     closeAlert() {
@@ -72,5 +72,13 @@ export default {
         message: null,
       });
     },
+  },
+
+  beforeRouteLeave(to, from, next) {
+    this.showAlert({
+      type: 'info',
+      message: '',
+    });
+    next();
   },
 };
