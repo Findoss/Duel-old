@@ -1,12 +1,16 @@
 # Group Skills API
 
-### Все умения [GET /skills]
+### Все умения [GET /skills{?offset,limit}]
 Получение всех умений
+
++ Parameters
+    + offset: 0  (number, optional) - Номер страницы.
+    + limit:  10 (number, optional) - Количество элементов на странице.
 
 + Response 200 (application/json; charset=utf-8)
     + Attributes
         + skills (array)
-            + (object)
+            + 1 (object)
                 + id: 1 (number)
                 + title: Lightning (string)
                 + description: Inflicts lightning damage to an enemy (string)
@@ -20,7 +24,7 @@
                 + skillPoints: 3 (number)
                 + priceInGold: 100 (number)
                 + minLevel: 0 (number)
-            + (object)
+            + 2 (object)
                 + id: 2 (number)
                 + title: Magic Square (string)
                 + description: The effect of the skill is expressed in the collection from the playing field of the runes in a square area of 3x3, specified by you (string)
@@ -34,7 +38,7 @@
                 + skillPoints: 3 (number)
                 + priceInGold: 150 (number)
                 + minLevel: 0 (number)
-            + (object)
+            + 3 (object)
                 + id: 3 (number)
                 + title: Evolution (string)
                 + description: Increases the positive effect of your random skill until the end of the fight. (string)
