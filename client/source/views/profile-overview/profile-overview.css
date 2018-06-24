@@ -17,18 +17,10 @@
 
 .overview__title-avatar {
   height: 300px;
-  
-  /* background-size: contain; */
-  /* background-repeat: no-repeat; */
-  /* background-position-x: center; */
-  /* background-position-y: bottom; */
-  /* background-attachment: fixed; */
-  background-color: var(--background-0);
-  /* background-image: url('../../assets/ba.png'); */
 }
 
 .avatar__image {
-  height: 200px;
+  height: 320px;
 }
 
 .overview__stats {
