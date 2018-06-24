@@ -193,9 +193,6 @@
 
 
 <script>
-  // Services
-  import * as UserService from '@/services/user';
-
   // Components
   import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
   import BaseButton from '@/components/BaseButton/BaseButton.vue';

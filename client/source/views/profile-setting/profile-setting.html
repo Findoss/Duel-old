@@ -1,11 +1,13 @@
 <z-loading :show="avatars === null">
   <div class="settings">
     <z-alert
+      v-for="(alert, index) in alerts"
+      :key="index"
       :icon="true"
       :dismissible="true"
       :type="alert.type"
       :show="alert.message"
-      @close="alert.message = null;"
+      @close="deleteAlert(index)"
     >
       {{ alert.message }}
     </z-alert>
@@ -22,6 +24,7 @@
     <h4>Change password</h4>
     <form accept-charset="UTF-8"  @submit.prevent="submitChangePassword" novalidate>
       <z-text-field
+        :icon="false"
         :validationRules="form.oldPassword.rules"
         @validation="form.oldPassword.status = $event"
         label="Old password"
@@ -83,6 +86,6 @@
     >
       Once you delete your account, there is no going back. Please be certain.
     </z-alert>
-    <z-button tabindex="7" type="submit" class="base-button" @click="submitDeleteAccount">Delete your account</z-button>
+    <z-button tabindex="7" type="submit" @click="deleteAccount()">Delete your account</z-button>
   </div>
 </z-loading>

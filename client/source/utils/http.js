@@ -37,7 +37,7 @@ const get = (path, params = undefined) => {
   return request(query, attr);
 };
 
-const send = (method, path, param = undefined) => {
+const send = (method, path, body = undefined) => {
   const token = localStorage.getItem('session-token');
   const attr = {
     method,
@@ -45,7 +45,7 @@ const send = (method, path, param = undefined) => {
       Authorization: token,
       'Content-Type': 'application/json; charset=utf-8;',
     }),
-    body: JSON.stringify(param) || undefined,
+    body: JSON.stringify(body) || undefined,
   };
   return request(`${HOST}${path}`, attr);
 };
