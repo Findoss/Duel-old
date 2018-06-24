@@ -1,5 +1,4 @@
-// Services
-import * as UserService from '@/services/user';
+import { mapActions } from 'vuex';
 
 // Components
 import BaseLoading from '@/components/BaseLoading/BaseLoading.vue';
@@ -12,7 +11,6 @@ export default {
 
   data() {
     return {
-      loading: false,
       users: [],
     };
   },
@@ -24,19 +22,19 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      loadScoreboard: 'user/loadScoreboard',
+    }),
+
     pathAvatar(avatar) {
       return require(`@/assets/avatars/${avatar}.png`);
     },
   },
 
   created() {
-    UserService.getUsers()
+    this.loadScoreboard()
       .then((response) => {
         this.users = response.users;
-        this.loading = true;
-      })
-      .catch((error) => {
-        console.warn(error);
       });
   },
 };

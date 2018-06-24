@@ -1,10 +1,8 @@
-// Components
-import * as MeService from '@/services/me';
-import * as SessionService from '@/services/session';
-import * as StaticService from '@/services/static';
+import { mapActions } from 'vuex';
 
 // Utils
 import Rules from '@/utils/validation/rules';
+import validationForm from '@/utils/validation/form';
 
 // Components
 import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
@@ -22,7 +20,7 @@ export default {
   },
 
   created() {
-    StaticService.getAvatars()
+    this.loadAvatarsList()
       .then((response) => {
         this.avatars = response.avatars;
       });
@@ -31,12 +29,8 @@ export default {
   data() {
     return {
       avatars: null,
-      alert: {
-        type: 'info',
-        message: '',
-      },
+      alerts: [],
       form: {
-        error: '',
         oldPassword: {
           value: '',
           status: false,
@@ -54,7 +48,6 @@ export default {
         },
       },
       form2: {
-        error: '',
         newNickname: {
           value: '',
           status: false,
@@ -68,56 +61,44 @@ export default {
   },
 
   methods: {
-    submitDeleteAccount() {
-      MeService.deleteAccount()
-        .then((response) => {
-          this.$store.commit('authorization/showAlert', {
-            type: 'info',
-            message: response.message,
-          });
-          SessionService.signOut()
-            .then(() => this.$router.push({ path: '/signin' }));
-        })
-        .catch((error) => {
-          console.warn(error);
-        });
-    },
+    ...mapActions({
+      deleteAccount: 'user/deleteAccount',
+      updateAccauntData: 'user/updateAccauntData',
+      loadAvatarsList: 'user/loadAvatarsList',
+    }),
 
     submitChangeNickname() {
-      if (!this.form2.newNickname.status) {
-        this.$refs.newNickname.validation();
-        return false;
-      }
+      if (!validationForm(this, 'form2')) return false;
 
-      MeService.updateNickname({ nickname: this.form2.newNickname.value })
+      this.updateAccauntData({
+        field: 'nickname',
+        data: this.form2.newNickname.value,
+      })
         .then((response) => {
-          if (response.code === undefined) this.alert.type = 'success';
-          else this.alert.type = 'error';
-          this.alert.message = response.message;
+          this.alerts.push({
+            type: 'success',
+            message: response.message,
+          });
         })
         .catch((error) => {
-          console.warn(error);
+          this.alerts.push({
+            type: 'error',
+            message: error.message,
+          });
         });
-      return true; // ?? todo
     },
 
     submitChangePassword() {
-      if (!this.form.oldPassword.status) {
-        this.$refs.oldPassword.validation();
-        return false;
-      } else if (!this.form.newPassword.status) {
-        this.$refs.newPassword.validation();
-        return false;
-      } else if (!this.form.confirmPassword.status) {
-        this.$refs.confirmPassword.validation();
-        return false;
-      } else if (this.form.newPassword.value !== this.form.confirmPassword.value) {
-        this.alert = {
+      if (!validationForm(this, 'form')) return false;
+      else if (this.form.newPassword.value !== this.form.confirmPassword.value) {
+        alerts.push({
           type: 'error',
           message: 'Password confirmation doesn\'t match the password.',
-        };
+        });
         this.$refs.newPassword.reset();
         this.$refs.confirmPassword.reset();
+        this.form.newPassword.status = false;
+        this.form.confirmPassword.status = false;
         return false;
       }
 
@@ -126,22 +107,50 @@ export default {
         newPassword: this.form.newPassword.value,
       };
 
-      MeService.updatePassword(passwords)
+      this.updateAccauntData({
+        field: 'password',
+        data: passwords,
+      })
         .then((response) => {
-          if (response.code === undefined) this.alert.type = 'success';
-          else this.alert.type = 'error';
-          this.alert.message = response.message;
+          this.alerts.push({
+            type: 'success',
+            message: response.message,
+          });
+        })
+        .catch((error) => {
+          this.alerts.push({
+            type: 'error',
+            message: error.message,
+          });
           this.$refs.oldPassword.reset();
           this.$refs.newPassword.reset();
           this.$refs.confirmPassword.reset();
           this.form.oldPassword.status = false;
           this.form.newPassword.status = false;
           this.form.confirmPassword.status = false;
-        })
-        .catch((error) => {
-          console.warn(error);
         });
-      return true; // ?? todo
+    },
+
+    selectAvatar(avatar) {
+      if (avatar !== this.$store.state.user.avatar) {
+        this.updateAccauntData({
+          field: 'avatar',
+          data: avatar,
+        })
+          .then((response) => {
+            this.$store.commit('user/setAvatar', avatar); // HUCK
+            this.alerts.push({
+              type: 'success',
+              message: response.message,
+            });
+          })
+          .catch((error) => {
+            this.alerts.push({
+              type: 'error',
+              message: error.message,
+            });
+          });
+      }
     },
 
     pathAvatar(avatar) {
@@ -152,15 +161,13 @@ export default {
       return avatar === this.$store.state.user.avatar;
     },
 
-    selectAvatar(avatar) {
-      MeService.updateAvatar({ avatar })
-        .then((response) => {
-          this.$store.commit('user/setAvatar', avatar);
-          this.alert = {
-            type: 'success',
-            message: response.message,
-          };
-        });
+    deleteAlert(index) {
+      this.alerts.splice(index, 1);
+    },
+
+    beforeRouteLeave(to, from, next) {
+      this.alerts = [];
+      next();
     },
 
   },

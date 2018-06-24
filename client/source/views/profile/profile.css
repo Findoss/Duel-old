@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: center;
   padding-top: 10px;
+  background-color: var(--background-1);
 }
 
 .profile__navigation {
@@ -15,7 +16,7 @@
   margin: 5px;
   text-decoration: none;
   text-align: center;
-  border: 2px solid var(--color-gray-norm)
+  border: 2px solid var(--color-gray-norm);
 }
 
 .profile__body {
