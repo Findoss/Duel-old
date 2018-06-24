@@ -51,10 +51,20 @@ const actions = {
   loadUserParameters({ commit }) {
     Http.get('/static/user-parameters')
       .then((response) => {
-        console.log(response);
-
         commit('setUserParameters', response);
       });
+  },
+
+  loadAvatarsList(ctx) {
+    return new Promise((resolve, reject) => {
+      Http.get('/static/avatars')
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   },
 
   registration({ dispatch }, user) {
@@ -66,6 +76,48 @@ const actions = {
             message: response.message,
           });
           Router.push({ path: '/signin' });
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  },
+
+  deleteAccount({ dispatch }) {
+    return new Promise((resolve, reject) => {
+      if (confirm('Once you delete your account, there is no going back. Please be certain.')) {
+        Http.send('DELETE', '/me')
+          .then((response) => {
+            localStorage.removeItem('session-token');
+            dispatch('signin/showAlert', {
+              type: 'info',
+              message: response.message,
+            });
+            Router.push({ path: '/signin' });
+          });
+      }
+    });
+  },
+
+  updateAccauntData(ctx, payload) {
+    return new Promise((resolve, reject) => {
+      const { field } = payload;
+      const { data } = payload;
+      Http.send('PATCH', `/me/${field}`, { field: data })
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  },
+
+  loadScoreboard(ctx) {
+    return new Promise((resolve, reject) => {
+      Http.get('/users')
+        .then((response) => {
+          resolve(response);
         })
         .catch((error) => {
           reject(error);

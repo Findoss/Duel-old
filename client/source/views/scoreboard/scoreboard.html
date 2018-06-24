@@ -1,4 +1,4 @@
-<z-loading :show=!loading>
+<z-loading :show="users.lenght > 0">
   <div class="scoreboard">
     <h4>
       <router-link :to="{ path: `/${myUserId}` }">Back my profile</router-link>
