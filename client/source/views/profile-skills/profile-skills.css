@@ -32,21 +32,37 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
+  
 }
 
 .user__skill--empty {
-  margin: 10px;
-  width: 72px;
-  height: 72px;
   background-color: var(--background-1);
   border: 2px solid var(--color-gray-norm);
+  margin: 10px;
+  width: 72px;
+  height: 72px;
+  cursor: pointer;
 }
 
-.user__skill {
+.skill {
+  background-color: var(--background-1);
   border: 2px solid var(--color-gray-norm);
-  width: 72px;
   margin: 10px;
+  width: 72px;
   height: 72px;
+  cursor: pointer;
+}
+
+.skill .skill__close{
+  display: none;
+}
+
+.skill:hover .skill__close{
+  display: block;
+  position: relative;
+  top: -25px;
+  left: 50px;
+  cursor: pointer;
 }
 
 .grid {
