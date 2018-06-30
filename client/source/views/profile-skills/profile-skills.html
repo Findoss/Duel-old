@@ -13,13 +13,18 @@
       <br>
       <img :src="pathAvatar(this.$store.state.user.avatar)" alt="this.$store.state.user.avatar" class="user__avatar">
       <div class="user__skills">
-        <img 
-        v-for="(idSkill) in this.$store.state.user.idSkills" 
-        :alt="idSkill" 
-        :src="pathSkill(idSkill)"
-        class="user__skill"
-        >
-        <div v-for="i in 8-this.$store.state.user.idSkills.length" class="user__skill--empty"></div>
+        <div v-for="(idSkill) in selectedSkills"  class="skill">
+          <img 
+            :alt="idSkill" 
+            :src="pathSkill(idSkill)"
+            class="user__skill"
+            @click="pressSkill(idSkill)"
+          >
+        <button @click="delSelectedSkill(idSkill)" class="skill__close">X</button>
+        </div>
+        <div 
+          v-for="i in 8-selectedSkills.length" class="user__skill--empty"
+        ></div>
       </div>
       <div class="user__parameters">
         <table>
@@ -44,12 +49,10 @@
         <table>
           <tbody>
             <tr>
-                <td><img 
-                :src="pathSkill(this.getSkillInfo.id)" 
-              ></td>
+              <td><img :src="pathSkill(getSkillInfo.id)"></td>
               <td></td>
             </tr>
-            <tr v-for="(parameter, key) in this.getSkillInfo">
+            <tr v-for="(parameter, key) in getSkillInfo">
               <td>{{ key }}</td>
               <td>
                 <strong>{{ parameter }}</strong>
@@ -58,8 +61,19 @@
           </tbody>
         </table>
       </div>
-      <z-button>ADD</z-button>
-      <z-button>BUY -{{ this.getSkillInfo.priceInGold }}</z-button>
+        <z-button 
+          v-if="unlockedSkills.some(id => id === getSkillInfo.id) && selectedSkills.length < 8" 
+          @click="addSelectedSkill(getSkillInfo.id)"
+          >
+          ADD
+        </z-button>
+        <z-button 
+          v-if="unlockedSkills.indexOf(getSkillInfo.id) === -1" 
+          @click="buySkill(getSkillInfo)"
+        >
+          BUY -{{ getSkillInfo.priceInGold }}
+        </z-button>
+      </template>
       <br>
       <br>
 

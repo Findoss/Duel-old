@@ -14,7 +14,8 @@ const state = {
   experience: 0,
   karma: 10,
   skillPoints: 10,
-  idSkills: [],
+  selectedSkills: [],
+  unlockedSkills: [],
   parameters: {
     health: 0,
     force: 0,
@@ -183,7 +184,8 @@ const mutations = {
     state.experience = userData.experience;
     state.karma = userData.karma;
     state.skillPoints = userData.skillPoints;
-    state.idSkills = userData.idSkills;
+    state.selectedSkills = userData.selectedSkills;
+    state.unlockedSkills = userData.unlockedSkills;
   },
 
   setAvatar(state, avatar) {
