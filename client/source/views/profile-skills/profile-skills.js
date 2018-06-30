@@ -17,7 +17,8 @@ export default {
 
   computed: {
     ...mapState({
-      selectedSkills: state => state.user.idSkills,
+      selectedSkills: state => state.user.selectedSkills,
+      unlockedSkills: state => state.user.unlockedSkills,
       skills: state => state.skills.skills,
       infoSkillId: state => state.skills.infoSkillId,
     }),
@@ -30,6 +31,9 @@ export default {
     ...mapActions({
       loadSkills: 'skills/loadSkills',
       pressSkill: 'skills/pressSkill',
+      delSelectedSkill: 'user/delSelectedSkill',
+      addSelectedSkill: 'user/addSelectedSkill',
+      buySkill: 'user/buySkill',
     }),
 
     pathSkill(id) {

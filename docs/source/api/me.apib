@@ -17,14 +17,15 @@
         + email: Ivan@email.ru (string)
         + avatar: shooter_2 (string)
         + rank: 14 (number)
-        + gold: 15 (number)
+        + gold: 15000 (number)
         + level: 2 (number)
         + experience: 16 (number)
         + karma: 10 (number)
         + skillPoints: 17 (number)
-        + idSkills (array, optional)
-            + 1 (number, optional)
-            + 2 (number, optional)
+        + openSlots: 5 (number)
+        + selectedSkills (array)
+        + unlockedSkills (array)
+
 
 + Response 403 (application/json; charset=utf-8)
 Переданы неверные параметры входа
@@ -51,7 +52,7 @@
 
 + Request (application/json)
     + Attributes
-        + idSkills (array)
+        + selectedSkills (array)
             + 3 (number, optional)
             + 2 (number, optional)
 
