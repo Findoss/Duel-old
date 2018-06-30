@@ -14,7 +14,8 @@ const state = {
   experience: 0,
   karma: 10,
   skillPoints: 10,
-  idSkills: [],
+  selectedSkills: [],
+  unlockedSkills: [],
   parameters: {
     health: 0,
     force: 0,
@@ -53,6 +54,33 @@ const actions = {
       .then((response) => {
         commit('setUserParameters', response);
       });
+  },
+
+  delSelectedSkill({ commit }, idSkill) {
+    return new Promise((resolve, reject) => {
+      commit('delSelectedSkill', idSkill);
+    });
+  },
+
+  addSelectedSkill({ commit }, idSkill) {
+    return new Promise((resolve, reject) => {
+      commit('addSelectedSkill', idSkill);
+    });
+  },
+
+  delSelectedSkill({ commit }, idSkill) {
+    return new Promise((resolve, reject) => {
+      commit('delSelectedSkill', idSkill);
+    });
+  },
+
+  buySkill({ state, commit }, skill) {
+    return new Promise((resolve, reject) => {
+      if (state.gold > skill.priceInGold) {
+        commit('unlockSkill', skill.id);
+        commit('expensesGold', skill.priceInGold);
+      }
+    });
   },
 
   loadAvatarsList(ctx) {
@@ -183,15 +211,32 @@ const mutations = {
     state.experience = userData.experience;
     state.karma = userData.karma;
     state.skillPoints = userData.skillPoints;
-    state.idSkills = userData.idSkills;
+    state.selectedSkills = userData.selectedSkills;
+    state.unlockedSkills = userData.unlockedSkills;
   },
 
   setAvatar(state, avatar) {
     state.avatar = avatar;
   },
 
+  delSelectedSkill(state, idSkill) {
+    state.selectedSkills.splice(state.selectedSkills.indexOf(idSkill), 1);
+  },
+
+  addSelectedSkill(state, idSkill) {
+    state.selectedSkills.push(idSkill);
+  },
+
   setUserParameters(state, parameters) {
     state.parameters = parameters;
+  },
+
+  unlockSkill(state, idSkill) {
+    state.unlockedSkills.push(idSkill);
+  },
+
+  expensesGold(state, number) {
+    state.gold -= number;
   },
 };
 

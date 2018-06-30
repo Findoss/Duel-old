@@ -14,7 +14,7 @@
       <p>karma <strong>{{ user.karma }}</strong></p>
       <p>skills 
         <img 
-          v-for="(idSkill) in user.idSkills"
+          v-for="(idSkill) in user.selectedSkills"
           :src="pathSkill(idSkill)"
           alt="skill" 
           class="stats__skill-image"
