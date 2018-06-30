@@ -56,6 +56,33 @@ const actions = {
       });
   },
 
+  delSelectedSkill({ commit }, idSkill) {
+    return new Promise((resolve, reject) => {
+      commit('delSelectedSkill', idSkill);
+    });
+  },
+
+  addSelectedSkill({ commit }, idSkill) {
+    return new Promise((resolve, reject) => {
+      commit('addSelectedSkill', idSkill);
+    });
+  },
+
+  delSelectedSkill({ commit }, idSkill) {
+    return new Promise((resolve, reject) => {
+      commit('delSelectedSkill', idSkill);
+    });
+  },
+
+  buySkill({ state, commit }, skill) {
+    return new Promise((resolve, reject) => {
+      if (state.gold > skill.priceInGold) {
+        commit('unlockSkill', skill.id);
+        commit('expensesGold', skill.priceInGold);
+      }
+    });
+  },
+
   loadAvatarsList(ctx) {
     return new Promise((resolve, reject) => {
       Http.get('/static/avatars')
@@ -192,8 +219,24 @@ const mutations = {
     state.avatar = avatar;
   },
 
+  delSelectedSkill(state, idSkill) {
+    state.selectedSkills.splice(state.selectedSkills.indexOf(idSkill), 1);
+  },
+
+  addSelectedSkill(state, idSkill) {
+    state.selectedSkills.push(idSkill);
+  },
+
   setUserParameters(state, parameters) {
     state.parameters = parameters;
+  },
+
+  unlockSkill(state, idSkill) {
+    state.unlockedSkills.push(idSkill);
+  },
+
+  expensesGold(state, number) {
+    state.gold -= number;
   },
 };
 
