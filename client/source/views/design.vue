@@ -183,7 +183,9 @@
       value="123"
     />
 
-    <z-button type="submit">Hello Button</z-button>
+    <z-button type="submit">Normal button</z-button>
+    <br>
+    <z-button type="submit" disabled>Disable button</z-button>
 
   </div>
 
