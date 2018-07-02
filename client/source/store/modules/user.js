@@ -36,7 +36,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       Http.get('/me')
         .then((response) => {
-          commit('setUserData', response);
+          commit('SET_USER_DATA', response);
         })
         .catch((error) => {
           // SessionService.signOut();
@@ -52,33 +52,27 @@ const actions = {
   loadUserParameters({ commit }) {
     Http.get('/static/user-parameters')
       .then((response) => {
-        commit('setUserParameters', response);
+        commit('USER_PARAMETERS', response);
       });
   },
 
   delSelectedSkill({ commit }, idSkill) {
     return new Promise((resolve, reject) => {
-      commit('delSelectedSkill', idSkill);
+      commit('DEL_SKILL_IN_SET', idSkill);
     });
   },
 
   addSelectedSkill({ commit }, idSkill) {
     return new Promise((resolve, reject) => {
-      commit('addSelectedSkill', idSkill);
-    });
-  },
-
-  delSelectedSkill({ commit }, idSkill) {
-    return new Promise((resolve, reject) => {
-      commit('delSelectedSkill', idSkill);
+      commit('ADD_SKILL_IN_SET', idSkill);
     });
   },
 
   buySkill({ state, commit }, skill) {
     return new Promise((resolve, reject) => {
       if (state.gold > skill.priceInGold) {
-        commit('unlockSkill', skill.id);
-        commit('expensesGold', skill.priceInGold);
+        commit('UNLOCK_SKILL', skill.id);
+        commit('EXPENSES_GOLD', skill.priceInGold);
       }
     });
   },
@@ -200,7 +194,7 @@ const actions = {
 };
 
 const mutations = {
-  setUserData(state, userData) {
+  SET_USER_DATA(state, userData) {
     state.id = userData.id;
     state.nickname = userData.nickname;
     state.email = userData.email;
@@ -215,27 +209,27 @@ const mutations = {
     state.unlockedSkills = userData.unlockedSkills;
   },
 
-  setAvatar(state, avatar) {
-    state.avatar = avatar;
-  },
-
-  delSelectedSkill(state, idSkill) {
-    state.selectedSkills.splice(state.selectedSkills.indexOf(idSkill), 1);
-  },
-
-  addSelectedSkill(state, idSkill) {
-    state.selectedSkills.push(idSkill);
-  },
-
-  setUserParameters(state, parameters) {
+  SET_USER_PARAMETERS(state, parameters) {
     state.parameters = parameters;
   },
 
-  unlockSkill(state, idSkill) {
+  SET_AVATAR(state, avatar) {
+    state.avatar = avatar;
+  },
+
+  DEL_SKILL_IN_SET(state, idSkill) {
+    state.selectedSkills.splice(state.selectedSkills.indexOf(idSkill), 1);
+  },
+
+  ADD_SKILL_IN_SET(state, idSkill) {
+    state.selectedSkills.push(idSkill);
+  },
+
+  UNLOCK_SKILL(state, idSkill) {
     state.unlockedSkills.push(idSkill);
   },
 
-  expensesGold(state, number) {
+  EXPENSES_GOLD(state, number) {
     state.gold -= number;
   },
 };
