@@ -62,13 +62,19 @@
         </table>
       </div>
         <z-button 
-          v-if="unlockedSkills.some(id => id === getSkillInfo.id) && selectedSkills.length < 8" 
+          v-if="unlockedSkills.some(id => id === getSkillInfo.id)"
+          :disabled=
+          "
+            $store.state.user.selectedSkills.length >= $store.state.user.openSlots || 
+            getSkillsClones(getSkillInfo.id) >= getSkillInfo.limitCopy
+          "
           @click="addSelectedSkill(getSkillInfo.id)"
-          >
+        >
           ADD
         </z-button>
         <z-button 
-          v-if="unlockedSkills.indexOf(getSkillInfo.id) === -1" 
+          v-if="unlockedSkills.indexOf(getSkillInfo.id) === -1"
+          :disabled="getSkillInfo.priceInGold > $store.state.user.gold"
           @click="buySkill(getSkillInfo)"
         >
           BUY -{{ getSkillInfo.priceInGold }}

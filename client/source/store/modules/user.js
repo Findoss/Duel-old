@@ -30,6 +30,14 @@ const state = {
 };
 
 const getters = {};
+  getSkillsClones: state => (id) => {
+    let countClone = 0;
+    state.selectedSkills.forEach((skill) => {
+      if (skill === id) countClone += 1;
+    });
+    return countClone;
+  },
+};
 
 const actions = {
   loadMe({ commit, dispatch }) {
@@ -70,7 +78,7 @@ const actions = {
 
   buySkill({ state, commit }, skill) {
     return new Promise((resolve, reject) => {
-      if (state.gold > skill.priceInGold) {
+      if (state.gold >= skill.priceInGold) {
         commit('UNLOCK_SKILL', skill.id);
         commit('EXPENSES_GOLD', skill.priceInGold);
       }
@@ -204,6 +212,7 @@ const mutations = {
     state.level = userData.level;
     state.experience = userData.experience;
     state.karma = userData.karma;
+    state.openSlots = userData.openSlots;
     state.skillPoints = userData.skillPoints;
     state.selectedSkills = userData.selectedSkills;
     state.unlockedSkills = userData.unlockedSkills;
