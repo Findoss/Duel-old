@@ -24,7 +24,13 @@ export default {
     }),
     ...mapGetters({
       getSkillInfo: 'skills/getSkillInfo',
+      getSkillsSet: 'user/getSkillsSet',
+      getSkillsClones: 'user/getSkillsClones',
     }),
+  },
+
+  mounted() {
+    // console.log();
   },
 
   methods: {

@@ -138,7 +138,7 @@ export default {
           data: avatar,
         })
           .then((response) => {
-            this.$store.commit('user/setAvatar', avatar); // HUCK
+            this.$store.commit('user/SET_AVATAR', avatar); // HUCK
             this.alerts.push({
               type: 'success',
               message: response.message,

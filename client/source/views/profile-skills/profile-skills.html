@@ -11,20 +11,23 @@
         <strong>{{ this.$store.state.user.gold }}</strong>
       </span>
       <br>
-      <img :src="pathAvatar(this.$store.state.user.avatar)" alt="this.$store.state.user.avatar" class="user__avatar">
+      <img :src="pathAvatar($store.state.user.avatar)" alt="$store.state.user.avatar" class="user__avatar">
       <div class="user__skills">
-        <div v-for="(idSkill) in selectedSkills"  class="skill">
-          <img 
-            :alt="idSkill" 
-            :src="pathSkill(idSkill)"
-            class="user__skill"
-            @click="pressSkill(idSkill)"
-          >
-        <button @click="delSelectedSkill(idSkill)" class="skill__close">X</button>
-        </div>
         <div 
-          v-for="i in 8-selectedSkills.length" class="user__skill--empty"
-        ></div>
+          v-for="(idSkill, index) in getSkillsSet"
+          :key="index"
+          :class="[idSkill === -2 ? 'user__skill--lock' : 'user__skill-empty', 'skill']"
+        >
+          <template v-if="idSkill >= 0">
+            <img 
+              :alt="idSkill" 
+              :src="pathSkill(idSkill)"
+              class="user__skill"
+              @click="pressSkill(idSkill)"
+            />
+            <button @click="delSelectedSkill(idSkill)" class="skill__close">X</button>
+          </template>
+        </div>
       </div>
       <div class="user__parameters">
         <table>
@@ -62,13 +65,19 @@
         </table>
       </div>
         <z-button 
-          v-if="unlockedSkills.some(id => id === getSkillInfo.id) && selectedSkills.length < 8" 
+          v-if="unlockedSkills.some(id => id === getSkillInfo.id)"
+          :disabled=
+          "
+            $store.state.user.selectedSkills.length >= $store.state.user.openSlots || 
+            getSkillsClones(getSkillInfo.id) >= getSkillInfo.limitCopy
+          "
           @click="addSelectedSkill(getSkillInfo.id)"
-          >
+        >
           ADD
         </z-button>
         <z-button 
-          v-if="unlockedSkills.indexOf(getSkillInfo.id) === -1" 
+          v-if="unlockedSkills.indexOf(getSkillInfo.id) === -1"
+          :disabled="getSkillInfo.priceInGold > $store.state.user.gold"
           @click="buySkill(getSkillInfo)"
         >
           BUY -{{ getSkillInfo.priceInGold }}
@@ -79,14 +88,26 @@
 
       <div class="skills__info-filters">FILTER</div>
       <div class="skills__grid grid">
-        <img 
+        <div 
           v-for="(skill) in skills" 
-          :key="skill.id" 
-          :alt="skill.id" 
-          :src="pathSkill(skill.id)" 
-          :class="[selectedSkills.some(id => id === skill.id) ? 'grid__skill--selected' : '', 'grid__skill']"
-          @click="pressSkill(skill.id)"
+          :key="skill.id"
+          :class=
+          "[
+            selectedSkills.some(id => id === skill.id) ? 'grid__skill--selected' : '',
+            unlockedSkills.indexOf(skill.id) >= 0 ? 'grid__skil--unlock' : '',
+            unlockedSkills.indexOf(skill.id) === -1 ? 'grid__skil--lock' : '',
+            'grid__skill'
+          ]"
         >
+          <img 
+            :alt="skill.id"
+            :src="pathSkill(skill.id)"
+            @click="pressSkill(skill.id)"
+          >
+          <span v-if="unlockedSkills.indexOf(skill.id) === -1" class="XXX">
+            -{{ skill.priceInGold }}
+          </span>
+        </div>
       </div>
     </div>
 
