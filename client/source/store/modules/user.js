@@ -14,6 +14,8 @@ const state = {
   experience: 0,
   karma: 10,
   skillPoints: 10,
+  limitSlots: 8,
+  openSlots: 3,
   selectedSkills: [],
   unlockedSkills: [],
   parameters: {
@@ -29,7 +31,21 @@ const state = {
   },
 };
 
-const getters = {};
+const getters = {
+  getSkillsSet: (state) => {
+    const skillsSet = [];
+    for (let i = 0; i < state.limitSlots; i++) {
+      if (state.selectedSkills[i] !== undefined) {
+        skillsSet.push(state.selectedSkills[i]);
+      } else if (i >= state.openSlots) {
+        skillsSet.push(-2); // lock
+      } else {
+        skillsSet.push(-1); // empty
+      }
+    }
+    return skillsSet;
+  },
+
   getSkillsClones: state => (id) => {
     let countClone = 0;
     state.selectedSkills.forEach((skill) => {
@@ -60,7 +76,7 @@ const actions = {
   loadUserParameters({ commit }) {
     Http.get('/static/user-parameters')
       .then((response) => {
-        commit('USER_PARAMETERS', response);
+        commit('SET_USER_PARAMETERS', response);
       });
   },
 
