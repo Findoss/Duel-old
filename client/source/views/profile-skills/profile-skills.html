@@ -11,20 +11,23 @@
         <strong>{{ this.$store.state.user.gold }}</strong>
       </span>
       <br>
-      <img :src="pathAvatar(this.$store.state.user.avatar)" alt="this.$store.state.user.avatar" class="user__avatar">
+      <img :src="pathAvatar($store.state.user.avatar)" alt="$store.state.user.avatar" class="user__avatar">
       <div class="user__skills">
-        <div v-for="(idSkill) in selectedSkills"  class="skill">
-          <img 
-            :alt="idSkill" 
-            :src="pathSkill(idSkill)"
-            class="user__skill"
-            @click="pressSkill(idSkill)"
-          >
-        <button @click="delSelectedSkill(idSkill)" class="skill__close">X</button>
-        </div>
         <div 
-          v-for="i in 8-selectedSkills.length" class="user__skill--empty"
-        ></div>
+          v-for="(idSkill, index) in getSkillsSet"
+          :key="index"
+          :class="[idSkill === -2 ? 'user__skill--lock' : 'user__skill-empty', 'skill']"
+        >
+          <template v-if="idSkill >= 0">
+            <img 
+              :alt="idSkill" 
+              :src="pathSkill(idSkill)"
+              class="user__skill"
+              @click="pressSkill(idSkill)"
+            />
+            <button @click="delSelectedSkill(idSkill)" class="skill__close">X</button>
+          </template>
+        </div>
       </div>
       <div class="user__parameters">
         <table>
