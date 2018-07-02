@@ -30,6 +30,9 @@
 }
 
 .base-button:disabled {
-  border-color: var(--color-gray-bright);
-  border-image: linear-gradient(to right, hsl(0, 0%, 7%), hsl(220, 16%, 22%), hsl(0, 0%, 7%));
+  cursor: auto;
+  color: var(--color-gray-norm);
+  border-image: none;
+  border: 2px solid;
+  border-color: var(--color-gray-norm);
 }
