@@ -88,14 +88,26 @@
 
       <div class="skills__info-filters">FILTER</div>
       <div class="skills__grid grid">
-        <img 
+        <div 
           v-for="(skill) in skills" 
-          :key="skill.id" 
-          :alt="skill.id" 
-          :src="pathSkill(skill.id)" 
-          :class="[selectedSkills.some(id => id === skill.id) ? 'grid__skill--selected' : '', 'grid__skill']"
-          @click="pressSkill(skill.id)"
+          :key="skill.id"
+          :class=
+          "[
+            selectedSkills.some(id => id === skill.id) ? 'grid__skill--selected' : '',
+            unlockedSkills.indexOf(skill.id) >= 0 ? 'grid__skil--unlock' : '',
+            unlockedSkills.indexOf(skill.id) === -1 ? 'grid__skil--lock' : '',
+            'grid__skill'
+          ]"
         >
+          <img 
+            :alt="skill.id"
+            :src="pathSkill(skill.id)"
+            @click="pressSkill(skill.id)"
+          >
+          <span v-if="unlockedSkills.indexOf(skill.id) === -1" class="XXX">
+            -{{ skill.priceInGold }}
+          </span>
+        </div>
       </div>
     </div>
 
