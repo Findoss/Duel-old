@@ -9,13 +9,13 @@ const getters = {};
 
 const actions = {
   showAlert({ commit }, alert) {
-    commit('setAlert', alert);
+    commit('SET_ALERT', alert);
   },
 };
 
 const mutations = {
 
-  setAlert(state, alert) {
+  SET_ALERT(state, alert) {
     state.alert = alert;
   },
 

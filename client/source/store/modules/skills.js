@@ -16,6 +16,7 @@ const state = {
       skillPoints: 0,
       priceInGold: 0,
       minLevel: 0,
+      limitCopy: 0,
     },
   },
   infoSkillId: 0,
@@ -30,7 +31,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       Http.get('/skills')
         .then((skills) => {
-          commit('setSkills', skills);
+          commit('SET_SKILLS', skills);
         })
         .catch(() => {
 
@@ -39,17 +40,17 @@ const actions = {
   },
 
   pressSkill({ commit }, id) {
-    commit('setInfoSkillId', id);
+    commit('SET_INFO_SKILL_ID', id);
   },
 };
 
 const mutations = {
 
-  setSkills(state, skills) {
+  SET_SKILLS(state, skills) {
     state.skills = skills;
   },
 
-  setInfoSkillId(state, id) {
+  SET_INFO_SKILL_ID(state, id) {
     state.infoSkillId = id;
   },
 
