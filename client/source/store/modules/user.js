@@ -14,6 +14,8 @@ const state = {
   experience: 0,
   karma: 10,
   skillPoints: 10,
+  limitSlots: 8,
+  openSlots: 3,
   selectedSkills: [],
   unlockedSkills: [],
   parameters: {
@@ -29,7 +31,29 @@ const state = {
   },
 };
 
-const getters = {};
+const getters = {
+  getSkillsSet: (state) => {
+    const skillsSet = [];
+    for (let i = 0; i < state.limitSlots; i++) {
+      if (state.selectedSkills[i] !== undefined) {
+        skillsSet.push(state.selectedSkills[i]);
+      } else if (i >= state.openSlots) {
+        skillsSet.push(-2); // lock
+      } else {
+        skillsSet.push(-1); // empty
+      }
+    }
+    return skillsSet;
+  },
+
+  getSkillsClones: state => (id) => {
+    let countClone = 0;
+    state.selectedSkills.forEach((skill) => {
+      if (skill === id) countClone += 1;
+    });
+    return countClone;
+  },
+};
 
 const actions = {
   loadMe({ commit, dispatch }) {
@@ -52,7 +76,7 @@ const actions = {
   loadUserParameters({ commit }) {
     Http.get('/static/user-parameters')
       .then((response) => {
-        commit('USER_PARAMETERS', response);
+        commit('SET_USER_PARAMETERS', response);
       });
   },
 
@@ -70,7 +94,7 @@ const actions = {
 
   buySkill({ state, commit }, skill) {
     return new Promise((resolve, reject) => {
-      if (state.gold > skill.priceInGold) {
+      if (state.gold >= skill.priceInGold) {
         commit('UNLOCK_SKILL', skill.id);
         commit('EXPENSES_GOLD', skill.priceInGold);
       }
@@ -204,6 +228,7 @@ const mutations = {
     state.level = userData.level;
     state.experience = userData.experience;
     state.karma = userData.karma;
+    state.openSlots = userData.openSlots;
     state.skillPoints = userData.skillPoints;
     state.selectedSkills = userData.selectedSkills;
     state.unlockedSkills = userData.unlockedSkills;
