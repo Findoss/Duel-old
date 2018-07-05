@@ -1,18 +1,25 @@
 import { mapActions, mapState, mapGetters } from 'vuex';
 
 // Components
+import SkillCard from '@/components/SkillCard/SkillCard.vue';
 
 export default {
 
   components: {
+    'z-skill-card': SkillCard,
+  },
+
+  data() {
+    return {
+      pickSlill: 1,
+    };
   },
 
   computed: {
     ...mapState({
-      selectedSkills: state => state.user.selectedSkills,
-      unlockedSkills: state => state.user.unlockedSkills,
+      skillSet: state => state.user.skillSet,
+      skillsUnlocked: state => state.user.skillsUnlocked,
       skills: state => state.skills.skills,
-      infoSkillId: state => state.skills.infoSkillId,
     }),
     ...mapGetters({
       getSkillInfo: 'skills/getSkillInfo',
@@ -32,12 +39,13 @@ export default {
   methods: {
     ...mapActions({
       loadSkills: 'skills/loadSkills',
-      pressSkill: 'skills/pressSkill',
       delSelectedSkill: 'user/delSelectedSkill',
       addSelectedSkill: 'user/addSelectedSkill',
       buySkill: 'user/buySkill',
     }),
 
+    pressSkill(id) {
+      this.pickSlill = id;
     },
   },
 };
