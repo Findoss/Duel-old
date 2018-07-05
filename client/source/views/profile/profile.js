@@ -1,14 +1,6 @@
 import { mapActions } from 'vuex';
 
-// Components
-import BaseButton from '@/components/BaseButton/BaseButton.vue';
-
 export default {
-
-  components: {
-    'z-button': BaseButton,
-  },
-
   created() {
     this.loadMe();
     this.loadSkills();

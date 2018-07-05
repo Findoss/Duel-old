@@ -1,13 +1,6 @@
 import { mapActions } from 'vuex';
 
-// Components
-import BaseLoading from '@/components/BaseLoading/BaseLoading.vue';
-
 export default {
-
-  components: {
-    'z-loading': BaseLoading,
-  },
 
   data() {
     return {

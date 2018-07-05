@@ -4,18 +4,7 @@ import { mapActions } from 'vuex';
 import Rules from '@/utils/validation/rules';
 import validationForm from '@/utils/validation/form';
 
-// Components
-import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
-import BaseButton from '@/components/BaseButton/BaseButton.vue';
-import BaseTextField from '@/components/BaseTextField/BaseTextField.vue';
-
 export default {
-
-  components: {
-    'z-text-field': BaseTextField,
-    'z-button': BaseButton,
-    'z-alert': BaseAlert,
-  },
 
   data() {
     return {
