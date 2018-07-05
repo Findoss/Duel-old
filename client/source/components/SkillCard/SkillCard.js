@@ -1,18 +1,37 @@
 import { mapActions, mapState, mapGetters } from 'vuex';
 
-// Components
-import SkillCard from '@/components/SkillCard/SkillCard.vue';
-
 export default {
 
-  components: {
-    'z-skill-card': SkillCard,
-  },
+  name: 'z-skill-card',
 
-  data() {
-    return {
-      pickSlill: 1,
-    };
+  // data: () => ({
+  //   skill: {
+  //     changeTurn: false,
+  //     cooldown: 0,
+  //     description: 'null',
+  //     duration: 0,
+  //     id: 0,
+  //     limitCopy: 0,
+  //     minLevel: 0,
+  //     priceInGold: 0,
+  //     points: 0,
+  //     title: 'null',
+  //     triggeringEvent: 'null',
+  //     resources: {
+  //       energy_1: 0,
+  //       energy_2: 0,
+  //       energy_3: 0,
+  //     },
+  //   },
+  // }),
+
+  props: {
+    skill: {
+      type: Object,
+      default() {
+        return { id: 0 };
+      },
+    },
   },
 
   computed: {
@@ -22,30 +41,27 @@ export default {
       skills: state => state.skills.skills,
     }),
     ...mapGetters({
-      getSkillInfo: 'skills/getSkillInfo',
       getSkillsSet: 'user/getSkillsSet',
       getSkillsClones: 'user/getSkillsClones',
+      // skill: 'skills/getSkillInfo',
     }),
     ...mapGetters([
-      'pathAvatar',
       'pathSkill',
     ]),
   },
 
-  mounted() {
-    // console.log();
-  },
 
   methods: {
     ...mapActions({
       loadSkills: 'skills/loadSkills',
+      buySkill: 'user/buySkill',
       delSelectedSkill: 'user/delSelectedSkill',
       addSelectedSkill: 'user/addSelectedSkill',
-      buySkill: 'user/buySkill',
     }),
 
     pressSkill(id) {
       this.pickSlill = id;
     },
   },
+
 };

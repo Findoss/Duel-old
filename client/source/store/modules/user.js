@@ -4,39 +4,43 @@ import Router from '@/router';
 import signin from './signin';
 
 const state = {
-  id: 0,
-  nickname: '',
-  email: '',
   avatar: 'null',
-  rank: 0,
-  gold: 0,
-  level: 0,
+  email: 'null',
   experience: 0,
-  karma: 10,
-  skillPoints: 10,
+  gold: 0,
+  id: 0,
+  karma: 1,
+  level: 0,
   limitSlots: 8,
+  nickname: 'null',
   openSlots: 3,
-  selectedSkills: [],
-  unlockedSkills: [],
+  points: 0,
+  rank: 0,
+  skillSet: [],
+  skillsUnlocked: [],
   parameters: {
-    health: 0,
-    force: 0,
-    energy_1: 0,
-    energy_2: 0,
-    energy_3: 0,
     armor: 0,
-    rage: 0,
-    luck: 0,
     block: 0,
+    force: 0,
+    health: 0,
+    luck: 0,
+    rage: 0,
+    resources: {
+      energy_1: 0,
+      energy_2: 0,
+      energy_3: 0,
+    },
   },
 };
 
 const getters = {
+  getAllUserData: state => state,
+
   getSkillsSet: (state) => {
     const skillsSet = [];
     for (let i = 0; i < state.limitSlots; i++) {
-      if (state.selectedSkills[i] !== undefined) {
-        skillsSet.push(state.selectedSkills[i]);
+      if (state.skillSet[i] !== undefined) {
+        skillsSet.push(state.skillSet[i]);
       } else if (i >= state.openSlots) {
         skillsSet.push(-2); // lock
       } else {
@@ -48,7 +52,7 @@ const getters = {
 
   getSkillsClones: state => (id) => {
     let countClone = 0;
-    state.selectedSkills.forEach((skill) => {
+    state.skillSet.forEach((skill) => {
       if (skill === id) countClone += 1;
     });
     return countClone;
@@ -80,15 +84,17 @@ const actions = {
       });
   },
 
-  delSelectedSkill({ commit }, idSkill) {
+  delSelectedSkill({ commit }, skill) {
     return new Promise((resolve, reject) => {
-      commit('DEL_SKILL_IN_SET', idSkill);
+      commit('DEL_SKILL_IN_SET', skill.id);
+      commit('RESET_POINTS', skill.points);
     });
   },
 
-  addSelectedSkill({ commit }, idSkill) {
+  addSelectedSkill({ commit }, skill) {
     return new Promise((resolve, reject) => {
-      commit('ADD_SKILL_IN_SET', idSkill);
+      commit('ADD_SKILL_IN_SET', skill.id);
+      commit('EXPENSES_POINTS', skill.points);
     });
   },
 
@@ -229,9 +235,9 @@ const mutations = {
     state.experience = userData.experience;
     state.karma = userData.karma;
     state.openSlots = userData.openSlots;
-    state.skillPoints = userData.skillPoints;
-    state.selectedSkills = userData.selectedSkills;
-    state.unlockedSkills = userData.unlockedSkills;
+    state.points = userData.points;
+    state.skillSet = userData.skillSet;
+    state.skillsUnlocked = userData.skillsUnlocked;
   },
 
   SET_USER_PARAMETERS(state, parameters) {
@@ -243,19 +249,27 @@ const mutations = {
   },
 
   DEL_SKILL_IN_SET(state, idSkill) {
-    state.selectedSkills.splice(state.selectedSkills.indexOf(idSkill), 1);
+    state.skillSet.splice(state.skillSet.indexOf(idSkill), 1);
   },
 
   ADD_SKILL_IN_SET(state, idSkill) {
-    state.selectedSkills.push(idSkill);
+    state.skillSet.push(idSkill);
   },
 
   UNLOCK_SKILL(state, idSkill) {
-    state.unlockedSkills.push(idSkill);
+    state.skillsUnlocked.push(idSkill);
   },
 
   EXPENSES_GOLD(state, number) {
     state.gold -= number;
+  },
+
+  EXPENSES_POINTS(state, number) {
+    state.points -= number;
+  },
+
+  RESET_POINTS(state, number) {
+    state.points += number;
   },
 };
 

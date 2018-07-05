@@ -1,26 +1,13 @@
-import { mapState } from 'vuex';
-
-// Components
-import BaseLoading from '@/components/BaseLoading/BaseLoading.vue';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
-
-  components: {
-    'z-loading': BaseLoading,
-  },
-
   computed: mapState({
-    user: state => state.user,
+    ...mapGetters([
+      'pathAvatar',
+      'pathSkill',
+    ]),
+    ...mapGetters({
+      user: 'user/getAllUserData',
+    }),
   }),
-
-  methods: {
-
-    pathSkill(id) {
-      return require(`@/assets/skills/${id}.png`);
-    },
-
-    pathAvatar(avatar) {
-      return require(`@/assets/avatars/${avatar}.png`);
-    },
-  },
 };

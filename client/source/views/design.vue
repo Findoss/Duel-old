@@ -1,5 +1,8 @@
 <template>
 <div>
+
+  <z-skill-card :skill="this.$store.state.skills.skills[0]"/>
+
   <div class="card card--size-xl card--no-border">
     <h1>h1. Heading Заголовок</h1>
     <h2>h2. Heading Заголовок</h2>
@@ -196,10 +199,7 @@
 
 <script>
   // Components
-  import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
-  import BaseButton from '@/components/BaseButton/BaseButton.vue';
-  import BaseLoading from '@/components/BaseLoading/BaseLoading.vue';
-  import BaseTextField from '@/components/BaseTextField/BaseTextField.vue';
+  import SkillCard from '@/components/SkillCard/SkillCard.vue';
 
   // Utils
   import Rules from '@/utils/validation/rules';
@@ -207,10 +207,7 @@
   export default {
     
     components: {
-      'z-alert': BaseAlert,
-      'z-button': BaseButton,
-      'z-loading': BaseLoading,
-      'z-text-field': BaseTextField,
+      'z-skill-card': SkillCard,
     },
 
     data() {

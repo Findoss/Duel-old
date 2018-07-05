@@ -17,14 +17,16 @@
         + email: Ivan@email.ru (string)
         + avatar: shooter_2 (string)
         + rank: 14 (number)
-        + gold: 15000 (number)
+        + gold: 250 (number)
         + level: 2 (number)
         + experience: 16 (number)
         + karma: 10 (number)
-        + skillPoints: 17 (number)
+        + points: 9 (number)
         + openSlots: 5 (number)
-        + selectedSkills (array)
-        + unlockedSkills (array)
+        + skillSet (array)
+            + 2 (number)
+        + skillsUnlocked (array)
+            + 2 (number)
 
 
 + Response 403 (application/json; charset=utf-8)
@@ -52,7 +54,7 @@
 
 + Request (application/json)
     + Attributes
-        + selectedSkills (array)
+        + skillSet (array)
             + 3 (number, optional)
             + 2 (number, optional)
 
