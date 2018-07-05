@@ -10,6 +10,12 @@
   width: 390px;
 }
 
+.skills {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
 .user__title-level {
   font-size: 0.8em;
   border: 2px solid var(--color-yellow-norm);
@@ -31,8 +37,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: flex-start;
-  
+  /* justify-content: flex-start; */
 }
 
 .user__skill--empty {
@@ -86,12 +91,19 @@
   width: 100%;
 }
 
+.grid__skill img{
+  transform: scale(0.9);
+}
+
+.grid__skill img:hover{
+  transform: scale(1);
+}
+
 .grid__skil--unlock {
   border: 2px solid var(--color-yellow-norm);
 }
 
 .grid__skil--lock {
-  cursor: help;
   border: 2px solid var(--color-gray-norm);
   filter: grayscale(100%);
 }
@@ -101,8 +113,8 @@
   display: block;
   width: 70px;
   height: 70px;
-  top: -75px;
-  left: -20px;
+  bottom: 50px;
+  left: 20px;
   position: relative;
   background-image: url(../../assets/locked.png);
 }
@@ -112,15 +124,14 @@
   border-style: solid double solid;
 }
 
-.XXX {
-  position: relative;
-  top:-30px;
-  left: 25px;
-  padding: 2px;
-  padding-right: 10px;
-  font-weight: bold;
-  background-color: black;
-  font-size: 1.1em;
+.grid__skil--pick{
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 40px 40px 0 0;
+  border-color: #ffbf00 transparent transparent transparent;
+
+  position: absolute;
 }
 
 .p {

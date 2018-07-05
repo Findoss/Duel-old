@@ -1,0 +1,54 @@
+<div class="skill-card">
+
+  <div class="skill-card__image">
+    <img :src="pathSkill(skill.id)">
+  </div>
+  <div class="skill-card__title">
+    <h3>{{ skill.title }}</h3>
+    {{ skill.points	}} points
+  </div>
+  <div class="skill-card__resources">
+    <div v-for="(resource, key) in skill.resources" :class="key">
+      {{ resource }}
+    </div>
+  </div>
+  <div class="skill-card__details">
+    <div class="detail">◔ {{ skill.duration	}}</div>
+    <div class="detail">⭮ {{ skill.cooldown	}}</div>
+    <div class="detail">⇆ {{ skill.changeTurn	}}</div>
+  </div>
+  <div class="skill-card__description">
+    {{ skill.description }}
+  </div>
+  <div class="skill-card__constraints">
+    minimum level = {{ skill.minLevel }} <br>
+    limit copy = {{ skill.limitCopy }} <br>
+    triggeringEvent = {{ skill.triggeringEvent }} <br>
+  </div>
+  <div class="skill-card__buttons">
+    <z-button 
+      v-if="skillsUnlocked.some(id => id === skill.id)"
+      :disabled=
+      "
+        $store.state.user.skillSet.length >= $store.state.user.openSlots || 
+        getSkillsClones(skill.id) >= skill.limitCopy ||
+        skill.points > $store.state.user.points ||
+        skill.minLevel >= $store.state.user.level 
+      "
+      @click="addSelectedSkill(skill)"
+    >
+      ADD ( -{{ skill.points	}} points )
+    </z-button>
+    <z-button 
+      v-if="skillsUnlocked.indexOf(skill.id) === -1"
+      :disabled="
+        skill.priceInGold > $store.state.user.gold ||
+        skill.minLevel >= $store.state.user.level 
+      "
+      @click="buySkill(skill)"
+    >
+      BUY ( -{{ skill.priceInGold }} gold )
+    </z-button>
+  </div>
+  <slot></slot>
+</div>

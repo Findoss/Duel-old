@@ -1,23 +1,10 @@
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 // Utils
 import Rules from '@/utils/validation/rules';
 import validationForm from '@/utils/validation/form';
 
-// Components
-import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
-import BaseButton from '@/components/BaseButton/BaseButton.vue';
-import BaseLoading from '@/components/BaseLoading/BaseLoading.vue';
-import BaseTextField from '@/components/BaseTextField/BaseTextField.vue';
-
 export default {
-
-  components: {
-    'z-alert': BaseAlert,
-    'z-button': BaseButton,
-    'z-loading': BaseLoading,
-    'z-text-field': BaseTextField,
-  },
 
   created() {
     this.loadAvatarsList()
@@ -58,6 +45,13 @@ export default {
         },
       },
     };
+  },
+
+  computed: {
+    ...mapGetters([
+      'pathAvatar',
+      'pathSkill',
+    ]),
   },
 
   methods: {
@@ -151,10 +145,6 @@ export default {
             });
           });
       }
-    },
-
-    pathAvatar(avatar) {
-      return require(`@/assets/avatars/${avatar}.png`);
     },
 
     isSelectedAvatar(avatar) {

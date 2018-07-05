@@ -5,27 +5,36 @@
       <h2>
         <span class="user__title-level">{{ this.$store.state.user.level }}</span>{{ this.$store.state.user.nickname }}</h2>
       <span>skill points =
-        <strong>{{ this.$store.state.user.skillPoints }}</strong>
+        <strong>{{ this.$store.state.user.points }}</strong>
       </span>
       <span>golds =
         <strong>{{ this.$store.state.user.gold }}</strong>
       </span>
       <br>
-      <img :src="pathAvatar($store.state.user.avatar)" alt="$store.state.user.avatar" class="user__avatar">
+      <img 
+        :src="pathAvatar($store.state.user.avatar)" 
+        :alt="$store.state.user.avatar" 
+        class="user__avatar"
+      >
       <div class="user__skills">
         <div 
-          v-for="(idSkill, index) in getSkillsSet"
-          :key="index"
+          v-for="(idSkill, index) in getSkillsSet" 
+          :key="index" 
           :class="[idSkill === -2 ? 'user__skill--lock' : 'user__skill-empty', 'skill']"
         >
           <template v-if="idSkill >= 0">
             <img 
               :alt="idSkill" 
-              :src="pathSkill(idSkill)"
-              class="user__skill"
-              @click="pressSkill(idSkill)"
+              :src="pathSkill(idSkill)" 
+              class="user__skill" 
+              @click="pressSkill(idSkill)" 
             />
-            <button @click="delSelectedSkill(idSkill)" class="skill__close">X</button>
+            <button 
+              @click="delSelectedSkill($store.state.skills.skills[idSkill])" 
+              class="skill__close"
+            >
+              X
+            </button>
           </template>
         </div>
       </div>
@@ -47,69 +56,35 @@
       </div>
     </div>
 
-    <div class="skills">
-      <div class="skills__info-skill info-skill">
-        <table>
-          <tbody>
-            <tr>
-              <td><img :src="pathSkill(getSkillInfo.id)"></td>
-              <td></td>
-            </tr>
-            <tr v-for="(parameter, key) in getSkillInfo">
-              <td>{{ key }}</td>
-              <td>
-                <strong>{{ parameter }}</strong>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-        <z-button 
-          v-if="unlockedSkills.some(id => id === getSkillInfo.id)"
-          :disabled=
-          "
-            $store.state.user.selectedSkills.length >= $store.state.user.openSlots || 
-            getSkillsClones(getSkillInfo.id) >= getSkillInfo.limitCopy
-          "
-          @click="addSelectedSkill(getSkillInfo.id)"
-        >
-          ADD
-        </z-button>
-        <z-button 
-          v-if="unlockedSkills.indexOf(getSkillInfo.id) === -1"
-          :disabled="getSkillInfo.priceInGold > $store.state.user.gold"
-          @click="buySkill(getSkillInfo)"
-        >
-          BUY -{{ getSkillInfo.priceInGold }}
-        </z-button>
-      </template>
-      <br>
-      <br>
 
-      <div class="skills__info-filters">FILTER</div>
-      <div class="skills__grid grid">
-        <div 
-          v-for="(skill) in skills" 
-          :key="skill.id"
-          :class=
-          "[
-            selectedSkills.some(id => id === skill.id) ? 'grid__skill--selected' : '',
-            unlockedSkills.indexOf(skill.id) >= 0 ? 'grid__skil--unlock' : '',
-            unlockedSkills.indexOf(skill.id) === -1 ? 'grid__skil--lock' : '',
-            'grid__skill'
-          ]"
+
+
+    <div class="skills">
+
+      <z-skill-card :skill="getSkillInfo(pickSlill)" />
+
+    <div class="skills__info-filters">FILTER</div>
+    <div class="skills__grid grid">
+      
+      <div
+        v-for="(skill) in skills" 
+        :key="skill.id" 
+        :class="[
+          skillSet.some(id => id === skill.id) ? 'grid__skill--selected' : '',
+          skillsUnlocked.indexOf(skill.id) >= 0 ? 'grid__skil--unlock' : '',
+          skillsUnlocked.indexOf(skill.id) === -1 ? 'grid__skil--lock' : '',
+          'grid__skill'
+        ]"
+      >
+        <div :class="[skill.id === pickSlill ? 'grid__skil--pick' : '']"></div>
+        <img 
+          :alt="skill.id" 
+          :src="pathSkill(skill.id)" 
+          @click="pressSkill(skill.id)"
         >
-          <img 
-            :alt="skill.id"
-            :src="pathSkill(skill.id)"
-            @click="pressSkill(skill.id)"
-          >
-          <span v-if="unlockedSkills.indexOf(skill.id) === -1" class="XXX">
-            -{{ skill.priceInGold }}
-          </span>
-        </div>
       </div>
     </div>
+  </div></div>
 
 
   </div>

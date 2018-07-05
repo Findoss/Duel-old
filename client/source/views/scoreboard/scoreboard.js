@@ -1,13 +1,6 @@
-import { mapActions } from 'vuex';
-
-// Components
-import BaseLoading from '@/components/BaseLoading/BaseLoading.vue';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
-
-  components: {
-    'z-loading': BaseLoading,
-  },
 
   data() {
     return {
@@ -19,16 +12,15 @@ export default {
     myUserId() {
       return this.$store.state.user.id;
     },
+    ...mapGetters([
+      'pathAvatar',
+    ]),
   },
 
   methods: {
     ...mapActions({
       loadScoreboard: 'user/loadScoreboard',
     }),
-
-    pathAvatar(avatar) {
-      return require(`@/assets/avatars/${avatar}.png`);
-    },
   },
 
   created() {
