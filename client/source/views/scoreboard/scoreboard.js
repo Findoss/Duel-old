@@ -1,4 +1,4 @@
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
 
@@ -12,16 +12,15 @@ export default {
     myUserId() {
       return this.$store.state.user.id;
     },
+    ...mapGetters([
+      'pathAvatar',
+    ]),
   },
 
   methods: {
     ...mapActions({
       loadScoreboard: 'user/loadScoreboard',
     }),
-
-    pathAvatar(avatar) {
-      return require(`@/assets/avatars/${avatar}.png`);
-    },
   },
 
   created() {

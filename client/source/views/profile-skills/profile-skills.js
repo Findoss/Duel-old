@@ -19,6 +19,10 @@ export default {
       getSkillsSet: 'user/getSkillsSet',
       getSkillsClones: 'user/getSkillsClones',
     }),
+    ...mapGetters([
+      'pathAvatar',
+      'pathSkill',
+    ]),
   },
 
   mounted() {
@@ -34,12 +38,6 @@ export default {
       buySkill: 'user/buySkill',
     }),
 
-    pathSkill(id) {
-      return require(`@/assets/skills/${id}.png`);
-    },
-
-    pathAvatar(avatar) {
-      return require(`@/assets/avatars/${avatar}.png`);
     },
   },
 };

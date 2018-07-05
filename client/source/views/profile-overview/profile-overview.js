@@ -1,18 +1,11 @@
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
   computed: mapState({
     user: state => state.user,
+    ...mapGetters([
+      'pathAvatar',
+      'pathSkill',
+    ]),
   }),
-
-  methods: {
-
-    pathSkill(id) {
-      return require(`@/assets/skills/${id}.png`);
-    },
-
-    pathAvatar(avatar) {
-      return require(`@/assets/avatars/${avatar}.png`);
-    },
-  },
 };

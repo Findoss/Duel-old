@@ -1,4 +1,4 @@
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 // Utils
 import Rules from '@/utils/validation/rules';
@@ -45,6 +45,13 @@ export default {
         },
       },
     };
+  },
+
+  computed: {
+    ...mapGetters([
+      'pathAvatar',
+      'pathSkill',
+    ]),
   },
 
   methods: {
@@ -138,10 +145,6 @@ export default {
             });
           });
       }
-    },
-
-    pathAvatar(avatar) {
-      return require(`@/assets/avatars/${avatar}.png`);
     },
 
     isSelectedAvatar(avatar) {

@@ -196,10 +196,6 @@
 
 <script>
   // Components
-  import BaseAlert from '@/components/BaseAlert/BaseAlert.vue';
-  import BaseButton from '@/components/BaseButton/BaseButton.vue';
-  import BaseLoading from '@/components/BaseLoading/BaseLoading.vue';
-  import BaseTextField from '@/components/BaseTextField/BaseTextField.vue';
 
   // Utils
   import Rules from '@/utils/validation/rules';
@@ -207,10 +203,6 @@
   export default {
     
     components: {
-      'z-alert': BaseAlert,
-      'z-button': BaseButton,
-      'z-loading': BaseLoading,
-      'z-text-field': BaseTextField,
     },
 
     data() {
