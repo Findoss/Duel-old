@@ -30,7 +30,7 @@
               @click="pressSkill(idSkill)" 
             />
             <button 
-              @click="delSelectedSkill($store.state.skills.skills[idSkill])" 
+              @click="delInSkillSet(idSkill)" 
               class="skill__close"
             >
               X
@@ -55,8 +55,6 @@
         </table>
       </div>
     </div>
-
-
 
 
     <div class="skills">
