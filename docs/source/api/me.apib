@@ -15,7 +15,7 @@
         + id: 123 (number)
         + nickname: Ivan (string)
         + email: Ivan@email.ru (string)
-        + avatar: shooter_2 (string)
+        + avatar: shooter_1 (string)
         + rank: 14 (number)
         + gold: 250 (number)
         + level: 2 (number)
@@ -127,12 +127,12 @@
         + message: Forbidden (string)
         + code: forbidden (string)
 
-### * Изменение набора умений [POST /me/buyskill]
+### * Покупка выбранного умения [POST /me/buyskill]
 Покупка выбранного умения
 
 + Request (application/json)
     + Attributes
-        + id 3 (number)
+        + id: 2 (number)
 
 + Response 200 (application/json; charset=utf-8)
 Выбранное умение текущего пользователя успешно куплено 
