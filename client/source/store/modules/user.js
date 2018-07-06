@@ -86,26 +86,42 @@ const actions = {
   delInSkillSet({ commit }, id) {
     const { points } = this.getters['skills/getSkillInfo'](id);
     return new Promise((resolve, reject) => {
-      commit('DEL_SKILL_IN_SET', id);
-      commit('RESET_POINTS', points);
+      Http.send('DELETE', '/me/skillsset', { skillsset: [id] })
+        .then((response) => {
+          commit('DEL_SKILL_IN_SET', id);
+          commit('RESET_POINTS', points);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     });
   },
 
   addInSkillSet({ commit }, id) {
     const { points } = this.getters['skills/getSkillInfo'](id);
     return new Promise((resolve, reject) => {
-      commit('ADD_SKILL_IN_SET', id);
-      commit('EXPENSES_POINTS', points);
+      Http.send('PATCH', '/me/skillsset', { skillsset: [id] })
+        .then((response) => {
+          commit('ADD_SKILL_IN_SET', id);
+          commit('EXPENSES_POINTS', points);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     });
   },
 
   buySkill({ state, commit }, id) {
     const { priceInGold } = this.getters['skills/getSkillInfo'](id);
     return new Promise((resolve, reject) => {
-      if (state.gold >= priceInGold) {
-        commit('UNLOCK_SKILL', id);
-        commit('EXPENSES_GOLD', priceInGold);
-      }
+      Http.send('POST', '/me/buyskill', { id })
+        .then((response) => {
+          commit('UNLOCK_SKILL', id);
+          commit('EXPENSES_GOLD', priceInGold);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     });
   },
 
