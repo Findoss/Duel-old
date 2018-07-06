@@ -50,7 +50,7 @@ const getters = {
     return skillsSet;
   },
 
-  getSkillsClones: state => (id) => {
+  getCountSkillsClones: state => (id) => {
     let countClone = 0;
     state.skillSet.forEach((skill) => {
       if (skill === id) countClone += 1;
@@ -67,7 +67,6 @@ const actions = {
           commit('SET_USER_DATA', response);
         })
         .catch((error) => {
-          // SessionService.signOut();
           dispatch('signin/showAlert', {
             type: 'error',
             message: error.message,
@@ -84,25 +83,28 @@ const actions = {
       });
   },
 
-  delSelectedSkill({ commit }, skill) {
+  delInSkillSet({ commit }, id) {
+    const { points } = this.getters['skills/getSkillInfo'](id);
     return new Promise((resolve, reject) => {
-      commit('DEL_SKILL_IN_SET', skill.id);
-      commit('RESET_POINTS', skill.points);
+      commit('DEL_SKILL_IN_SET', id);
+      commit('RESET_POINTS', points);
     });
   },
 
-  addSelectedSkill({ commit }, skill) {
+  addInSkillSet({ commit }, id) {
+    const { points } = this.getters['skills/getSkillInfo'](id);
     return new Promise((resolve, reject) => {
-      commit('ADD_SKILL_IN_SET', skill.id);
-      commit('EXPENSES_POINTS', skill.points);
+      commit('ADD_SKILL_IN_SET', id);
+      commit('EXPENSES_POINTS', points);
     });
   },
 
-  buySkill({ state, commit }, skill) {
+  buySkill({ state, commit }, id) {
+    const { priceInGold } = this.getters['skills/getSkillInfo'](id);
     return new Promise((resolve, reject) => {
-      if (state.gold >= skill.priceInGold) {
-        commit('UNLOCK_SKILL', skill.id);
-        commit('EXPENSES_GOLD', skill.priceInGold);
+      if (state.gold >= priceInGold) {
+        commit('UNLOCK_SKILL', id);
+        commit('EXPENSES_GOLD', priceInGold);
       }
     });
   },
