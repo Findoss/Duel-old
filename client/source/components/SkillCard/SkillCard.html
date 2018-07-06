@@ -31,11 +31,11 @@
       :disabled=
       "
         $store.state.user.skillSet.length >= $store.state.user.openSlots || 
-        getSkillsClones(skill.id) >= skill.limitCopy ||
+        getCountSkillsClones(skill.id) >= skill.limitCopy ||
         skill.points > $store.state.user.points ||
         skill.minLevel >= $store.state.user.level 
       "
-      @click="addSelectedSkill(skill)"
+      @click="addInSkillSet(skill.id)"
     >
       ADD ( -{{ skill.points	}} points )
     </z-button>
@@ -45,7 +45,7 @@
         skill.priceInGold > $store.state.user.gold ||
         skill.minLevel >= $store.state.user.level 
       "
-      @click="buySkill(skill)"
+      @click="buySkill(skill.id)"
     >
       BUY ( -{{ skill.priceInGold }} gold )
     </z-button>

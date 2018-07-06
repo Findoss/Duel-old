@@ -15,12 +15,11 @@
       <p>karma <strong>{{ user.karma }}</strong></p>
       <p>openSlots <strong>{{ user.openSlots }}</strong></p>
       <p>limitSlots <strong>{{ user.limitSlots }}</strong></p>
-      <p>limitSlots <strong>{{ user.limitSlots }}</strong></p>
       <p>skillSet 
         <img 
-          v-for="(id) in user.skillSet"
+          v-for="(id, index) in user.skillSet"
           :src="pathSkill(id)"
-          :key="id"
+          :key="index"
           class="stats__skill-image"
         >
         <div v-if="user.skillSet.length === 0">
@@ -29,9 +28,9 @@
       </p>
       <p>skillsUnlocked 
         <img 
-          v-for="(id) in user.skillsUnlocked"
+          v-for="(id, index) in user.skillsUnlocked"
           :src="pathSkill(id)"
-          :key="id"
+          :key="index"
           class="stats__skill-image"
         >
         <div v-if="user.skillsUnlocked.length === 0">

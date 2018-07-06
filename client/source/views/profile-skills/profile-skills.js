@@ -24,7 +24,7 @@ export default {
     ...mapGetters({
       getSkillInfo: 'skills/getSkillInfo',
       getSkillsSet: 'user/getSkillsSet',
-      getSkillsClones: 'user/getSkillsClones',
+      getCountSkillsClones: 'user/getCountSkillsClones',
     }),
     ...mapGetters([
       'pathAvatar',
@@ -39,8 +39,8 @@ export default {
   methods: {
     ...mapActions({
       loadSkills: 'skills/loadSkills',
-      delSelectedSkill: 'user/delSelectedSkill',
-      addSelectedSkill: 'user/addSelectedSkill',
+      delInSkillSet: 'user/delInSkillSet',
+      addInSkillSet: 'user/addInSkillSet',
       buySkill: 'user/buySkill',
     }),
 
