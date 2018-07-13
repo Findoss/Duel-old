@@ -20,6 +20,12 @@ export default {
       skillSet: state => state.user.skillSet,
       skillsUnlocked: state => state.user.skillsUnlocked,
       skills: state => state.skills.skills,
+      level: state => state.user.level,
+      nickname: state => state.user.nickname,
+      points: state => state.user.points,
+      gold: state => state.user.gold,
+      avatar: state => state.user.avatar,
+      userParameters: state => state.user.parameters,
     }),
     ...mapGetters({
       getSkillInfo: 'skills/getSkillInfo',
