@@ -3,17 +3,17 @@
   <div class="conteiner">
     <div class="user">
       <h2>
-        <span class="user__title-level">{{ this.$store.state.user.level }}</span>{{ this.$store.state.user.nickname }}</h2>
+        <span class="user__title-level">{{ level }}</span>{{ nickname }}</h2>
       <span>skill points =
-        <strong>{{ this.$store.state.user.points }}</strong>
+        <strong>{{ points }}</strong>
       </span>
       <span>golds =
-        <strong>{{ this.$store.state.user.gold }}</strong>
+        <strong>{{ gold }}</strong>
       </span>
       <br>
       <img 
-        :src="pathAvatar($store.state.user.avatar)" 
-        :alt="$store.state.user.avatar" 
+        :src="pathAvatar(avatar)" 
+        :alt="avatar" 
         class="user__avatar"
       >
       <div class="user__skills">
@@ -41,7 +41,7 @@
       <div class="user__parameters">
         <table>
           <tbody>
-            <tr v-for="(parameter, key) in this.$store.state.user.parameters">
+            <tr v-for="(parameter, key) in userParameters">
               <td>
                 <span v-if="key === 'force'">💪</span>{{ key }}</td>
               <td>
