@@ -1,7 +1,7 @@
 import Http from '@/utils/http';
 import Router from '@/router';
 
-import signin from './signin';
+import account from './account';
 
 const state = {
   avatar: 'null',
@@ -67,7 +67,7 @@ const actions = {
           commit('SET_USER_DATA', response);
         })
         .catch((error) => {
-          dispatch('signin/showAlert', {
+          dispatch('account/showAlertSignin', {
             type: 'error',
             message: error.message,
           });
@@ -137,39 +137,6 @@ const actions = {
     });
   },
 
-  registration({ dispatch }, user) {
-    return new Promise((resolve, reject) => {
-      Http.send('POST', '/users', user)
-        .then((response) => {
-          dispatch('signin/showAlert', {
-            type: 'success',
-            message: response.message,
-          });
-          Router.push({ path: '/signin' });
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  },
-
-  deleteAccount({ dispatch }) {
-    return new Promise((resolve, reject) => {
-      if (confirm('Once you delete your account, there is no going back. Please be certain.')) {
-        Http.send('DELETE', '/me')
-          .then((response) => {
-            localStorage.removeItem('session-token');
-            dispatch('signin/showAlert', {
-              type: 'info',
-              message: response.message,
-            });
-            Router.push({ path: '/signin' });
-          });
-      }
-    });
-  },
-
-  updateAccauntData(ctx, payload) {
     return new Promise((resolve, reject) => {
       const { field } = payload;
       const { data } = payload;
@@ -194,51 +161,6 @@ const actions = {
         });
     });
   },
-
-  // newPassword({ dispatch }, password) {
-  //   // ...
-  // },
-
-  // resetPassword({ dispatch }, email) {
-  //   // ...
-  // },
-
-  signIn({ dispatch }, user) {
-    return new Promise((resolve, reject) => {
-      Http.send('POST', '/signin', user)
-        .then((response) => {
-          localStorage.setItem('session-token', response.token);
-          Router.push({ path: '/profile' });
-        })
-        .catch((error) => {
-          dispatch('signin/showAlert', {
-            type: 'error',
-            message: error.message,
-          });
-          reject(error);
-        });
-    });
-  },
-
-  signOut({ dispatch }) {
-    Http.send('DELETE', '/signout')
-      .then((response) => {
-        localStorage.removeItem('session-token');
-        dispatch('signin/showAlert', {
-          type: 'info',
-          message: response.message,
-        });
-        Router.push({ path: '/signin' });
-      })
-      .catch((error) => {
-        dispatch('signin/showAlert', {
-          type: 'error',
-          message: error.message,
-        });
-      });
-  },
-
-
 };
 
 const mutations = {
@@ -292,7 +214,7 @@ const mutations = {
 };
 
 const modules = {
-  signin,
+  account,
 };
 
 export default {

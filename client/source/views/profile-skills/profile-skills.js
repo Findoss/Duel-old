@@ -32,10 +32,6 @@ export default {
     ]),
   },
 
-  mounted() {
-    // console.log();
-  },
-
   methods: {
     ...mapActions({
       loadSkills: 'skills/loadSkills',
