@@ -21,7 +21,7 @@ export default {
       loadMe: 'user/loadMe',
       loadUserParameters: 'user/loadUserParameters',
       loadSkills: 'skills/loadSkills',
-      signOut: 'user/signOut',
+      signOut: 'user/account/signOut',
     }),
   },
 };

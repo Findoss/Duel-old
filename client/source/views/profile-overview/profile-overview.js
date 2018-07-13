@@ -7,7 +7,7 @@ export default {
       'pathSkill',
     ]),
     ...mapGetters({
-      user: 'user/getAllUserData',
+      user: 'user/getAllData',
     }),
   }),
 };

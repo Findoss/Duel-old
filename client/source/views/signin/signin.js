@@ -8,7 +8,7 @@ export default {
 
   computed: {
     alert() {
-      return this.$store.state.user.signin.alert;
+      return this.$store.state.user.account.alertSignin;
     },
   },
 
@@ -31,8 +31,8 @@ export default {
 
   methods: {
     ...mapActions({
-      signIn: 'user/signIn',
-      showAlert: 'user/signin/showAlert',
+      signIn: 'user/account/signIn',
+      showAlert: 'user/account/showAlertSignin',
     }),
 
     submit() {
@@ -49,6 +49,7 @@ export default {
           this.form.password.status = false;
         });
     },
+
     closeAlert() {
       this.showAlert({
         type: 'error',

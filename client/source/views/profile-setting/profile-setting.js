@@ -56,19 +56,20 @@ export default {
 
   methods: {
     ...mapActions({
-      deleteAccount: 'user/deleteAccount',
-      updateAccauntData: 'user/updateAccauntData',
+      deleteAccount: 'user/account/deleteAccount',
+      updateAccountDataNoStore: 'user/updateAccountDataNoStore',
       loadAvatarsList: 'user/loadAvatarsList',
     }),
 
     submitChangeNickname() {
       if (!validationForm(this, 'form2')) return false;
 
-      this.updateAccauntData({
+      this.updateAccountDataNoStore({
         field: 'nickname',
         data: this.form2.newNickname.value,
       })
         .then((response) => {
+          this.$store.commit('user/SET_NICKNAME', this.form2.newNickname.value); // HUCK
           this.alerts.push({
             type: 'success',
             message: response.message,
@@ -101,7 +102,7 @@ export default {
         newPassword: this.form.newPassword.value,
       };
 
-      this.updateAccauntData({
+      this.updateAccountDataNoStore({
         field: 'password',
         data: passwords,
       })
@@ -127,7 +128,7 @@ export default {
 
     selectAvatar(avatar) {
       if (avatar !== this.$store.state.user.avatar) {
-        this.updateAccauntData({
+        this.updateAccountDataNoStore({
           field: 'avatar',
           data: avatar,
         })

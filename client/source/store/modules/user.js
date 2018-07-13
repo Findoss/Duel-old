@@ -1,40 +1,40 @@
 import Http from '@/utils/http';
 import Router from '@/router';
 
-import signin from './signin';
+import account from './account';
 
 const state = {
-  avatar: 'null',
-  email: 'null',
-  experience: 0,
-  gold: 0,
-  id: 0,
-  karma: 1,
-  level: 0,
-  limitSlots: 8,
-  nickname: 'null',
-  openSlots: 3,
-  points: 0,
-  rank: 0,
-  skillSet: [],
-  skillsUnlocked: [],
-  parameters: {
-    armor: 0,
-    block: 0,
-    force: 0,
-    health: 0,
-    luck: 0,
-    rage: 0,
-    resources: {
-      energy_1: 0,
-      energy_2: 0,
-      energy_3: 0,
+  avatar: 'null', // аватар
+  email: 'null', // почта
+  experience: 0, // опыт
+  gold: 0, // золото
+  id: 0, // номер
+  karma: 1, // карма (уровень адкватности пользователя)
+  level: 0, // уровень
+  limitSlots: 8, // максимальное кол-во слотов в наборе
+  nickname: 'null', // никнейм
+  openSlots: 3, // открыто слотов в наборе
+  points: 0, // очки (очки умений)
+  rank: 0, // ранг (позиция в списке лидеров)
+  skillSet: [], // набор умений
+  skillsUnlocked: [], // разблокированые умения (доступные для добавления в набор)
+  parameters: { // параметры
+    armor: 0, // броня
+    block: 0, // блок
+    force: 0, // сила
+    health: 0, // здоровье
+    luck: 0, // удача
+    rage: 0, // ярость
+    resources: { // ресурсы (для использования умений)
+      energy_1: 0, // энергия_1
+      energy_2: 0, // энергия_2
+      energy_3: 0, // энергия_3
     },
   },
 };
 
 const getters = {
-  getAllUserData: state => state,
+  getAllData: state => state,
 
   getSkillsSet: (state) => {
     const skillsSet = [];
@@ -67,7 +67,7 @@ const actions = {
           commit('SET_USER_DATA', response);
         })
         .catch((error) => {
-          dispatch('signin/showAlert', {
+          dispatch('account/showAlertSignin', {
             type: 'error',
             message: error.message,
           });
@@ -137,39 +137,8 @@ const actions = {
     });
   },
 
-  registration({ dispatch }, user) {
-    return new Promise((resolve, reject) => {
-      Http.send('POST', '/users', user)
-        .then((response) => {
-          dispatch('signin/showAlert', {
-            type: 'success',
-            message: response.message,
-          });
-          Router.push({ path: '/signin' });
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  },
-
-  deleteAccount({ dispatch }) {
-    return new Promise((resolve, reject) => {
-      if (confirm('Once you delete your account, there is no going back. Please be certain.')) {
-        Http.send('DELETE', '/me')
-          .then((response) => {
-            localStorage.removeItem('session-token');
-            dispatch('signin/showAlert', {
-              type: 'info',
-              message: response.message,
-            });
-            Router.push({ path: '/signin' });
-          });
-      }
-    });
-  },
-
-  updateAccauntData(ctx, payload) {
+  // Использовать для данных не хранящихся в сторе
+  updateAccountDataNoStore(ctx, payload) {
     return new Promise((resolve, reject) => {
       const { field } = payload;
       const { data } = payload;
@@ -194,51 +163,6 @@ const actions = {
         });
     });
   },
-
-  // newPassword({ dispatch }, password) {
-  //   // ...
-  // },
-
-  // resetPassword({ dispatch }, email) {
-  //   // ...
-  // },
-
-  signIn({ dispatch }, user) {
-    return new Promise((resolve, reject) => {
-      Http.send('POST', '/signin', user)
-        .then((response) => {
-          localStorage.setItem('session-token', response.token);
-          Router.push({ path: '/profile' });
-        })
-        .catch((error) => {
-          dispatch('signin/showAlert', {
-            type: 'error',
-            message: error.message,
-          });
-          reject(error);
-        });
-    });
-  },
-
-  signOut({ dispatch }) {
-    Http.send('DELETE', '/signout')
-      .then((response) => {
-        localStorage.removeItem('session-token');
-        dispatch('signin/showAlert', {
-          type: 'info',
-          message: response.message,
-        });
-        Router.push({ path: '/signin' });
-      })
-      .catch((error) => {
-        dispatch('signin/showAlert', {
-          type: 'error',
-          message: error.message,
-        });
-      });
-  },
-
-
 };
 
 const mutations = {
@@ -260,6 +184,14 @@ const mutations = {
 
   SET_USER_PARAMETERS(state, parameters) {
     state.parameters = parameters;
+  },
+
+  SET_AVATAR(state, avatar) {
+    state.avatar = avatar;
+  },
+
+  SET_NICKNAME(state, nickname) {
+    state.nickname = nickname;
   },
 
   SET_AVATAR(state, avatar) {
@@ -292,7 +224,7 @@ const mutations = {
 };
 
 const modules = {
-  signin,
+  account,
 };
 
 export default {
