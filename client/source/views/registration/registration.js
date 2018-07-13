@@ -37,7 +37,7 @@ export default {
 
   methods: {
     ...mapActions({
-      registration: 'user/registration',
+      registration: 'user/account/registration',
     }),
 
     submit() {

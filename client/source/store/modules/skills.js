@@ -3,21 +3,21 @@ import Http from '@/utils/http';
 const state = {
   skills: {
     0: {
-      changeTurn: false,
-      cooldown: 0,
-      description: 'null',
-      duration: 0,
-      id: 0,
-      limitCopy: 0,
-      minLevel: 0,
-      priceInGold: 0,
-      points: 0,
-      title: 'null',
-      triggeringEvent: 'null',
-      resources: {
-        energy_1: 0,
-        energy_2: 0,
-        energy_3: 0,
+      changeTurn: false, // смена хода
+      cooldown: 0, // время перезарядки
+      description: 'null', // описание
+      duration: 0, // длительность действия
+      id: 0, // номер
+      limitCopy: 0, // максимальное количество повторений в наборе умний
+      minLevel: 0, // минимальный уровень необходимый для покупки
+      priceInGold: 0, // цена в золоте
+      points: 0, // очки (стоимость добавления в набор)
+      title: 'null', // заголовок
+      triggeringEvent: 'null', // событие срабатывания
+      resources: { // необходимые ресурсы для использования
+        energy_1: 0, // энергия_1
+        energy_2: 0, // энергия_2
+        energy_3: 0, // энергия_3
       },
     },
   },

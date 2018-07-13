@@ -4,37 +4,37 @@ import Router from '@/router';
 import account from './account';
 
 const state = {
-  avatar: 'null',
-  email: 'null',
-  experience: 0,
-  gold: 0,
-  id: 0,
-  karma: 1,
-  level: 0,
-  limitSlots: 8,
-  nickname: 'null',
-  openSlots: 3,
-  points: 0,
-  rank: 0,
-  skillSet: [],
-  skillsUnlocked: [],
-  parameters: {
-    armor: 0,
-    block: 0,
-    force: 0,
-    health: 0,
-    luck: 0,
-    rage: 0,
-    resources: {
-      energy_1: 0,
-      energy_2: 0,
-      energy_3: 0,
+  avatar: 'null', // аватар
+  email: 'null', // почта
+  experience: 0, // опыт
+  gold: 0, // золото
+  id: 0, // номер
+  karma: 1, // карма (уровень адкватности пользователя)
+  level: 0, // уровень
+  limitSlots: 8, // максимальное кол-во слотов в наборе
+  nickname: 'null', // никнейм
+  openSlots: 3, // открыто слотов в наборе
+  points: 0, // очки (очки умений)
+  rank: 0, // ранг (позиция в списке лидеров)
+  skillSet: [], // набор умений
+  skillsUnlocked: [], // разблокированые умения (доступные для добавления в набор)
+  parameters: { // параметры
+    armor: 0, // броня
+    block: 0, // блок
+    force: 0, // сила
+    health: 0, // здоровье
+    luck: 0, // удача
+    rage: 0, // ярость
+    resources: { // ресурсы (для использования умений)
+      energy_1: 0, // энергия_1
+      energy_2: 0, // энергия_2
+      energy_3: 0, // энергия_3
     },
   },
 };
 
 const getters = {
-  getAllUserData: state => state,
+  getAllData: state => state,
 
   getSkillsSet: (state) => {
     const skillsSet = [];
@@ -137,6 +137,8 @@ const actions = {
     });
   },
 
+  // Использовать для данных не хранящихся в сторе
+  updateAccountDataNoStore(ctx, payload) {
     return new Promise((resolve, reject) => {
       const { field } = payload;
       const { data } = payload;
@@ -182,6 +184,14 @@ const mutations = {
 
   SET_USER_PARAMETERS(state, parameters) {
     state.parameters = parameters;
+  },
+
+  SET_AVATAR(state, avatar) {
+    state.avatar = avatar;
+  },
+
+  SET_NICKNAME(state, nickname) {
+    state.nickname = nickname;
   },
 
   SET_AVATAR(state, avatar) {
