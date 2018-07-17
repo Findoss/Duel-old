@@ -53,18 +53,40 @@ body {
   background-image: url("../assets/background.png");
 }
 
+.no-portrait {
+  display: none;
+  text-align: center;
+  color: #fff;
+}
 
+.no-portrait_img {
+  display: block;
+  background-size: cover;
+  background-image: url('../assets/switch_orientation.png');
 
   margin: 0 auto;
 
+  width: 15vh;
+  height: 15vh;
 }
 
+/* 
+@media screen and (orientation: portrait) {
+  #app {
+    display: none;
   }
 
+  .no-portrait {
+    display: block;
   }
 }
 
+@media screen and (orientation: landscape) {
+  .no-portrait {
+    display: none;
   }
+} */
+
 @import "./reset/typography.css";
 @import "./reset/link.css";
 @import "./reset/table.css";
