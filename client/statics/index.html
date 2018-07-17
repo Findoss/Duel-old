@@ -2,22 +2,25 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="user-scalable=yes, width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="<%= webpackConfig.output.publicPath %>favicon.ico">
     <title>Duel</title>
     <style>
       body {
-        font-family: -apple-system, BlinkMacSystemFont,"Segoe UI",Helvetica,Arial;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
         font-weight: normal;
-        font-size: 14pt;
         background-color: #000;
       }
     </style>
   </head>
   <body>
-    <noscript>
-      <strong>We're sorry but duel doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    <noscript class="no-script">
+      We're sorry but duel doesn't work properly without JavaScript enabled. Please enable it to continue.
     </noscript>
+    <div class="no-portrait">
+      <div class="no-portrait_img"></div>
+      Switch orintation.
+    </div>
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>

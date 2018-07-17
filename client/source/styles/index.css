@@ -1,7 +1,7 @@
 :root {
   --color-text: hsl(40, 40%, 90%);
   --color-text-strong: hsl(40, 60%, 65%);
-  --color-text-heading: hsl(40, 65%, 65%);
+  --color-text-heading: hsl(40, 65%, 65%); /* #e0b96c */
 
   --background-0: hsl(0, 0%, 0%);
   --background-1: hsl(0, 0%, 5%);
@@ -11,9 +11,9 @@
   --color-red-norm: hsl(355, 80%, 30%);
   --color-red-dark: hsl(355, 80%, 20%);
 
-  --color-gray-lite: hsl(220, 16%, 36%);
+  --color-gray-lite: hsl(220, 16%, 36%); /* #4d576a */
   --color-gray-norm: hsl(220, 16%, 30%);
-  --color-gray-bright: hsl(220, 16%, 22%);
+  --color-gray-bright: hsl(220, 16%, 22%); /* #2f3541 */
 
   --color-yellow-lite: hsl(40, 60%, 70%);
   --color-yellow-norm: hsl(40, 60%, 65%);
@@ -21,20 +21,28 @@
 
   --color-blue-lite: hsl(180, 25%, 80%);
   --color-blue-norm: hsl(180, 30%, 70%);
-  --color-blue-bright: hsl(180, 40%, 60%);
+  --color-blue-bright: hsl(180, 40%, 60%); /* #70c2c2 */
 
   --color-green-lite: hsl(92, 28%, 65%);
-  --color-green-norm: hsl(92, 49%, 58%);
+  --color-green-norm: hsl(92, 49%, 58%); /* #8ad24b */ 
   --color-green-bright: hsl(92, 60%, 56%);
 }
 
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 20px;
+}
+
 body {
+  font-size: 1rem;
+
   background-color: var(--background);
   color: var(--color-text);
-
-  font-family: -apple-system, BlinkMacSystemFont,"Segoe UI",Helvetica,Arial;
-  font-weight: normal;
-  font-size: 1.2em;
 
   background-size: cover;
   background-repeat: no-repeat;
@@ -45,46 +53,41 @@ body {
   background-image: url("../assets/background.png");
 }
 
+.no-portrait {
+  display: none;
+  text-align: center;
+  color: #fff;
+}
+
+.no-portrait_img {
+  display: block;
+  background-size: cover;
+  background-image: url('../assets/switch_orientation.png');
+
+  margin: 0 auto;
+
+  width: 15vh;
+  height: 15vh;
+}
+
+/* 
+@media screen and (orientation: portrait) {
+  #app {
+    display: none;
+  }
+
+  .no-portrait {
+    display: block;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .no-portrait {
+    display: none;
+  }
+} */
+
 @import "./reset/typography.css";
 @import "./reset/link.css";
 @import "./reset/table.css";
 @import "./reset/list.css";
-
-
-/* ↓ DEL !!! */
-/* ↓ DEL !!! */
-/* ↓ DEL !!! */
-.card {
-  box-sizing: content-box;
-
-  min-width: 250px;
-  max-width: 400px;
-  min-height: 140px;
-
-  margin: 0 auto;
-  margin-top: 30px;
-
-  padding: 30px;
-  background-color: var(--background-0);
-
-  border: 4px var(--color-gray-bright);
-  border-style: solid double solid;
-}
-
-.card--no-border {
-  border: none;
-  }
-
-.card--size-l {
-  max-width: 600px;
-  padding: 35px;
-  }
-
-.card--size-xl {
-  max-width: 1000px;
-  padding: 40px;
-}
-
-.card__title {
-  text-align: center;
-  }
