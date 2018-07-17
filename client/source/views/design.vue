@@ -1,20 +1,18 @@
 <template>
 <div>
 
-  <z-skill-card :skill="this.$store.state.skills.skills[0]"/>
+  <!-- <z-skill-card :skill="this.$store.state.skills.skills[0]"/> -->
 
-  <div class="card card--size-xl card--no-border">
-    <h1>h1. Heading Заголовок</h1>
-    <h2>h2. Heading Заголовок</h2>
-    <h3>h3. Heading Заголовок</h3>
-    <h4>h4. Heading Заголовок</h4>
+  <z-container  class="size-l no-border">
+    <h1>h1 - h4. Heading Заголовок</h1>
+    <h2>1 2 3 4 5 6 7 8 9 0</h2>
 
-    <h4>
-      1 2 3 4 5 6 7 8 9 0
-    </h4>
-    <p>
-      1 2 3 4 5 6 7 8 9 0
-    </p>
+    <p class="display-1"> Display-1 </p>
+    <p class="display-2"> Display-2 </p>
+    <p class="display-3"> Display-3 </p>
+    <p class="display-4"> Display-4 </p>
+    <p>1 2 3 4 5 6 7 8 9 0</p>
+    
     <br>
     <p>
       Lorem <strong>ipsum dolor sit</strong>, amet consectetur adipisicing <a href="">elit</a>. <small>numquam eaque minima similique</small> laudantium voluptatem?
@@ -25,38 +23,39 @@
     </p>
 
     <div class="colors">
-      <div class="color-row">
+      <div class="row">
         <div class="color color-1">--color-yellow-lite</div>
         <div class="color color-2">--color-yellow-norm</div>
         <div class="color color-3">--color-yellow-bright</div>
       </div>
-      <div class="color-row">
+      <div class="row">
         <div class="color color-4">--color-green-lite</div>
         <div class="color color-5">--color-green-norm</div>
         <div class="color color-6">--color-green-bright</div>
       </div>
-      <div class="color-row">
+      <div class="row">
         <div class="color color-7">--color-red-lite</div>
         <div class="color color-8">--color-red-norm</div>
         <div class="color color-9">--color-red-dark</div>
       </div>
-      <div class="color-row">
+      <div class="row">
         <div class="color color-13">--color-blue-lite</div>
         <div class="color color-14">--color-blue-norm</div>
         <div class="color color-15">--color-blue-bright</div>
       </div>
-      <div class="color-row">
+      <div class="row">
         <div class="color color-10">--color-gray</div>
         <div class="color color-11">--color-gray-norm</div>
         <div class="color color-12">--color-gray-bright</div>
       </div>
-      <div class="color-row">
+      <div class="row">
         <div class="color color-16">--background-0</div>
         <div class="color color-17">--background-1</div>
         <div class="color color-18">--background-2</div>
       </div>
+
     </div>
-  </div>
+  </z-container>
 
   <div class="card card--size-l">
     <z-loading :show="true">
@@ -241,12 +240,14 @@
   /* @import "../styles/list.css"; */
 
   .colors {
-    /*background-color: #fff;*/
-    padding: 5px;
+    display: flex;
+    width: 100%;
+    flex-flow: row wrap;
+    justify-content: center;
   }
 
   .color {
-    width: 185px;
+    width: 200px;
     height: 50px;
     display: block;
     font-size: 10pt;
@@ -255,7 +256,7 @@
 
   .color-row {
     margin: 5px;
-    display: inline-block;
+    display: flex;
   }
 
   .color-1 {
