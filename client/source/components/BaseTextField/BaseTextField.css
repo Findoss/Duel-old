@@ -21,7 +21,6 @@
   font-size: 1em;
 
   width: 100%;
-  box-sizing: border-box;
 }
 
 .base-input::-webkit-input-placeholder {
@@ -53,15 +52,15 @@
 
 
 .base-input-group--check-loading {
-  background-image: url(../../assets/Rolling-1s-16px-1.gif);
+  background-image: url(../../assets/status_icons/rolling_white.gif);
 }
 
 .base-input-group--check-successful {
-  background-image: url(../../assets/success.png);
+  background-image: url(../../assets/status_icons/success.png);
 }
 
 .base-input-group--check-error {
-  background-image: url(../../assets/error.png);
+  background-image: url(../../assets/status_icons/error.png);
 }
 
 
