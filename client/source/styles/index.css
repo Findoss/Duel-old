@@ -42,7 +42,7 @@ body {
   background-position-y: bottom;
   background-attachment: fixed;
   background-color: var(--background-1);
-  background-image: url("../assets/background.jpg");
+  background-image: url("../assets/background.png");
 }
 
 @import "./reset/typography.css";
@@ -56,7 +56,7 @@ body {
 /* ↓ DEL !!! */
 .card {
   box-sizing: content-box;
-  
+
   min-width: 250px;
   max-width: 400px;
   min-height: 140px;
@@ -73,12 +73,12 @@ body {
 
 .card--no-border {
   border: none;
-}
+  }
 
 .card--size-l {
   max-width: 600px;
   padding: 35px;
-}
+  }
 
 .card--size-xl {
   max-width: 1000px;
@@ -87,4 +87,4 @@ body {
 
 .card__title {
   text-align: center;
-}
+  }
