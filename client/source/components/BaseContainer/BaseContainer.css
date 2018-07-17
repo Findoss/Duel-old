@@ -1,0 +1,32 @@
+.base-container {
+  margin: 0 auto;
+
+  border: 4px var(--color-gray-bright);
+  border-style: solid double solid;
+
+  background-color: var(--background-0);
+}
+
+.no-border {
+  border: none;
+}
+
+.size-s {
+  max-width: 600px;
+  padding: 35px;
+}
+
+.size-m {
+  max-width: 400px;
+  padding: 20px;
+}
+
+.size-l {
+  max-width: 600px;
+  padding: 35px;
+}
+
+.size-xl {
+  max-width: 1000px;
+  padding: 40px;
+}
