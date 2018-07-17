@@ -50,7 +50,7 @@
 }
 
 .user__skill--lock {
-  background-image: url(../../assets/locked.png);
+  background-image: url(../../assets/skills/locked.png);
   cursor: help;
 }
 
@@ -116,7 +116,7 @@
   bottom: 50px;
   left: 20px;
   position: relative;
-  background-image: url(../../assets/locked.png);
+  background-image: url(../../assets/skills/locked.png);
 }
 
 .grid__skill--selected {

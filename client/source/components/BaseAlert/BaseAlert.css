@@ -63,19 +63,19 @@
 }
 
 .base-alert--icon-success {
-  background-image: url(../../assets/success.png);
+  background-image: url(../../assets/status_icons/success.png);
 }
 
 .base-alert--icon-error {
-  background-image: url(../../assets/error.png);
+  background-image: url(../../assets/status_icons/error.png);
 }
 
 .base-alert--icon-info {
-  background-image: url(../../assets/info.png);
+  background-image: url(../../assets/status_icons/info.png);
 }
 
 .base-alert--icon-warning {
-  background-image: url(../../assets/warning.png);
+  background-image: url(../../assets/status_icons/warning.png);
 }
 
 .base-alert--color-success {
