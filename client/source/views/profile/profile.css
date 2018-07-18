@@ -1,25 +1,34 @@
 .profile {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-top: 10px;
-  background-color: var(--background-1);
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 50px 1fr;
+  grid-template-areas: 'N N'
+                       'C .';
+
+  height: 100vh;
+
+  background-color: var(--background-2);
 }
 
-.profile__navigation {
-  display: flex;
-  flex-direction: row;
+.navigation {
+  grid-area: N;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 15%);
+  grid-template-rows: 1fr;
+  grid-gap: 10px;
+  justify-content: center; 
+
+  width: 100%;
 }
 
 .navigation__item {
-  padding: 10px;
-  margin: 5px;
   text-decoration: none;
   text-align: center;
   border: 2px solid var(--color-gray-norm);
 }
 
-.profile__body {
-  width: 100%;
-  padding-top: 50px;
+.content {
+  grid-area: C;
+  background-color: var(--background-1);
 }
