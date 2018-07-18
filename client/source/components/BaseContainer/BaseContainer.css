@@ -4,7 +4,9 @@
   border: 4px var(--color-gray-bright);
   border-style: solid double solid;
 
-  background-color: var(--background-0);
+  min-width: 250px;
+
+  background-color: var(--background-2);
 }
 
 .no-border {
@@ -17,7 +19,7 @@
 }
 
 .size-m {
-  max-width: 400px;
+  max-width: 430px;
   padding: 20px;
 }
 
