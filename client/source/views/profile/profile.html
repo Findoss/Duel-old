@@ -1,33 +1,35 @@
-<div class="profile card card--size-xl">
-  <div class="profile__navigation">
-    <z-button class="navigation__item" @click="">Play</z-button>
-    <router-link 
-      class="navigation__item" 
-      :to="{ path: `/${userId}` }"
-    >
-      Profile
-    </router-link>
-    <router-link 
-      class="navigation__item" 
-      :to="{ path: `/${userId}/skills` }"
-    >
-      Skills
-    </router-link>
-    <router-link 
-      class="navigation__item" 
-      :to="{ path: `/${userId}/scoreboard` }"
-    >
-      Scoreboard
-    </router-link>
-    <router-link 
-      class="navigation__item" 
-      :to="{ path: `/${userId}/settings` }"
-    >
-      Settings
-    </router-link>
-    <z-button class="navigation__item" @click="signOut()">Sign out</z-button>
+<z-loading :show="!userId">
+  <div class="profile">
+    <div class="navigation">
+      <z-button class="navigation__item" @click="">Play</z-button>
+      <router-link 
+        class="navigation__item" 
+        :to="{ path: `/${userId}` }"
+      >
+        Profile
+      </router-link>
+      <router-link 
+        class="navigation__item" 
+        :to="{ path: `/${userId}/skills` }"
+      >
+        Skills
+      </router-link>
+      <router-link 
+        class="navigation__item" 
+        :to="{ path: `/${userId}/scoreboard` }"
+      >
+        Scoreboard
+      </router-link>
+      <router-link 
+        class="navigation__item" 
+        :to="{ path: `/${userId}/settings` }"
+      >
+        Settings
+      </router-link>
+      <z-button class="navigation__item" @click="signOut()">Sign out</z-button>
+    </div>
+    <div class="content">
+      <router-view/>
+    </div>
   </div>
-  <div class="profile__body">
-    <router-view/>
-  </div>
-</div>
+</z-loading>

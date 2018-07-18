@@ -1,42 +1,42 @@
-<z-loading :show="!user.id">
-  <div class="overview">
-    <div class="overview__title">
-      <h1><span class="overview__title-level">{{ user.level }}</span>{{ user.nickname }}</h1>
-      <div class="overview__title-avatar">
-        <img :src="pathAvatar(user.avatar)" alt="avatar" class="avatar__image">
-      </div>
-    </div>
-    <div class="overview__stats">
-      <p>Email <strong>{{ user.email }}</strong></p>
-      <p>Rank <strong>{{ user.rank }}</strong></p>
-      <p>gold <strong>{{ user.gold }}</strong></p>
-      <p>experience <strong>{{ user.experience }}</strong></p>
-      <p>points <strong>{{ user.points }}</strong></p>
-      <p>karma <strong>{{ user.karma }}</strong></p>
-      <p>openSlots <strong>{{ user.openSlots }}</strong></p>
-      <p>limitSlots <strong>{{ user.limitSlots }}</strong></p>
-      <p>skillSet 
-        <img 
-          v-for="(id, index) in user.skillSet"
-          :src="pathSkill(id)"
-          :key="index"
-          class="stats__skill-image"
-        >
-        <div v-if="user.skillSet.length === 0">
-          <p>Sorry, no elements yet.</p>
-        </div>
-      </p>
-      <p>skillsUnlocked 
-        <img 
-          v-for="(id, index) in user.skillsUnlocked"
-          :src="pathSkill(id)"
-          :key="index"
-          class="stats__skill-image"
-        >
-        <div v-if="user.skillsUnlocked.length === 0">
-          <p>Sorry, no elements yet.</p>
-        </div>
-      </p>
-    </div>
+
+<div class="overview">
+  <div class="nickname">
+    <span class="title display-1">
+      <span class="level">{{ user.level }}</span>{{ user.nickname }}
+    </span>
   </div>
-</z-loading>
+  <div class="avatar">
+    <img :src="pathAvatar(user.avatar)" :alt="user.avatar">
+  </div>
+  <div class="I">
+    <span class="display-3">
+      <span class="gold"><strong>{{ user.gold }} </strong></span> 
+      <span class="point"><strong>{{ user.points }}</strong></span>
+    </span>
+  </div>
+  <div class="parameters">
+    <h2 class="display-2">ParameterS</h2>
+    <p>health  {{ userParameters.health }}</p>
+    <p>force  {{ userParameters.force }}</p>
+    <p>armor  {{ userParameters.armor }}</p>
+    <p>rage  {{ userParameters.rage }}</p>
+    <p>rage  {{ userParameters.rage }}</p>
+    <p>block  {{ userParameters.block }}</p>
+
+    <h2 class="display-2">ResourceS</h2>
+    <h3 class="display-3">Energy</h3>
+    <p>red {{ userParameters.resources.energy_1 }}</p>
+    <p>green {{ userParameters.resources.energy_2 }}</p>
+    <p>blue {{ userParameters.resources.energy_3 }}</p>
+  </div>
+  <div class="skillset">
+      <img 
+        v-for="(id, index) in user.skillSet"
+        :src="pathSkill(id)"
+        :key="index"
+      >
+      <div v-if="user.skillSet.length === 0">
+        <p>Sorry, no elements yet.</p>
+      </div>
+  </div>
+</div>
