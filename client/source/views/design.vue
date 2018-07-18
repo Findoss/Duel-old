@@ -57,7 +57,7 @@
     </div>
   </z-container>
 
-  <div class="card card--size-l">
+  <z-container  class="size-l">
     <z-loading :show="true">
       <h2>Us necessitatibus imp</h2>
       <p>
@@ -69,10 +69,10 @@
       <br>
       <z-button type="submit">Hello Button</z-button>
     </z-loading>
-  </div>
+  </z-container>
 
 
-  <div class="card">
+  <z-container class="size-m">
 
     <z-alert
       :show="true"
@@ -166,13 +166,13 @@
     />
 
     <z-text-field
-      customClasses="is-autocheck-loading"
+      customClasses="check-loading "
       label="text field - pending"
       name="field6"
     />
 
     <z-text-field
-      customClasses="is-autocheck-successful"
+      customClasses="check-successful"
       label="text field - valid"
       name="field7"
     />
@@ -184,12 +184,12 @@
       ref="textFieldError"
       value="123"
     />
-
-    <z-button type="submit">Normal button</z-button>
     <br>
+    <z-button type="submit">Normal button</z-button>
+    <br><br>
     <z-button type="submit" disabled>Disable button</z-button>
 
-  </div>
+  </z-container>
 
 </div>
 </template>

@@ -16,8 +16,7 @@ import Profile from '@/views/profile/profile.vue';
 import ProfileOverview from '@/views/profile-overview/profile-overview.vue';
 import ProfileSkills from '@/views/profile-skills/profile-skills.vue';
 import ProfileSetting from '@/views/profile-setting/profile-setting.vue';
-
-import Scoreboard from '@/views/scoreboard/scoreboard.vue';
+import ProfileScoreboard from '@/views/profile-scoreboard/profile-scoreboard.vue';
 
 import Design from '@/views/design.vue';
 
@@ -74,7 +73,7 @@ const router = new Router({
         },
         {
           path: 'scoreboard',
-          component: Scoreboard,
+          component: ProfileScoreboard,
         },
       ],
     },

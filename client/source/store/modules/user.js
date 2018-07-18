@@ -5,7 +5,6 @@ import account from './account';
 
 const state = {
   avatar: 'null', // аватар
-  email: 'null', // почта
   experience: 0, // опыт
   gold: 0, // золото
   id: 0, // номер

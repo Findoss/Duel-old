@@ -47,19 +47,15 @@
   border-color: var(--color-gray-norm);
 }
 
-
-
-
-
-.base-input-group--check-loading {
+.check-loading {
   background-image: url(../../assets/status_icons/rolling_white.gif);
 }
 
-.base-input-group--check-successful {
+.check-successful {
   background-image: url(../../assets/status_icons/success.png);
 }
 
-.base-input-group--check-error {
+.check-error {
   background-image: url(../../assets/status_icons/error.png);
 }
 

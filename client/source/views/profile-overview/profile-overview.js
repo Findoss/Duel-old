@@ -1,7 +1,10 @@
 import { mapState, mapGetters } from 'vuex';
 
 export default {
-  computed: mapState({
+  computed: {
+    ...mapState({
+      userParameters: state => state.user.parameters,
+    }),
     ...mapGetters([
       'pathAvatar',
       'pathSkill',
@@ -9,5 +12,5 @@ export default {
     ...mapGetters({
       user: 'user/getAllData',
     }),
-  }),
+  },
 };
