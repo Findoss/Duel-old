@@ -191,23 +191,10 @@ $ for b in `git branch -r │ grep -v -- '->'`; do git branch --track ${b##origi
 ### Разное
 
 Конфигурация webpack  
-`$ npm run vue-inspect`
+`$ npm run vue-inspect`  
 
-Вывод структуры проекта
-`$ npm run structure-inspect`
-
-## Вклад
-│ шаг │ действие                             │ подсказка                           │
-│:--- │:------------------------------------ │:----------------------------------- │
-│ 1   │ Создайте ответвление проекта         │ fork                                │
-│ 2   │ Клонируйте проект                    │ `$ git <you-fork> clone`            │
-│ 3   │ Создайте свою ветку функциональности │ `$ git checkout -b my-new-feature`  │
-│ 4   │ Напишите тесты                       │                                     │
-│ 5   │ Внесите изменения                    │                                     │
-│ 6   │ Зафиксируйте свои изменения          │ `$ git commit -am 'Add some feature'` │
-│ 7   │ Загрузите изменения                  │ `$ git push origin my-new-feature`    │
-│ 8   │ Создать новый запрос на добавление   │ Create new Pull Request             │
-Подробное руководство по git смотрите в [GIT](https://github.com/Findoss/Duel/wiki/git)  
+Вывод структуры проекта  
+`$ npm run build-structure`  
 
 ## Документация по инструментам  
 [ESlint](https://eslint.org)  
