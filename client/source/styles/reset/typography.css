@@ -7,14 +7,14 @@
   /* src: url(../../statics/fonts/Sketch Gothic School.ttf); */
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, 
+.title, 
+.subtitle {
   font-family: King, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial;
   font-weight: normal;
-  font-size: 1rem;
   letter-spacing: 0.03em;
   color: var(--color-text-heading);
-  margin-top: 0;
-  margin-bottom: 10px;
+  margin: 0;
 }
 
 strong, label {
@@ -37,21 +37,13 @@ p {
 }
 
 .display-2 {
-  font-size: 2.3rem;
+  font-size: 2.0rem;
 }
 
 .display-3 {
-  font-size: 2.1rem;
-}
-
-.display-4 {
   font-size: 1.8rem;
 }
 
-.title {
-  font-size: 2.5rem;
-}
-
-.subtitle {
-  font-size: 2.0rem;
+.display-4 {
+  font-size: 1.5rem;
 }
