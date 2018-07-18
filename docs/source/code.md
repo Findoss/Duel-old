@@ -11,29 +11,33 @@ Airbnb JavaScript Style Guide
 Позиция (положение на экроне) → x (horizontal), y (vertical)  
 Индексы (положение в массиве) → i (row), j (colomn)  
 
-Теги  
-
-| тип  | описание |
-| :--- | :--- |  
-| TODO     | доделать |  
-| FIXME    | исправить |  
-| CHANGED  | todo |  
-| IDEA     | обратить внимание |  
-| HACK     | todo |  
-| REVIEW   | оптимизировать |  
-| TEMP     | временно |  
-| COMBAK   | вернуться |  
-| BUG      | ошибка |  
-| QUESTION | вопрос |  
 
 ### CSS
 
 Levels
 ```
 0 - reset css
-1 - component \
-2 - page       |> BEM
-3 - theme     /
+1 - component
+2 - page     
+3 - theme    
 ```
 
-### Понятия
+### DataBase
+
+Пользователь
+  + Attributes
+    + id: 123 (number)
+    + nickname: Ivan (string)
+    + email: Ivan@email.ru (string)
+    + avatar: shooter_1 (string)
+    + rank: 14 (number)
+    + gold: 450 (number)
+    + level: 5 (number)
+    + experience: 16 (number)
+    + karma: 10 (number)
+    + points: 35 (number)
+    + openSlots: 8 (number)
+    + skillSet (array)
+        + 2 (number)
+    + skillsUnlocked (array)
+        + 2 (number)

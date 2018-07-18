@@ -1,5 +1,6 @@
 <z-loading :show="avatars === null">
   <div class="settings">
+      <z-container class="size-xl no-border">
     <z-alert
       v-for="(alert, index) in alerts"
       :key="index"
@@ -12,16 +13,20 @@
       {{ alert.message }}
     </z-alert>
     <br>
-    <h4>Select avatar</h4>
-    <img 
-      v-for="(avatar) in avatars" 
-      :src="pathAvatar(avatar)" 
-      :alt="avatar" 
-      :class="['avatar', isSelectedAvatar(avatar) ? 'avatar-select' : '']"
-      @click="selectAvatar(avatar)"
-    >
-    <br>
-    <h4>Change password</h4>
+
+
+      <h4 class="display-4">Select avatar</h4>
+      <img 
+        v-for="(avatar) in avatars" 
+        :src="pathAvatar(avatar)" 
+        :alt="avatar" 
+        :class="['avatar', isSelectedAvatar(avatar) ? 'avatar-select' : '']"
+        @click="selectAvatar(avatar)"
+      >
+    </z-container>
+    <z-container class="size-m no-border">
+
+    <h4 class="display-4">Change password</h4>
     <form accept-charset="UTF-8"  @submit.prevent="submitChangePassword" novalidate>
       <z-text-field
         :icon="false"
@@ -61,7 +66,7 @@
     </form>
     <br>
     <br>
-    <h4>Change username</h4>
+    <h4 class="display-4">Change username</h4>
     <form accept-charset="UTF-8" @submit.prevent="submitChangeNickname" novalidate>
       <z-text-field
         :validationRules="form2.newNickname.rules"
@@ -87,5 +92,6 @@
       Once you delete your account, there is no going back. Please be certain.
     </z-alert>
     <z-button tabindex="7" type="submit" @click="deleteAccount()">Delete your account</z-button>
+  </z-container>
   </div>
 </z-loading>

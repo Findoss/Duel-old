@@ -1,13 +1,37 @@
 .overview {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 60px auto 1fr;
+  grid-template-areas: 'N E'
+                       'A P'
+                       'S P';
+  grid-gap: 0.5rem;
+
+  padding: 10px;
+  padding-top: 50px;
 }
 
+.avatar {
+  grid-area: A;
+}
 
-.overview__title-level {
+.avatar img{
+  width: 100%;
+}
+
+.nickname {
+  grid-area: N;
+  text-align: center;
+}
+
+.nickname .title{
+  font-size: 3rem;
+}
+
+.level {
   font-size: 0.8em;
   border: 2px solid var(--color-yellow-norm);
   border-radius: 5px;
-  height: 40px;
   padding-right: 10px;
   padding-left: 10px;
   display: inline-block;
@@ -15,18 +39,35 @@
   text-align: center;
 }
 
-.overview__title-avatar {
-  height: 300px;
+.estate {
+  grid-area: E;
 }
 
-.avatar__image {
-  height: 320px;
+.estate .gold::before {
+  content: url(../../assets/estate/gold.png);
+  width: 30px;
+  /* display: inline-block; */
 }
 
-.overview__stats {
-  margin-left: 50px;
+.estate .point::before {
+  content: url(../../assets/estate/point.png);
+  width: 30px;
+  /* display: inline-block; */
 }
 
-.stats__skill-image {
-  height: 50px;
+.parameters {
+  grid-area: P;
 }
+
+.skillset {
+  grid-area: S;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 0.5em;
+  justify-items: flex-start;
+}
+
+.skillset img {
+  width: 100%;
+} 

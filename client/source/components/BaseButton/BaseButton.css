@@ -1,24 +1,17 @@
 .base-button {
   background-color: var(--background-0);
-
-  border: 3px solid;
-
-  color: var(--color-red-norm);
   border-color: var(--color-red-norm);
-  border-image: linear-gradient(to right, hsl(0, 100%, 7%), hsl(360, 100%, 25%), hsl(0, 100%, 7%));
-  
   border-image-slice: 1;
-  
-  padding: 1px;
-  margin-top: 4px;
-  width: 100%;
-  
-  font-size: 1.7em;
-  font-family: King;
-  letter-spacing: 0.05em;
-  
-  outline: none;
+  border-image: linear-gradient(to right, hsl(0, 100%, 7%), hsl(360, 100%, 25%), hsl(0, 100%, 7%));
+  border: 3px solid;
+  color: var(--color-red-norm);
   cursor: pointer;
+  font-family: King;
+  font-size: 1.7rem;
+  letter-spacing: 0.05rem;
+  outline: none;
+  padding: 1px;
+  width: 100%;
 }
 
 .base-button:hover,
@@ -30,9 +23,9 @@
 }
 
 .base-button:disabled {
-  cursor: auto;
-  color: var(--color-gray-norm);
+  border-color: var(--color-gray-norm);
   border-image: none;
   border: 2px solid;
-  border-color: var(--color-gray-norm);
+  color: var(--color-gray-norm);
+  cursor: auto;
 }

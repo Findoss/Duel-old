@@ -35,10 +35,10 @@ export default {
         'base-alert': true,
       };
       if (this.icon) {
-        classes['base-alert--icon'] = true;
-        classes[`base-alert--icon-${this.type}`] = true;
+        classes.icon = true;
+        classes[`icon-${this.type}`] = true;
       }
-      classes[`base-alert--color-${this.type}`] = true;
+      classes[`color-${this.type}`] = true;
       return classes;
     },
   },

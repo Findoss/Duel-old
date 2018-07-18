@@ -1,95 +1,94 @@
 .base-alert {
   background-color: var(--background-0);
-  background-repeat: no-repeat;
   background-position: left 8px center;
-  border: 1px solid;
-  border-top: 4px solid;
+  background-repeat: no-repeat;
   border-color: var(--color-gray-lite);
+  border-top: 4px solid;
+  border: 1px solid;
+  margin-top: 8px;
   padding: 5px;
   padding-left: 10px;
   padding-right: 24px;
-  margin-top: 8px;
+  width: 100%;
 }
 
-.base-alert__button-close {
+.button-close {
   background-color: var(--background-2);
   border: 0;
-  border-radius: 50%;
   display: inline-block;
-  position: relative;
   float: right;
-  right: -16px;
   height: 24px;
+  position: relative;
+  right: -16px;
   width: 24px;
-  overflow: hidden;
 }
 
-.base-alert__button-close::before, 
-.base-alert__button-close::after {
-  content: "";
-  position: absolute;
+.button-close::before, 
+.button-close::after {
   background-color: var(--color-gray-lite);
+  content: "";
   height: 2px;
-  width: 15px;
-  top: 50%;
   left: 5px;
   margin-top: -1px;
+  position: absolute;
+  top: 50%;
+  width: 14px;
 }
 
-.base-alert__button-close:hover {
+.button-close:hover {
   background-color: var(--color-gray-bright);
   cursor: pointer;
 }
 
-.base-alert__button-close:focus {
+.button-close:focus {
   outline: none;
 }
 
-.base-alert__button-close:hover::before, 
-.base-alert__button-close:hover::after {
+.button-close:hover::before, 
+.button-close:hover::after {
   background: var(--color-red-lite);
 }
 
-.base-alert__button-close::before {
+.button-close::before {
   transform: rotate(45deg);
 }
 
-.base-alert__button-close::after {
+.button-close::after {
   transform: rotate(-45deg);
 }
 
-.base-alert--icon {
+.icon {
   padding-left: 32px;
 }
 
-.base-alert--icon-success {
+.icon-success {
   background-image: url(../../assets/status_icons/success.png);
 }
 
-.base-alert--icon-error {
+.icon-error {
   background-image: url(../../assets/status_icons/error.png);
 }
 
-.base-alert--icon-info {
+.icon-info {
   background-image: url(../../assets/status_icons/info.png);
 }
 
-.base-alert--icon-warning {
+.icon-warning {
   background-image: url(../../assets/status_icons/warning.png);
 }
 
-.base-alert--color-success {
+.color-success {
   border-color: var(--color-green-norm);
 }
 
-.base-alert--color-error {
+.color-error {
   border-color: var(--color-red-norm);
 }
 
-.base-alert--color-info {
+.color-info {
   border-color: var(--color-blue-norm);
 }
 
-.base-alert--color-warning {
+.color-warning {
   border-color: var(--color-yellow-norm);
 }
