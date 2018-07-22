@@ -24,7 +24,7 @@ Levels
 
 ### DataBase
 
-Пользователь
+#### Пользователь
   + Attributes
     + id: 123 (number)
     + nickname: Ivan (string)
@@ -41,3 +41,17 @@ Levels
         + 2 (number)
     + skillsUnlocked (array)
         + 2 (number)
+
+#### Статы
+  + Attributes
+    + health: 100 (number)
+    + force: 10 (number)
+    + armor: 6 (number)
+    + rage: 5 (number)
+    + luck: 2 (number)
+    + healing: 3 (number)
+    + block: 4 (number)
+    + resources (object)
+        + energy_1: 3 (number)
+        + energy_2: 3 (number)
+        + energy_3: 3 (number)

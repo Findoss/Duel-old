@@ -27,7 +27,12 @@
     <z-container class="size-m no-border">
 
     <h4 class="display-4">Change password</h4>
-    <form accept-charset="UTF-8"  @submit.prevent="submitChangePassword" novalidate>
+    <form 
+      accept-charset="UTF-8"  
+      @submit.prevent="submitChangePassword" 
+      @keyup.enter="submitChangePassword" 
+      novalidate
+    >
       <z-text-field
         :icon="false"
         :validationRules="form.oldPassword.rules"
@@ -67,7 +72,12 @@
     <br>
     <br>
     <h4 class="display-4">Change username</h4>
-    <form accept-charset="UTF-8" @submit.prevent="submitChangeNickname" novalidate>
+    <form 
+      accept-charset="UTF-8" 
+      @submit.prevent="submitChangeNickname" 
+      @keyup.enter="submitChangeNickname" 
+      novalidate
+    >
       <z-text-field
         :validationRules="form2.newNickname.rules"
         @validation="form2.newNickname.status = $event"

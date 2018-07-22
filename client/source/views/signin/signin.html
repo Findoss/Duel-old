@@ -2,7 +2,12 @@
 
   <h1 class="display-1">Sign in to Duel</h1>
 
-  <form accept-charset="UTF-8" @submit.prevent="submit" novalidate>
+  <form 
+    accept-charset="UTF-8" 
+    @submit.prevent="submit" 
+    @keyup.enter="submit" 
+    novalidate
+  >
     <z-alert 
       :icon="true"
       :dismissible="true"
