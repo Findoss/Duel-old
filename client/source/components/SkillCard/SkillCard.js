@@ -20,7 +20,7 @@ export default {
       skills: state => state.skills.skills,
     }),
     ...mapGetters({
-      getSkillsSet: 'user/getSkillsSet',
+      getSkillSet: 'user/getSkillSet',
       getCountSkillsClones: 'user/getCountSkillsClones',
     }),
     ...mapGetters([
