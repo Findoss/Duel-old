@@ -17,26 +17,23 @@
         class="user__avatar"
       >
       <div class="user__skills">
-        <div 
-          v-for="(idSkill, index) in getSkillsSet" 
-          :key="index" 
-          :class="[idSkill === -2 ? 'user__skill--lock' : 'user__skill-empty', 'skill']"
-        >
-          <template v-if="idSkill >= 0">
-            <img 
-              :alt="idSkill" 
-              :src="pathSkill(idSkill)" 
-              class="user__skill" 
-              @click="pressSkill(idSkill)" 
-            />
+
+        <z-skill-set>
+          <z-skill
+            v-for="(id, index) in skillSet" 
+            :key="index" 
+            :id="id"
+            class="pointer"
+            @click="pressSkill(id)" 
+          >
             <button 
-              @click="delInSkillSet(idSkill)" 
+              @click="delInSkillSet(id)" 
               class="skill__close"
-            >
-              X
-            </button>
-          </template>
-        </div>
+            ></button>
+          </z-skill>
+        </z-skill-set>
+
+
       </div>
       <div class="user__parameters">
         <table>

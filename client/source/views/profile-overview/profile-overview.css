@@ -45,14 +45,10 @@
 
 .estate .gold::before {
   content: url(../../assets/estate/gold.png);
-  width: 30px;
-  /* display: inline-block; */
 }
 
 .estate .point::before {
   content: url(../../assets/estate/point.png);
-  width: 30px;
-  /* display: inline-block; */
 }
 
 .parameters {
@@ -61,13 +57,4 @@
 
 .skillset {
   grid-area: S;
-
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 0.5em;
-  justify-items: flex-start;
 }
-
-.skillset img {
-  width: 100%;
-} 

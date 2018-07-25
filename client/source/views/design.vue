@@ -4,6 +4,18 @@
   <!-- <z-skill-card :skill="this.$store.state.skills.skills[0]"/> -->
 
   <z-container  class="size-l no-border">
+
+    <p class="display-4">Basic SkillSet</p>
+    <z-skill-set>
+      <z-skill
+        v-for="(id, index) in skillSet" 
+        :key="index" 
+        :id="id"
+      >
+      </z-skill>
+    </z-skill-set>
+
+
     <h1>h1 - h4. Heading Заголовок</h1>
     <h2>1 2 3 4 5 6 7 8 9 0</h2>
 
@@ -197,8 +209,12 @@
 
 
 <script>
+  import { mapActions, mapState, mapGetters } from 'vuex';
+
   // Components
   import SkillCard from '@/components/SkillCard/SkillCard.vue';
+  import SkillSet from '@/components/SkillSet/SkillSet.vue';
+  import Skill from '@/components/Skill/Skill.vue';
 
   // Utils
   import Rules from '@/utils/validation/rules';
@@ -207,6 +223,21 @@
     
     components: {
       'z-skill-card': SkillCard,
+      'z-skill-set': SkillSet,
+      'z-skill': Skill,
+    },
+
+    computed: {
+      ...mapState({
+        userParameters: state => state.user.parameters,
+      }),
+      ...mapGetters([
+        'pathAvatar',
+      ]),
+      ...mapGetters({
+        user: 'user/getAllData',
+        skillSet: 'user/getSkillSet',
+      }),
     },
 
     data() {

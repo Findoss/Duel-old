@@ -36,7 +36,7 @@ const state = {
 const getters = {
   getAllData: state => state,
 
-  getSkillsSet: (state) => {
+  getSkillSet: (state) => {
     const skillsSet = [];
     for (let i = 0; i < state.limitSlots; i++) {
       if (state.skillSet[i] !== undefined) {

@@ -29,14 +29,13 @@
     <p>green {{ userParameters.resources.energy_2 }}</p>
     <p>blue {{ userParameters.resources.energy_3 }}</p>
   </div>
-  <div class="skillset">
-      <img 
-        v-for="(id, index) in user.skillSet"
-        :src="pathSkill(id)"
-        :key="index"
-      >
-      <div v-if="user.skillSet.length === 0">
-        <p>Sorry, no elements yet.</p>
-      </div>
-  </div>
+  <z-skill-set>
+    <z-skill
+      v-for="(id, index) in skillSet" 
+      :key="index" 
+      :id="id"
+    >
+    </z-skill>
+  </z-skill-set>
+
 </div>
