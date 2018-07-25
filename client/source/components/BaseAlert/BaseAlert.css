@@ -35,6 +35,14 @@
   width: 14px;
 }
 
+.button-close::before {
+  transform: rotate(45deg);
+}
+
+.button-close::after {
+  transform: rotate(-45deg);
+}
+
 .button-close:hover {
   background-color: var(--color-gray-bright);
   cursor: pointer;
@@ -47,14 +55,6 @@
 .button-close:hover::before, 
 .button-close:hover::after {
   background: var(--color-red-lite);
-}
-
-.button-close::before {
-  transform: rotate(45deg);
-}
-
-.button-close::after {
-  transform: rotate(-45deg);
 }
 
 .icon {
