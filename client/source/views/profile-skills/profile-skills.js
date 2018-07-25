@@ -2,11 +2,15 @@ import { mapActions, mapState, mapGetters } from 'vuex';
 
 // Components
 import SkillCard from '@/components/SkillCard/SkillCard.vue';
+import SkillSet from '@/components/SkillSet/SkillSet.vue';
+import Skill from '@/components/Skill/Skill.vue';
 
 export default {
 
   components: {
     'z-skill-card': SkillCard,
+    'z-skill-set': SkillSet,
+    'z-skill': Skill,
   },
 
   data() {
@@ -29,12 +33,11 @@ export default {
     }),
     ...mapGetters({
       getSkillInfo: 'skills/getSkillInfo',
-      getSkillsSet: 'user/getSkillsSet',
+      skillSet: 'user/getSkillSet',
       getCountSkillsClones: 'user/getCountSkillsClones',
     }),
     ...mapGetters([
       'pathAvatar',
-      'pathSkill',
     ]),
   },
 
