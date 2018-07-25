@@ -1,0 +1,15 @@
+<div 
+  :class="[
+    'skill', 
+    id === -2 ? 'skill-lock' : ''
+  ]"
+>
+  <template v-if="id >= 0">
+    <img 
+      :src="pathSkill(id)"
+      :alt="id"
+      @click="click($event)"
+    >
+    <slot></slot>
+  </template>
+</div>
