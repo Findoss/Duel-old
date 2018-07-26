@@ -14,21 +14,9 @@
       <span class="point"><strong>{{ user.points }}</strong></span>
     </span>
   </div>
-  <div class="parameters">
-    <h2 class="display-2">ParameterS</h2>
-    <p>health  {{ userParameters.health }}</p>
-    <p>force  {{ userParameters.force }}</p>
-    <p>armor  {{ userParameters.armor }}</p>
-    <p>rage  {{ userParameters.rage }}</p>
-    <p>healing  {{ userParameters.healing }}</p>
-    <p>block  {{ userParameters.block }}</p>
 
-    <h2 class="display-2">ResourceS</h2>
-    <h3 class="display-3">Energy</h3>
-    <p>red {{ userParameters.resources.energy_1 }}</p>
-    <p>green {{ userParameters.resources.energy_2 }}</p>
-    <p>blue {{ userParameters.resources.energy_3 }}</p>
-  </div>
+  <z-user-parametrs></z-user-parametrs>
+
   <z-skill-set>
     <z-skill
       v-for="(id, index) in skillSet" 

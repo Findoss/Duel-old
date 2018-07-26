@@ -1,6 +1,7 @@
 import { mapActions, mapState, mapGetters } from 'vuex';
 
 // Components
+import UserParametrs from '@/components/UserParametrs/UserParametrs.vue';
 import SkillCard from '@/components/SkillCard/SkillCard.vue';
 import SkillSet from '@/components/SkillSet/SkillSet.vue';
 import Skill from '@/components/Skill/Skill.vue';
@@ -8,6 +9,7 @@ import Skill from '@/components/Skill/Skill.vue';
 export default {
 
   components: {
+    'z-user-parametrs': UserParametrs,
     'z-skill-card': SkillCard,
     'z-skill-set': SkillSet,
     'z-skill': Skill,
@@ -29,7 +31,6 @@ export default {
       points: state => state.user.points,
       gold: state => state.user.gold,
       avatar: state => state.user.avatar,
-      userParameters: state => state.user.parameters,
     }),
     ...mapGetters({
       getSkillInfo: 'skills/getSkillInfo',

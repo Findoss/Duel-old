@@ -36,20 +36,7 @@
 
       </div>
       <div class="user__parameters">
-        <table>
-          <tbody>
-            <tr v-for="(parameter, key) in userParameters">
-              <td>
-                <span v-if="key === 'force'">💪</span>{{ key }}</td>
-              <td>
-                <strong>{{ parameter }}</strong>
-                <strong>
-                  <span class="p"> +10</span>
-                </strong>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <z-user-parametrs></z-user-parametrs>
       </div>
     </div>
 
