@@ -1,0 +1,56 @@
+<div>
+  <table>
+      <tbody>
+        <td colspan="3"><h2 class="display-4">Parameters</h2></td>
+        <tr>
+          <td>⊠ health</td>
+          <td><strong>{{ userParameters.health }}</strong></td>
+          <td><span class="modificator">{{ userParameters.health }}</span></td>
+        </tr>
+        <tr>
+          <td>⊠ force</td>
+          <td><strong>{{ userParameters.force }}</strong></td>
+          <td><span class="modificator">{{ userParameters.force }}</span></td>
+        </tr>
+        <tr>
+          <td>⊠ armor</td>
+          <td><strong>{{ userParameters.armor }}</strong></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>⊠ rage</td>
+          <td><strong>{{ userParameters.rage }}</strong></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>⊠ healing</td>
+          <td><strong>{{ userParameters.healing }}</strong></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>⊠ block</td>
+          <td><strong>{{ userParameters.block }}</strong></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="3"><h3 class="display-4">Resources</h3></td>
+        </tr>
+        <tr>
+          <td>⊠ red</td>
+          <td><strong>{{ userParameters.resources.energy_1 }}</strong></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>⊠ green</td>
+          <td><strong>{{ userParameters.resources.energy_2 }}</strong></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>⊠ blue</td>
+          <td><strong>{{ userParameters.resources.energy_3 }}</strong></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  <slot></slot>
+</div>
