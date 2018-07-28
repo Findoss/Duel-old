@@ -2,6 +2,7 @@ import { mapActions, mapState, mapGetters } from 'vuex';
 
 // Components
 import UserParametrs from '@/components/UserParametrs/UserParametrs.vue';
+import UserEstate from '@/components/UserEstate/UserEstate.vue';
 import SkillCard from '@/components/SkillCard/SkillCard.vue';
 import SkillSet from '@/components/SkillSet/SkillSet.vue';
 import Skill from '@/components/Skill/Skill.vue';
@@ -10,6 +11,7 @@ export default {
 
   components: {
     'z-user-parametrs': UserParametrs,
+    'z-user-estate': UserEstate,
     'z-skill-card': SkillCard,
     'z-skill-set': SkillSet,
     'z-skill': Skill,
@@ -38,7 +40,7 @@ export default {
       getCountSkillsClones: 'user/getCountSkillsClones',
     }),
     ...mapGetters([
-      'pathAvatar',
+      'pathAvatarIcon',
       'pathSkill',
     ]),
   },
