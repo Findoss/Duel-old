@@ -38,7 +38,7 @@ export default {
       getCountSkillsClones: 'user/getCountSkillsClones',
     }),
     ...mapGetters([
-      'pathAvatar',
+      'pathAvatarIcon',
       'pathSkill',
     ]),
   },
