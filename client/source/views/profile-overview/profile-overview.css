@@ -28,24 +28,6 @@
   grid-area: N;
 }
 
-.nickname .title{
-  font-size: 3rem;
-}
-
-.level {
-  font-size: 0.55em;
-  border: 2px solid var(--color-yellow-norm);
-  padding: 0;
-  padding-left: 0.1em;
-  top: -0.2em;
-  display: inline-block;
-  position: relative;
-  margin-right: 0.5em;
-  border-radius: 5px;
-  width: 1.8em;
-  text-align: center; 
-}
-
 .estate {
   grid-area: E;
 }

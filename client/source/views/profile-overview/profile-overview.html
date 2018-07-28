@@ -1,10 +1,8 @@
 
 <div class="overview">
-  <div class="nickname">
-    <span class="title display-1">
-      <span class="level">{{ user.level }}</span>{{ user.nickname }}
-    </span>
-  </div>
+  
+  <z-user-nickname></z-user-nickname>
+
   <div class="avatar">
     <img :src="pathAvatar(user.avatar)" :alt="user.avatar">
   </div>

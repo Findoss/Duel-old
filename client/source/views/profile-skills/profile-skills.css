@@ -16,18 +16,6 @@
   flex-wrap: wrap;
 }
 
-.user__title-level {
-  font-size: 0.8em;
-  border: 2px solid var(--color-yellow-norm);
-  border-radius: 5px;
-  height: 40px;
-  padding-right: 10px;
-  padding-left: 10px;
-  display: inline-block;
-  margin-right: 10px;
-  text-align: center;
-}
-
  .user__avatar {
   width: 60%;
 } 
@@ -37,7 +25,7 @@
 /*   user SkillSet mixins  */
 /************************************************/
 
-.skill:hover .skill__close {
+.slot:hover .delete-skill-in-set {
   border: 0;
   display: block;
   background-color: var(--background-2);
@@ -49,12 +37,12 @@
   cursor: pointer;
 }
 
-.skill__close {
+.delete-skill-in-set {
   display: none;
 }
 
-.skill__close::before, 
-.skill__close::after {
+.delete-skill-in-set::before, 
+.delete-skill-in-set::after {
   background-color: var(--color-gray-lite);
   content: "";
   height: 2px;
@@ -65,25 +53,25 @@
   width: 18px;
 }
 
-.skill__close::before {
+.delete-skill-in-set::before {
   transform: rotate(45deg);
 }
 
-.skill__close::after {
+.delete-skill-in-set::after {
   transform: rotate(-45deg);
 }
 
-.skill__close:hover {
+.delete-skill-in-set:hover {
   background-color: var(--color-gray-bright);
   cursor: pointer;
 }
 
-.skill__close:focus {
+.delete-skill-in-set:focus {
   outline: none;
 }
 
-.skill__close:hover::before, 
-.skill__close:hover::after {
+.delete-skill-in-set:hover::before, 
+.delete-skill-in-set:hover::after {
   background: var(--color-red-lite);
 }
 
@@ -92,65 +80,6 @@
 
 /*****************************************************************/
 
-
-.grid {
-  margin: 20px;
-  display: flex;
-}
-
-.grid__skill {
-  width: 100px;
-  height: 100px;
-  margin: 10px;
-  cursor: pointer;
-}
-
-.grid__skill img{
-  width: 100%;
-}
-
-.grid__skill img{
-  transform: scale(0.9);
-}
-
-.grid__skill img:hover{
-  transform: scale(1);
-}
-
-.grid__skil--unlock {
-  border: 2px solid var(--color-yellow-norm);
-}
-
-.grid__skil--lock {
-  border: 2px solid var(--color-gray-norm);
-  filter: grayscale(100%);
-}
-
-.grid__skil--lock::after {
-  content: '';
-  display: block;
-  width: 70px;
-  height: 70px;
-  bottom: 50px;
-  left: 20px;
-  position: relative;
-  background-image: url(../../assets/skills/locked.png);
-}
-
-.grid__skill--selected {
-  border: 4px var(--color-green-bright);
-  border-style: solid double solid;
-}
-
-.grid__skil--pick{
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 40px 40px 0 0;
-  border-color: #ffbf00 transparent transparent transparent;
-
-  position: absolute;
-}
 
 .p {
  color: var(--color-green-lite);
