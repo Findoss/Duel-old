@@ -93,65 +93,6 @@
 /*****************************************************************/
 
 
-.grid {
-  margin: 20px;
-  display: flex;
-}
-
-.grid__skill {
-  width: 100px;
-  height: 100px;
-  margin: 10px;
-  cursor: pointer;
-}
-
-.grid__skill img{
-  width: 100%;
-}
-
-.grid__skill img{
-  transform: scale(0.9);
-}
-
-.grid__skill img:hover{
-  transform: scale(1);
-}
-
-.grid__skil--unlock {
-  border: 2px solid var(--color-yellow-norm);
-}
-
-.grid__skil--lock {
-  border: 2px solid var(--color-gray-norm);
-  filter: grayscale(100%);
-}
-
-.grid__skil--lock::after {
-  content: '';
-  display: block;
-  width: 70px;
-  height: 70px;
-  bottom: 50px;
-  left: 20px;
-  position: relative;
-  background-image: url(../../assets/skills/locked.png);
-}
-
-.grid__skill--selected {
-  border: 4px var(--color-green-bright);
-  border-style: solid double solid;
-}
-
-.grid__skil--pick{
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 40px 40px 0 0;
-  border-color: #ffbf00 transparent transparent transparent;
-
-  position: absolute;
-}
-
 .p {
  color: var(--color-green-lite);
 }

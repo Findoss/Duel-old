@@ -38,30 +38,28 @@
 
     <div class="skills">
 
-      <z-skill-card :skill="getSkillInfo(pickSlill)" />
-
-    <div class="skills__info-filters">FILTER</div>
-    <div class="skills__grid grid">
+      <z-skill-card :skill="getSkillInfo(pickSlill)"></z-skill-card>
       
-      <div
-        v-for="(skill) in skills" 
-        :key="skill.id" 
-        :class="[
-          skillSet.some(id => id === skill.id) ? 'grid__skill--selected' : '',
-          skillsUnlocked.indexOf(skill.id) >= 0 ? 'grid__skil--unlock' : '',
-          skillsUnlocked.indexOf(skill.id) === -1 ? 'grid__skil--lock' : '',
-          'grid__skill'
-        ]"
-      >
-        <div :class="[skill.id === pickSlill ? 'grid__skil--pick' : '']"></div>
-        <img 
-          :alt="skill.id" 
-          :src="pathSkill(skill.id)" 
-          @click="pressSkill(skill.id)"
-        >
-      </div>
+      <div class="skills__grid grid">
+        <div class="skills__info-filters">FILTER</div>
+
+        <z-skill-grid>
+          <z-skill
+            v-for="(skill, index) in skills" 
+            :key="index" 
+            :id="skill.id"
+            :class="[
+              'pointer',
+              skillSet.some(id => id === skill.id) ? 'skill-in-set' : '',
+              skillsUnlocked.indexOf(skill.id) === -1 ? 'skill-lock' : '',
+              skill.id === pickSlill ? 'skill-pick' : '',
+            ]"
+            @click="pressSkill(skill.id)" 
+          ></z-skill>
+        </z-skill-grid> 
+      
     </div>
-  </div></div>
+  </div>
 
 
   </div>
