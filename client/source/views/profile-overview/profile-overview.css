@@ -1,54 +1,35 @@
 .overview {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 60px auto 1fr;
-  grid-template-areas: 'N E'
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+  grid-template-areas: 'N N'
+                       'A E'
                        'A P'
-                       'S P';
+                       'S S';
   grid-gap: 0.5rem;
 
-  padding: 10px;
-  padding-top: 50px;
+  justify-content: center;
+  /* justify-items: center; */
+  align-items: flex-start;
+
+  width: 50vw;
+  /* height: 90vh; */
 }
 
 .avatar {
   grid-area: A;
 }
 
-.avatar img{
+.avatar img {
   width: 100%;
 }
 
 .nickname {
   grid-area: N;
-  text-align: center;
-}
-
-.nickname .title{
-  font-size: 3rem;
-}
-
-.level {
-  font-size: 0.8em;
-  border: 2px solid var(--color-yellow-norm);
-  border-radius: 5px;
-  padding-right: 10px;
-  padding-left: 10px;
-  display: inline-block;
-  margin-right: 10px;
-  text-align: center;
 }
 
 .estate {
   grid-area: E;
-}
-
-.estate .gold::before {
-  content: url(../../assets/estate/gold.png);
-}
-
-.estate .point::before {
-  content: url(../../assets/estate/point.png);
 }
 
 .parameters {

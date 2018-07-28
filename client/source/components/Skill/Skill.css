@@ -1,4 +1,4 @@
-.skill {
+.slot {
   width: 100%;
   height: 100%;
   background-color: var(--background-1);
@@ -6,22 +6,82 @@
   overflow: hidden;
 }
 
-.skill img {
+.slot img {
   width: 100%;
   height: 100%;
 }
 
-.skill img:hover {
+.slot img:hover {
   transform: scale(1.2);
 }
 
-.skill-lock {
+.slot-lock {
   background-image: url(../../assets/skills/locked.png);
-  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  background-size: cover;
 }
 
 .pointer img:hover {
   cursor: pointer;
-} 
+}
+
+/***************/
+
+.skill-lock img {
+  filter: grayscale(100%);
+}
+
+.skill-lock::after {
+  content: '';
+  display: block;
+  width: 30px;
+  height: 30px;
+  top: -40px;
+  left: 33px;
+  position: relative;
+  opacity: 0.5;
+  background-image: url(../../assets/skills/locked.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  pointer-events: none;
+}
+
+/***************/
+
+.skill-pick {
+  border-color: var(--color-yellow-bright);
+}
+
+.skill-pick::before {
+  content: '';
+  width: 0;
+  height: 0;
+  z-index: 999;
+  margin-left: 34px;
+  border-style: solid;
+  border-width: 15px 15px 0 15px;
+  border-color: var(--color-yellow-bright) transparent transparent transparent;
+  position: absolute;
+}
+
+/***************/
+
+.skill-in-set {
+  border-color: var(--color-green-bright);
+}
+
+.skill-in-set::after {
+  content: '';
+  display: block;
+  width: 30px;
+  height: 30px;
+  top: -40px;
+  left: 33px;
+  position: relative;
+  background-color: var(--color-gray-lite);
+  background-image: url(../../assets/status_icons/success.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  pointer-events: none;
+}

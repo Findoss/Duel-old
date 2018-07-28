@@ -1,0 +1,7 @@
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 100px));
+  grid-template-rows: repeat(auto-fill, minmax(100px, 100px));
+  grid-gap: 0.5em;
+  justify-items: flex-start;
+}
