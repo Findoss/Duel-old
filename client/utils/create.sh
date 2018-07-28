@@ -1,14 +1,9 @@
 #!/usr/bin/env bash
-if [[ $1 = 'v' ]]
-then
-  cd .\\client\\source\\views
-else
-  cd .\\client\\source\\components
-fi
-mkdir $2
-cd $2
-touch $2.css
-touch $2.js
-touch $2.html
-touch $2.vue
-touch $2.spec.js
+cd .\\client\\source\\components
+cp -r SkillSet $1
+cd $1
+mv SkillSet.css $1.css
+mv SkillSet.js $1.js
+mv SkillSet.html $1.html
+mv SkillSet.vue $1.vue
+mv SkillSet.spec.js $1.spec.js
