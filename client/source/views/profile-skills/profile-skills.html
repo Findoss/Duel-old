@@ -2,8 +2,7 @@
 
   <div class="conteiner">
     <div class="user">
-      <h2>
-        <span class="user__title-level">{{ level }}</span>{{ nickname }}</h2>
+        <z-user-nickname></z-user-nickname>
         <z-user-estate></z-user-estate>
       <br>
       <img 
@@ -27,7 +26,7 @@
           >
             <button 
               @click="delInSkillSet(id)" 
-              class="skill__close"
+              class="delete-skill-in-set"
             ></button>
           </z-skill>
         </z-skill-set>
