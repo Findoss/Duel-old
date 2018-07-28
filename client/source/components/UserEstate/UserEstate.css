@@ -1,0 +1,7 @@
+.gold::before {
+  content: url(../../assets/estate/gold.png);
+}
+
+.point::before {
+  content: url(../../assets/estate/point.png);
+}
