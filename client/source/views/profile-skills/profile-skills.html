@@ -4,20 +4,19 @@
     <div class="user">
       <h2>
         <span class="user__title-level">{{ level }}</span>{{ nickname }}</h2>
-      <span>skill points =
-        <strong>{{ points }}</strong>
-      </span>
-      <span>golds =
-        <strong>{{ gold }}</strong>
-      </span>
+        <z-user-estate></z-user-estate>
       <br>
       <img 
-        :src="pathAvatar(avatar)" 
+        :src="pathAvatarIcon(avatar)" 
         :alt="avatar" 
         class="user__avatar"
       >
-      <div class="user__skills">
 
+      <div class="user__parameters">
+        <z-user-parametrs></z-user-parametrs>
+      </div>
+
+      <div class="user__skills">
         <z-skill-set>
           <z-skill
             v-for="(id, index) in skillSet" 
@@ -32,12 +31,8 @@
             ></button>
           </z-skill>
         </z-skill-set>
-
-
       </div>
-      <div class="user__parameters">
-        <z-user-parametrs></z-user-parametrs>
-      </div>
+
     </div>
 
 
