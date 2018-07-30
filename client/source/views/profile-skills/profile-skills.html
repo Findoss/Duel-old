@@ -2,45 +2,42 @@
 
   <div class="conteiner">
     <div class="user">
-        <z-user-nickname></z-user-nickname>
-        <z-user-estate></z-user-estate>
-      <br>
       <img 
         :src="pathAvatarIcon(avatar)" 
         :alt="avatar" 
-        class="user__avatar"
+        class="user-avatar"
       >
+      <z-user-nickname></z-user-nickname>
+   
 
-      <div class="user__parameters">
-        <z-user-parametrs></z-user-parametrs>
-      </div>
+      <z-user-parametrs></z-user-parametrs>
 
-      <div class="user__skills">
-        <z-skill-set>
-          <z-skill
-            v-for="(id, index) in skillSet" 
-            :key="index" 
-            :id="id"
-            class="pointer"
-            @click="pressSkill(id)" 
-          >
-            <button 
-              @click="delInSkillSet(id)" 
-              class="delete-skill-in-set"
-            ></button>
-          </z-skill>
-        </z-skill-set>
-      </div>
+      <z-skill-set>
+        <z-skill
+          v-for="(id, index) in skillSet" 
+          :key="index" 
+          :id="id"
+          class="pointer"
+          @click="pressSkill(id)" 
+        >
+          <button 
+            @click="delInSkillSet(id)" 
+            class="delete-skill-in-set"
+          ></button>
+        </z-skill>
+      </z-skill-set>
 
     </div>
 
 
     <div class="skills">
-
-      <z-skill-card :skill="getSkillInfo(pickSlill)"></z-skill-card>
       
-      <div class="skills__grid grid">
-        <div class="skills__info-filters">FILTER</div>
+      <z-user-estate></z-user-estate>
+
+      <z-skill-card :skillId="this.skillId"></z-skill-card>
+      
+      <div>
+        <div>FILTER</div>
 
         <z-skill-grid>
           <z-skill
@@ -51,7 +48,7 @@
               'pointer',
               skillSet.some(id => id === skill.id) ? 'skill-in-set' : '',
               skillsUnlocked.indexOf(skill.id) === -1 ? 'skill-lock' : '',
-              skill.id === pickSlill ? 'skill-pick' : '',
+              skill.id === skillId ? 'skill-pick' : '',
             ]"
             @click="pressSkill(skill.id)" 
           ></z-skill>
