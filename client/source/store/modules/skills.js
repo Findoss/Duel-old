@@ -2,10 +2,11 @@ import Http from '@/utils/http';
 
 const state = {
   skills: {
-    0: {
+    1: {
       changeTurn: false, // смена хода
       cooldown: 0, // время перезарядки
       description: 'null', // описание
+      author: 'null', // автор умения
       duration: 0, // длительность действия
       id: 0, // номер
       limitCopy: 0, // максимальное количество повторений в наборе умний
@@ -35,7 +36,7 @@ const actions = {
           commit('SET_SKILLS', skills);
         })
         .catch(() => {
-
+          //
         });
     });
   },

@@ -5,41 +5,56 @@ export default {
   name: 'z-skill-card',
 
   props: {
-    skill: {
-      type: Object,
+    skillId: {
+      type: Number,
       default() {
-        return { id: 0 };
+        return 0;
       },
     },
   },
 
   computed: {
     ...mapState({
-      skillSet: state => state.user.skillSet,
-      skillsUnlocked: state => state.user.skillsUnlocked,
-      skills: state => state.skills.skills,
+      skillSetLength: state => state.user.skillSet.length,
+      userGold: state => state.user.gold,
+      userPoints: state => state.user.points,
+      userOpenSlots: state => state.user.openSlots,
+      userLevel: state => state.user.level,
     }),
     ...mapGetters({
-      getSkillSet: 'user/getSkillSet',
+      isSkillUnlocked: 'user/isSkillUnlocked',
+      getSkillInfo: 'skills/getSkillInfo',
       getCountSkillsClones: 'user/getCountSkillsClones',
     }),
     ...mapGetters([
       'pathSkill',
     ]),
+    skill() {
+      return this.getSkillInfo(this.skillId);
+    },
+    isBuy() {
+      return this.skill.priceInGold > this.userGold ||
+             this.skill.minLevel >= this.userLevel;
+    },
+    isAdd() {
+      return this.skillSetLength >= this.userOpenSlots ||
+             this.getCountSkillsClones(this.skillId) >= this.skill.limitCopy ||
+             this.skill.points > this.userPoints ||
+             this.skill.minLevel >= this.userLevel;
+    },
   },
 
 
   methods: {
     ...mapActions({
-      loadSkills: 'skills/loadSkills',
       buySkill: 'user/buySkill',
       delInSkillSet: 'user/delInSkillSet',
       addInSkillSet: 'user/addInSkillSet',
     }),
+  },
 
-    pressSkill(id) {
-      this.pickSlill = id;
-    },
+  created() {
+
   },
 
 };
