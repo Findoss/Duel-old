@@ -26,6 +26,7 @@
             + priceInGold: 100 (number)
             + minLevel: 0 (number)
             + limitCopy: 2 (number)
+            + modifiers (object, optional)
         + 2 (object)
             + id: 2 (number)
             + title: Magic Square (string)
@@ -43,6 +44,7 @@
             + priceInGold: 150 (number)
             + minLevel: 0 (number)
             + limitCopy: 3 (number)
+            + modifiers (object, optional)
         + 3 (object)
             + id: 3 (number)
             + title: Evolution (string)
@@ -60,6 +62,9 @@
             + priceInGold: 70 (number)
             + minLevel: 3 (number)
             + limitCopy: 8 (number)
+            + modifiers (object, optional)
+                + force: 2 (number)
+                + block: 7 (number)
 
 + Response 404 (application/json; charset=utf-8)
 Нет ни одного умения
@@ -91,6 +96,7 @@
         + priceInGold: 150 (number)
         + minLevel: 0 (number)
         + limitCopy: 0 (number)
+        + modifiers (object, optional)
 
 + Response 404 (application/json; charset=utf-8)
 Умение не найдено
