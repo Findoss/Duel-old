@@ -16,6 +16,10 @@
         <td>resource {{ key }}</td>
         <td><span :class="key">{{ resource }}</span></td>
       </tr>
+      <tr v-if="skill.modifiers" v-for="(modifier, key) in skill.modifiers" > 
+        <td>modifiers {{ key }}</td>
+        <td><strong>{{ modifier }}</strong></td>
+      </tr>
       <tr>
         <td>◔ duration</td>
         <td><strong>{{ skill.duration }}</strong></td>
