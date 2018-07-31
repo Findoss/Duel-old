@@ -11,7 +11,7 @@ export default {
       error: '',
       form: {
         nickname: {
-          value: 'aaaa',
+          value: '',
           status: false,
           rules: [
             Rules.nickname,
@@ -19,7 +19,7 @@ export default {
           ],
         },
         email: {
-          value: 'aa@aa.aa',
+          value: '',
           status: false,
           rules: [
             Rules.email,
@@ -27,7 +27,7 @@ export default {
           ],
         },
         password: {
-          value: 'asf5sd16f5a1s6',
+          value: '',
           status: false,
           rules: [Rules.password],
         },
