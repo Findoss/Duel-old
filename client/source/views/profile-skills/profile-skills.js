@@ -23,7 +23,7 @@ export default {
 
   data() {
     return {
-      pickSlill: 1,
+      skillId: 1,
     };
   },
 
@@ -53,7 +53,7 @@ export default {
     }),
 
     pressSkill(id) {
-      this.pickSlill = id;
+      this.skillId = id;
     },
   },
 };

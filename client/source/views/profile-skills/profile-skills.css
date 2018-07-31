@@ -1,24 +1,23 @@
 .conteiner {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 0.5em;
+  grid-template-areas: 
+      "U S";
+
+  justify-content: flex-start;
+  justify-items: flex-start;
+  
+  width: 100%;
 }
 
 .user {
-  display: flex;
-  flex-direction: column;
-  min-width: 390px;
-  width: 390px;
+  grid-area: U;
 }
 
 .skills {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
+  grid-area: S;
 }
-
- .user__avatar {
-  width: 60%;
-} 
 
 
 /************************************************/
@@ -80,11 +79,6 @@
 
 /*****************************************************************/
 
-
-.p {
- color: var(--color-green-lite);
-}
-
-.m {
- color: var(--color-red-lite);
+.user-avatar {
+  width: 100px;
 }
