@@ -74,6 +74,8 @@ export default {
             type: 'success',
             message: response.message,
           });
+          this.$refs.newNickname.reset();
+          this.form2.newNickname.status = false;
         })
         .catch((error) => {
           this.alerts.push({
