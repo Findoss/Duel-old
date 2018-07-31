@@ -5,56 +5,32 @@
 .skill-card {
   display: grid;
   grid-template-columns: 100px 1fr;
-  grid-template-rows: 100px 40px 100px 100px 50px;
+  grid-template-rows: 100px 1fr 30px;
   grid-gap: 0.5em;
   grid-template-areas: 
-      "i t" 
-      "r p" 
-      "d d" 
-      "c c" 
-      "b b" ;
-  height: 450px;
+      "I T" 
+      "D D"
+      "B B";
+  justify-content: flex-start;
+  justify-items: flex-start;
+
+  width: 100%;
 }
 
 .skill-card__image {
-  grid-area: i;
+  grid-area: I;
 }
 
 .skill-card__title {
-  grid-area: t;
-}
-
-.skill-card__resources {
-  grid-area: r;
-}
-
-.skill-card__details {
-  grid-area: p;
+  grid-area: T;
 }
 
 .skill-card__description {
-  grid-area: d;
+  grid-area: D;
 }
 
-.skill-card__constraints {
-  grid-area: c;
-}
-
-.skill-card__buttons {
-  grid-area: b;
-}
-
-.skill-card__image img {
-  width: 100%;
-  object-fit: cover;
-}
-
-.skill-card__resources,
-.skill-card__details {
-  display: flex;
-  justify-content: space-evenly;
-  font-weight: bold;
-  font-size: 1.5em;
+.skill-card-buttons {
+  grid-area: B;
 }
 
 .energy_1 {
@@ -67,4 +43,13 @@
 
 .energy_3 {
   color: var(--color-green-norm);
+}
+
+.description {
+  font-size: 1.3em;
+}
+
+.points {
+  font-size: 1.2em;
+  font-weight: bold;
 }
