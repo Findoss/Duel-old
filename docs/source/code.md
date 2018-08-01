@@ -26,7 +26,7 @@ Levels
 
 #### Пользователь
   + Attributes
-    + id: 123 (number)
+    + id: 1 (number)
     + nickname: Ivan (string)
     + email: Ivan@email.ru (string)
     + avatar: shooter_1 (string)
