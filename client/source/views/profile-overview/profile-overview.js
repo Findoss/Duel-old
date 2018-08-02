@@ -23,6 +23,7 @@ export default {
     ...mapGetters({
       user: 'user/getAllData',
       skillSet: 'user/getSkillSet',
+      parametrs: 'statics/getUserParameters',
     }),
   },
 };
