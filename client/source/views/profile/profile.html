@@ -1,28 +1,28 @@
-<z-loading :show="!userId">
+<z-loading :show="myId === 0">
   <div class="profile">
     <div class="navigation">
       <z-button class="navigation__item" @click="">Play</z-button>
       <router-link 
         class="navigation__item" 
-        :to="{ path: `/${userId}` }"
+        :to="{ path: `/${myId}` }"
       >
         Profile
       </router-link>
       <router-link 
         class="navigation__item" 
-        :to="{ path: `/${userId}/skills` }"
+        :to="{ path: `/${myId}/skills` }"
       >
         Skills
       </router-link>
       <router-link 
         class="navigation__item" 
-        :to="{ path: `/${userId}/scoreboard` }"
+        :to="{ path: `/${myId}/scoreboard` }"
       >
         Scoreboard
       </router-link>
       <router-link 
         class="navigation__item" 
-        :to="{ path: `/${userId}/settings` }"
+        :to="{ path: `/${myId}/settings` }"
       >
         Settings
       </router-link>

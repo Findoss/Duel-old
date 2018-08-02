@@ -9,17 +9,15 @@ export default {
   },
 
   computed: {
-    myUserId() {
-      return this.$store.state.user.id;
-    },
-    ...mapGetters([
-      'pathAvatar',
-    ]),
+    ...mapGetters({
+      myId: 'myId',
+      pathAvatar: 'pathAvatar',
+    }),
   },
 
   methods: {
     ...mapActions({
-      loadScoreboard: 'user/loadScoreboard',
+      loadScoreboard: 'me/loadScoreboard',
     }),
   },
 

@@ -85,7 +85,7 @@ router.beforeEach((to, from, next) => {
   const goProfile = to.matched.some(r => r.meta.goProfile);
 
   if (requiresAuthorization && !SessionService.isLogin()) {
-    store.dispatch('user/account/showAlertSignin', {
+    store.dispatch('me/account/showAlertSignin', {
       type: 'error',
       message: 'Please login to view this page.',
     });
@@ -94,9 +94,7 @@ router.beforeEach((to, from, next) => {
   }
 
   if (goProfile && SessionService.isLogin()) {
-    console.log(requiresAuthorization);
-
-    next({ path: `/${store.state.user.id}` });
+    next({ path: `/${store.getters.myId}` });
     return false;
   }
 

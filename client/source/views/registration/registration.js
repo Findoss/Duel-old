@@ -37,7 +37,7 @@ export default {
 
   methods: {
     ...mapActions({
-      registration: 'user/account/registration',
+      registration: 'me/account/registration',
     }),
 
     submit() {
@@ -56,6 +56,7 @@ export default {
           this.form.password.status = false;
         });
     },
+  },
 
   },
 };

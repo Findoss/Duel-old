@@ -15,7 +15,6 @@ const actions = {
     commit('SET_ALERT', alert);
   },
 
-
   registration({ dispatch }, user) {
     return new Promise((resolve, reject) => {
       Http.send('POST', '/users', user)
@@ -33,49 +32,6 @@ const actions = {
   },
 
 
-  // newPassword({ dispatch }, password) {
-  //   // ...
-  // },
-
-  // resetPassword({ dispatch }, email) {
-  //   // ...
-  // },
-
-  signIn({ dispatch }, user) {
-    return new Promise((resolve, reject) => {
-      Http.send('POST', '/signin', user)
-        .then((response) => {
-          localStorage.setItem('session-token', response.token);
-          Router.push({ path: '/profile' });
-        })
-        .catch((error) => {
-          dispatch('showAlertSignin', {
-            type: 'error',
-            message: error.message,
-          });
-          reject(error);
-        });
-    });
-  },
-
-  signOut({ dispatch }) {
-    Http.send('DELETE', '/signout')
-      .then((response) => {
-        localStorage.removeItem('session-token');
-        dispatch('showAlertSignin', {
-          type: 'info',
-          message: response.message,
-        });
-        Router.push({ path: '/signin' });
-      })
-      .catch((error) => {
-        dispatch('account/showAlertSignin', {
-          type: 'error',
-          message: error.message,
-        });
-      });
-  },
-
   deleteAccount({ dispatch }) {
     return new Promise((resolve, reject) => {
       if (confirm('Once you delete your account, there is no going back. Please be certain.')) {
@@ -90,6 +46,51 @@ const actions = {
           });
       }
     });
+  },
+
+  // newPassword({ dispatch }, password) {
+  //   // ...
+  // },
+
+  // resetPassword({ dispatch }, email) {
+  //   // ...
+  // },
+
+  signIn({ commit, dispatch }, user) {
+    return new Promise((resolve, reject) => {
+      Http.send('POST', '/signin', user)
+        .then((response) => {
+          commit('SET_MY_ID', response.id, { root: true });
+          localStorage.setItem('session-token', response.token);
+          Router.push({ path: `/${response.id}` });
+        })
+        .catch((error) => {
+          dispatch('showAlertSignin', {
+            type: 'error',
+            message: error.message,
+          });
+          reject(error);
+        });
+    });
+  },
+
+  signOut({ commit, dispatch }) {
+    Http.send('DELETE', '/signout')
+      .then((response) => {
+        commit('DEL_MY_ID', undefined, { root: true });
+        localStorage.removeItem('session-token');
+        dispatch('showAlertSignin', {
+          type: 'info',
+          message: response.message,
+        });
+        Router.push({ path: '/signin' });
+      })
+      .catch((error) => {
+        dispatch('account/showAlertSignin', {
+          type: 'error',
+          message: error.message,
+        });
+      });
   },
 };
 
