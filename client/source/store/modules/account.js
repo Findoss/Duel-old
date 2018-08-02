@@ -15,7 +15,6 @@ const actions = {
     commit('SET_ALERT', alert);
   },
 
-
   registration({ dispatch }, user) {
     return new Promise((resolve, reject) => {
       Http.send('POST', '/users', user)
@@ -32,6 +31,22 @@ const actions = {
     });
   },
 
+
+  deleteAccount({ dispatch }) {
+    return new Promise((resolve, reject) => {
+      if (confirm('Once you delete your account, there is no going back. Please be certain.')) {
+        Http.send('DELETE', '/me')
+          .then((response) => {
+            localStorage.removeItem('session-token');
+            dispatch('account/showAlertSignin', {
+              type: 'info',
+              message: response.message,
+            });
+            Router.push({ path: '/signin' });
+          });
+      }
+    });
+  },
 
   // newPassword({ dispatch }, password) {
   //   // ...
@@ -76,22 +91,6 @@ const actions = {
           message: error.message,
         });
       });
-  },
-
-  deleteAccount({ dispatch }) {
-    return new Promise((resolve, reject) => {
-      if (confirm('Once you delete your account, there is no going back. Please be certain.')) {
-        Http.send('DELETE', '/me')
-          .then((response) => {
-            localStorage.removeItem('session-token');
-            dispatch('account/showAlertSignin', {
-              type: 'info',
-              message: response.message,
-            });
-            Router.push({ path: '/signin' });
-          });
-      }
-    });
   },
 };
 
