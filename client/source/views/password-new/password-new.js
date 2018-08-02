@@ -34,7 +34,7 @@ export default {
       }
 
       console.log(this.form.password.value);
-      // look store user newPassword
+      // look store me newPassword
     },
   },
 };

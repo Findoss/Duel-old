@@ -35,7 +35,7 @@ export default {
       console.log(email);
       this.success = !this.success;
 
-      // look store user resetPassword
+      // look store me resetPassword
     },
   },
 };
