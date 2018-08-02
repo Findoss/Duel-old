@@ -108,14 +108,22 @@
 Получить информацию о пользователе по id
 
 + Parameters
-    + id: 000001  (number) - ID пользователя.
+    + id: 2 (number) - ID пользователя.
 
 + Response 200 (application/json; charset=utf-8)
 Данные пользователя
     + Attributes
-        + nickname: Ivan (string)
-        + avatar: avatar.png (string)
-        + rank: 1 (number)
+        + id: 2 (number) 
+        + nickname: Alex (string) 
+        + avatar: shooter_3 (string) 
+        + rank: 41 (number) 
+        + level: 15 (number) 
+        + karma: 10 (number) 
+        + openSlots: 4 (number) 
+        + skillSet (array) 
+            + 3 (number, optional) 
+            + 1 (number, optional) 
+            + 3 (number, optional) 
 
 + Response 404 (application/json; charset=utf-8)
 Пользователь не найден
