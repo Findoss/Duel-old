@@ -1,4 +1,4 @@
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 import UserParametrs from '@/components/UserParametrs/UserParametrs.vue';
 import UserNickname from '@/components/UserNickname/UserNickname.vue';
@@ -21,10 +21,39 @@ export default {
       'pathAvatar',
     ]),
     ...mapGetters({
-      user: 'user/getAllData',
-      skillSet: 'user/getSkillSet',
       myId: 'myId',
+      estate: 'me/estate',
       parametrs: 'statics/getUserParameters',
     }),
+    user() {
+      return this.$store.getters[`${this.moduleStore}/getAllData`];
+    },
+    skillSet() {
+      return this.$store.getters[`${this.moduleStore}/getSkillSet`];
+    },
+    isMe() {
+      return this.$route.params.userId == this.myId;
+    },
+    moduleStore() {
+      if (this.isMe) return 'me';
+      return 'opponent';
+    },
+  },
+
+  created() {
+    if (!this.isMe) this.loadOtherUser();
+  },
+
+  watch: {
+    $route: 'loadOtherUser',
+  },
+
+  methods: {
+    ...mapActions({
+      loadUser: 'opponent/loadUser',
+    }),
+    loadOtherUser() {
+      this.loadUser(this.routeUserId);
+    },
   },
 };

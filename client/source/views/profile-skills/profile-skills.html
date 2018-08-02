@@ -1,14 +1,19 @@
 <div class="conteiner">
   <div class="user">
     <img 
-      :src="pathAvatarIcon(avatar)" 
-      :alt="avatar" 
+      :src="pathAvatarIcon(user.avatar)" 
+      alt="avatar" 
       class="user-avatar"
     >
-    <z-user-nickname></z-user-nickname>
-  
 
-    <z-user-parametrs></z-user-parametrs>
+    <z-user-nickname
+      :nickname="user.nickname"
+      :level="user.level"
+    ></z-user-nickname>
+  
+    <z-user-parametrs
+      :userParameters="parameters"
+    ></z-user-parametrs>
 
     <z-skill-set>
       <z-skill
@@ -30,26 +35,26 @@
 
   <div class="skills">
     
-    <z-user-estate></z-user-estate>
-
+    <z-user-estate :estate="estate"></z-user-estate>
+    
     <z-skill-card :skillId="this.skillId"></z-skill-card>
     
-      <div>FILTER</div>
+    <div>FILTER</div>
 
-      <z-skill-grid>
-        <z-skill
-          v-for="(skill, index) in skills" 
-          :key="index" 
-          :id="skill.id"
-          :class="[
-            'pointer',
-            skillSet.some(id => id === skill.id) ? 'skill-in-set' : '',
-            skillsUnlocked.indexOf(skill.id) === -1 ? 'skill-lock' : '',
-            skill.id === skillId ? 'skill-pick' : '',
-          ]"
-          @click="pressSkill(skill.id)" 
-        ></z-skill>
-      </z-skill-grid> 
+    <z-skill-grid>
+      <z-skill
+        v-for="(skill, index) in skills" 
+        :key="index" 
+        :id="skill.id"
+        :class="[
+          'pointer',
+          user.skillSet.some(id => id === skill.id) ? 'skill-in-set' : '',
+          !isSkillUnlocked(skill.id) ? 'skill-lock' : '',
+          skill.id === skillId ? 'skill-pick' : '',
+        ]"
+        @click="pressSkill(skill.id)" 
+      ></z-skill>
+    </z-skill-grid> 
     
   </div>
 </div>

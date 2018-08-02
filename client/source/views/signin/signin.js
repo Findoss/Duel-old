@@ -8,7 +8,7 @@ export default {
 
   computed: {
     alert() {
-      return this.$store.state.user.account.alertSignin;
+      return this.$store.state.me.account.alertSignin;
     },
   },
 
@@ -31,8 +31,8 @@ export default {
 
   methods: {
     ...mapActions({
-      signIn: 'user/account/signIn',
-      showAlert: 'user/account/showAlertSignin',
+      signIn: 'me/account/signIn',
+      showAlert: 'me/account/showAlertSignin',
     }),
 
     submit() {
