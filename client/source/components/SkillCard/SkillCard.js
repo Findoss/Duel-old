@@ -15,16 +15,16 @@ export default {
 
   computed: {
     ...mapState({
-      skillSetLength: state => state.user.skillSet.length,
-      userGold: state => state.user.gold,
-      userPoints: state => state.user.points,
-      userOpenSlots: state => state.user.openSlots,
-      userLevel: state => state.user.level,
+      skillSetLength: state => state.me.skillSet.length,
+      userGold: state => state.me.private.gold,
+      userPoints: state => state.me.private.points,
+      userOpenSlots: state => state.me.openSlots,
+      userLevel: state => state.me.level,
     }),
     ...mapGetters({
-      isSkillUnlocked: 'user/isSkillUnlocked',
       getSkillInfo: 'skills/getSkillInfo',
-      getCountSkillsClones: 'user/getCountSkillsClones',
+      isSkillUnlocked: 'me/isSkillUnlocked',
+      getCountSkillsClones: 'me/getCountSkillsClones',
     }),
     ...mapGetters([
       'pathSkill',
@@ -47,14 +47,9 @@ export default {
 
   methods: {
     ...mapActions({
-      buySkill: 'user/buySkill',
-      delInSkillSet: 'user/delInSkillSet',
-      addInSkillSet: 'user/addInSkillSet',
+      buySkill: 'me/buySkill',
+      delInSkillSet: 'me/delInSkillSet',
+      addInSkillSet: 'me/addInSkillSet',
     }),
   },
-
-  created() {
-
-  },
-
 };

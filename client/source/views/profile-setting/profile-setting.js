@@ -7,15 +7,11 @@ import validationForm from '@/utils/validation/form';
 export default {
 
   created() {
-    this.loadAvatarsList()
-      .then((response) => {
-        this.avatars = response.avatars;
-      });
+    this.loadAvatarsList();
   },
 
   data() {
     return {
-      avatars: null,
       alerts: [],
       form: {
         oldPassword: {
@@ -52,13 +48,16 @@ export default {
       'pathAvatar',
       'pathSkill',
     ]),
+    ...mapGetters({
+      avatars: 'statics/getAvatarList',
+    }),
   },
 
   methods: {
     ...mapActions({
-      deleteAccount: 'user/account/deleteAccount',
-      updateAccountDataNoStore: 'user/updateAccountDataNoStore',
-      loadAvatarsList: 'user/loadAvatarsList',
+      deleteAccount: 'me/account/deleteAccount',
+      updateAccountDataNoStore: 'me/updateAccountDataNoStore',
+      loadAvatarsList: 'statics/loadAvatarsList',
     }),
 
     submitChangeNickname() {
@@ -69,11 +68,13 @@ export default {
         data: this.form2.newNickname.value,
       })
         .then((response) => {
-          this.$store.commit('user/SET_NICKNAME', this.form2.newNickname.value); // HUCK
+          this.$store.commit('me/SET_NICKNAME', this.form2.newNickname.value); // HUCK
           this.alerts.push({
             type: 'success',
             message: response.message,
           });
+          this.$refs.newNickname.reset();
+          this.form2.newNickname.status = false;
         })
         .catch((error) => {
           this.alerts.push({
@@ -127,13 +128,13 @@ export default {
     },
 
     selectAvatar(avatar) {
-      if (avatar !== this.$store.state.user.avatar) {
+      if (avatar !== this.$store.state.me.avatar) {
         this.updateAccountDataNoStore({
           field: 'avatar',
           data: avatar,
         })
           .then((response) => {
-            this.$store.commit('user/SET_AVATAR', avatar); // HUCK
+            this.$store.commit('me/SET_AVATAR', avatar); // HUCK
             this.alerts.push({
               type: 'success',
               message: response.message,
@@ -149,7 +150,7 @@ export default {
     },
 
     isSelectedAvatar(avatar) {
-      return avatar === this.$store.state.user.avatar;
+      return avatar === this.$store.state.me.avatar;
     },
 
     deleteAlert(index) {

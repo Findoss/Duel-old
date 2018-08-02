@@ -12,7 +12,7 @@ F:\Projects\Duel
 │  │  ├── assets
 │  │  │  ├── 000.png
 │  │  │  ├── avatars
-│  │  │  │  └── avatar.png
+│  │  │  │  └── shooter_1.png
 │  │  │  ├── background.jpg
 │  │  │  ├── error.png
 │  │  │  ├── info.png

@@ -6,10 +6,10 @@
       <router-link to="/registration">registration</router-link>  |
       <router-link to="/password-reset">password-reset</router-link>  |
       <router-link to="/password-new">password-new</router-link>  |
-      <router-link to="/123">profile-overview</router-link>  |
-      <router-link to="/123/settings">profile-settings</router-link>  |
-      <router-link to="/123/skills">profile-skills</router-link>  |
-      <router-link to="/123/scoreboard">scoreboard</router-link>  |
+      <router-link to="/1">profile-overview</router-link>  |
+      <router-link to="/1/settings">profile-settings</router-link>  |
+      <router-link to="/1/skills">profile-skills</router-link>  |
+      <router-link to="/1/scoreboard">scoreboard</router-link>  |
       <router-link to="/design">design</router-link>  |
     </div>
     <router-view/>

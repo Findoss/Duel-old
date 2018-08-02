@@ -29,15 +29,18 @@ export default {
 
   computed: {
     ...mapState({
-      skillSet: state => state.user.skillSet,
-      skillsUnlocked: state => state.user.skillsUnlocked,
       skills: state => state.skills.skills,
-      avatar: state => state.user.avatar,
     }),
     ...mapGetters({
+      getCountSkillsClones: 'me/getCountSkillsClones',
+      isSkillUnlocked: 'me/isSkillUnlocked',
+      skillSet: 'me/getSkillSet',
+      user: 'me/getAllData',
+      estate: 'me/estate',
+
       getSkillInfo: 'skills/getSkillInfo',
-      skillSet: 'user/getSkillSet',
-      getCountSkillsClones: 'user/getCountSkillsClones',
+
+      parameters: 'statics/getUserParameters',
     }),
     ...mapGetters([
       'pathAvatarIcon',
@@ -47,9 +50,9 @@ export default {
 
   methods: {
     ...mapActions({
-      delInSkillSet: 'user/delInSkillSet',
-      addInSkillSet: 'user/addInSkillSet',
-      buySkill: 'user/buySkill',
+      delInSkillSet: 'me/delInSkillSet',
+      addInSkillSet: 'me/addInSkillSet',
+      buySkill: 'me/buySkill',
     }),
 
     pressSkill(id) {
