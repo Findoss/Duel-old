@@ -4,13 +4,18 @@ import Router from '@/router';
 const state = {
   experience: 0, // опыт
   email: 'email', // почта
-  points: 0, //  очки (очки умений)
   skillsUnlocked: [], // разблокированые умения (доступные для добавления в набор)
+  points: 0, //  очки (очки умений)
   gold: 0, // золото
 };
 
 const getters = {
   isSkillUnlocked: state => id => state.skillsUnlocked.indexOf(id) !== -1,
+
+  estate: state => ({
+    points: state.points,
+    gold: state.gold,
+  }),
 };
 
 const actions = {
