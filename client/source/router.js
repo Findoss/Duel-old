@@ -94,9 +94,7 @@ router.beforeEach((to, from, next) => {
   }
 
   if (goProfile && SessionService.isLogin()) {
-    console.log(requiresAuthorization);
-
-    next({ path: `/${store.state.user.id}` });
+    next({ path: `/${store.getters.myId}` });
     return false;
   }
 

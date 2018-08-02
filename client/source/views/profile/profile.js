@@ -11,8 +11,8 @@ export default {
   },
 
   computed: {
-    userId() {
-      return this.$store.state.user.id;
+    myId() {
+      return this.$store.getters.myId;
     },
   },
 

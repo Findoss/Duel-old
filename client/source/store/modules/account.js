@@ -41,12 +41,13 @@ const actions = {
   //   // ...
   // },
 
-  signIn({ dispatch }, user) {
+  signIn({ commit, dispatch }, user) {
     return new Promise((resolve, reject) => {
       Http.send('POST', '/signin', user)
         .then((response) => {
+          commit('SET_MY_ID', response.id, { root: true });
           localStorage.setItem('session-token', response.token);
-          Router.push({ path: '/profile' });
+          Router.push({ path: `/${response.id}` });
         })
         .catch((error) => {
           dispatch('showAlertSignin', {
@@ -58,9 +59,10 @@ const actions = {
     });
   },
 
-  signOut({ dispatch }) {
+  signOut({ commit, dispatch }) {
     Http.send('DELETE', '/signout')
       .then((response) => {
+        commit('DEL_MY_ID', undefined, { root: true });
         localStorage.removeItem('session-token');
         dispatch('showAlertSignin', {
           type: 'info',
