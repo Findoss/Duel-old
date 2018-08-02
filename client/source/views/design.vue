@@ -229,14 +229,14 @@
 
     computed: {
       ...mapState({
-        userParameters: state => state.user.parameters,
+        userParameters: state => state.me.parameters,
       }),
       ...mapGetters([
         'pathAvatar',
       ]),
       ...mapGetters({
-        user: 'user/getAllData',
-        skillSet: 'user/getSkillSet',
+        user: 'me/getAllData',
+        skillSet: 'me/getSkillSet',
       }),
     },
 
