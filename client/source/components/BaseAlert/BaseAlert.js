@@ -21,6 +21,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    autoDelete: {
+      type: Number,
+      default: 3000,
+    },
   },
 
   methods: {
@@ -41,5 +45,11 @@ export default {
       classes[`color-${this.type}`] = true;
       return classes;
     },
+  },
+
+  mounted() {
+    if (this.autoDelete) {
+      setTimeout(() => this.close(), this.autoDelete);
+    }
   },
 };
