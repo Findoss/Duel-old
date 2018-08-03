@@ -1,18 +1,21 @@
 <z-loading :show="avatars === null">
   <div class="settings">
-      <z-container class="size-xl no-border">
-    <z-alert
-      v-for="(alert, index) in alerts"
-      :key="index"
-      :icon="true"
-      :dismissible="true"
-      :type="alert.type"
-      :show="alert.message"
-      @close="deleteAlert(index)"
-    >
-      {{ alert.message }}
-    </z-alert>
-    <br>
+    <z-container class="size-xl no-border">
+      <transition-group name="list" tag="p">
+        <z-alert
+          v-for="(alert, index) in alerts"
+          :key="index"
+          :icon="true"
+          :dismissible="true"
+          :type="alert.type"
+          :show="alert.message"
+          class="list-alert"
+          @close="deleteAlert(index)"
+        >
+          {{ alert.message }}
+        </z-alert>
+      </transition-group>
+      <br>
 
 
       <h4 class="display-4">Select avatar</h4>
@@ -26,82 +29,82 @@
     </z-container>
     <z-container class="size-m no-border">
 
-    <h4 class="display-4">Change password</h4>
-    <form 
-      accept-charset="UTF-8"  
-      @submit.prevent="submitChangePassword" 
-      @keyup.enter="submitChangePassword" 
-      novalidate
-    >
-      <z-text-field
-        :icon="false"
-        :validationRules="form.oldPassword.rules"
-        @validation="form.oldPassword.status = $event"
-        label="Old password"
-        name="oldPassword"
-        ref="oldPassword"
-        tabindex="1"
-        type="password"
-        v-model="form.oldPassword.value"
-      />
+      <h4 class="display-4">Change password</h4>
+      <form 
+        accept-charset="UTF-8"  
+        @submit.prevent="submitChangePassword" 
+        @keyup.enter="submitChangePassword" 
+        novalidate
+      >
+        <z-text-field
+          :icon="false"
+          :validationRules="form.oldPassword.rules"
+          @validation="form.oldPassword.status = $event"
+          label="Old password"
+          name="oldPassword"
+          ref="oldPassword"
+          tabindex="1"
+          type="password"
+          v-model="form.oldPassword.value"
+        />
 
-      <z-text-field
-        :validationRules="form.newPassword.rules"
-        @validation="form.newPassword.status = $event"
-        label="New password"
-        name="newPassword"
-        ref="newPassword"
-        tabindex="2"
-        type="password"
-        v-model="form.newPassword.value"
-      />
+        <z-text-field
+          :validationRules="form.newPassword.rules"
+          @validation="form.newPassword.status = $event"
+          label="New password"
+          name="newPassword"
+          ref="newPassword"
+          tabindex="2"
+          type="password"
+          v-model="form.newPassword.value"
+        />
 
-      <z-text-field
-        :validationRules="form.confirmPassword.rules"
-        @validation="form.confirmPassword.status = $event"
-        label="Confirm new password"
-        name="confirmPassword"
-        ref="confirmPassword"
-        tabindex="3"
-        type="password"
-        v-model="form.confirmPassword.value"
-      />
+        <z-text-field
+          :validationRules="form.confirmPassword.rules"
+          @validation="form.confirmPassword.status = $event"
+          label="Confirm new password"
+          name="confirmPassword"
+          ref="confirmPassword"
+          tabindex="3"
+          type="password"
+          v-model="form.confirmPassword.value"
+        />
+        <br>
+        <z-button tabindex="4" type="submit" class="base-button">Update password</z-button>
+      </form>
       <br>
-      <z-button tabindex="4" type="submit" class="base-button">Update password</z-button>
-    </form>
-    <br>
-    <br>
-    <h4 class="display-4">Change username</h4>
-    <form 
-      accept-charset="UTF-8" 
-      @submit.prevent="submitChangeNickname" 
-      @keyup.enter="submitChangeNickname" 
-      novalidate
-    >
-      <z-text-field
-        :validationRules="form2.newNickname.rules"
-        @validation="form2.newNickname.status = $event"
-        label="Enter a new nickname"
-        name="newNickname"
-        ref="newNickname"
-        tabindex="5"
-        type="text"
-        v-model="form2.newNickname.value"
-      />
       <br>
-      <z-button tabindex="6" type="submit" class="base-button">Change my nickname</z-button>
-    </form>
-    <br>
-    <br>
-    <h4>Delete account</h4>
-    <z-alert 
-      type="error"
-      :icon="true"
-      :show="true"
-    >
-      Once you delete your account, there is no going back. Please be certain.
-    </z-alert>
-    <z-button tabindex="7" type="submit" @click="deleteAccount()">Delete your account</z-button>
-  </z-container>
+      <h4 class="display-4">Change username</h4>
+      <form 
+        accept-charset="UTF-8" 
+        @submit.prevent="submitChangeNickname" 
+        @keyup.enter="submitChangeNickname" 
+        novalidate
+      >
+        <z-text-field
+          :validationRules="form2.newNickname.rules"
+          @validation="form2.newNickname.status = $event"
+          label="Enter a new nickname"
+          name="newNickname"
+          ref="newNickname"
+          tabindex="5"
+          type="text"
+          v-model="form2.newNickname.value"
+        />
+        <br>
+        <z-button tabindex="6" type="submit" class="base-button">Change my nickname</z-button>
+      </form>
+      <br>
+      <br>
+      <h4>Delete account</h4>
+      <z-alert 
+        type="error"
+        :icon="true"
+        :show="true"
+      >
+        Once you delete your account, there is no going back. Please be certain.
+      </z-alert>
+      <z-button tabindex="7" type="submit" @click="deleteAccount()">Delete your account</z-button>
+    </z-container>
   </div>
 </z-loading>
