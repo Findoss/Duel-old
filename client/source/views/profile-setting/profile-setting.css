@@ -9,3 +9,20 @@
 .avatar-select {
   border: 2px solid var(--color-yellow-norm);
 }
+
+
+/* animation */
+
+.list-enter-active, .list-leave-active {
+  transition: all 500ms;
+}
+
+.list-enter {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
