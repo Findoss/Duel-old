@@ -7,13 +7,16 @@
       :level="user.level"
     ></z-user-nickname>
 
-    <div class="avatar">
-      <img :src="pathAvatar(user.avatar)" :alt="user.avatar">
-    </div>
-
-    <z-user-parametrs
-      :userParameters="parametrs"
-    ></z-user-parametrs>
+    <z-tabs>
+      <z-tab title="avatar" :selected="true">
+        <div class="avatar">
+          <img :src="pathAvatar(user.avatar)" :alt="user.avatar">
+        </div>
+      </z-tab>
+      <z-tab title="parametrs">
+        <z-user-parametrs :userParameters="parametrs"></z-user-parametrs>
+      </z-tab>
+    </z-tabs>
 
     <z-skill-set>
       <z-skill
@@ -33,13 +36,16 @@
       :level="opponent.level"
     ></z-user-nickname>
 
-    <div class="avatar">
-      <img :src="pathAvatar(opponent.avatar)" :alt="opponent.avatar">
-    </div>
-
-    <z-user-parametrs
-      :userParameters="parametrs"
-    ></z-user-parametrs>
+    <z-tabs>
+        <z-tab title="avatar" :selected="true">
+          <div class="avatar">
+            <img :src="pathAvatar(opponent.avatar)" :alt="opponent.avatar">
+          </div>
+        </z-tab>
+        <z-tab title="parametrs">
+          <z-user-parametrs :userParameters="parametrs"></z-user-parametrs>
+        </z-tab>
+      </z-tabs>
 
     <z-skill-set>
       <z-skill
