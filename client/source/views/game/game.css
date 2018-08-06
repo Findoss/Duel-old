@@ -1,0 +1,15 @@
+.game_container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 100vh;
+  grid-template-areas: 'U B O';
+grid-gap: 0.5rem;
+}
+
+.user {
+  grid-area: U;
+}
+
+.opponent {
+  grid-area: O;
+}

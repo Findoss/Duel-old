@@ -1,0 +1,56 @@
+<div class="game_container">
+
+
+  <div class="overview user">
+    <z-user-nickname
+      :nickname="user.nickname"
+      :level="user.level"
+    ></z-user-nickname>
+
+    <div class="avatar">
+      <img :src="pathAvatar(user.avatar)" :alt="user.avatar">
+    </div>
+
+    <z-user-parametrs
+      :userParameters="parametrs"
+    ></z-user-parametrs>
+
+    <z-skill-set>
+      <z-skill
+        v-for="(id, index) in userSkillSet" 
+        :key="index" 
+        :id="id"
+      >
+      </z-skill>
+    </z-skill-set>
+  </div>
+
+
+
+  <div class="overview opponent">
+    <z-user-nickname
+      :nickname="opponent.nickname"
+      :level="opponent.level"
+    ></z-user-nickname>
+
+    <div class="avatar">
+      <img :src="pathAvatar(opponent.avatar)" :alt="opponent.avatar">
+    </div>
+
+    <z-user-parametrs
+      :userParameters="parametrs"
+    ></z-user-parametrs>
+
+    <z-skill-set>
+      <z-skill
+        v-for="(id, index) in opponentSkillSet" 
+        :key="index" 
+        :id="id"
+      >
+      </z-skill>
+    </z-skill-set>
+  </div>
+
+
+
+</div>

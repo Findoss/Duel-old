@@ -265,11 +265,6 @@
 </script>
 
 <style scoped>
-  /* @import "../styles/typography.css"; */
-  /* @import "../styles/link.css"; */
-  /* @import "../styles/card.css"; */
-  /* @import "../styles/list.css"; */
-
   .colors {
     display: flex;
     width: 100%;
