@@ -5,6 +5,14 @@
 
   <z-container  class="size-l no-border">
 
+
+    <p class="display-4">Basic Tabs</p>
+    <z-tabs>
+      <z-tab title="1" :selected="true">avatar</z-tab>
+      <z-tab title="2">parameters</z-tab>
+    </z-tabs>
+
+
     <p class="display-4">Basic SkillSet</p>
     <z-skill-set>
       <z-skill
