@@ -3,7 +3,10 @@ import { mapGetters, mapActions } from 'vuex';
 import UserParametrs from '@/components/UserParametrs/UserParametrs.vue';
 import UserNickname from '@/components/UserNickname/UserNickname.vue';
 import SkillSet from '@/components/SkillSet/SkillSet.vue';
+import Rune from '@/components/BoardRune/BoardRune.vue';
+import Board from '@/components/Board/Board.vue';
 import Skill from '@/components/Skill/Skill.vue';
+
 
 export default {
 
@@ -12,6 +15,8 @@ export default {
     'z-user-nickname': UserNickname,
     'z-skill-set': SkillSet,
     'z-skill': Skill,
+    'z-board': Board,
+    'z-rune': Rune,
   },
 
   computed: {
@@ -24,6 +29,7 @@ export default {
       userSkillSet: 'me/getSkillSet',
       opponent: 'opponent/getAllData',
       opponentSkillSet: 'opponent/getSkillSet',
+      getBoard: 'game/getBoard',
     }),
   },
 

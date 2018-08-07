@@ -1,6 +1,6 @@
 .game_container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 30vw 40vw 30vw;
   grid-template-rows: 100vh;
   grid-template-areas: 'U B O';
 grid-gap: 0.5rem;
