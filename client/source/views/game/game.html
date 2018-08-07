@@ -1,0 +1,73 @@
+<div class="game_container">
+
+
+  <div class="overview user">
+    <z-user-nickname
+      :nickname="user.nickname"
+      :level="user.level"
+    ></z-user-nickname>
+
+    <z-tabs>
+      <z-tab title="avatar" :selected="true">
+        <div class="avatar">
+          <img :src="pathAvatar(user.avatar)" :alt="user.avatar">
+        </div>
+      </z-tab>
+      <z-tab title="parametrs">
+        <z-user-parametrs :userParameters="parametrs"></z-user-parametrs>
+      </z-tab>
+    </z-tabs>
+
+    <z-skill-set>
+      <z-skill
+        v-for="(id, index) in userSkillSet" 
+        :key="index" 
+        :id="id"
+      >
+      </z-skill>
+    </z-skill-set>
+  </div>
+
+  <z-board>
+    <template v-for="(col, j) in getBoard">
+      <template v-for="(type, i) in col">
+        <z-rune
+          :i="i"
+          :j="j"
+          :type="type"
+        >
+        </z-rune>
+      </template>
+    </template>
+  </z-board>
+
+  <div class="overview opponent">
+    <z-user-nickname
+      :nickname="opponent.nickname"
+      :level="opponent.level"
+    ></z-user-nickname>
+
+    <z-tabs>
+        <z-tab title="avatar" :selected="true">
+          <div class="avatar">
+            <img :src="pathAvatar(opponent.avatar)" :alt="opponent.avatar">
+          </div>
+        </z-tab>
+        <z-tab title="parametrs">
+          <z-user-parametrs :userParameters="parametrs"></z-user-parametrs>
+        </z-tab>
+      </z-tabs>
+
+    <z-skill-set>
+      <z-skill
+        v-for="(id, index) in opponentSkillSet" 
+        :key="index" 
+        :id="id"
+      >
+      </z-skill>
+    </z-skill-set>
+  </div>
+
+
+
+</div>

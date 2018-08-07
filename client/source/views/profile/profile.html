@@ -1,7 +1,13 @@
 <z-loading :show="myId === 0">
   <div class="profile">
     <div class="navigation">
-      <z-button class="navigation__item" @click="">Play</z-button>
+      <!-- <z-button class="navigation__item" @click="">Play</z-button> -->
+      <router-link 
+        class="navigation__item" 
+        :to="{ path: `/${myId}/gameid` }"
+      >
+        Play
+      </router-link>
       <router-link 
         class="navigation__item" 
         :to="{ path: `/${myId}` }"

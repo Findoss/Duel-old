@@ -12,6 +12,7 @@ import Signin from '@/views/signin/signin.vue';
 import PasswordReset from '@/views/password-reset/password-reset.vue';
 import PasswordNew from '@/views/password-new/password-new.vue';
 
+import Game from '@/views/game/game.vue';
 import Profile from '@/views/profile/profile.vue';
 import ProfileOverview from '@/views/profile-overview/profile-overview.vue';
 import ProfileSkills from '@/views/profile-skills/profile-skills.vue';
@@ -66,6 +67,10 @@ const router = new Router({
         {
           path: 'settings',
           component: ProfileSetting,
+        },
+        {
+          path: 'gameid',
+          component: Game,
         },
         {
           path: 'skills',
