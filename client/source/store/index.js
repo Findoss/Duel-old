@@ -10,6 +10,7 @@ import userPrivate from './modules/user_private';
 import skills from './modules/skills';
 import statics from './modules/statics';
 import account from './modules/account';
+import game from './modules/game';
 
 Vue.use(Vuex);
 
@@ -22,6 +23,7 @@ export default new Vuex.Store({
   mutations,
   getters,
   modules: {
+    game, // модуль игровых объектов
     skills, // модуль скилов
     statics, // модуль сьатичных набров
     me: { // модуль пользователя
