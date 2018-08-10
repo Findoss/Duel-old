@@ -1,19 +1,20 @@
+// Koa
 const Koa = require('koa');
-
 const passport = require('koa-passport');
+const bodyParser = require('koa-bodyparser');
+
+// pasport
 const LocalStrategy = require('passport-local');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
-
 const jwt = require('jsonwebtoken');
-
-const mongoose = require('mongoose'); // стандартная прослойка для работы с MongoDB
 const crypto = require('crypto');
 
 // middleware
 const time = require('./middleware/time');
-const err = require('./middleware/error');
+const error = require('./middleware/error');
 const routes = require('./middleware/routes');
+const headers = require('./middleware/headers');
 
 // config
 const config = {
@@ -21,20 +22,17 @@ const config = {
   ...require('./config/production.json'),
 };
 
+// db
+require('./models/db');
+
 const app = new Koa();
 
-mongoose.Promise = Promise;
-mongoose.set('debug', true);
-mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
-
-app.use(err);
+app.use(error);
 app.use(time);
+app.use(bodyParser());
 app.use(passport.initialize());
 app.use(routes());
+app.use(headers);
 
-// response
-app.use((ctx) => {
-  ctx.body = 'Hello World';
-});
 
 app.listen(config.node.port);
