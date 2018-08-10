@@ -4,11 +4,6 @@ const Router = require('koa-router');
 const ctrlUser = require('../controllers/user');
 const ctrlTool = require('../controllers/tool');
 
-function getAll() {
-  return new Promise((resolve, reject) => {
-    resolve({ hello: 'world' });
-  });
-}
 // static
 const avatars = require('../static/avatars.json');
 const userParameters = require('../static/user_parameters.json');
@@ -20,10 +15,17 @@ router
   .get('/users', ctrlUser.getUsers)
   .get('/users/:id', ctrlUser.getUser)
   .post('/users', ctrlUser.userCreate)
+
+
+  .get('/checkNickname', ctrlTool.checkNickname)
+  .get('/checkEmail', ctrlTool.checkEmail)
+
+
   .head('/ping', async (ctx, next) => {
     ctx.status = 200;
     next();
   })
+
 
   .get('/static/avatars', async (ctx, next) => {
     ctx.body = avatars;
