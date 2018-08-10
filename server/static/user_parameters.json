@@ -1,0 +1,14 @@
+{
+  "health": 100,
+  "force": 10,
+  "armor": 6,
+  "rage": 5,
+  "luck": 2,
+  "healing": 3,
+  "block": 4,
+  "resources": {
+    "energy_1": 3,
+    "energy_2": 3,
+    "energy_3": 3
+  }
+}
