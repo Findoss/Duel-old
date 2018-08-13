@@ -138,9 +138,10 @@ $ for b in `git branch -r │ grep -v -- '->'`; do git branch --track ${b##origi
 
 Запускаем проект для dev  
 
-`$ npm run dev-client`
+`$ npm run dev-client`  
 
-`$ npm run dev-server` or ( `$ npm run dev-api-mock` )
+`$ npm run dev-api-mock` or  
+create `./config/production.json` and `$ npm run dev-server`
 
 `open broswer localhost:3002`
 
@@ -165,13 +166,13 @@ $ for b in `git branch -r │ grep -v -- '->'`; do git branch --track ${b##origi
 Запуск фейк сервера для API  
 `$ npm run dev-api-mock` ( port - 3001 )  
 
-Запуск фейк сервера в режиме разработки  
-`$ npm run dev-server` ( port - xxx )  
-
 Запуск клиента в режиме разработки  
 `$ npm run dev-client` ( port - 3002 )  
 
-Запуск тестов в режиме  разработки  
+Запуск фейк сервера в режиме разработки  
+`$ npm run dev-server` ( port - 3003 )  
+
+Запуск тестов в режиме разработки  
 `$ npm run dev-test` ( port - xxx )  
 
 ### Тестирование

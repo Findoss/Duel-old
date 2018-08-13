@@ -1,11 +1,11 @@
 module.exports = async (ctx, next) => {
   try {
-      await next();
-  } catch (err) {
-      // will only respond with JSON
-      ctx.status = err.statusCode || err.status || 500;
-      ctx.body = {
-          message: err.message
-      };
+    await next();
+  } catch (error) {
+    ctx.status = error.statusCode || error.status || 500;
+    ctx.body = {
+      message: error.message,
+      code: 500,
+    };
   }
-}
+};
