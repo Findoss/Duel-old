@@ -20,11 +20,11 @@
         + message: Invalid user params (string)
         + code: invalid_user_params (string)
 
-### Список пользователей [GET /users{?offset,limit}]
+### Список пользователей [GET /users{?skip,limit}]
 Получить список лидеров
 
 + Parameters
-    + offset: 0  (number, optional) - Номер страницы.
+    + skip: 0  (number, optional) - Номер страницы.
     + limit:  10 (number, optional) - Количество элементов на странице.
 
 + Response 200 (application/json; charset=utf-8)

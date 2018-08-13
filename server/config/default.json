@@ -1,12 +1,13 @@
 {
   "db": {
     "host": "localhost",
-    "port": 5984,
-    "name": "duel"
+    "port": 27017,
+    "name": "duel",
+    "debug":true
   },
   "node": {
     "host": "localhost",
-    "port": 3001
+    "port": 3003
   },
   "JWTKey": "mysecretkey"
 }
