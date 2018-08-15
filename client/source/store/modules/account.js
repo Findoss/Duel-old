@@ -61,7 +61,7 @@ const actions = {
       Http.send('POST', '/signin', user)
         .then((response) => {
           commit('SET_MY_ID', response.id, { root: true });
-          localStorage.setItem('session-token', response.token);
+          localStorage.setItem('session-token', `token ${response.token}`);
           Router.push({ path: `/${response.id}` });
         })
         .catch((error) => {
