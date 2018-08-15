@@ -9,20 +9,21 @@
   "typ": "JWT"
 }
 {
-  "email": "ivan@mail.ru",
-  "nickname": "ivan"
+  "id": "5b6c89e5b6684e51f462a23d",
+  "nickname": "Ivan2",
+  "iat": 1534304024
 }
 ```
 ```
 HMACSHA256(
   base64UrlEncode(header) + "." +
   base64UrlEncode(payload),
-  secret
+  mysecretkey
 ) 
 ```
 **Result token**
 ```
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Iml2YW5AbWFpbC5ydSIsIm5pY2tuYW1lIjoiaXZhbiJ9.N4im2B_InVs69B0SMUjxOtSX0QXddjhcqnfX1CJMYv4
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViNmM4OWU1YjY2ODRlNTFmNDYyYTIzZCIsIm5pY2tuYW1lIjoiSXZhbjIiLCJpYXQiOjE1MzQzMDQ5NjJ9.mkYD3slMipSnftbXvYwtiS1UZsIWFWT55mNOBnxqJhw
 ```
 
 
@@ -36,7 +37,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Iml2YW5AbWFpbC5ydSIsIm5pY2tuYW1
     + Attributes
         + id: 1 (number)
         + message: You are signed in (string)
-        + token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Iml2YW5AbWFpbC5ydSIsIm5pY2tuYW1lIjoiaXZhbiJ9.N4im2B_InVs69B0SMUjxOtSX0QXddjhcqnfX1CJMYv4
+        + token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViNmM4OWU1YjY2ODRlNTFmNDYyYTIzZCIsIm5pY2tuYW1lIjoiSXZhbjIiLCJpYXQiOjE1MzQzMDQ5NjJ9.mkYD3slMipSnftbXvYwtiS1UZsIWFWT55mNOBnxqJhw
 
 + Response 403 (application/json; charset=utf-8)
 Переданы неверные параметры входа
