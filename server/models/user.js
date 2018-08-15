@@ -70,5 +70,10 @@ const userSchema = new mongoose.Schema({
 //     return (this.experience + 1) * 50;
 //   });
 
-const User = mongoose.model('User', userSchema);
-module.exports = User;
+// userSchema.methods.checkPassword = function (password) {
+//   if (!password) return false;
+//   if (!this.passwordHash) return false;
+//   return crypto.pbkdf2Sync(password, this.salt, 1, 128, 'sha1') == this.passwordHash;
+// };
+
+module.exports = mongoose.model('User', userSchema);
