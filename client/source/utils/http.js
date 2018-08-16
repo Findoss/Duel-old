@@ -16,7 +16,6 @@ function request(path, attr) {
   });
 }
 
-
 const get = (path, params = undefined) => {
   const token = localStorage.getItem('session-token');
   const attr = {
