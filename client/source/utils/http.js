@@ -21,7 +21,7 @@ const get = (path, params = undefined) => {
   const attr = {
     method: 'GET',
     headers: new Headers({
-      Authorization: token,
+      Authorization: `token ${token}`,
     }),
   };
 
@@ -41,7 +41,7 @@ const send = (method, path, body = undefined) => {
   const attr = {
     method,
     headers: new Headers({
-      Authorization: token,
+      Authorization: `token ${token}`,
       'Content-Type': 'application/json; charset=utf-8;',
     }),
     body: JSON.stringify(body) || undefined,
