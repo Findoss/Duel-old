@@ -9,9 +9,6 @@ function request(path, attr) {
       .then((data) => {
         if (data.code === undefined) resolve(data);
         reject(data);
-      })
-      .catch((error) => {
-        console.warn(error);
       });
   });
 }
