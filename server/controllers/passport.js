@@ -4,8 +4,6 @@ const config = {
 };
 
 const User = require('../models/user');
-const Session = require('../models/session');
-
 const Token = require('./token');
 
 const passport = require('koa-passport');
@@ -46,11 +44,11 @@ passport.use(new JwtStrategy(
     //   maxAge: '20s',
     // },
   },
-  (async (payload, done) => {
-    if (payload) {
-      const isCurrentSession = await Token.checkKey(payload);
+  (async (user, done) => {
+    if (user) {
+      const isCurrentSession = await Token.checkKey(user);
 
-      if (isCurrentSession) return done(null, payload);
+      if (isCurrentSession) return done(null, user);
       return done(null, false);
     } return done(null, false);
   }),

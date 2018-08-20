@@ -27,15 +27,12 @@ module.exports.generateToken = async (userId) => {
   return false;
 };
 
-module.exports.checkKey = async (payload) => {
-  const session = await Session.findOne({ id: payload.id }, 'key');
-  return session && payload.key === session.key;
+module.exports.checkKey = async (user) => {
+  const session = await Session.findOne({ id: user.id }, 'key');
+  return session && user.key === session.key;
 };
 
-module.exports.deleteKey = async (payload) => {
-  const remove = await Session.remove(
-    { id: payload.id },
-    { upsert: true },
-  );
-  console.log(remove);
+module.exports.deleteKey = async (userId) => {
+  const isRemove = await Session.remove({ id: userId });
+  return isRemove;
 };
