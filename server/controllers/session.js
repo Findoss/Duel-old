@@ -1,5 +1,5 @@
 const passport = require('koa-passport');
-const Session = require('../models/session');
+const Token = require('./token');
 
 
 module.exports.signin = async (ctx, next) => {
@@ -26,35 +26,21 @@ module.exports.signin = async (ctx, next) => {
       };
     }
   })(ctx, next);
+  await next();
 };
 
-module.exports.signout = async function signout(ctx) {
-  // await passport.authenticate('jwt', (error, verified) => {
-  //   if (error) {
-  //     ctx.status = 500;
-  //     ctx.response.body = {
-  //       message: 'BABAX BD',
-  //       code: '1001',
-  //     };
-  //   }
-
-  //   if (verified) {
-  //     ctx.response.body = {
-  //       message: 'You are signed out',
-  //     };
-  //   } else {
-  //     ctx.response.code = 403;
-  //     ctx.response.body = {
-  //       message: 'Forbidden',
-  //       code: 'forbidden',
-  //     };
-  //   }
-  // });
-  // (ctx, next);
+module.exports.signout = async function signout(ctx, next) {
+  if (ctx.isAuthenticated()) {
+    await Token.deleteKey(ctx.state.user.id);
+    ctx.response.body = {
+      message: 'You are signed out',
+    };
+  }
+  await next();
 };
 
 module.exports.verificationToken = async (ctx, next) => {
-  await passport.authenticate('jwt', async (error, payload) => {
+  await passport.authenticate('jwt', (error, user) => {
     if (error) {
       ctx.status = 500;
       ctx.response.body = {
@@ -62,16 +48,18 @@ module.exports.verificationToken = async (ctx, next) => {
         code: '1001',
       };
     }
-    console.log(payload);
 
-    if (!payload) {
+    if (user) {
+      ctx.state.user = user;
+    } else {
       ctx.response.code = 403;
       ctx.response.body = {
         message: 'Forbidden',
         code: 'forbidden',
       };
     }
-  });
 
+    return user;
+  })(ctx, next);
   await next();
 };
