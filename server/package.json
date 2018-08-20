@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon server/index.js --watch server/*",
     "start": "node server/index.js",
-    "tests": ""
+    "test": "mocha"
   },
   "dependencies": {
     "jsonwebtoken": "^8.3.0",
@@ -23,5 +23,8 @@
     "passport-local": "^1.0.0",
     "uuid": "^3.3.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0"
+  }
 }
