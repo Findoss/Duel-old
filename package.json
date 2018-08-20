@@ -30,16 +30,12 @@
     "eslint-plugin-import": "^2.9.0",
     "tree-node-cli": "^1.2.2"
   },
-  "babel": {
-    "presets": [
-      "@vue/app"
-    ]
-  },
   "eslintConfig": {
     "extends": "airbnb-base",
     "env": {
       "browser": true,
-      "node": true
+      "node": true,
+      "mocha": true
     },
     "rules": {
       "no-plusplus": [
