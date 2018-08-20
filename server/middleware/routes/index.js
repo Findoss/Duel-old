@@ -1,12 +1,12 @@
 const Router = require('koa-router');
 
 // controllers
-const ctrlTool = require('../../controllers/tool');
 const ctrlSession = require('../../controllers/session');
 
 // routes
 const routeStatics = require('./statics');
 const routeUsers = require('./users');
+const routeTools = require('./tools');
 
 
 const router = new Router();
@@ -14,21 +14,10 @@ const router = new Router();
 router
   .use('/static', routeStatics.routes())
   .use('/users', routeUsers.routes())
-
-  .get('/checkNickname', ctrlTool.checkNickname)
-  .get('/checkEmail', ctrlTool.checkEmail)
+  .use('/tools', routeTools.routes())
 
   .post('/signin', ctrlSession.signin)
-  .delete('/signout', ctrlSession.verificationToken, ctrlSession.signout)
-  .get('/checkToken', ctrlSession.verificationToken, async (ctx, next) => {
-    ctx.body = { good: 'good' };
-    next();
-  })
-
-  .head('/ping', async (ctx, next) => {
-    ctx.status = 200;
-    next();
-  });
+  .delete('/signout', ctrlSession.verificationToken, ctrlSession.signout);
 
 
 module.exports = () => router.routes();
