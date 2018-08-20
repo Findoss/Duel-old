@@ -1,3 +1,6 @@
+/* eslint no-param-reassign: 0 */
+/* eslint no-shadow: 0 */
+
 import Http from '@/utils/http';
 import Router from '@/router';
 
@@ -20,7 +23,7 @@ const getters = {
 
 const actions = {
   loadMe({ commit, dispatch }) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       Http.get('/me')
         .then((response) => {
           commit('SET_MY_ID', response.id, { root: true });
@@ -40,48 +43,39 @@ const actions = {
 
   delInSkillSet({ commit }, id) {
     const { points } = this.getters['skills/getSkillInfo'](id);
-    return new Promise((resolve, reject) => {
+    return new Promise(() => {
       Http.send('DELETE', '/me/skillsset', { skillsset: [id] })
-        .then((response) => {
+        .then(() => {
           commit('DEL_SKILL_IN_SET', id);
           commit('RESET_POINTS', points);
-        })
-        .catch((error) => {
-          console.log(error);
         });
     });
   },
 
   addInSkillSet({ commit }, id) {
     const { points } = this.getters['skills/getSkillInfo'](id);
-    return new Promise((resolve, reject) => {
+    return new Promise(() => {
       Http.send('PATCH', '/me/skillsset', { skillsset: [id] })
-        .then((response) => {
+        .then(() => {
           commit('ADD_SKILL_IN_SET', id);
           commit('EXPENSES_POINTS', points);
-        })
-        .catch((error) => {
-          console.log(error);
         });
     });
   },
 
-  buySkill({ state, commit }, id) {
+  buySkill({ commit }, id) {
     const { priceInGold } = this.getters['skills/getSkillInfo'](id);
-    return new Promise((resolve, reject) => {
+    return new Promise(() => {
       Http.send('POST', '/me/buyskill', { id })
-        .then((response) => {
+        .then(() => {
           commit('UNLOCK_SKILL', id);
           commit('EXPENSES_GOLD', priceInGold);
-        })
-        .catch((error) => {
-          console.log(error);
         });
     });
   },
 
   // Использовать для данных не хранящихся в сторе
-  updateAccountDataNoStore(ctx, payload) {
+  updateAccountDataNoStore(payload) {
     return new Promise((resolve, reject) => {
       const { field } = payload;
       const { data } = payload;

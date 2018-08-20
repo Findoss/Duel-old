@@ -1,0 +1,61 @@
+{
+  "name": "duel-client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "vue-cli-service build",
+    "create": "sh ./utils/create.sh",
+    "dev": "vue-cli-service serve --port 3002",
+    "test:unit": "vue-cli-service test:unit",
+    "vue-inspect": "vue inspect > ../docs/build/webpack-config.js"
+  },
+  "dependencies": {
+    "debounce": "^1.2.0",
+    "vue": "^2.5.17",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.0.1",
+    "@vue/cli-plugin-eslint": "^3.0.1",
+    "@vue/cli-plugin-unit-mocha": "^3.0.1",
+    "@vue/cli-service": "^3.0.1",
+    "@vue/eslint-config-airbnb": "^3.0.1",
+    "@vue/test-utils": "^1.0.0-beta.20",
+    "chai": "^4.1.2",
+    "vue-template-compiler": "^2.5.17"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "@vue/airbnb"
+    ],
+    "rules": {
+      "no-plusplus": [
+        "error",
+        {
+          "allowForLoopAfterthoughts": true
+        }
+      ],
+      "import/extensions": "off",
+      "import/no-unresolved": "off"
+    },
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}

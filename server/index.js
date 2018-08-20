@@ -1,20 +1,14 @@
 // Koa
 const Koa = require('koa');
-const passport = require('koa-passport');
 const bodyParser = require('koa-bodyparser');
-
-// pasport
-const LocalStrategy = require('passport-local');
-const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
-const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
+const logger = require('koa-logger');
 
 // middleware
 const time = require('./middleware/time');
 const error = require('./middleware/error');
-const routes = require('./middleware/routes');
+const routes = require('./middleware/routes/index.js');
 const headers = require('./middleware/headers');
+const passport = require('koa-passport');
 
 // config
 const config = {
@@ -24,15 +18,24 @@ const config = {
 
 // db
 require('./models/db');
+require('./controllers/passport');
 
-const app = new Koa();
+function createApp() {
+  const app = new Koa();
 
-app.use(error);
-app.use(time);
-app.use(bodyParser());
-app.use(passport.initialize());
-app.use(routes());
-app.use(headers);
+  app.use(time);
+  app.use(error);
+  app.use(logger());
+  app.use(bodyParser());
+  app.use(passport.initialize());
+  app.use(routes());
+  app.use(headers);
 
+  return app;
+}
 
-app.listen(config.node.port);
+if (!module.parent) {
+  createApp().listen(config.node.port);
+}
+
+module.exports = createApp;

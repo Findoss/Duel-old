@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const User = require('../models/user');
 
-module.exports.checkNickname = async function checkNickname(ctx) {
-  await User.findOne({ nickname: ctx.query.nickname })
+module.exports.checkNickname = async (ctx) => {
+  await User.findOne({ nickname: ctx.query.nickname }, 'nickname')
     .then((nickname) => {
       ctx.status = 200;
       ctx.response.body = { used: Boolean(nickname) };
@@ -16,8 +16,8 @@ module.exports.checkNickname = async function checkNickname(ctx) {
     });
 };
 
-module.exports.checkEmail = async function checkEmail(ctx) {
-  await User.findOne({ nickname: ctx.query.email })
+module.exports.checkEmail = async (ctx) => {
+  await User.findOne({ nickname: ctx.query.email }, 'email')
     .then((email) => {
       ctx.status = 200;
       ctx.response.body = { used: Boolean(email) };
