@@ -6,11 +6,8 @@ const logger = require('koa-logger');
 // middleware
 const time = require('./middleware/time');
 const error = require('./middleware/error');
-const routes = require('./middleware/routes');
+const routes = require('./middleware/routes/index.js');
 const headers = require('./middleware/headers');
-// const auth = require('./middleware/auth');
-
-// pasport
 const passport = require('koa-passport');
 
 // config
@@ -23,14 +20,22 @@ const config = {
 require('./models/db');
 require('./controllers/passport');
 
-const app = new Koa();
+function createApp() {
+  const app = new Koa();
 
-app.use(time);
-app.use(error);
-app.use(logger());
-app.use(bodyParser());
-app.use(passport.initialize());
-app.use(routes());
-app.use(headers);
+  app.use(time);
+  app.use(error);
+  app.use(logger());
+  app.use(bodyParser());
+  app.use(passport.initialize());
+  app.use(routes());
+  app.use(headers);
 
-app.listen(config.node.port);
+  return app;
+}
+
+if (!module.parent) {
+  createApp().listen(config.node.port);
+}
+
+module.exports = createApp;
