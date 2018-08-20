@@ -1,3 +1,6 @@
+/* eslint no-param-reassign: 0 */
+/* eslint no-shadow: 0 */
+
 import Http from '@/utils/http';
 
 const state = {

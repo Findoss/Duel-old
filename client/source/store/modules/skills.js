@@ -1,3 +1,6 @@
+/* eslint no-param-reassign: 0 */
+/* eslint no-shadow: 0 */
+
 import Http from '@/utils/http';
 
 const state = {
@@ -32,7 +35,7 @@ const getters = {
 
 const actions = {
   loadSkills({ commit }) {
-    return new Promise((resolve, reject) => {
+    return new Promise(() => {
       Http.get('/skills')
         .then((skills) => {
           commit('SET_SKILLS', skills);

@@ -9,20 +9,16 @@ function request(path, attr) {
       .then((data) => {
         if (data.code === undefined) resolve(data);
         reject(data);
-      })
-      .catch((error) => {
-        console.warn(error);
       });
   });
 }
-
 
 const get = (path, params = undefined) => {
   const token = localStorage.getItem('session-token');
   const attr = {
     method: 'GET',
     headers: new Headers({
-      Authorization: token,
+      Authorization: `token ${token}`,
     }),
   };
 
@@ -42,7 +38,7 @@ const send = (method, path, body = undefined) => {
   const attr = {
     method,
     headers: new Headers({
-      Authorization: token,
+      Authorization: `token ${token}`,
       'Content-Type': 'application/json; charset=utf-8;',
     }),
     body: JSON.stringify(body) || undefined,

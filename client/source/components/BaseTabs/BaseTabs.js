@@ -1,3 +1,5 @@
+/* eslint no-param-reassign: 0 */ // HUCK
+
 export default {
   name: 'z-tabs',
 

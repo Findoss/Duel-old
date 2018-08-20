@@ -1,3 +1,9 @@
+/* eslint no-param-reassign: 0 */
+/* eslint no-shadow: 0 */
+
+/* eslint no-alert: 0 */ // HUCK
+/* eslint no-restricted-globals: 0 */ // HUCK
+
 import Http from '@/utils/http';
 import Router from '@/router';
 
@@ -16,7 +22,7 @@ const actions = {
   },
 
   registration({ dispatch }, user) {
-    return new Promise((resolve, reject) => {
+    return new Promise((reject) => {
       Http.send('POST', '/users', user)
         .then((response) => {
           dispatch('showAlertSignin', {
@@ -33,7 +39,7 @@ const actions = {
 
 
   deleteAccount({ dispatch }) {
-    return new Promise((resolve, reject) => {
+    return new Promise(() => {
       if (confirm('Once you delete your account, there is no going back. Please be certain.')) {
         Http.send('DELETE', '/me')
           .then((response) => {
@@ -57,7 +63,7 @@ const actions = {
   // },
 
   signIn({ commit, dispatch }, user) {
-    return new Promise((resolve, reject) => {
+    return new Promise((reject) => {
       Http.send('POST', '/signin', user)
         .then((response) => {
           commit('SET_MY_ID', response.id, { root: true });

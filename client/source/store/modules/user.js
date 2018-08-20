@@ -1,3 +1,6 @@
+/* eslint no-param-reassign: 0 */
+/* eslint no-shadow: 0 */
+
 import Http from '@/utils/http';
 
 const state = () => ({
@@ -17,7 +20,7 @@ const getters = {
 
   getSkillSet: (state) => {
     const skillsSet = [];
-    for (let i = 0; i < state.limitSlots; i++) {
+    for (let i = 0; i < state.limitSlots; i += 1) {
       if (state.skillSet[i] !== undefined) {
         skillsSet.push(state.skillSet[i]);
       } else if (i >= state.openSlots) {
@@ -42,7 +45,7 @@ const getters = {
 const actions = {
 
   // todo
-  loadScoreboard(ctx) {
+  loadScoreboard() {
     return new Promise((resolve, reject) => {
       Http.get('/users')
         .then((response) => {

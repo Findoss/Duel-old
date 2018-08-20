@@ -8,7 +8,6 @@ const mongoose = require('mongoose');
 mongoose.Promise = Promise;
 mongoose.set('debug', config.db.debug);
 
-
 const gracefulShutdown = function (msg, callback) {
   mongoose.connection.close(() => {
     console.log(`Mongoose disconnected through ${msg}`);
@@ -16,7 +15,10 @@ const gracefulShutdown = function (msg, callback) {
   });
 };
 
-mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
+mongoose.connect(
+  `mongodb://${config.db.host}:${config.db.port}/${config.db.name}`,
+  { useNewUrlParser: true },
+);
 
 mongoose.connection.on('connected', () => {
   console.log('Mongoose connected');
@@ -47,5 +49,3 @@ process.on('SIGTERM', () => {
     process.exit(0);
   });
 });
-
-// require('./user');

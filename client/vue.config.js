@@ -1,12 +1,13 @@
 const path = require('path');
 
 const PATHS = {
-  source: path.join(__dirname, './client/source'),
-  build: path.join(__dirname, './client/build'),
-  statics: path.join(__dirname, './client/statics'),
+  source: path.join(__dirname, './source'),
+  build: path.join(__dirname, './build'),
+  statics: path.join(__dirname, './statics'),
 };
 
 module.exports = {
+  outputDir: `${PATHS.build}`,
   configureWebpack: {
     entry: {
       app: `${PATHS.source}\\main.js`,

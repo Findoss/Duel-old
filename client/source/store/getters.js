@@ -1,3 +1,6 @@
+/* eslint global-require: 0 */
+/* eslint import/no-dynamic-require: 0 */
+
 const getters = {
   myId: (state) => {
     if (state.myId === 0) return Number(localStorage.getItem('myId'));
