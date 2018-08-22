@@ -34,7 +34,6 @@
 Переданы неверные параметры входа
     + Attributes
         + message: Forbidden (string)
-        + code: forbidden (string)
 
 ### * Удаление аккаунта [DELETE /me]
 Удаление своего аккаунта
@@ -48,7 +47,6 @@
 Переданы неверные параметры входа
     + Attributes
         + message: Forbidden (string)
-        + code: forbidden (string)
 
 ### * Изменение набора умений [PATCH /me/skillsset]
 Частичое или полное изменение выбранных умений текущего пользователя (то, что не передано, остается)
@@ -68,13 +66,11 @@
 Заданы неверные параметры
     + Attributes
         + message: Invalid user params (string)
-        + code: invalid_user_params (string)
 
 + Response 403 (application/json; charset=utf-8)
 Переданы неверные параметры входа
     + Attributes
         + message: Forbidden (string)
-        + code: forbidden (string)
 
 ### * Добавление умения в набор умений [PATCH /me/skillsset]
 Частичое или полное изменение выбранных умений текущего пользователя (то, что не передано, остается)из его набора умений
@@ -94,13 +90,11 @@
 Заданы неверные параметры
     + Attributes
         + message: Invalid user params (string)
-        + code: invalid_user_params (string)
 
 + Response 403 (application/json; charset=utf-8)
 Переданы неверные параметры входа
     + Attributes
         + message: Forbidden (string)
-        + code: forbidden (string)
 
 ### * Удаление умения из набора умений [DELETE /me/skillsset]
 Частичое или полное удаление выбранных умений текущего пользователя из его набора умений
@@ -120,13 +114,11 @@
 Заданы неверные параметры
     + Attributes
         + message: Invalid user params (string)
-        + code: invalid_user_params (string)
 
 + Response 403 (application/json; charset=utf-8)
 Переданы неверные параметры входа
     + Attributes
         + message: Forbidden (string)
-        + code: forbidden (string)
 
 ### * Покупка выбранного умения [POST /me/buyskill]
 Покупка выбранного умения
@@ -144,13 +136,11 @@
 Заданы неверные параметры
     + Attributes
         + message: Invalid user params (string)
-        + code: invalid_user_params (string)
 
 + Response 403 (application/json; charset=utf-8)
 Переданы неверные параметры входа
     + Attributes
         + message: Forbidden (string)
-        + code: forbidden (string)
 
 ### * Изменение аватара [PATCH /me/avatar]
 Изменение аватара текущего пользователя
@@ -168,13 +158,11 @@
 Заданы неверные параметры
     + Attributes
         + message: Invalid user params (string)
-        + code: invalid_user_params (string)
 
 + Response 403 (application/json; charset=utf-8)
 Переданы неверные параметры входа
     + Attributes
         + message: Forbidden (string)
-        + code: forbidden (string)
 
 ### * Изменение никнейма [PATCH /me/nickname]
 Изменение никнейма текущего пользователя
@@ -192,13 +180,11 @@
 Заданы неверные параметры
     + Attributes
         + message: Invalid user params (string)
-        + code: invalid_user_params (string)
 
 + Response 403 (application/json; charset=utf-8)
 Переданы неверные параметры входа
     + Attributes
         + message: Forbidden (string)
-        + code: forbidden (string)
 
 ### * Изменение пароля [PATCH /me/password]
 Изменение пароля, для поддверждения необходимо указать старый пароль
@@ -217,10 +203,8 @@
 Заданы неверные параметры
     + Attributes
         + message: Invalid user params (string)
-        + code: invalid_user_params (string)
 
 + Response 403 (application/json; charset=utf-8)
 Переданы неверные параметры входа
     + Attributes
         + message: Incorrect password (string)
-        + code: forbidden (string)
