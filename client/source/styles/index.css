@@ -1,30 +1,31 @@
 :root {
   --color-text: hsl(40, 40%, 90%);
   --color-text-strong: hsl(40, 60%, 65%);
-  --color-text-heading: hsl(40, 65%, 65%); /* #e0b96c */
-
+  --color-text-heading: hsl(40, 65%, 65%);
+  /* #e0b96c */
   --background-0: hsl(0, 0%, 0%);
   --background-1: hsl(0, 0%, 5%);
   --background-2: hsl(0, 0%, 7%);
-
-  --color-red-lite: hsl(360, 80%, 60%); /* #eb4747 */
+  --color-red-lite: hsl(360, 80%, 60%);
+  /* #eb4747 */
   --color-red-norm: hsl(355, 80%, 30%);
   --color-red-dark: hsl(355, 80%, 20%);
-
-  --color-gray-lite: hsl(220, 16%, 36%); /* #4d576a */
+  --color-gray-lite: hsl(220, 16%, 36%);
+  /* #4d576a */
   --color-gray-norm: hsl(220, 16%, 30%);
-  --color-gray-bright: hsl(220, 16%, 22%); /* #2f3541 */
-
+  --color-gray-bright: hsl(220, 16%, 22%);
+  /* #2f3541 */
   --color-yellow-lite: hsl(40, 60%, 70%);
   --color-yellow-norm: hsl(40, 60%, 65%);
-  --color-yellow-bright: hsl(40, 70%, 60%); /* #e0b152 */
-
+  --color-yellow-bright: hsl(40, 70%, 60%);
+  /* #e0b152 */
   --color-blue-lite: hsl(180, 25%, 80%);
   --color-blue-norm: hsl(180, 30%, 70%);
-  --color-blue-bright: hsl(180, 40%, 60%); /* #70c2c2 */
-
+  --color-blue-bright: hsl(180, 40%, 60%);
+  /* #70c2c2 */
   --color-green-lite: hsl(92, 28%, 65%);
-  --color-green-norm: hsl(92, 49%, 58%); /* #8ad24b */ 
+  --color-green-norm: hsl(92, 49%, 58%);
+  /* #8ad24b */
   --color-green-bright: hsl(92, 60%, 56%);
 }
 
@@ -40,10 +41,8 @@ html {
 
 body {
   font-size: 1rem;
-
   background-color: var(--background);
   color: var(--color-text);
-
   background-size: cover;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -63,9 +62,7 @@ body {
   display: block;
   background-size: cover;
   background-image: url('../assets/switch_orientation.png');
-
   margin: 0 auto;
-
   width: 15vh;
   height: 15vh;
 }
