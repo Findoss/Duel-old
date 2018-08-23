@@ -1,6 +1,5 @@
 const Router = require('koa-router');
 
-// static
 const avatars = require('../../static/avatars.json');
 const userParameters = require('../../static/user_parameters.json');
 
