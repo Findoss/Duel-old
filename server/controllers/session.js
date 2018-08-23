@@ -1,16 +1,10 @@
+const ResponseError = require('../utils/error');
 const passport = require('koa-passport');
 const Token = require('./token');
 
-
 module.exports.signin = async (ctx, next) => {
   await passport.authenticate('local', (error, user) => {
-    if (error) {
-      ctx.status = 500;
-      ctx.response.body = {
-        message: 'BABAX BD',
-        code: '1000',
-      };
-    }
+    if (error) throw new ResponseError(500, 'db 0001');
 
     if (user) {
       ctx.response.body = {
@@ -19,11 +13,7 @@ module.exports.signin = async (ctx, next) => {
         token: user.token,
       };
     } else {
-      ctx.status = 403;
-      ctx.response.body = {
-        message: 'Incorrect username or password',
-        code: 'forbidden',
-      };
+      throw new ResponseError(403, 'Incorrect username or password');
     }
   })(ctx, next);
   await next();
@@ -41,23 +31,10 @@ module.exports.signout = async function signout(ctx, next) {
 
 module.exports.verificationToken = async (ctx, next) => {
   await passport.authenticate('jwt', (error, user) => {
-    if (error) {
-      ctx.status = 500;
-      ctx.response.body = {
-        message: 'BABAX BD',
-        code: '1001',
-      };
-    }
+    if (error) throw new ResponseError(500, 'db 0002');
 
-    if (user) {
-      ctx.state.user = user;
-    } else {
-      ctx.response.code = 403;
-      ctx.response.body = {
-        message: 'Forbidden',
-        code: 'forbidden',
-      };
-    }
+    if (user) ctx.state.user = user;
+    else throw new ResponseError(403, 'Forbidden');
 
     return user;
   })(ctx, next);

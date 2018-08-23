@@ -1,3 +1,5 @@
+const config = require('./config/index');
+
 // Koa
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
@@ -9,12 +11,6 @@ const error = require('./middleware/error');
 const routes = require('./middleware/routes/index.js');
 const headers = require('./middleware/headers');
 const passport = require('koa-passport');
-
-// config
-const config = {
-  ...require('./config/default.json'),
-  ...require('./config/production.json'),
-};
 
 // db
 require('./models/db');

@@ -39,9 +39,6 @@ const actions = {
       Http.get('/skills')
         .then((skills) => {
           commit('SET_SKILLS', skills);
-        })
-        .catch(() => {
-          //
         });
     });
   },

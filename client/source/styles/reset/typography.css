@@ -8,13 +8,13 @@
 }
 
 html {
-  font-family: sans-serif; /* font todo */
+  font-family: sans-serif;
+  /* font todo */
 }
 
-h1, h2, h3, h4, 
-.title, 
-.subtitle {
-  font-family: monospace; /* font todo */
+h1, h2, h3, h4, .title, .subtitle {
+  font-family: monospace;
+  /* font todo */
   font-weight: normal;
   letter-spacing: 0.03em;
   color: var(--color-text-heading);

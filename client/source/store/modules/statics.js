@@ -30,7 +30,7 @@ const actions = {
   loadUserParameters({ commit }) {
     Http.get('/static/user-parameters')
       .then((response) => {
-        commit('SET_USER_PARAMETERS', response);
+        commit('SET_USER_PARAMETERS', response.userParameters);
       });
   },
 
