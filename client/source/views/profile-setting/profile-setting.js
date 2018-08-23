@@ -61,7 +61,7 @@ export default {
     }),
 
     submitChangeNickname() {
-      if (!validationForm(this, 'form2')) return false;
+      if (!validationForm(this, 'form2')) Promise.reject(new Error(false));
 
       this.updateAccountDataNoStore({
         field: 'nickname',
@@ -85,9 +85,9 @@ export default {
     },
 
     submitChangePassword() {
-      if (!validationForm(this, 'form')) return false;
+      if (!validationForm(this, 'form')) Promise.reject(new Error(false));
       else if (this.form.newPassword.value !== this.form.confirmPassword.value) {
-        alerts.push({
+        this.alerts.push({
           type: 'error',
           message: 'Password confirmation doesn\'t match the password.',
         });
@@ -95,7 +95,7 @@ export default {
         this.$refs.confirmPassword.reset();
         this.form.newPassword.status = false;
         this.form.confirmPassword.status = false;
-        return false;
+        Promise.reject(new Error(false));
       }
 
       const passwords = {

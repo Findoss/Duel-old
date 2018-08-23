@@ -5,10 +5,15 @@ const HOST = 'http://localHOST:3001';
 function request(path, attr) {
   return new Promise((resolve, reject) => {
     fetch(path, attr)
-      .then(response => response.json())
+      .then(response => Promise.all([
+        Promise.resolve(response.status),
+        response.json(),
+      ]))
       .then((data) => {
-        if (data.code === undefined) resolve(data);
-        reject(data);
+        const status = data[0];
+        const json = data[1];
+        if (status !== 200 && status !== 201) reject(json);
+        resolve(json);
       });
   });
 }

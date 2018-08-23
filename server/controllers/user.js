@@ -1,3 +1,4 @@
+const ResponseError = require('../utils/error');
 const mongoose = require('mongoose');
 const User = require('../models/user');
 
@@ -10,11 +11,7 @@ module.exports.userCreate = async (ctx) => {
       };
     })
     .catch(() => {
-      ctx.status = 400;
-      ctx.response.body = {
-        message: 'Invalid user params',
-        code: 'invalid_user_params',
-      };
+      throw new ResponseError(400, 'Invalid user params');
     });
 };
 
@@ -33,11 +30,7 @@ module.exports.getUsers = async (ctx) => {
       ctx.response.body = users;
     })
     .catch(() => {
-      ctx.status = 404;
-      ctx.response.body = {
-        message: 'Users with id not found',
-        code: 'not_found',
-      };
+      throw new ResponseError(404, 'Users with id not found');
     });
 };
 
@@ -51,10 +44,6 @@ module.exports.getUser = async function getUser(ctx) {
       ctx.response.body = users;
     })
     .catch(() => {
-      ctx.status = 404;
-      ctx.response.body = {
-        message: 'User with id not found',
-        code: 'not_found',
-      };
+      throw new ResponseError(404, 'User with id not found');
     });
 };

@@ -1,7 +1,4 @@
-const config = {
-  ...require('../config/default.json'),
-  ...require('../config/production.json'),
-};
+const config = require('../config/index');
 
 const mongoose = require('mongoose');
 

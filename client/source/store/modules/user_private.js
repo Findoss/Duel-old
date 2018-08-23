@@ -75,7 +75,9 @@ const actions = {
   },
 
   // Использовать для данных не хранящихся в сторе
-  updateAccountDataNoStore(payload) {
+  // HUCK !!!!
+  // eslint-disable-next-line
+  updateAccountDataNoStore({}, payload) {
     return new Promise((resolve, reject) => {
       const { field } = payload;
       const { data } = payload;
