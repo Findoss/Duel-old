@@ -1,12 +1,12 @@
 # Group Tool API
 API для сервисных функций
 
-### Ping [HEAD /ping]
+### Ping [HEAD /tools/ping]
 Проверка доступности сервиса
 
 + Response 200
 
-### Доступность почты [GET /checkEmail{?email}]
+### Доступность почты [GET /tools/checkEmail{?email}]
 
 Проверка доступности почты
 + Parameters
@@ -17,12 +17,7 @@ API для сервисных функций
     + Attributes
         + used: true (boolean) 
 
-+ Response 400 (application/json; charset=utf-8)
-Заданы неверные параметры
-    + Attributes
-        + message: Invalid params
-
-### Доступность никнейма [GET /checkNickname{?nickname}] 
+### Доступность никнейма [GET /tools/checkNickname{?nickname}] 
 
 Проверка доступности никнейма
 + Parameters
@@ -33,7 +28,15 @@ API для сервисных функций
     + Attributes
         + used: true (boolean)
 
-+ Response 400 (application/json; charset=utf-8)
-Заданы неверные параметры
+### Актуальность токена [GET /tools/checkToken] 
+
+Проверка валидности и актуальности токена
++ Request ()
+    + Headers
+
+            Authorization: token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViNmM4OWU1YjY2ODRlNTFmNDYyYTIzZCIsIm5pY2tuYW1lIjoiSXZhbjIiLCJpYXQiOjE1MzQzMDQ5NjJ9.mkYD3slMipSnftbXvYwtiS1UZsIWFWT55mNOBnxqJhw
+            
++ Response 200 (application/json; charset=utf-8)
+Никнейм **можно** использовать  
     + Attributes
-        + message: Invalid params
+        + isAuthenticated: true (boolean)
