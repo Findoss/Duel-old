@@ -173,7 +173,7 @@ create `./config/production.json` and `$ npm run dev-server`
 `$ npm run dev-server` ( port - 3003 )  
 
 Запуск тестов в режиме разработки  
-`$ npm run dev-test` ( port - xxx )  
+`$ npm run dev-test` ( port - 3004 )  
 
 ### Тестирование
 
