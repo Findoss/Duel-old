@@ -170,10 +170,10 @@ create `./config/production.json` and `$ npm run dev-server`
 `$ npm run dev-client` ( port - 3002 )  
 
 Запуск фейк сервера в режиме разработки  
-`$ npm run dev-server` ( port - 3003 )  
+`$ npm run dev-server` ( port - 3001 )  
 
 Запуск тестов в режиме разработки  
-`$ npm run dev-test` ( port - xxx )  
+`$ npm run dev-test` ( port - 3003 )  
 
 ### Тестирование
 

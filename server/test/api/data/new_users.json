@@ -1,0 +1,22 @@
+[
+  {
+    "nickname": "INVALID USER NAME $",
+    "email": "INVALID-EMAIL$.A",
+    "password": "oooooooo"
+  },
+  {
+    "nickname": "NICKNAME_USER_1",
+    "email": "EMAIL_USER_1@email.ru",
+    "password": "PASSWORD_USER_1"
+  },
+  {
+    "nickname": "NEW_USER_1",
+    "email": "TEST_NEW_USER_1_EMAIL@EMAIL.COM",
+    "password": "PASSWORD_NEW_USER_1"
+  },
+  {
+    "nickname": "NEW_USER_2",
+    "email": "TEST__NEW_USER_2_EMAIL@EMAIL.COM",
+    "password": "PASSWORD_NEW_USER_2"
+  }
+]

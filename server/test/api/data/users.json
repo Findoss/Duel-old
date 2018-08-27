@@ -1,0 +1,30 @@
+[
+  {
+    "gold": 0,
+    "points": 0,
+    "avatar": "null",
+    "email": "EMAIL_USER_1@email.ru",
+    "karma": 1,
+    "experience": 55,
+    "limitSlots": 1,
+    "openSlots": 3,
+    "skillSet": [],
+    "skillsUnlocked": [],
+    "nickname": "NICKNAME_USER_1",
+    "password": "PASSWORD_USER_1"
+  },
+  {
+    "gold": 0,
+    "points": 0,
+    "avatar": "null",
+    "email": "EMAIL_USER_2@email.ru",
+    "karma": 1,
+    "experience": 55,
+    "limitSlots": 1,
+    "openSlots": 3,
+    "skillSet": [],
+    "skillsUnlocked": [],
+    "nickname": "NICKNAME_USER_2",
+    "password": "PASSWORD_USER_2"
+  }
+]
