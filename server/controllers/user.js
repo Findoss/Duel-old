@@ -26,11 +26,12 @@ module.exports.getUsers = async (ctx) => {
         limit: Number(ctx.query.limit),
       },
     )
-    .then((users) => {
-      ctx.response.body = users;
-    })
     .catch(() => {
-      throw new ResponseError(404, 'Users with id not found');
+      throw new ResponseError(400, 'Invalid params');
+    })
+    .then((users) => {
+      if (users.length !== 0) ctx.response.body = users;
+      else throw new ResponseError(404, 'Users with id not found');
     });
 };
 
@@ -40,10 +41,11 @@ module.exports.getUser = async function getUser(ctx) {
       ctx.params.id,
       'avatar nickname experience',
     )
-    .then((users) => {
-      ctx.response.body = users;
-    })
     .catch(() => {
-      throw new ResponseError(404, 'User with id not found');
+      throw new ResponseError(400, 'Invalid params');
+    })
+    .then((user) => {
+      if (user) ctx.response.body = user;
+      else throw new ResponseError(404, 'User with id not found');
     });
 };
