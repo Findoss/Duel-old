@@ -1,4 +1,3 @@
-module.exports = {
-  ...require('./default.json'),
-  ...require('./production.json'),
-};
+const mode = process.env.MODE || 'default';
+console.log(`[mode    ] ${mode}`);
+module.exports = require(`./${mode}.json`);

@@ -18,7 +18,7 @@
     "build-structure": "tree -I \"node_modules|.git|.vscode\" -a > docs/build/progect-structure.txt",
     "dev-api-mock": "drakov -f docs/source/api/*.apib -s docs/source/api/index.apib -p 3001 --watch  --autoOptions --method DELETE --method PATCH --header Authorization --debugMode",
     "dev-api": "aglio --theme-variables slate -i docs/source/api/index.apib --server",
-    "test-api": "dredd docs/source/*.apib http://127.0.0.1:3001"
+    "test-api": "dredd docs/source/api/*.apib http://127.0.0.1:3003"
   },
   "dependencies": {},
   "devDependencies": {
