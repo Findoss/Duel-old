@@ -5,26 +5,22 @@ mongoose.set('debug', config.db.debug);
 
 const gracefulShutdown = function (msg, callback) {
   mongoose.connection.close(() => {
-    console.log(`Mongoose disconnected through ${msg}`);
+    if (config.logger.node) console.log(`[database] disconnected through ${msg}`);
     callback();
   });
 };
 
-mongoose.connect(
-  `mongodb://${config.db.host}:${config.db.port}/${config.db.name}`,
-  { useNewUrlParser: true },
-);
-
 mongoose.connection.on('connected', () => {
-  console.log('Mongoose connected');
+  if (config.logger.node) console.log(`[database] connected - ${config.db.host}:${config.db.port}`);
+  if (config.logger.node) console.log(`[database] use ${config.db.name}`);
 });
 
 mongoose.connection.on('error', (error) => {
-  console.log(`Mongoose connection error: ${error}`);
+  if (config.logger.node) console.log(`[database] connection error: ${error}`);
 });
 
 mongoose.connection.on('disconnected', () => {
-  console.log('Mongoose disconnected');
+  if (config.logger.node) console.log('[database] disconnected');
 });
 
 process.once('SIGUSR2', () => {
