@@ -1,8 +1,6 @@
 const config = require('../config/index');
-
 const mongoose = require('mongoose');
 
-mongoose.Promise = Promise;
 mongoose.set('debug', config.db.debug);
 
 const gracefulShutdown = function (msg, callback) {
