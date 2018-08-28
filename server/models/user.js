@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0,
     min: 0,
-    max: 99,
+    max: 99999,
   },
   points: {
     type: Number,
@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 1,
     min: 0,
-    max: 10,
+    max: 999,
   },
   experience: {
     type: Number,
@@ -34,8 +34,8 @@ const userSchema = new mongoose.Schema({
   },
   limitSlots: {
     type: Number,
-    default: 1,
-    min: 0,
+    default: 8,
+    min: 1,
     max: 8,
   },
   nickname: {

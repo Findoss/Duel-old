@@ -40,7 +40,6 @@ async function createApp() {
 }
 
 if (!module.parent) {
-  // createApp().listen(config.node.port);
   createApp();
 }
 

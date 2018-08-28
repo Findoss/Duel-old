@@ -22,8 +22,8 @@ module.exports.getUsers = async (ctx) => {
       'avatar nickname experience',
       {
         sort: { experience: -1 },
-        skip: Number(ctx.query.skip),
-        limit: Number(ctx.query.limit),
+        skip: Number(ctx.query.skip) || 0,
+        limit: Number(ctx.query.limit) || 10,
       },
     )
     .catch(() => {
