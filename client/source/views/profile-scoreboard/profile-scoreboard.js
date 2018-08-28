@@ -24,7 +24,7 @@ export default {
   created() {
     this.loadScoreboard()
       .then((response) => {
-        this.users = response.users;
+        this.users = response;
       });
   },
 };
