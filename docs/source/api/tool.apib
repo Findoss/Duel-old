@@ -35,8 +35,13 @@ API для сервисных функций
     + Headers
 
             Authorization: token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViNmM4OWU1YjY2ODRlNTFmNDYyYTIzZCIsIm5pY2tuYW1lIjoiSXZhbjIiLCJpYXQiOjE1MzQzMDQ5NjJ9.mkYD3slMipSnftbXvYwtiS1UZsIWFWT55mNOBnxqJhw
-            
+
 + Response 200 (application/json; charset=utf-8)
-Никнейм **можно** использовать  
+Токен прошел валиданию  
     + Attributes
         + isAuthenticated: true (boolean)
+
++ Response 403 (application/json; charset=utf-8)
+Токен не прошел валиданию  
+    + Attributes
+        + message: Forbidden (string)
