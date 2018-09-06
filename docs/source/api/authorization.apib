@@ -1,7 +1,7 @@
-# Group Sessions API
+# Group Authorization API
 \* - Авторизованн
 
-### Вход [POST /signin]
+### Вход [POST /auth/signin]
 Осуществляет аутентификацию пользователя. Устанавливает TOKEN в localstarage
 ```
 {
@@ -43,7 +43,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViNmM4OWU1YjY2ODRlNTFmNDYyYTIzZCI
     + Attributes
         + message: Incorrect username or password (string)
 
-### * Выход [DELETE /signout]
+### * Выход [DELETE /auth/signout]
 Осуществляет выход из приложения.
 
 + Request ()
