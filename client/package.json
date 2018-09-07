@@ -6,7 +6,7 @@
     "build": "vue-cli-service build",
     "create": "sh ./utils/create.sh",
     "dev": "vue-cli-service serve --port 3002",
-    "test:unit": "vue-cli-service test:unit",
+    "test": "vue-cli-service test:unit",
     "vue-inspect": "vue inspect > ../docs/build/webpack-config.js"
   },
   "dependencies": {

@@ -16,7 +16,7 @@
     "build-api": "aglio --theme-variables flatly -i docs/source/api/index.apib -o docs/build/API.html",
     "build-doc": "",
     "build-structure": "tree -I \"node_modules|.git|.vscode\" -a > docs/build/progect-structure.txt",
-    "dev-api-mock": "drakov -f docs/source/api/*.apib -s docs/source/api/index.apib -p 3001 --watch  --autoOptions --method DELETE --method PATCH --header Authorization --debugMode",
+    "dev-server-mock": "drakov -f docs/source/api/*.apib -s docs/source/api/index.apib -p 3001 --watch  --autoOptions --method DELETE --method PATCH --header Authorization --debugMode",
     "dev-api": "aglio --theme-variables slate -i docs/source/api/index.apib --server",
     "dev-client": "cd ./client && npm run dev",
     "dev-server": "cd ./server && npm run dev",
