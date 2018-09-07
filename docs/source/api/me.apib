@@ -49,38 +49,13 @@
     + Attributes
         + message: Forbidden (string)
 
-### * Изменение набора умений [PATCH /me/skillsset]
-Частичое или полное изменение выбранных умений текущего пользователя (то, что не передано, остается)
+### * Добавление умения в набор умений [POST /me/skillsset]
+Добавление выбранных умений текущего пользователя (то, что было в наборе остается) в его набор умений
 
 + Request (application/json)
-    + Attributes
-        + skillSet (array)
-            + 3 (number, optional)
-            + 2 (number, optional)
-
-+ Response 200 (application/json; charset=utf-8)
-Выбранные умения текущего пользователя успешно обновлены 
-    + Attributes
-        + message: Your set of skills is updated successfully (string)
-   
-+ Response 400 (application/json; charset=utf-8)
-Заданы неверные параметры
-    + Attributes
-        + message: Invalid user params (string)
-
-+ Response 403 (application/json; charset=utf-8)
-Переданы неверные параметры входа
-    + Attributes
-        + message: Forbidden (string)
-
-### * Добавление умения в набор умений [PATCH /me/skillsset]
-Частичое или полное изменение выбранных умений текущего пользователя (то, что не передано, остается)из его набора умений
-
-+ Request (application/json)
-    + Attributes
-        + skillSet (array)
-            + 3 (number, optional)
-            + 2 (number, optional)
+    + Attributes (array)
+      + 3 (number, optional)
+      + 2 (number, optional)
 
 + Response 200 (application/json; charset=utf-8)
 Выбранные умения текущего пользователя успешно обновлены 
@@ -101,10 +76,9 @@
 Частичое или полное удаление выбранных умений текущего пользователя из его набора умений
 
 + Request (application/json)
-    + Attributes
-        + skillSet (array)
-            + 3 (number, optional)
-            + 2 (number, optional)
+    + Attributes (array)
+      + 3 (number, optional)
+      + 2 (number, optional)
 
 + Response 200 (application/json; charset=utf-8)
 Выбранные умения текущего пользователя успешно обновлены 
