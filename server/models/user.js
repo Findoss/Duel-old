@@ -54,10 +54,10 @@ const userSchema = new mongoose.Schema({
     max: 8,
   },
   skillSet: {
-    type: [Number],
+    type: [String],
   },
   skillsUnlocked: {
-    type: [Number],
+    type: [String],
   },
 }, {
   // toJSON: {
