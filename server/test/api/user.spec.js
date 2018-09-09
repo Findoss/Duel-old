@@ -5,8 +5,7 @@ const helpers = require('./helpers');
 
 const api = supertest(`${config.node.host}:${config.node.port}`);
 
-const User = require('../../models/user');
-
+// fake data
 const dataUsers = require('./data/users.json');
 const dataNewUser = require('./data/new_users.json');
 
@@ -30,11 +29,10 @@ describe('USER API', () => {
   });
 
   it('получить пользователя по id', async () => {
-    User.create(dataUsers[0]).then((newUser) => {
-      await api
-        .get(`/users/${newUser._id}`)
-        .expect(200);
-    });
+    const newUser = await helpers.loadUsers(dataUsers[0]);
+    await api
+      .get(`/users/${newUser._id}`)
+      .expect(200);
   });
 
   it('получить список пользователей (в базе нет пользователей)', async () => {
@@ -66,7 +64,7 @@ describe('USER API', () => {
     it('регистрация пользователя (ник или почта уже занят)', async () => {
       await api
         .post('/users')
-        .send(dataNewUser[1])
+        .send(dataNewUser[0])
         .expect(400);
     });
 

@@ -35,7 +35,7 @@ module.exports.getUsers = async (ctx) => {
     });
 };
 
-module.exports.getUser = async function getUser(ctx) {
+module.exports.getUser = async (ctx) => {
   await User
     .findById(
       ctx.params.id,
