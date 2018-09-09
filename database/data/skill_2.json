@@ -1,0 +1,18 @@
+{
+  "title": "Lightning",
+  "author": "Findoss",
+  "description": "Inflicts lightning damage to an enemy",
+  "duration": 1,
+  "cooldown": 1,
+  "changeTurn": false,
+  "triggeringEvent": "at once",
+  "resources": {
+    "energy_1": 2,
+    "energy_2": 2,
+    "energy_3": 2
+  },
+  "points": 3,
+  "priceInGold": 100,
+  "minLevel": 0,
+  "limitCopy": 2
+}
