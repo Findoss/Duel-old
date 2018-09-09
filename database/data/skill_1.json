@@ -1,0 +1,18 @@
+{
+  "title": "Magic Square",
+  "author": "Findoss",
+  "description": "The effect of the skill is expressed in the collection from the playing field of the runes in a square area of 3x3, specified by you",
+  "duration": 1,
+  "cooldown": 2,
+  "changeTurn": true,
+  "triggeringEvent": "at once",
+  "resources": {
+    "energy_1": 2,
+    "energy_2": 4,
+    "energy_3": 4
+  },
+  "points": 3,
+  "priceInGold": 150,
+  "minLevel": 0,
+  "limitCopy": 3
+}

@@ -9,6 +9,8 @@ describe('API TESTS', () => {
   });
 
   require('./user.spec');
+  require('./session.spec');
+  require('./skills.spec');
 
   after(async () => {
     await mongoose.connection.close();

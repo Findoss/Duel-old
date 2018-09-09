@@ -43,7 +43,7 @@ passport.use(new JwtStrategy(
   },
   (async (user, done) => {
     if (user) {
-      const isCurrentSession = await Token.checkKey(user);
+      const isCurrentSession = await Token.checkKey(user.id, user.key);
 
       if (isCurrentSession) return done(null, user);
       return done(null, false);

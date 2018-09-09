@@ -27,44 +27,43 @@
     + limit:  10 (number, optional) - Количество элементов на странице.
 
 + Response 200 (application/json; charset=utf-8)
-    + Attributes
-        + users (array)
-            + (object)
-                + id: 1 (number)
-                + rank: 1 (number)
-                + avatar: shooter_1 (string)
-                + nickname: Ivan (string)
-                + level: 10 (number)
-            + (object)
-                + id: 2 (number)
-                + rank: 2 (number)
-                + avatar: shooter_2 (string)
-                + nickname: Oleg (string)
-                + level: 12 (number)
-            + (object)
-                + id: 3 (number)
-                + rank: 3 (number)
-                + avatar: shooter_2 (string)
-                + nickname: Makintoshovka (string)
-                + level: 11 (number)
-            + (object)
-                + id: 4 (number)
-                + rank: 4 (number)
-                + avatar: null (string)
-                + nickname: Oleg3 (string)
-                + level: 11 (number)
-            + (object)
-                + id: 5 (number)
-                + rank: 5 (number)
-                + avatar: shooter_2 (string)
-                + nickname: Mava (string)
-                + level: 7 (number)
-            + (object)
-                + id: 6 (number)
-                + rank: 10 (number)
-                + avatar: shooter_1 (string)
-                + nickname: Dmitra (string)
-                + level: 5 (number)
+    + Attributes (array)
+        + (object)
+            + id: 1 (number)
+            + rank: 1 (number)
+            + avatar: shooter_1 (string)
+            + nickname: Ivan (string)
+            + level: 10 (number)
+        + (object)
+            + id: 2 (number)
+            + rank: 2 (number)
+            + avatar: shooter_2 (string)
+            + nickname: Oleg (string)
+            + level: 12 (number)
+        + (object)
+            + id: 3 (number)
+            + rank: 3 (number)
+            + avatar: shooter_2 (string)
+            + nickname: Makintoshovka (string)
+            + level: 11 (number)
+        + (object)
+            + id: 4 (number)
+            + rank: 4 (number)
+            + avatar: null (string)
+            + nickname: Oleg3 (string)
+            + level: 11 (number)
+        + (object)
+            + id: 5 (number)
+            + rank: 5 (number)
+            + avatar: shooter_2 (string)
+            + nickname: Mava (string)
+            + level: 7 (number)
+        + (object)
+            + id: 6 (number)
+            + rank: 10 (number)
+            + avatar: shooter_1 (string)
+            + nickname: Dmitra (string)
+            + level: 5 (number)
 
 
     + Schema
@@ -74,26 +73,24 @@
                 "description": "",
                 "type": "object",
                 "properties": {
-                    "users": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "id": {
-                                    "type": "number"
-                                },
-                                "nickname": {
-                                    "type": "string"
-                                },
-                                "avatar": {
-                                    "type": "string"
-                                },
-                                "rank": {
-                                    "type": "number"
-                                },
-                            }
-                        },
-                    }
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "number"
+                            },
+                            "nickname": {
+                                "type": "string"
+                            },
+                            "avatar": {
+                                "type": "string"
+                            },
+                            "rank": {
+                                "type": "number"
+                            },
+                        }
+                    },
                 }
             }
    

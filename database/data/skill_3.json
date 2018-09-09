@@ -1,0 +1,22 @@
+{
+  "title": "Evolution",
+  "author": "Findoss",
+  "description": "Increases the positive effect of your random skill until the end of the fight.",
+  "duration": 1,
+  "cooldown": 3,
+  "changeTurn": false,
+  "triggeringEvent": "when сhanging еhe stroke",
+  "resources": {
+    "energy_1": 2,
+    "energy_2": 7,
+    "energy_3": 2
+  },
+  "points": 4,
+  "priceInGold": 70,
+  "minLevel": 3,
+  "limitCopy": 8,
+  "modifiers": {
+    "force": 2,
+    "block": 7
+  }
+}

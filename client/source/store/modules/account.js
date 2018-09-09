@@ -64,7 +64,7 @@ const actions = {
 
   signIn({ commit, dispatch }, user) {
     return new Promise((reject) => {
-      Http.send('POST', '/signin', user)
+      Http.send('POST', '/auth/signin', user)
         .then((response) => {
           commit('SET_MY_ID', response.id, { root: true });
           localStorage.setItem('session-token', response.token);
@@ -81,7 +81,7 @@ const actions = {
   },
 
   signOut({ commit, dispatch }) {
-    Http.send('DELETE', '/signout')
+    Http.send('DELETE', '/auth/signout')
       .then((response) => {
         commit('DEL_MY_ID', undefined, { root: true });
         localStorage.removeItem('session-token');
