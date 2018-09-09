@@ -1,69 +1,95 @@
 const config = require('../../config');
-const mocha = require('mocha');
-const supertest = require('supertest');
 const { expect } = require('chai');
-
-const User = require('../../models/user');
+const supertest = require('supertest');
+const helpers = require('./helpers');
 
 const api = supertest(`${config.node.host}:${config.node.port}`);
 
+// fake data
 const dataUsers = require('./data/users.json');
 const dataNewUser = require('./data/new_users.json');
 
-describe('Пользователи', () => {
-  beforeEach((done) => {
-    User.remove({}, () => done());
+describe('USER API', () => {
+  after(() => console.log());
+
+  beforeEach(async () => {
+    await helpers.clearUsers();
   });
 
-
-  it('получить пользователя по id (не найден)', (done) => {
-    api.get('/users/5b8419a9b75bb24770068364').expect(404, done);
+  it('получить пользователя по id (не найден)', async () => {
+    await api
+      .get('/users/5b8419a9b75bb24770068364')
+      .expect(404);
   });
 
-  it('получить пользователя по id (не корректный id)', (done) => {
-    api.get('/users/0000001').expect(400, done);
+  it('получить пользователя по id (не корректный id)', async () => {
+    await api
+      .get('/users/0000001')
+      .expect(400);
   });
 
-  it('получить список пользователей (в базе нет пользователей)', (done) => {
-    api.get('/users').expect(404, done);
+  it('получить пользователя по id', async () => {
+    const newUser = await helpers.loadUsers(dataUsers[0]);
+    await api
+      .get(`/users/${newUser._id}`)
+      .expect(200);
   });
 
-  it('получить список пользователей', (done) => {
-    User.create(dataUsers)
-      .then(() => {
-        api.get('/users').expect(200, done);
-      });
+  it('получить список пользователей (в базе нет пользователей)', async () => {
+    await api
+      .get('/users')
+      .expect(404);
   });
 
-  it('получить пользователя по id', (done) => {
-    User.create(dataUsers)
-      .then((newUser) => {
-        api.get(`/users/${newUser[0]._id}`).expect(200, done);
-      });
-  });
-
-  it('регистрация пользователя', (done) => {
-    api
+  it('регистрация пользователя', async () => {
+    await api
       .post('/users')
       .send(dataNewUser[2])
-      .expect(201, done);
-  });
-
-  it('регистрация пользователя (ник или емейл уже занят)', (done) => {
-    User.create(dataUsers)
-      .then(() => {
-        api
-          .post('/users')
-          .send(dataNewUser[1])
-          .expect(400, done);
-      });
+      .expect(201);
   });
 
   // todo НЕТ ВАЛИДАЦИИ ТЕСТ ПАДАЕТ #100
-  // it('регистрация пользователя (не корректные параметры)', (done) => {
+  // it('регистрация пользователя (не корректные параметры)', () => {
   //   api
   //     .post('/users')
   //     .send(dataNewUser[0])
-  //     .expect(400, done);
+  //     .expect(400);
   // });
+
+  describe('заполняем базу - users.json', async () => {
+    beforeEach(async () => {
+      await helpers.loadUsers(dataUsers);
+    });
+
+    it('регистрация пользователя (ник или почта уже занят)', async () => {
+      await api
+        .post('/users')
+        .send(dataNewUser[0])
+        .expect(400);
+    });
+
+    it('получить список пользователей', async () => {
+      await api
+        .get('/users')
+        .expect(200);
+    });
+
+    it('получить список пользователей c фильтрами', async () => {
+      await api
+        .get('/users')
+        .query({ skip: 2, limit: 1 })
+        .expect((res) => {
+          expect(res.body[0].nickname).to.have.string('admin_gold');
+        })
+        .expect(200);
+    });
+
+    it('получить список пользователей c фильтрами (не корректный фильтр)', async () => {
+      // игнорируем плохие фильтры и отдаем топ-10
+      await api
+        .get('/users')
+        .query({ skip: 'a', limt: 1 })
+        .expect(200);
+    });
+  });
 });

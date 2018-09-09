@@ -24,9 +24,9 @@ module.exports.generateToken = async (userId) => {
   return false;
 };
 
-module.exports.checkKey = async (user) => {
-  const session = await Session.findOne({ id: user.id }, 'key');
-  return session && user.key === session.key;
+module.exports.checkKey = async (userId, userKey) => {
+  const session = await Session.findOne({ id: userId }, 'key');
+  return session && userKey === session.key;
 };
 
 module.exports.deleteKey = async (userId) => {

@@ -1,0 +1,60 @@
+[
+  {
+    "title": "Lightning",
+    "author": "Findoss",
+    "description": "Inflicts lightning damage to an enemy",
+    "duration": 1,
+    "cooldown": 1,
+    "changeTurn": false,
+    "triggeringEvent": "at once",
+    "resources": {
+      "energy_1": 2,
+      "energy_2": 2,
+      "energy_3": 2
+    },
+    "points": 3,
+    "priceInGold": 100,
+    "minLevel": 0,
+    "limitCopy": 2
+  },
+  {
+    "title": "Magic Square",
+    "author": "Findoss",
+    "description": "The effect of the skill is expressed in the collection from the playing field of the runes in a square area of 3x3, specified by you",
+    "duration": 1,
+    "cooldown": 2,
+    "changeTurn": true,
+    "triggeringEvent": "at once",
+    "resources": {
+      "energy_1": 2,
+      "energy_2": 4,
+      "energy_3": 4
+    },
+    "points": 3,
+    "priceInGold": 155,
+    "minLevel": 0,
+    "limitCopy": 3
+  },
+  {
+    "title": "Evolution",
+    "author": "Findoss",
+    "description": "Increases the positive effect of your random skill until the end of the fight.",
+    "duration": 1,
+    "cooldown": 3,
+    "changeTurn": false,
+    "triggeringEvent": "when сhanging еhe stroke",
+    "resources": {
+      "energy_1": 2,
+      "energy_2": 7,
+      "energy_3": 2
+    },
+    "points": 4,
+    "priceInGold": 70,
+    "minLevel": 60,
+    "limitCopy": 8,
+    "modifiers": {
+      "force": 2,
+      "block": 7
+    }
+  }
+]
