@@ -1,6 +1,6 @@
 [
   {
-    "gold": 150,
+    "gold": 1250,
     "points": 80,
     "avatar": "null",
     "email": "EMAIL_USER_1@email.ru",
@@ -15,7 +15,7 @@
     "password": "PASSWORD_USER_1"
   },
   {
-    "gold": 0,
+    "gold": 70,
     "points": 0,
     "avatar": "null",
     "email": "EMAIL_USER_2@email.ru",
@@ -70,7 +70,7 @@
     "openSlots": 8,
     "rank": 1105,
     "skillSet": [],
-    "skillsUnlocked": [1, 2, 3],
+    "skillsUnlocked": [],
     "nickname": "admin_skills",
     "password": "1234password"
   }
