@@ -21,7 +21,7 @@ module.exports.getUsers = async (ctx) => {
       {},
       'nickname avatar rank experience level',
       {
-        sort: { experience: -1 },
+        sort: { rank: -1 },
         skip: Number(ctx.query.skip) || 0,
         limit: Number(ctx.query.limit) || 10,
       },

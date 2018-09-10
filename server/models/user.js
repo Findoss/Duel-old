@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  rank: {
+    type: Number,
+    default: 1200,
+  },
   limitSlots: {
     type: Number,
     default: 8,
