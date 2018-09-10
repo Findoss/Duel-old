@@ -11,6 +11,8 @@ const sessionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+}, {
+  id: false,
 });
 
 module.exports = mongoose.model('Session', sessionSchema);

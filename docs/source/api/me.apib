@@ -12,7 +12,7 @@
 + Response 200 (application/json; charset=utf-8)
 Пользователь авторизован
     + Attributes
-        + id: 1 (number)
+        + _id: 5b955314977bd6650b6a85050 (string)
         + nickname: Ivan (string)
         + email: Ivan@email.ru (string)
         + avatar: shooter_1 (string)
@@ -25,10 +25,10 @@
         + limitSlots: 8 (number)
         + openSlots: 6 (number)
         + skillSet (array)
-            + 2 (number, optional)
-            + 2 (number, optional)
+            + 5b955314977bd66e0b6a8772 (string, optional)
+            + 5b955314977bd66e0b6a8772 (string, optional)
         + skillsUnlocked (array)
-            + 2 (number, optional)
+            + 5b955314977bd66e0b6a8772 (string, optional)
 
 
 + Response 403 (application/json; charset=utf-8)
@@ -49,13 +49,13 @@
     + Attributes
         + message: Forbidden (string)
 
-### * Добавление умения в набор умений [POST /me/skillsset]
+### * Добавление умения в набор умений [POST /me/skillset]
 Добавление выбранных умений текущего пользователя (то, что было в наборе остается) в его набор умений
 
 + Request (application/json)
     + Attributes (array)
-      + 3 (number, optional)
-      + 2 (number, optional)
+        + 5b955314977bd66e0b6a8771 (string, optional)
+        + 5b955314977bd66e0b6a8772 (string, optional)
 
 + Response 200 (application/json; charset=utf-8)
 Выбранные умения текущего пользователя успешно обновлены 
@@ -72,13 +72,13 @@
     + Attributes
         + message: Forbidden (string)
 
-### * Удаление умения из набора умений [DELETE /me/skillsset]
+### * Удаление умения из набора умений [DELETE /me/skillset]
 Частичое или полное удаление выбранных умений текущего пользователя из его набора умений
 
 + Request (application/json)
     + Attributes (array)
-      + 3 (number, optional)
-      + 2 (number, optional)
+        + 5b955314977bd66e0b6a8771 (string, optional)
+        + 5b955314977bd66e0b6a8772 (string, optional)
 
 + Response 200 (application/json; charset=utf-8)
 Выбранные умения текущего пользователя успешно обновлены 
@@ -100,7 +100,7 @@
 
 + Request (application/json)
     + Attributes
-        + id: 2 (number)
+        + id: 5b955314977bd66e0b6a8771 (string) 
 
 + Response 200 (application/json; charset=utf-8)
 Выбранное умение текущего пользователя успешно куплено 

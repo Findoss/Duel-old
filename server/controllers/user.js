@@ -19,9 +19,9 @@ module.exports.getUsers = async (ctx) => {
   await User
     .find(
       {},
-      'avatar nickname experience',
+      'nickname avatar rank experience level',
       {
-        sort: { experience: -1 },
+        sort: { rank: -1 },
         skip: Number(ctx.query.skip) || 0,
         limit: Number(ctx.query.limit) || 10,
       },
@@ -30,8 +30,9 @@ module.exports.getUsers = async (ctx) => {
       throw new ResponseError(400, 'Invalid params');
     })
     .then((users) => {
-      if (users.length !== 0) ctx.response.body = users;
-      else throw new ResponseError(404, 'Users with id not found');
+      if (users.length !== 0) {
+        ctx.response.body = users;
+      } else throw new ResponseError(404, 'Users with id not found');
     });
 };
 
@@ -39,13 +40,23 @@ module.exports.getUser = async (ctx) => {
   await User
     .findById(
       ctx.params.id,
-      'avatar nickname experience',
+      'nickname avatar rank experience level karma openSlots skillSet',
     )
     .catch(() => {
       throw new ResponseError(400, 'Invalid params');
     })
     .then((user) => {
-      if (user) ctx.response.body = user;
-      else throw new ResponseError(404, 'User with id not found');
+      if (user) {
+        ctx.response.body = {
+          _id: user._id,
+          nickname: user.nickname,
+          avatar: user.avatar,
+          rank: user.rank,
+          level: user.level,
+          karma: user.karma,
+          openSlots: user.openSlots,
+          skillSet: user.skillSet,
+        };
+      } else throw new ResponseError(404, 'User with id not found');
     });
 };

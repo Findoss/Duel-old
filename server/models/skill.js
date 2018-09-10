@@ -51,6 +51,8 @@ const skillSchema = new mongoose.Schema({
   modifiers: {
     type: Object,
   },
+}, {
+  id: false,
 });
 
 

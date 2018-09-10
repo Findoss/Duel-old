@@ -62,11 +62,11 @@ describe('AUTHORIZATION API', () => {
       .expect(403);
   });
 
-  describe('выполняем вход', async () => {
+  describe('выполняем вход - user 0', async () => {
     let token = '';
 
     beforeEach(async () => {
-      token = await helpers.signigFirstUser();
+      token = await helpers.signigUser(0);
     });
 
     it('выйти с аккаунта', async () => {
