@@ -29,37 +29,37 @@
 + Response 200 (application/json; charset=utf-8)
     + Attributes (array)
         + (object)
-            + id: 1 (number)
+            + _id: 5b955d100f4b474524d040a1 (string)
             + rank: 1 (number)
             + avatar: shooter_1 (string)
             + nickname: Ivan (string)
             + level: 10 (number)
         + (object)
-            + id: 2 (number)
+            + _id: 5b955d100f4b474524d04050 (number)
             + rank: 2 (number)
             + avatar: shooter_2 (string)
             + nickname: Oleg (string)
             + level: 12 (number)
         + (object)
-            + id: 3 (number)
+            + _id: 5b955d100f4b474524d04060 (string)
             + rank: 3 (number)
             + avatar: shooter_2 (string)
             + nickname: Makintoshovka (string)
             + level: 11 (number)
         + (object)
-            + id: 4 (number)
+            + _id: 5b955d100f4b474524d040a61 (string)
             + rank: 4 (number)
             + avatar: null (string)
             + nickname: Oleg3 (string)
             + level: 11 (number)
         + (object)
-            + id: 5 (number)
+            + _id: 5b955d100f4b474524d04062 (string)
             + rank: 5 (number)
             + avatar: shooter_2 (string)
             + nickname: Mava (string)
             + level: 7 (number)
         + (object)
-            + id: 6 (number)
+            + _id: 5b955d100f4b474524d04063 (string)
             + rank: 10 (number)
             + avatar: shooter_1 (string)
             + nickname: Dmitra (string)
@@ -77,8 +77,8 @@
                     "items": {
                         "type": "object",
                         "properties": {
-                            "id": {
-                                "type": "number"
+                            "_id": {
+                                "type": "string"
                             },
                             "nickname": {
                                 "type": "string"
@@ -103,22 +103,22 @@
 Получить информацию о пользователе по id
 
 + Parameters
-    + id: 2 (number) - ID пользователя.
+    + id: 5b955d100f4b474524d04064 (number) - ID пользователя.
 
 + Response 200 (application/json; charset=utf-8)
 Данные пользователя
     + Attributes
-        + id: 2 (number) 
+        + _id: 5b955d100f4b474524d04064 (string) 
         + nickname: Alex (string) 
         + avatar: shooter_3 (string) 
-        + rank: 41 (number) 
+        + rank: 800 (number) 
         + level: 15 (number) 
         + karma: 10 (number) 
         + openSlots: 4 (number) 
         + skillSet (array) 
-            + 3 (number, optional) 
-            + 1 (number, optional) 
-            + 3 (number, optional) 
+            + 5b955314977bd66e0b6a8770 (string, optional) 
+            + 5b955314977bd66e0b6a8771 (string, optional) 
+            + 5b955314977bd66e0b6a8772 (string, optional) 
 
 + Response 404 (application/json; charset=utf-8)
 Пользователь не найден

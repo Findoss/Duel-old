@@ -60,9 +60,10 @@ const userSchema = new mongoose.Schema({
     type: [String],
   },
 }, {
-  // toJSON: {
-  //   virtuals: true,
-  // },
+  id: false,
+  toJSON: {
+    virtuals: true,
+  },
 });
 
 // userSchema.virtual('level')
