@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Levels = require('../static/levels.json');
 
 const userSchema = new mongoose.Schema({
   gold: {
@@ -66,10 +67,10 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// userSchema.virtual('level')
-//   .get(function () {
-//     return (this.experience + 1) * 50;
-//   });
+userSchema.virtual('level').get(function () {
+  const level = Levels.findIndex(experience => this.experience < experience);
+  return level;
+});
 
 // userSchema.methods.checkPassword = function (password) {
 //   if (!password) return false;
