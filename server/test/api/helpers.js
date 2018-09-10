@@ -14,8 +14,26 @@ module.exports.loadUsers = async users => User.create(users);
 module.exports.clearSkills = async () => Skill.remove({});
 module.exports.loadSkills = async skills => Skill.create(skills);
 
-module.exports.signigFirstUser = async () => {
+module.exports.buySkills = async (userId, skills) => {
   const users = await User.find({});
-  const userId = users[0]._id;
+
+  await User.findByIdAndUpdate(
+    users[userId]._id,
+    { $push: { skillsUnlocked: skills.map(skill => skill._id) } },
+  );
+};
+
+module.exports.addSkillSet = async (userId, skills) => {
+  const users = await User.find({});
+
+  await User.findByIdAndUpdate(
+    users[userId]._id,
+    { $push: { skillSet: skills.map(skill => skill._id) } },
+  );
+};
+
+module.exports.signigUser = async (id) => {
+  const users = await User.find({});
+  const userId = users[id]._id;
   return generateToken(userId);
 };
