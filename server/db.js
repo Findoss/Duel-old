@@ -1,4 +1,4 @@
-const config = require('../config/index');
+const config = require('./config');
 const mongoose = require('mongoose');
 
 mongoose.set('debug', config.db.debug);
