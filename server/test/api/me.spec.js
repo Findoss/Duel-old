@@ -130,20 +130,6 @@ describe('ME API', () => {
         .expect(200);
     });
 
-    it('добавление умения в набор умений (одинаковые)', async () => {
-      const newSkills = await helpers.loadSkills(dataSkills);
-      await helpers.buySkills(0, newSkills);
-
-      await api
-        .post('/me/skillset')
-        .set('Authorization', `token ${token}`)
-        .send([
-          newSkills[1]._id,
-          newSkills[1]._id,
-        ])
-        .expect(200);
-    });
-
     it('добавление умения в набор умений (не достаточно очков)', async () => {
       const newSkills = await helpers.loadSkills(dataSkills);
       await helpers.buySkills(0, newSkills);
