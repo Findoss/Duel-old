@@ -85,8 +85,8 @@ module.exports.setPassword = async (ctx) => {
 };
 
 module.exports.buySkill = async (ctx) => {
-  const skill = await Skill.findById(ctx.request.body.id, 'priceInGold minLevel');
   const user = await User.findById(ctx.state.user.id, 'gold experience level');
+  const skill = await Skill.findById(ctx.request.body.id, 'priceInGold minLevel');
 
   if (
     user.level >= skill.minLevel &&
@@ -97,7 +97,7 @@ module.exports.buySkill = async (ctx) => {
         ctx.state.user.id,
         {
           $set: { gold: user.gold - skill.priceInGold },
-          $push: { skillsUnlocked: skill._id },
+          $push: { skillsUnlocked: ctx.request.body.id },
         },
       )
       .catch(() => {
@@ -110,47 +110,40 @@ module.exports.buySkill = async (ctx) => {
 };
 
 module.exports.addManyInSkillSet = async (ctx) => {
-  function getCountClones(array, id) {
-    return array.filter(item => item === id).length;
-  }
-
-  const skills = await Skill.find({ _id: ctx.request.body }, 'points limitCopy');
   const user = await User.findById(ctx.state.user.id, 'points skillsUnlocked openSlots skillSet');
-
-  const sumPointSkills = ctx.request.body.reduce((acc, id) => {
-    const { points } = skills.find(skill => String(skill._id) === id);
-    return acc + points;
-  }, 0);
-
-  const isCloneLimits = ctx.request.body.every((id) => {
-    const { limitCopy } = skills.find(skill => String(skill._id) === id);
-    return getCountClones(skills, id) + getCountClones(user.skillSet, id) <= limitCopy;
-  });
-
-  const isBoughtSkills = ctx.request.body.every(id => user.skillsUnlocked.some(idUnlocked => String(idUnlocked) === id));
+  const skill = await Skill.findById(ctx.request.body.id, 'points limitCopy');
 
   const availableSlots = user.openSlots - user.skillSet.length;
+  const isBoughtSkills = user.skillsUnlocked.some(unlocked => skill.id === unlocked);
+
+  // количество доступных слотов больше или равно 1
+  // console.log(availableSlots >= 1);
+
+  // количество свободных очков игрока больше или равно количеству очков умения
+  // console.log(user.points >= skill.points);
+
+  // скилл куплен
+  // console.log(isBoughtSkills);
+
+  // умение не превышает лимит на копии
+  // console.log(skill.limitCopy >= user.skillSet.filter(id => id === skill.id).length + 1);
 
   if (
-    // количество добавляемых умений меньше или равно количества доступных слотов
-    ctx.request.body.length <= availableSlots &&
-    // сумарное количество очков добавляемых умений меньше или равно  свободных очков игрока
-    sumPointSkills <= user.points &&
-    // каждый скилл куплен
+    availableSlots >= 1 &&
+    user.points >= skill.points &&
     isBoughtSkills &&
-    // количество одинаковых добавляемых умений меньше лимита на копии
-    isCloneLimits
+    skill.limitCopy >= user.skillSet.filter(id => id === skill.id).length + 1
   ) {
     await User
       .findByIdAndUpdate(
         ctx.state.user.id,
         {
-          $set: { points: user.points - sumPointSkills },
-          $push: { skillSet: ctx.request.body },
+          $set: { points: user.points - skill.points },
+          $push: { skillSet: ctx.request.body.id },
         },
       )
-      .catch((e) => {
-        throw new ResponseError(500, e);
+      .catch(() => {
+        throw new ResponseError(500, 'DB error');
       })
       .then(() => {
         ctx.response.body = { message: 'Your set of skills is updated successfully' };
@@ -159,26 +152,25 @@ module.exports.addManyInSkillSet = async (ctx) => {
 };
 
 module.exports.delManyInSkillSet = async (ctx) => {
-  const skills = await Skill.find({ _id: ctx.request.body }, 'points');
   const user = await User.findById(ctx.state.user.id, 'points skillSet');
+  const skill = await Skill.findById(ctx.request.body.id, 'points');
 
-  const sumPointSkills = ctx.request.body.reduce((acc, id) => {
-    const { points } = skills.find(skill => String(skill._id) === id);
-    return acc + points;
-  }, 0);
-
-  await User
-    .findByIdAndUpdate(
-      ctx.state.user.id,
-      {
-        $set: { points: user.points + sumPointSkills },
-        $pullAll: { skillSet: ctx.request.body },
-      },
-    )
-    .catch((e) => {
-      throw new ResponseError(501, e);
-    })
-    .then(() => {
-      ctx.response.body = { message: 'Your skills of set is delete successfully' };
-    });
+  if (
+    user.skillSet.some(id => id === ctx.request.body.id)
+  ) {
+    await User
+      .findByIdAndUpdate(
+        ctx.state.user.id,
+        {
+          $set: { points: user.points + skill.points },
+          $pull: { skillSet: ctx.request.body.id },
+        },
+      )
+      .catch(() => {
+        throw new ResponseError(500, 'DB error');
+      })
+      .then(() => {
+        ctx.response.body = { message: 'Your skills of set is delete successfully' };
+      });
+  } else throw new ResponseError(400, 'ne prosho validat');
 };
