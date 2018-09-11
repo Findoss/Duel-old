@@ -12,9 +12,9 @@
     <z-alert 
       type="error" 
       :icon="true"
-      :show="form.error"
+      :show="error"
       :dismissible="true"
-      @close="form.error = null;"
+      @close="error = null"
     >
       {{ form.error }}
     </z-alert>
