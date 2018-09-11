@@ -12,7 +12,7 @@
 + Response 200 (application/json; charset=utf-8)
 Пользователь авторизован
     + Attributes
-        + _id: 5b955314977bd6650b6a85050 (string)
+        + id: 5b955314977bd6650b6a85050 (string)
         + nickname: Ivan (string)
         + email: Ivan@email.ru (string)
         + avatar: shooter_1 (string)
@@ -53,9 +53,8 @@
 Добавление выбранных умений текущего пользователя (то, что было в наборе остается) в его набор умений
 
 + Request (application/json)
-    + Attributes (array)
-        + 5b955314977bd66e0b6a8771 (string, optional)
-        + 5b955314977bd66e0b6a8772 (string, optional)
+    + Attributes
+        + id: 5b955314977bd66e0b6a8771 (string) 
 
 + Response 200 (application/json; charset=utf-8)
 Выбранные умения текущего пользователя успешно обновлены 
@@ -76,9 +75,8 @@
 Частичое или полное удаление выбранных умений текущего пользователя из его набора умений
 
 + Request (application/json)
-    + Attributes (array)
-        + 5b955314977bd66e0b6a8771 (string, optional)
-        + 5b955314977bd66e0b6a8772 (string, optional)
+    + Attributes
+        + id: 5b955314977bd66e0b6a8771 (string) 
 
 + Response 200 (application/json; charset=utf-8)
 Выбранные умения текущего пользователя успешно обновлены 
