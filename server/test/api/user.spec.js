@@ -31,7 +31,7 @@ describe('USER API', () => {
   it('получить пользователя по id', async () => {
     const newUser = await helpers.loadUsers(dataUsers[0]);
     await api
-      .get(`/users/${newUser._id}`)
+      .get(`/users/${newUser.id}`)
       .expect(200);
   });
 

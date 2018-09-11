@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+const mongooseHidden = require('mongoose-hidden')();
 
 const sessionSchema = new mongoose.Schema({
-  id: {
+  userId: {
     type: String,
     required: true,
     unique: true,
@@ -11,8 +12,15 @@ const sessionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-}, {
-  id: false,
 });
+sessionSchema.set('toJSON', {
+  getters: true,
+  virtuals: true,
+});
+sessionSchema.set('toObject', {
+  getters: true,
+  virtuals: true,
+});
+sessionSchema.plugin(mongooseHidden);
 
 module.exports = mongoose.model('Session', sessionSchema);

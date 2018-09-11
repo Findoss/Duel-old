@@ -15,14 +15,14 @@ passport.use(new LocalStrategy(
     session: false,
   },
   (async (email, password, done) => {
-    const user = await User.findOne({ email }, '_id nickname password');
+    const user = await User.findOne({ email }, 'nickname password');
     if (user) {
       if (user.password === password) {
-        const token = await Token.generateToken(user._id);
+        const token = await Token.generateToken(user.id);
 
         if (token) {
           return done(null, {
-            id: user._id,
+            id: user.id,
             token,
           });
         }

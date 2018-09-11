@@ -90,32 +90,32 @@ describe('ME API', () => {
     });
 
     it('покупка умения', async () => {
-      const newSkill = await helpers.loadSkills(dataSkills[0]);
+      const { id } = await helpers.loadSkills(dataSkills[0]);
 
       await api
         .post('/me/buyskill')
         .set('Authorization', `token ${token}`)
-        .send({ id: newSkill._id })
+        .send({ id })
         .expect(200);
     });
 
     it('покупка умения (не достаточный уровень, надо 60)', async () => {
-      const newSkill = await helpers.loadSkills(dataSkills[2]);
+      const { id } = await helpers.loadSkills(dataSkills[2]);
 
       await api
         .post('/me/buyskill')
         .set('Authorization', `token ${token}`)
-        .send({ id: newSkill._id })
+        .send({ id })
         .expect(400);
     });
 
     it('покупка умения (не достаточно денег, надо 3000)', async () => {
-      const newSkill = await helpers.loadSkills(dataSkills[1]);
+      const { id } = await helpers.loadSkills(dataSkills[1]);
 
       await api
         .post('/me/buyskill')
         .set('Authorization', `token ${token}`)
-        .send({ id: newSkill._id })
+        .send({ id })
         .expect(400);
     });
 
@@ -126,10 +126,7 @@ describe('ME API', () => {
       await api
         .post('/me/skillset')
         .set('Authorization', `token ${token}`)
-        .send([
-          newSkills[0]._id,
-          newSkills[2]._id,
-        ])
+        .send({ id: newSkills[0].id })
         .expect(200);
     });
 
@@ -154,28 +151,7 @@ describe('ME API', () => {
       await api
         .post('/me/skillset')
         .set('Authorization', `token ${token}`)
-        .send([
-          newSkills[3]._id,
-        ])
-        .expect(400);
-    });
-
-    it('добавление умения в набор умений (не достаточно слотов)', async () => {
-      const newSkills = await helpers.loadSkills(dataSkills);
-      await helpers.buySkills(0, newSkills);
-
-      await api
-        .post('/me/skillset')
-        .set('Authorization', `token ${token}`)
-        .send([
-          newSkills[4]._id,
-          newSkills[4]._id,
-          newSkills[4]._id,
-          newSkills[4]._id,
-          newSkills[4]._id,
-          newSkills[4]._id,
-          newSkills[4]._id,
-        ])
+        .send({ id: newSkills[3].id })
         .expect(400);
     });
 
@@ -185,26 +161,40 @@ describe('ME API', () => {
       await api
         .post('/me/skillset')
         .set('Authorization', `token ${token}`)
-        .send([
-          newSkills[0]._id,
-          newSkills[1]._id,
-        ])
+        .send({ id: newSkills[1].id })
         .expect(400);
     });
 
-    it('добавление умения в набор умений (лимит копий исчерпан)', async () => {
+    it('добавление умения в набор умений (не достаточно слотов)', async () => {
       const newSkills = await helpers.loadSkills(dataSkills);
       await helpers.buySkills(0, newSkills);
+      await helpers.addSkillSet(0, [
+        newSkills[0],
+        newSkills[0],
+        newSkills[0],
+        newSkills[0],
+        newSkills[0],
+        newSkills[0],
+        newSkills[0],
+      ]);
 
       await api
         .post('/me/skillset')
         .set('Authorization', `token ${token}`)
-        .send([
-          newSkills[0]._id,
-          newSkills[0]._id,
-          newSkills[0]._id,
-          newSkills[0]._id,
-        ])
+        .send({ id: newSkills[4].id })
+        .expect(400);
+    });
+
+
+    it('добавление умения в набор умений (лимит копий исчерпан)', async () => {
+      const newSkills = await helpers.loadSkills(dataSkills);
+      await helpers.buySkills(0, newSkills);
+      await helpers.addSkillSet(0, [newSkills[0], newSkills[0]]);
+
+      await api
+        .post('/me/skillset')
+        .set('Authorization', `token ${token}`)
+        .send({ id: newSkills[0].id })
         .expect(400);
     });
 
@@ -214,7 +204,7 @@ describe('ME API', () => {
       await api
         .delete('/me/skillset')
         .set('Authorization', `token ${token}`)
-        .send(newSkills[2]._id)
+        .send({ id: newSkills[2].id })
         .expect(400);
     });
 
@@ -226,10 +216,7 @@ describe('ME API', () => {
       await api
         .delete('/me/skillset')
         .set('Authorization', `token ${token}`)
-        .send([
-          newSkills[0]._id,
-          newSkills[1]._id,
-        ])
+        .send({ id: newSkills[0].id })
         .expect(200);
     });
   });

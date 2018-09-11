@@ -23,7 +23,7 @@ describe('SKILLS API', () => {
   it('получить информацию о умении по id', async () => {
     const newSkill = await helpers.loadSkills(dataSkills[0]);
     await api
-      .get(`/skills/${newSkill._id}`)
+      .get(`/skills/${newSkill.id}`)
       .expect(200);
   });
 
