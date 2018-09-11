@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongooseHidden = require('mongoose-hidden')();
 
 const skillSchema = new mongoose.Schema({
   title: {
@@ -51,9 +52,15 @@ const skillSchema = new mongoose.Schema({
   modifiers: {
     type: Object,
   },
-}, {
-  id: false,
 });
-
+skillSchema.set('toJSON', {
+  getters: true,
+  virtuals: true,
+});
+skillSchema.set('toObject', {
+  getters: true,
+  virtuals: true,
+});
+skillSchema.plugin(mongooseHidden);
 
 module.exports = mongoose.model('Skill', skillSchema);

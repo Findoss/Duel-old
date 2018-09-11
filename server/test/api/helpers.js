@@ -18,8 +18,8 @@ module.exports.buySkills = async (userId, skills) => {
   const users = await User.find({});
 
   await User.findByIdAndUpdate(
-    users[userId]._id,
-    { $push: { skillsUnlocked: skills.map(skill => skill._id) } },
+    users[userId].id,
+    { $push: { skillsUnlocked: skills.map(skill => skill.id) } },
   );
 };
 
@@ -27,13 +27,13 @@ module.exports.addSkillSet = async (userId, skills) => {
   const users = await User.find({});
 
   await User.findByIdAndUpdate(
-    users[userId]._id,
-    { $push: { skillSet: skills.map(skill => skill._id) } },
+    users[userId].id,
+    { $push: { skillSet: skills.map(skill => skill.id) } },
   );
 };
 
 module.exports.signigUser = async (id) => {
   const users = await User.find({});
-  const userId = users[id]._id;
+  const userId = users[id].id;
   return generateToken(userId);
 };

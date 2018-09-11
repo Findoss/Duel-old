@@ -47,8 +47,8 @@ module.exports.getUser = async (ctx) => {
     })
     .then((user) => {
       if (user) {
-        ctx.response.body = {
-          _id: user._id,
+        ctx.response.body = { // todo . вернуть поля с помощью плагина скрывающего поля
+          id: user.id,
           nickname: user.nickname,
           avatar: user.avatar,
           rank: user.rank,
