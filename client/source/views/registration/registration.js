@@ -55,6 +55,8 @@ export default {
           this.$refs.password.reset();
           this.form.password.status = false;
         });
+
+      return true;
     },
   },
 };
