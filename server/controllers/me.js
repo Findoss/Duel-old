@@ -117,18 +117,25 @@ module.exports.addManyInSkillSet = async (ctx) => {
   const skills = await Skill.find({ _id: ctx.request.body }, 'points limitCopy');
   const user = await User.findById(ctx.state.user.id, 'points skillsUnlocked openSlots skillSet');
 
-  const sumPointSkills = skills.reduce((acc, skill) => acc + skill.points, 0);
+  const sumPointSkills = ctx.request.body.reduce((acc, id) => {
+    const { points } = skills.find(skill => String(skill._id) === id);
+    return acc + points;
+  }, 0);
+
+  const isCloneLimits = ctx.request.body.every((id) => {
+    const { limitCopy } = skills.find(skill => String(skill._id) === id);
+    return getCountClones(skills, id) + getCountClones(user.skillSet, id) <= limitCopy;
+  });
+
+  const isBoughtSkills = ctx.request.body.every(id => user.skillsUnlocked.some(idUnlocked => String(idUnlocked) === id));
+
   const availableSlots = user.openSlots - user.skillSet.length;
 
-  const isBoughtSkills = skills.every(skill => user.skillsUnlocked.some(unlocked => String(skill._id) === unlocked));
-
-  const isCloneLimits = skills.every(skill => getCountClones(skills, skill) + getCountClones(user.skillSet, skill) < skill.limitCopy);
-
   if (
-    // количество добавляемых умений меньше количества доступных слотов
-    ctx.request.body.length < availableSlots &&
-    // сумарное количество очков добавляемых умений меньше свободных очков игрока
-    sumPointSkills < user.points &&
+    // количество добавляемых умений меньше или равно количества доступных слотов
+    ctx.request.body.length <= availableSlots &&
+    // сумарное количество очков добавляемых умений меньше или равно  свободных очков игрока
+    sumPointSkills <= user.points &&
     // каждый скилл куплен
     isBoughtSkills &&
     // количество одинаковых добавляемых умений меньше лимита на копии
@@ -155,7 +162,10 @@ module.exports.delManyInSkillSet = async (ctx) => {
   const skills = await Skill.find({ _id: ctx.request.body }, 'points');
   const user = await User.findById(ctx.state.user.id, 'points skillSet');
 
-  const sumPointSkills = skills.reduce((acc, skill) => acc + skill.points, 0);
+  const sumPointSkills = ctx.request.body.reduce((acc, id) => {
+    const { points } = skills.find(skill => String(skill._id) === id);
+    return acc + points;
+  }, 0);
 
   await User
     .findByIdAndUpdate(
