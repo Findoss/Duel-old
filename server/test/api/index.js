@@ -8,9 +8,10 @@ describe('API TESTS', () => {
     api = await createApp();
   });
 
+  require('./me.spec');
   require('./user.spec');
-  require('./session.spec');
   require('./skills.spec');
+  require('./session.spec');
 
   after(async () => {
     await mongoose.connection.close();

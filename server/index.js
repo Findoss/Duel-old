@@ -14,7 +14,7 @@ const passport = require('koa-passport');
 
 // db
 const mongoose = require('mongoose');
-require('./models/db');
+require('./db');
 require('./controllers/passport');
 
 async function createApp() {

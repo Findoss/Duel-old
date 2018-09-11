@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const mongooseHidden = require('mongoose-hidden')();
+const Levels = require('../static/levels.json');
 
 const userSchema = new mongoose.Schema({
   gold: {
@@ -32,6 +34,10 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  rank: {
+    type: Number,
+    default: 1200,
+  },
   limitSlots: {
     type: Number,
     default: 8,
@@ -59,16 +65,22 @@ const userSchema = new mongoose.Schema({
   skillsUnlocked: {
     type: [String],
   },
-}, {
-  // toJSON: {
-  //   virtuals: true,
-  // },
+});
+userSchema.set('toJSON', {
+  getters: true,
+  virtuals: true,
+});
+userSchema.set('toObject', {
+  getters: true,
+  virtuals: true,
 });
 
-// userSchema.virtual('level')
-//   .get(function () {
-//     return (this.experience + 1) * 50;
-//   });
+userSchema.virtual('level').get(function () {
+  const level = Levels.findIndex(experience => this.experience < experience);
+  return level;
+});
+
+userSchema.plugin(mongooseHidden);
 
 // userSchema.methods.checkPassword = function (password) {
 //   if (!password) return false;

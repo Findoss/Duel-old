@@ -14,7 +14,7 @@
     },
     "points": 3,
     "priceInGold": 100,
-    "minLevel": 0,
+    "minLevel": 2,
     "limitCopy": 2
   },
   {
@@ -31,8 +31,8 @@
       "energy_3": 4
     },
     "points": 3,
-    "priceInGold": 155,
-    "minLevel": 0,
+    "priceInGold": 3055,
+    "minLevel": 1,
     "limitCopy": 3
   },
   {
@@ -52,6 +52,50 @@
     "priceInGold": 70,
     "minLevel": 60,
     "limitCopy": 8,
+    "modifiers": {
+      "force": 2,
+      "block": 7
+    }
+  },
+  {
+    "title": "Abracadabra",
+    "author": "Findoss",
+    "description": "lorem lalalal la l ala l ala la la la l ala l al al al ala a l al ala l ala l ala la la la la la la la la lal la la la l ala l la la la la la lla la la la l la la la la la la l lalal lalallalalalala lalalallal ala la lalala lalal la la la l la l",
+    "duration": 1,
+    "cooldown": 3,
+    "changeTurn": false,
+    "triggeringEvent": "when сhanging еhe stroke",
+    "resources": {
+      "energy_1": 2,
+      "energy_2": 7,
+      "energy_3": 2
+    },
+    "points": 450,
+    "priceInGold": 70,
+    "minLevel": 60,
+    "limitCopy": 8,
+    "modifiers": {
+      "force": 2,
+      "block": 7
+    }
+  },
+  {
+    "title": "qwer",
+    "author": "Findoss",
+    "description": "qwer qwer qwer qwer qwer qwer qwer qwer qwer ",
+    "duration": 1,
+    "cooldown": 1,
+    "changeTurn": false,
+    "triggeringEvent": "when сhanging еhe stroke",
+    "resources": {
+      "energy_1": 1,
+      "energy_2": 1,
+      "energy_3": 1
+    },
+    "points": 1,
+    "priceInGold": 1,
+    "minLevel": 1,
+    "limitCopy": 20,
     "modifiers": {
       "force": 2,
       "block": 7

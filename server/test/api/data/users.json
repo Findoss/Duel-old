@@ -1,6 +1,6 @@
 [
   {
-    "gold": 150,
+    "gold": 1250,
     "points": 80,
     "avatar": "null",
     "email": "EMAIL_USER_1@email.ru",
@@ -8,13 +8,14 @@
     "experience": 55,
     "limitSlots": 8,
     "openSlots": 3,
+    "rank": 1500,
     "skillSet": [],
     "skillsUnlocked": [],
     "nickname": "NICKNAME_USER_1",
     "password": "PASSWORD_USER_1"
   },
   {
-    "gold": 0,
+    "gold": 70,
     "points": 0,
     "avatar": "null",
     "email": "EMAIL_USER_2@email.ru",
@@ -22,6 +23,7 @@
     "experience": 55,
     "limitSlots": 8,
     "openSlots": 3,
+    "rank": 2105,
     "skillSet": [],
     "skillsUnlocked": [],
     "nickname": "NICKNAME_USER_2",
@@ -36,6 +38,7 @@
     "experience": 200,
     "limitSlots": 8,
     "openSlots": 5,
+    "rank": 1220,
     "skillSet": [],
     "skillsUnlocked": [],
     "nickname": "admin_gold",
@@ -50,6 +53,7 @@
     "experience": 5000,
     "limitSlots": 8,
     "openSlots": 3,
+    "rank": 800,
     "skillSet": [],
     "skillsUnlocked": [],
     "nickname": "admin_exp",
@@ -64,8 +68,9 @@
     "experience": 500,
     "limitSlots": 8,
     "openSlots": 8,
+    "rank": 1105,
     "skillSet": [],
-    "skillsUnlocked": [1, 2, 3],
+    "skillsUnlocked": [],
     "nickname": "admin_skills",
     "password": "1234password"
   }
