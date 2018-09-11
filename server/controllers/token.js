@@ -15,8 +15,8 @@ module.exports.generateToken = async (userId) => {
   );
 
   const session = await Session.update(
-    { id: userId },
-    { id: userId, key },
+    { userId },
+    { userId, key },
     { upsert: true },
   );
 
@@ -25,11 +25,11 @@ module.exports.generateToken = async (userId) => {
 };
 
 module.exports.checkKey = async (userId, userKey) => {
-  const session = await Session.findOne({ id: userId }, 'key');
+  const session = await Session.findOne({ userId }, 'key');
   return session && userKey === session.key;
 };
 
 module.exports.deleteKey = async (userId) => {
-  const isRemove = await Session.remove({ id: userId });
+  const isRemove = await Session.remove({ userId });
   return isRemove;
 };

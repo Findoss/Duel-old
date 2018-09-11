@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const mongooseHidden = require('mongoose-hidden')();
 
 const sessionSchema = new mongoose.Schema({
-  id: {
+  userId: {
     type: String,
     required: true,
     unique: true,
