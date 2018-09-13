@@ -44,7 +44,7 @@ const actions = {
   delInSkillSet({ commit }, id) {
     const { points } = this.getters['skills/getSkillInfo'](id);
     return new Promise(() => {
-      Http.send('DELETE', '/me/skillset', [id])
+      Http.send('DELETE', '/me/skillset', { id })
         .then(() => {
           commit('DEL_SKILL_IN_SET', id);
           commit('RESET_POINTS', points);
@@ -55,7 +55,7 @@ const actions = {
   addInSkillSet({ commit }, id) {
     const { points } = this.getters['skills/getSkillInfo'](id);
     return new Promise(() => {
-      Http.send('POST', '/me/skillset', [id])
+      Http.send('POST', '/me/skillset', { id })
         .then(() => {
           commit('ADD_SKILL_IN_SET', id);
           commit('EXPENSES_POINTS', points);
