@@ -8,7 +8,7 @@ const state = {
     1: {
       changeTurn: false, // смена хода
       cooldown: 0, // время перезарядки
-      description: 'null', // описание
+      description: 'description null', // описание
       author: 'null', // автор умения
       duration: 0, // длительность действия
       id: 0, // номер
@@ -16,7 +16,7 @@ const state = {
       minLevel: 0, // минимальный уровень необходимый для покупки
       priceInGold: 0, // цена в золоте
       points: 0, // очки (стоимость добавления в набор)
-      title: 'null', // заголовок
+      title: 'stub skill', // заголовок
       triggeringEvent: 'null', // событие срабатывания
       resources: { // необходимые ресурсы для использования
         energy_1: 0, // энергия_1

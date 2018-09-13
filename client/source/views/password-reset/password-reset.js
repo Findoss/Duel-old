@@ -35,6 +35,7 @@ export default {
       console.log(email);
       this.success = !this.success;
 
+      // todo
       // look store me resetPassword
     },
   },
