@@ -4,19 +4,20 @@
 import Http from '@/utils/http';
 
 const state = {
-  skills: {
-    1: {
+  skills: [
+    {
+      id: '0', // номер
+      icon: 1, // номер иконки
       changeTurn: false, // смена хода
       cooldown: 0, // время перезарядки
-      description: 'null', // описание
+      description: 'description null', // описание
       author: 'null', // автор умения
       duration: 0, // длительность действия
-      id: 0, // номер
       limitCopy: 0, // максимальное количество повторений в наборе умний
       minLevel: 0, // минимальный уровень необходимый для покупки
       priceInGold: 0, // цена в золоте
       points: 0, // очки (стоимость добавления в набор)
-      title: 'null', // заголовок
+      title: 'stub skill', // заголовок
       triggeringEvent: 'null', // событие срабатывания
       resources: { // необходимые ресурсы для использования
         energy_1: 0, // энергия_1
@@ -26,11 +27,15 @@ const state = {
       modifiers: { // модификаторы
       },
     },
-  },
+  ],
 };
 
 const getters = {
-  getSkillInfo: state => id => state.skills[id],
+  getSkillInfo: state => (id) => {
+    const skill = state.skills.find(skill => skill.id === id);
+    if (skill !== undefined) return skill;
+    return state.skills[0]; // return stub skill
+  },
 };
 
 const actions = {

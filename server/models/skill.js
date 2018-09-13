@@ -18,6 +18,10 @@ const skillSchema = new mongoose.Schema({
     type: Number,
     default: 1,
   },
+  icon: {
+    type: Number,
+    default: 1,
+  },
   changeTurn: {
     type: Boolean,
     required: true,

@@ -269,7 +269,6 @@
       ...mapGetters({
         getBoard: 'game/getBoard',
         user: 'me/getAllData',
-        skillSet: 'me/getSkillSet',
       }),
     },
 
@@ -288,6 +287,7 @@
           status: false,
           rules: [Rules.password],
         },
+        skillSet: ['0','0','','','','lock','lock','lock']
       };
     },
 

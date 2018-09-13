@@ -1,10 +1,10 @@
 <div 
   :class="[
     'slot', 
-    id === -2 ? 'slot-lock' : ''
+    id === 'lock' ? 'slot-lock' : ''
   ]"
 >
-  <template v-if="id >= 0">
+  <template v-if="id !== 'lock' && id !== ''">
     <img 
       :src="pathSkill(id)"
       :alt="id"
