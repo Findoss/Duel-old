@@ -6,10 +6,8 @@ export default {
 
   props: {
     skillId: {
-      type: Number,
-      default() {
-        return 0;
-      },
+      type: String,
+      default: '0',
     },
   },
 

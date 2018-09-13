@@ -23,7 +23,7 @@ export default {
 
   data() {
     return {
-      skillId: 1,
+      skillId: '0',
     };
   },
 

@@ -3,12 +3,15 @@
 
 const getters = {
   myId: (state) => {
-    if (state.myId === 0) return Number(localStorage.getItem('myId'));
+    if (state.myId === '0000') return localStorage.getItem('myId');
     return state.myId;
   },
-  pathAvatar: () => id => require(`@/assets/avatars/${id}.png`),
-  pathAvatarIcon: () => id => require(`@/assets/avatars/${id}_icon.png`),
-  pathSkill: () => id => require(`@/assets/skills/${id}.png`),
+  pathAvatar: () => avatar => require(`@/assets/avatars/${avatar}.png`),
+  pathAvatarIcon: () => avatar => require(`@/assets/avatars/${avatar}_icon.png`),
+  pathSkill: (state, getters) => (id) => {
+    const { icon } = getters['skills/getSkillInfo'](id);
+    return require(`@/assets/skills/${icon}.png`);
+  },
   pathRune: () => id => require(`@/assets/runes/${id}.png`),
 };
 
