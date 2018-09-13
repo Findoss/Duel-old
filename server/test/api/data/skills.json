@@ -5,6 +5,7 @@
     "description": "Inflicts lightning damage to an enemy",
     "duration": 1,
     "cooldown": 1,
+    "icon": 1,
     "changeTurn": false,
     "triggeringEvent": "at once",
     "resources": {
@@ -23,6 +24,7 @@
     "description": "The effect of the skill is expressed in the collection from the playing field of the runes in a square area of 3x3, specified by you",
     "duration": 1,
     "cooldown": 2,
+    "icon": 2,
     "changeTurn": true,
     "triggeringEvent": "at once",
     "resources": {
@@ -41,6 +43,7 @@
     "description": "Increases the positive effect of your random skill until the end of the fight.",
     "duration": 1,
     "cooldown": 3,
+    "icon": 3,
     "changeTurn": false,
     "triggeringEvent": "when сhanging еhe stroke",
     "resources": {
@@ -63,6 +66,7 @@
     "description": "lorem lalalal la l ala l ala la la la l ala l al al al ala a l al ala l ala l ala la la la la la la la la lal la la la l ala l la la la la la lla la la la l la la la la la la l lalal lalallalalalala lalalallal ala la lalala lalal la la la l la l",
     "duration": 1,
     "cooldown": 3,
+    "icon": 4,
     "changeTurn": false,
     "triggeringEvent": "when сhanging еhe stroke",
     "resources": {
@@ -85,6 +89,7 @@
     "description": "qwer qwer qwer qwer qwer qwer qwer qwer qwer ",
     "duration": 1,
     "cooldown": 1,
+    "icon": 5,
     "changeTurn": false,
     "triggeringEvent": "when сhanging еhe stroke",
     "resources": {

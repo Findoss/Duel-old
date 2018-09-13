@@ -4,8 +4,8 @@
 import Http from '@/utils/http';
 
 const state = () => ({
+  id: '0000', // номер
   avatar: 'null', // аватар
-  id: 0, // номер
   karma: 1, // карма (уровень адкватности пользователя)
   level: 0, // уровень
   limitSlots: 8, // максимальное кол-во слотов в наборе
@@ -24,9 +24,9 @@ const getters = {
       if (state.skillSet[i] !== undefined) {
         skillsSet.push(state.skillSet[i]);
       } else if (i >= state.openSlots) {
-        skillsSet.push(-2); // lock
+        skillsSet.push('lock'); // lock
       } else {
-        skillsSet.push(-1); // empty
+        skillsSet.push(''); // empty
       }
     }
     return skillsSet;

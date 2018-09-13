@@ -9,7 +9,7 @@
   "typ": "JWT"
 }
 {
-  "id": "5b6c89e5b6684e51f462a23d",
+  "id": "000000000000000000000001",
   "iat": 1534304024
 }
 ```
@@ -17,12 +17,12 @@
 HMACSHA256(
   base64UrlEncode(header) + "." +
   base64UrlEncode(payload),
-  mysecretkey
+  your-256-bit-secret
 ) 
 ```
 **Result token**
 ```
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViNmM4OWU1YjY2ODRlNTFmNDYyYTIzZCIsIm5pY2tuYW1lIjoiSXZhbjIiLCJpYXQiOjE1MzQzMDQ5NjJ9.mkYD3slMipSnftbXvYwtiS1UZsIWFWT55mNOBnxqJhw
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsImlhdCI6MTUzNDMwNDAyNH0.scgAqUpw7ESY0fVbwJFLpoX0i5EOqYuPox3b1kFWJEA
 ```
 
 
@@ -34,9 +34,9 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViNmM4OWU1YjY2ODRlNTFmNDYyYTIzZCI
 + Response 200 (application/json; charset=utf-8)
 Вход осуществлен успешно
     + Attributes
-        + id: 5b955314977bd66e0b6a5050 (number)
+        + id: 5b955314977bd66e0b6a5050 (string)
         + message: You are signed in (string)
-        + token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViNmM4OWU1YjY2ODRlNTFmNDYyYTIzZCIsIm5pY2tuYW1lIjoiSXZhbjIiLCJpYXQiOjE1MzQzMDQ5NjJ9.mkYD3slMipSnftbXvYwtiS1UZsIWFWT55mNOBnxqJhw
+        + token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsImlhdCI6MTUzNDMwNDAyNH0.scgAqUpw7ESY0fVbwJFLpoX0i5EOqYuPox3b1kFWJEA (string)
 
 + Response 403 (application/json; charset=utf-8)
 Переданы неверные параметры входа
@@ -49,7 +49,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViNmM4OWU1YjY2ODRlNTFmNDYyYTIzZCI
 + Request ()
     + Headers
 
-            Authorization: token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViNmM4OWU1YjY2ODRlNTFmNDYyYTIzZCIsIm5pY2tuYW1lIjoiSXZhbjIiLCJpYXQiOjE1MzQzMDQ5NjJ9.mkYD3slMipSnftbXvYwtiS1UZsIWFWT55mNOBnxqJhw
+            Authorization: token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsImlhdCI6MTUzNDMwNDAyNH0.scgAqUpw7ESY0fVbwJFLpoX0i5EOqYuPox3b1kFWJEA
 
 + Response 200 (application/json; charset=utf-8)
 Выход из приложения осуществлен залогиненым пользователем

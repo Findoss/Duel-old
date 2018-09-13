@@ -34,6 +34,7 @@ export default {
       }
 
       console.log(this.form.password.value);
+      // todo
       // look store me newPassword
     },
   },
