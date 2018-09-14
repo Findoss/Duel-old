@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const User = require('../models/user');
 
 module.exports.userCreate = async (ctx) => {
-  await User.create(ctx.request.body)
+  await User
+    .create(ctx.request.body)
     .then(() => {
       ctx.status = 201;
       ctx.response.body = {

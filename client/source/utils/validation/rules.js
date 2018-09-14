@@ -21,9 +21,9 @@ export default {
 
   checkNickname(nickname) {
     return new Promise((resolve, reject) => {
-      Http.get('/tools/checkNickname', [{ nickname }])
+      Http.get('/tools/checkNickname', { nickname })
         .then((result) => {
-          if (result.used) resolve(nickname);
+          if (!result.used) resolve(nickname);
           reject(new Error('Nickname is already taken'));
         });
     });
@@ -31,9 +31,9 @@ export default {
 
   checkEmail(email) {
     return new Promise((resolve, reject) => {
-      Http.get('/tools/checkEmail', [{ email }])
+      Http.get('/tools/checkEmail', { email })
         .then((result) => {
-          if (result.used) resolve(email);
+          if (!result.used) resolve(email);
           reject(new Error('Email is already taken'));
         });
     });
