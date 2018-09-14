@@ -12,6 +12,7 @@ const error = require('./middleware/error');
 const routes = require('./middleware/routes/index.js');
 const headers = require('./middleware/headers');
 const passport = require('koa-passport');
+const loggerBody = require('./middleware/loggerBody');
 
 // db
 const mongoose = require('mongoose');
@@ -27,6 +28,7 @@ async function createApp() {
   if (config.logger.koa) app.use(logger());
   app.use(error);
   app.use(bodyParser());
+  if (config.logger.koa) app.use(loggerBody);
   app.use(passport.initialize());
   app.use(routes());
 
