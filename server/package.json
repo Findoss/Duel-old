@@ -11,6 +11,7 @@
     "test": "clear && env MODE=test mocha --timeout 5000"
   },
   "dependencies": {
+    "@koa/cors": "^2.2.2",
     "jsonwebtoken": "^8.3.0",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",
