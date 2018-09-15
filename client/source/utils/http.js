@@ -23,7 +23,7 @@ const get = (path, params = '') => {
   const attr = {
     method: 'GET',
     headers: new Headers({
-      Authorization: `token ${token}`,
+      Authorization: `Bearer ${token}`,
     }),
   };
 
@@ -43,7 +43,7 @@ const send = (method, path, body) => {
   const attr = {
     method,
     headers: new Headers({
-      Authorization: `token ${token}`,
+      Authorization: `Bearer ${token}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
     }),
