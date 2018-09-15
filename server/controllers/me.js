@@ -31,16 +31,14 @@ module.exports.getMe = async (ctx) => {
 module.exports.deleteMe = async (ctx) => {
   try {
     await Session
-      .findByIdAndRemove(ctx.state.user.id)
-      .catch(() => {
-        throw new ResponseError(400, 'Invalid params');
+      .remove({
+        userId: ctx.state.user.id,
       });
 
     await User
-      .findByIdAndRemove(ctx.state.user.id)
-      .then(() => {
-        ctx.response.body = { message: 'Your accaunt is successfully deleted' };
-      });
+      .findByIdAndRemove(ctx.state.user.id);
+
+    ctx.response.body = { message: 'Your accaunt is successfully deleted' };
   } catch (error) {
     throw new ResponseError(523, error);
   }
