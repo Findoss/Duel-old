@@ -29,7 +29,7 @@ module.exports.signout = async function signout(ctx, next) {
   await next();
 };
 
-module.exports.verificationToken = async (ctx, next) => {
+module.exports.tokenVerification = async (ctx, next) => {
   await passport.authenticate('jwt', (error, user) => {
     if (error) throw new ResponseError(523, error);
 

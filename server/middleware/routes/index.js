@@ -19,6 +19,6 @@ router
   .use('/users', routeUsers.routes())
   .use('/tools', routeTools.routes())
   .use('/auth', routeAuth.routes())
-  .use('/me', ctrlSession.verificationToken, routeMe.routes());
+  .use('/me', ctrlSession.tokenVerification, routeMe.routes());
 
 module.exports = () => router.routes();
