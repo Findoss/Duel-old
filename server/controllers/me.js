@@ -6,6 +6,17 @@ const Session = require('../models/session');
 
 const avatars = require('../static/avatars.json');
 
+
+module.exports.passwordVerification = async (id, password) => {
+  try {
+    const user = await User.findById(id, 'password');
+    return user.password === password;
+  } catch (error) {
+    throw new ResponseError(523, error);
+  }
+};
+
+
 module.exports.getMe = async (ctx) => {
   try {
     const user = await User.findById(ctx.state.user.id);
@@ -20,16 +31,14 @@ module.exports.getMe = async (ctx) => {
 module.exports.deleteMe = async (ctx) => {
   try {
     await Session
-      .findByIdAndRemove(ctx.state.user.id)
-      .catch(() => {
-        throw new ResponseError(400, 'Invalid params');
+      .remove({
+        userId: ctx.state.user.id,
       });
 
     await User
-      .findByIdAndRemove(ctx.state.user.id)
-      .then(() => {
-        ctx.response.body = { message: 'Your accaunt is successfully deleted' };
-      });
+      .findByIdAndRemove(ctx.state.user.id);
+
+    ctx.response.body = { message: 'Your accaunt is successfully deleted' };
   } catch (error) {
     throw new ResponseError(523, error);
   }
@@ -72,16 +81,22 @@ module.exports.setPassword = async (ctx) => {
   * todo validation
   */
 
-  try {
-    await User
-      .findByIdAndUpdate(
-        ctx.state.user.id,
-        ctx.request.body,
-      );
-    ctx.response.body = { message: 'New password set successfully' };
-  } catch (error) {
-    throw new ResponseError(400, 'Invalid params');
-  }
+  const isTruePassword = await this.passwordVerification(ctx.state.user.id, ctx.request.body.oldPassword);
+
+  if (isTruePassword) {
+    try {
+      await User
+        .findByIdAndUpdate(
+          ctx.state.user.id,
+          {
+            password: ctx.request.body.newPassword,
+          },
+        );
+      ctx.response.body = { message: 'New password set successfully' };
+    } catch (error) {
+      throw new ResponseError(400, 'Invalid params');
+    }
+  } else throw new ResponseError(403, 'Incorrect password');
 };
 
 module.exports.buySkill = async (ctx) => {

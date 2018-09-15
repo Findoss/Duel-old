@@ -88,8 +88,22 @@ describe('ME API', () => {
       await api
         .patch('/me/password')
         .set('Authorization', token)
-        .send({ password: 'NEW_PASSWORD_USER' })
+        .send({
+          oldPassword: dataUsers[0].password,
+          newPassword: 'NEW_PASSWORD_USER',
+        })
         .expect(200);
+    });
+
+    it('изменение пароля (неверный старый пароль)', async () => {
+      await api
+        .patch('/me/password')
+        .set('Authorization', token)
+        .send({
+          oldPassword: 'INVALID_PASSWORD',
+          newPassword: 'NEW_PASSWORD_USER',
+        })
+        .expect(403);
     });
 
     it('покупка умения', async () => {
