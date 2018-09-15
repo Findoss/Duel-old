@@ -1,6 +1,6 @@
 /* eslint guard-for-in: "error" */
 
-const HOST = 'http://localHOST:3001';
+const HOST = 'http://localhost:3001';
 
 function request(path, attr) {
   return new Promise((resolve, reject) => {
@@ -18,17 +18,17 @@ function request(path, attr) {
   });
 }
 
-const get = (path, params = undefined) => {
+const get = (path, params = '') => {
   const token = localStorage.getItem('session-token');
   const attr = {
     method: 'GET',
     headers: new Headers({
-      Authorization: `token ${token}`,
+      Authorization: `Bearer ${token}`,
     }),
   };
 
   let query = `${HOST}${path}`;
-  if (params !== undefined) {
+  if (params) {
     query += '?';
     Object.keys(params).forEach((param) => {
       query += `${param}=${params[param]}&`;
@@ -38,13 +38,14 @@ const get = (path, params = undefined) => {
   return request(query, attr);
 };
 
-const send = (method, path, body = undefined) => {
+const send = (method, path, body) => {
   const token = localStorage.getItem('session-token');
   const attr = {
     method,
     headers: new Headers({
-      Authorization: `token ${token}`,
-      'Content-Type': 'application/json; charset=utf-8;',
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     }),
     body: JSON.stringify(body) || undefined,
   };

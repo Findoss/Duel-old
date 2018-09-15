@@ -1,7 +1,7 @@
 const config = require('../../config');
 const { expect } = require('chai');
 const supertest = require('supertest');
-const helpers = require('./helpers');
+const helpers = require('../helpers');
 
 const api = supertest(`${config.node.host}:${config.node.port}`);
 
@@ -12,9 +12,12 @@ describe('AUTHORIZATION API', () => {
   after(() => console.log());
 
   beforeEach(async () => {
-    await helpers.clearSessions();
-    await helpers.clearUsers();
     await helpers.loadUsers(dataNewUser[1]);
+  });
+
+  afterEach(async () => {
+    await helpers.clearUsers();
+    await helpers.clearSessions();
   });
 
   it('зайти через почту и пароль', async () => {
@@ -45,7 +48,7 @@ describe('AUTHORIZATION API', () => {
       .get('/tools/checkToken')
       .set(
         'Authorization',
-        'token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViNmM4OWU1YjY2ODRlNTFmNDYyYTIzZCIsIm5pY2tuYW1lIjoiSXZhbjIiLCJpYXQiOjE1MzQzMDQ5NjJ9.mkYD3slMipSnftbXvYwtiS1UZsIWFWT55mNOBnxqJhw',
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViNmM4OWU1YjY2ODRlNTFmNDYyYTIzZCIsIm5pY2tuYW1lIjoiSXZhbjIiLCJpYXQiOjE1MzQzMDQ5NjJ9.mkYD3slMipSnftbXvYwtiS1UZsIWFWT55mNOBnxqJhw',
       )
       .expect(403);
   });
@@ -72,14 +75,14 @@ describe('AUTHORIZATION API', () => {
     it('выйти с аккаунта', async () => {
       await api
         .delete('/auth/signout')
-        .set('Authorization', `token ${token}`)
+        .set('Authorization', token)
         .expect(200);
     });
 
     it('получить доступ к приватным данным', async () => {
       await api
         .get('/tools/checkToken')
-        .set('Authorization', `token ${token}`)
+        .set('Authorization', token)
         .expect(200);
     });
   });

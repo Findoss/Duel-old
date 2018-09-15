@@ -2,6 +2,7 @@ const config = require('./config/index');
 
 // Koa
 const Koa = require('koa');
+const cors = require('@koa/cors');
 const logger = require('koa-logger');
 const bodyParser = require('koa-bodyparser');
 
@@ -11,6 +12,7 @@ const error = require('./middleware/error');
 const routes = require('./middleware/routes/index.js');
 const headers = require('./middleware/headers');
 const passport = require('koa-passport');
+const loggerBody = require('./middleware/loggerBody');
 
 // db
 const mongoose = require('mongoose');
@@ -21,12 +23,14 @@ async function createApp() {
   const app = new Koa();
 
   app.use(time);
+  app.use(cors());
+  app.use(headers);
   if (config.logger.koa) app.use(logger());
   app.use(error);
   app.use(bodyParser());
+  if (config.logger.koa) app.use(loggerBody);
   app.use(passport.initialize());
   app.use(routes());
-  app.use(headers);
 
   await mongoose.connect(
     `mongodb://${config.db.host}:${config.db.port}/${config.db.name}`,

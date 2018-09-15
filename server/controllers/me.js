@@ -6,46 +6,56 @@ const Session = require('../models/session');
 
 const avatars = require('../static/avatars.json');
 
+
+module.exports.passwordVerification = async (id, password) => {
+  try {
+    const user = await User.findById(id, 'password');
+    return user.password === password;
+  } catch (error) {
+    throw new ResponseError(523, error);
+  }
+};
+
+
 module.exports.getMe = async (ctx) => {
-  await User
-    .findById(ctx.state.user.id)
-    .catch(() => {
-      throw new ResponseError(400, 'Invalid params');
-    })
-    .then((user) => {
-      if (user) ctx.response.body = user;
-      else throw new ResponseError(404, 'User with id not found');
-    });
+  try {
+    const user = await User.findById(ctx.state.user.id);
+
+    if (user) ctx.response.body = user;
+    else throw new ResponseError(404, 'User with id not found');
+  } catch (error) {
+    throw new ResponseError(400, 'Invalid params');
+  }
 };
 
 module.exports.deleteMe = async (ctx) => {
-  await Session
-    .findByIdAndRemove(ctx.state.user.id)
-    .catch(() => {
-      throw new ResponseError(400, 'Invalid params');
-    });
+  try {
+    await Session
+      .remove({
+        userId: ctx.state.user.id,
+      });
 
-  await User
-    .findByIdAndRemove(ctx.state.user.id)
-    .then(() => {
-      ctx.response.body = { message: 'Your accaunt is successfully deleted' };
-    });
+    await User
+      .findByIdAndRemove(ctx.state.user.id);
+
+    ctx.response.body = { message: 'Your accaunt is successfully deleted' };
+  } catch (error) {
+    throw new ResponseError(523, error);
+  }
 };
 
 module.exports.setAvatar = async (ctx) => {
   if (!avatars.some(avatar => avatar === ctx.request.body.avatar)) throw new ResponseError(400, 'Invalid params');
-
-  await User
-    .findByIdAndUpdate(
-      ctx.state.user.id,
-      ctx.request.body,
-    )
-    .catch(() => {
-      throw new ResponseError(400, 'Invalid params');
-    })
-    .then(() => {
-      ctx.response.body = { message: 'Your avatar is updated successfully' };
-    });
+  try {
+    await User
+      .findByIdAndUpdate(
+        ctx.state.user.id,
+        ctx.request.body,
+      );
+    ctx.response.body = { message: 'Your avatar is updated successfully' };
+  } catch (error) {
+    throw new ResponseError(400, 'Invalid params');
+  }
 };
 
 module.exports.setNickname = async (ctx) => {
@@ -53,17 +63,17 @@ module.exports.setNickname = async (ctx) => {
   * todo validation
   */
 
-  await User
-    .findByIdAndUpdate(
-      ctx.state.user.id,
-      ctx.request.body,
-    )
-    .catch(() => {
-      throw new ResponseError(400, 'Nickname exists');
-    })
-    .then(() => {
-      ctx.response.body = { message: 'Your nickname is updated successfully' };
-    });
+  try {
+    await User
+      .findByIdAndUpdate(
+        ctx.state.user.id,
+        ctx.request.body,
+      );
+
+    ctx.response.body = { message: 'Your nickname is updated successfully' };
+  } catch (error) {
+    throw new ResponseError(400, 'Nickname exists');
+  }
 };
 
 module.exports.setPassword = async (ctx) => {
@@ -71,17 +81,22 @@ module.exports.setPassword = async (ctx) => {
   * todo validation
   */
 
-  await User
-    .findByIdAndUpdate(
-      ctx.state.user.id,
-      ctx.request.body,
-    )
-    .catch(() => {
-      throw new ResponseError(400, 'Invalid params');
-    })
-    .then(() => {
+  const isTruePassword = await this.passwordVerification(ctx.state.user.id, ctx.request.body.oldPassword);
+
+  if (isTruePassword) {
+    try {
+      await User
+        .findByIdAndUpdate(
+          ctx.state.user.id,
+          {
+            password: ctx.request.body.newPassword,
+          },
+        );
       ctx.response.body = { message: 'New password set successfully' };
-    });
+    } catch (error) {
+      throw new ResponseError(400, 'Invalid params');
+    }
+  } else throw new ResponseError(403, 'Incorrect password');
 };
 
 module.exports.buySkill = async (ctx) => {
@@ -92,20 +107,19 @@ module.exports.buySkill = async (ctx) => {
     user.level >= skill.minLevel &&
     user.gold >= skill.priceInGold
   ) {
-    await User
-      .findByIdAndUpdate(
-        ctx.state.user.id,
-        {
-          $set: { gold: user.gold - skill.priceInGold },
-          $push: { skillsUnlocked: ctx.request.body.id },
-        },
-      )
-      .catch(() => {
-        throw new ResponseError(400, 'Invalid params');
-      })
-      .then(() => {
-        ctx.response.body = { message: 'Your skill unlocked' };
-      });
+    try {
+      await User
+        .findByIdAndUpdate(
+          ctx.state.user.id,
+          {
+            $set: { gold: user.gold - skill.priceInGold },
+            $push: { skillsUnlocked: ctx.request.body.id },
+          },
+        );
+      ctx.response.body = { message: 'Your skill unlocked' };
+    } catch (error) {
+      throw new ResponseError(400, 'Invalid params');
+    }
   } else throw new ResponseError(400, 'Not enough money or level');
 };
 
@@ -134,20 +148,20 @@ module.exports.addManyInSkillSet = async (ctx) => {
     isBoughtSkills &&
     skill.limitCopy >= user.skillSet.filter(id => id === skill.id).length + 1
   ) {
-    await User
-      .findByIdAndUpdate(
-        ctx.state.user.id,
-        {
-          $set: { points: user.points - skill.points },
-          $push: { skillSet: ctx.request.body.id },
-        },
-      )
-      .catch(() => {
-        throw new ResponseError(500, 'DB error');
-      })
-      .then(() => {
-        ctx.response.body = { message: 'Your set of skills is updated successfully' };
-      });
+    try {
+      await User
+        .findByIdAndUpdate(
+          ctx.state.user.id,
+          {
+            $set: { points: user.points - skill.points },
+            $push: { skillSet: ctx.request.body.id },
+          },
+        );
+
+      ctx.response.body = { message: 'Your set of skills is updated successfully' };
+    } catch (error) {
+      throw new ResponseError(523, error);
+    }
   } else throw new ResponseError(400, 'ne prosho validat');
 };
 
@@ -158,19 +172,30 @@ module.exports.delManyInSkillSet = async (ctx) => {
   if (
     user.skillSet.some(id => id === ctx.request.body.id)
   ) {
-    await User
-      .findByIdAndUpdate(
-        ctx.state.user.id,
-        {
-          $set: { points: user.points + skill.points },
-          $pull: { skillSet: ctx.request.body.id },
-        },
-      )
-      .catch(() => {
-        throw new ResponseError(500, 'DB error');
-      })
-      .then(() => {
-        ctx.response.body = { message: 'Your skills of set is delete successfully' };
-      });
+    try {
+      await User
+        .findOneAndUpdate(
+          {
+            _id: ctx.state.user.id,
+            skillSet: ctx.request.body.id,
+          },
+          {
+            $unset: { 'skillSet.$': '' },
+          },
+        );
+
+      await User
+        .findByIdAndUpdate(
+          ctx.state.user.id,
+          {
+            $set: { points: user.points + skill.points },
+            $pull: { skillSet: null },
+          },
+        );
+
+      ctx.response.body = { message: 'Your skills of set is delete successfully' };
+    } catch (error) {
+      throw new ResponseError(523, error);
+    }
   } else throw new ResponseError(400, 'ne prosho validat');
 };

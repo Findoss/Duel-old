@@ -4,7 +4,7 @@ const Token = require('./token');
 
 module.exports.signin = async (ctx, next) => {
   await passport.authenticate('local', (error, user) => {
-    if (error) throw new ResponseError(500, 'db 0001');
+    if (error) throw new ResponseError(523, error);
 
     if (user) {
       ctx.response.body = {
@@ -29,9 +29,9 @@ module.exports.signout = async function signout(ctx, next) {
   await next();
 };
 
-module.exports.verificationToken = async (ctx, next) => {
+module.exports.tokenVerification = async (ctx, next) => {
   await passport.authenticate('jwt', (error, user) => {
-    if (error) throw new ResponseError(500, 'db 0002');
+    if (error) throw new ResponseError(523, error);
 
     if (user) ctx.state.user = user;
     else throw new ResponseError(403, 'Forbidden');
