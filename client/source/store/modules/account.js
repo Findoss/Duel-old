@@ -44,7 +44,7 @@ const actions = {
         Http.send('DELETE', '/me')
           .then((response) => {
             localStorage.removeItem('session-token');
-            dispatch('account/showAlertSignin', {
+            dispatch('showAlertSignin', {
               type: 'info',
               message: response.message,
             });
@@ -92,7 +92,7 @@ const actions = {
         Router.push({ path: '/signin' });
       })
       .catch((error) => {
-        dispatch('account/showAlertSignin', {
+        dispatch('showAlertSignin', {
           type: 'error',
           message: error.message,
         });
