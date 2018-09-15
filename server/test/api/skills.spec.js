@@ -1,6 +1,6 @@
 const config = require('../../config');
 const supertest = require('supertest');
-const helpers = require('./helpers');
+const helpers = require('../helpers');
 
 const api = supertest(`${config.node.host}:${config.node.port}`);
 
@@ -10,7 +10,7 @@ const dataSkills = require('./data/skills.json');
 describe('SKILLS API', () => {
   after(() => console.log());
 
-  beforeEach(async () => {
+  afterEach(async () => {
     await helpers.clearSkills();
   });
 

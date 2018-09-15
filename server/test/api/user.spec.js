@@ -1,7 +1,7 @@
 const config = require('../../config');
 const { expect } = require('chai');
 const supertest = require('supertest');
-const helpers = require('./helpers');
+const helpers = require('../helpers');
 
 const api = supertest(`${config.node.host}:${config.node.port}`);
 

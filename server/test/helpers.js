@@ -1,10 +1,10 @@
 // models
-const User = require('../../models/user');
-const Session = require('../../models/session');
-const Skill = require('../../models/skill');
+const User = require('./../models/user');
+const Session = require('./../models/session');
+const Skill = require('./../models/skill');
 
 // controllers
-const { generateToken } = require('../../controllers/token');
+const { generateToken } = require('./../controllers/token');
 
 module.exports.clearSessions = async () => Session.remove({});
 
@@ -35,5 +35,6 @@ module.exports.addSkillSet = async (userId, skills) => {
 module.exports.signigUser = async (id) => {
   const users = await User.find({});
   const userId = users[id].id;
-  return generateToken(userId);
+  const token = await generateToken(userId);
+  return `Bearer ${token}`;
 };
