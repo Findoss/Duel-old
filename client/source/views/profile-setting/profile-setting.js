@@ -65,7 +65,7 @@ export default {
 
       this.updateAccountDataNoStore({
         field: 'nickname',
-        data: this.form2.newNickname.value,
+        data: { nickname: this.form2.newNickname.value },
       })
         .then((response) => {
           this.$store.commit('me/SET_NICKNAME', this.form2.newNickname.value); // HUCK
@@ -131,7 +131,7 @@ export default {
       if (avatar !== this.$store.state.me.avatar) {
         this.updateAccountDataNoStore({
           field: 'avatar',
-          data: avatar,
+          data: { avatar },
         })
           .then((response) => {
             this.$store.commit('me/SET_AVATAR', avatar); // HUCK

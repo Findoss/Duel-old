@@ -81,7 +81,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       const { field } = payload;
       const { data } = payload;
-      Http.send('PATCH', `/me/${field}`, { field: data })
+      Http.send('PATCH', `/me/${field}`, data)
         .then((response) => {
           resolve(response);
         })
