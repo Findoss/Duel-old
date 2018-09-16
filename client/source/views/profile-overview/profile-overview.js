@@ -31,8 +31,11 @@ export default {
     skillSet() {
       return this.$store.getters[`${this.moduleStore}/getSkillSet`];
     },
+    routeUserId() {
+      return this.$route.params.userId;
+    },
     isMe() {
-      return this.$route.params.userId == this.myId;
+      return this.routeUserId === this.myId;
     },
     moduleStore() {
       if (this.isMe) return 'me';
