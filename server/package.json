@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "env MODE=develop nodemon ./index.js --watch server/*",
-    "start": "env MODE=production node ./index.js",
+    "start": "MODE=production node ./index.js",
     "test-watch": "nodemon --exec \"npm test\"",
     "test": "clear && env MODE=test mocha --timeout 5000"
   },

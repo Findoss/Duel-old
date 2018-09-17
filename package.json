@@ -13,6 +13,11 @@
   },
   "homepage": "https://github.com/Findoss/Duel#readme",
   "scripts": {
+    "postinstall": "npm run install-client && npm run install-server",
+    "install-client": "cd ./server && npm install",
+    "install-server": "cd ./client && npm install",
+    "start-server": "cd ./server && npm run start",
+    "start-client": "cd ./client && npm run build",
     "build-api": "aglio --theme-variables flatly -i docs/source/api/index.apib -o docs/build/API.html",
     "build-doc": "",
     "build-structure": "tree -I \"node_modules|.git|.vscode\" -a > docs/build/progect-structure.txt",
@@ -23,6 +28,10 @@
     "dev-test-server": "cd ./server && npm run test-watch",
     "dev-test-client": "cd ./client && npm run test:unit",
     "test-api": "dredd docs/source/api/*.apib http://127.0.0.1:3003"
+  },
+  "engines": {
+    "node": "9.9.0",
+    "npm": "5.6.0"
   },
   "dependencies": {},
   "devDependencies": {
