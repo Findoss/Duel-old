@@ -3,27 +3,30 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "vue-cli-service build",
-    "create": "sh ./utils/create.sh",
+    "build": "node --max_old_space_size=400 node_modules/.bin/vue-cli-service build",
+    "build1": "vue-cli-service build",
+    "build-win": "node --max_old_space_size=400 node_modules/@vue/cli-service/bin/vue-cli-service build",
+    "create": "sh utils/create.sh",
+    "postinstall": "npm run build1",
     "dev": "vue-cli-service serve --port 3002",
     "test": "vue-cli-service test:unit",
     "vue-inspect": "vue inspect > ../docs/build/webpack-config.js"
   },
   "dependencies": {
+    "@vue/cli-plugin-babel": "^3.0.3",
+    "@vue/cli-plugin-eslint": "^3.0.3",
+    "@vue/cli-plugin-unit-mocha": "^3.0.3",
+    "@vue/cli-service": "^3.0.3",
+    "@vue/eslint-config-airbnb": "^3.0.3",
+    "@vue/test-utils": "^1.0.0-beta.25",
     "debounce": "^1.2.0",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
+    "vue-template-compiler": "^2.5.17",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.1",
-    "@vue/cli-plugin-eslint": "^3.0.1",
-    "@vue/cli-plugin-unit-mocha": "^3.0.1",
-    "@vue/cli-service": "^3.0.1",
-    "@vue/eslint-config-airbnb": "^3.0.1",
-    "@vue/test-utils": "^1.0.0-beta.20",
-    "chai": "^4.1.2",
-    "vue-template-compiler": "^2.5.17"
+    "chai": "^4.1.2"
   },
   "eslintConfig": {
     "root": true,

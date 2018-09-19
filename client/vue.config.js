@@ -10,7 +10,7 @@ module.exports = {
   outputDir: `${PATHS.build}`,
   configureWebpack: {
     entry: {
-      app: `${PATHS.source}\\main.js`,
+      app: `${PATHS.source}/main.js`,
     },
     output: {
       path: `${PATHS.build}`,
@@ -36,8 +36,8 @@ module.exports = {
       .plugin('html')
       .tap(() => [
         {
-          filename: `${PATHS.build}\\index.html`,
-          template: `${PATHS.statics}\\index.html`,
+          filename: `${PATHS.build}/index.html`,
+          template: `${PATHS.statics}/index.html`,
         },
       ]);
   },

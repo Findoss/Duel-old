@@ -1,6 +1,5 @@
 /* eslint guard-for-in: "error" */
-
-const HOST = 'http://localhost:3001';
+const HOST = `${window.location.origin}/api`;
 
 function request(path, attr) {
   return new Promise((resolve, reject) => {

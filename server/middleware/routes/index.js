@@ -10,15 +10,19 @@ const routeAuth = require('./auth');
 const routeMe = require('./me');
 const routeSkill = require('./skills');
 
+const routerAPI = new Router();
+const routerModules = new Router();
 
-const router = new Router();
+routerAPI.use(
+  '/api',
+  routerModules
+    .use('/static', routeStatics.routes())
+    .use('/skills', routeSkill.routes())
+    .use('/users', routeUsers.routes())
+    .use('/tools', routeTools.routes())
+    .use('/auth', routeAuth.routes())
+    .use('/me', ctrlSession.tokenVerification, routeMe.routes())
+    .routes(),
+);
 
-router
-  .use('/static', routeStatics.routes())
-  .use('/skills', routeSkill.routes())
-  .use('/users', routeUsers.routes())
-  .use('/tools', routeTools.routes())
-  .use('/auth', routeAuth.routes())
-  .use('/me', ctrlSession.tokenVerification, routeMe.routes());
-
-module.exports = () => router.routes();
+module.exports = () => routerAPI.routes();

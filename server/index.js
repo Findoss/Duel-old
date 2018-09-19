@@ -5,6 +5,7 @@ const Koa = require('koa');
 const cors = require('@koa/cors');
 const logger = require('koa-logger');
 const bodyParser = require('koa-bodyparser');
+const client = require('koa-static');
 
 // middleware
 const time = require('./middleware/time');
@@ -22,6 +23,7 @@ require('./controllers/passport');
 async function createApp() {
   const app = new Koa();
 
+  app.use(client('../client/build'));
   app.use(time);
   app.use(cors());
   app.use(headers);
@@ -33,7 +35,7 @@ async function createApp() {
   app.use(routes());
 
   await mongoose.connect(
-    `mongodb://${config.db.host}:${config.db.port}/${config.db.name}`,
+    `mongodb://${config.db.username}:${config.db.password}@${config.db.host}:${config.db.port}/${config.db.name}`,
     { useNewUrlParser: true },
   );
 
