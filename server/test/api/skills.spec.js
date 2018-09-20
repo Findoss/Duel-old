@@ -2,7 +2,7 @@ const config = require('../../config');
 const supertest = require('supertest');
 const helpers = require('../helpers');
 
-const api = supertest(`${config.node.host}:${config.node.port}`);
+const api = supertest(`${config.node.host}:${config.node.port}/api`);
 
 // fake data
 const dataSkills = require('./data/skills.json');

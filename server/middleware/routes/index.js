@@ -10,15 +10,17 @@ const routeAuth = require('./auth');
 const routeMe = require('./me');
 const routeSkill = require('./skills');
 
-
 const router = new Router();
 
 router
+  .prefix('/api')
   .use('/static', routeStatics.routes())
   .use('/skills', routeSkill.routes())
   .use('/users', routeUsers.routes())
   .use('/tools', routeTools.routes())
   .use('/auth', routeAuth.routes())
   .use('/me', ctrlSession.tokenVerification, routeMe.routes());
+
+module.exports = () => router.routes();
 
 module.exports = () => router.routes();
