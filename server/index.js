@@ -33,9 +33,9 @@ async function createApp() {
   app.use(headers);
   app.use(bodyParser());
   app.use(passport.initialize());
+  app.use(sendIndex);
   app.use(serve('../client/build/'));
   app.use(routes.routes());
-  app.use(sendIndex);
   if (config.logger.koa) app.use(logger());
   if (config.logger.koa) app.use(loggerBody);
 
