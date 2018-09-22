@@ -5,6 +5,7 @@ const Koa = require('koa');
 const cors = require('@koa/cors');
 const serve = require('koa-static');
 const logger = require('koa-logger');
+const helmet = require('koa-helmet');
 const passport = require('koa-passport');
 const bodyParser = require('koa-bodyparser');
 
@@ -25,6 +26,7 @@ async function createApp() {
   const app = new Koa();
 
   app.use(error);
+  app.use(helmet());
   app.use(time);
   app.use(cors());
   app.use(headers);
