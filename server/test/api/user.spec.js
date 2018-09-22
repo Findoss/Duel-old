@@ -3,7 +3,7 @@ const { expect } = require('chai');
 const supertest = require('supertest');
 const helpers = require('../helpers');
 
-const api = supertest(`${config.node.host}:${config.node.port}`);
+const api = supertest(`${config.node.host}:${config.node.port}/api`);
 
 // fake data
 const dataUsers = require('./data/users.json');
