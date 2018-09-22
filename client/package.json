@@ -3,11 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "node --max_old_space_size=400 node_modules/.bin/vue-cli-service build",
-    "build1": "vue-cli-service build",
-    "build-win": "node --max_old_space_size=400 node_modules/@vue/cli-service/bin/vue-cli-service build",
+    "build": "vue-cli-service build",
     "create": "sh utils/create.sh",
-    "postinstall": "npm run build1",
+    "postinstall": "npm run build",
     "dev": "vue-cli-service serve --port 3002",
     "test": "vue-cli-service test:unit",
     "vue-inspect": "vue inspect > ../docs/build/webpack-config.js"
