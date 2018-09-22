@@ -13,16 +13,24 @@
   },
   "homepage": "https://github.com/Findoss/Duel#readme",
   "scripts": {
+    "postinstall": "npm run install-server && npm run install-client",
+    "install-client": "cd client && npm install",
+    "install-server": "cd server && npm install",
+    "start": "cd server && npm run start",
     "build-api": "aglio --theme-variables flatly -i docs/source/api/index.apib -o docs/build/API.html",
     "build-doc": "",
     "build-structure": "tree -I \"node_modules|.git|.vscode\" -a > docs/build/progect-structure.txt",
     "dev-server-mock": "drakov -f docs/source/api/*.apib -s docs/source/api/index.apib -p 3001 --watch  --autoOptions --method DELETE --method PATCH --header Authorization --debugMode",
     "dev-api": "aglio --theme-variables slate -i docs/source/api/index.apib --server",
-    "dev-client": "cd ./client && npm run dev",
-    "dev-server": "cd ./server && npm run dev",
-    "dev-test-server": "cd ./server && npm run test-watch",
-    "dev-test-client": "cd ./client && npm run test:unit",
+    "dev-client": "cd client && npm run dev",
+    "dev-server": "cd server && npm run dev",
+    "dev-test-server": "cd server && npm run test-watch",
+    "dev-test-client": "cd client && npm run test:unit",
     "test-api": "dredd docs/source/api/*.apib http://127.0.0.1:3003"
+  },
+  "engines": {
+    "node": "9.9.0",
+    "npm": "5.6.0"
   },
   "dependencies": {},
   "devDependencies": {

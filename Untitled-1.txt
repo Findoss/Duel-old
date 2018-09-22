@@ -1,0 +1,4 @@
+    "postinstall": "npm run install-client && npm run install-server",
+    "install-client": "cd ./server && npm install",
+    "install-server": "cd ./client && npm install",
+    "start-server": "cd ./server && npm run start",

@@ -36,7 +36,7 @@ passport.use(new LocalStrategy(
 passport.use(new JwtStrategy(
   {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: config.JWTKey,
+    secretOrKey: config.JWTKey || 'JWTKey',
     // jsonWebTokenOptions: {
     //   maxAge: '20s',
     // },
