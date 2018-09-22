@@ -8,7 +8,6 @@ const logger = require('koa-logger');
 const helmet = require('koa-helmet');
 const passport = require('koa-passport');
 const bodyParser = require('koa-bodyparser');
-const client = require('koa-static');
 
 // middleware
 const time = require('./middleware/time');
@@ -38,7 +37,6 @@ async function createApp() {
   app.use(routes.routes());
   if (config.logger.koa) app.use(logger());
   if (config.logger.koa) app.use(loggerBody);
-
 
   await mongoose.connect(
     `mongodb://${config.db.username}:${config.db.password}@${config.db.host}:${config.db.port}/${config.db.name}`,
