@@ -3,24 +3,20 @@ const Router = require('koa-router');
 const ctrlSession = require('../../controllers/session');
 
 // routes
-const routeStatics = require('./statics');
+const routeMe = require('./me');
+const routeAuth = require('./auth');
 const routeUsers = require('./users');
 const routeTools = require('./tools');
-const routeAuth = require('./auth');
-const routeMe = require('./me');
 const routeSkill = require('./skills');
+const routeStatics = require('./statics');
 
 const router = new Router();
 
-router
+module.exports = router
   .prefix('/api')
-  .use('/static', routeStatics.routes())
-  .use('/skills', routeSkill.routes())
+  .use('/auth', routeAuth.routes())
   .use('/users', routeUsers.routes())
   .use('/tools', routeTools.routes())
-  .use('/auth', routeAuth.routes())
+  .use('/skills', routeSkill.routes())
+  .use('/static', routeStatics.routes())
   .use('/me', ctrlSession.tokenVerification, routeMe.routes());
-
-module.exports = () => router.routes();
-
-module.exports = () => router.routes();
