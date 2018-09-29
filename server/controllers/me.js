@@ -123,7 +123,7 @@ module.exports.buySkill = async (ctx) => {
   } else throw new ResponseError(400, 'Not enough money or level');
 };
 
-module.exports.addManyInSkillSet = async (ctx) => {
+module.exports.addInSkillSet = async (ctx) => {
   const user = await User.findById(ctx.state.user.id, 'points skillsUnlocked openSlots skillSet');
   const skill = await Skill.findById(ctx.request.body.id, 'points limitCopy');
 
@@ -165,7 +165,7 @@ module.exports.addManyInSkillSet = async (ctx) => {
   } else throw new ResponseError(400, 'ne prosho validat');
 };
 
-module.exports.delManyInSkillSet = async (ctx) => {
+module.exports.delInSkillSet = async (ctx) => {
   const user = await User.findById(ctx.state.user.id, 'points skillSet');
   const skill = await Skill.findById(ctx.request.body.id, 'points');
 
