@@ -1,25 +1,32 @@
 const config = require('../config/index');
 const createLogger = require('concurrency-logger').default;
 
-const reqLogger = (ctx) => {
-  if (config.logger.koa) {
-    return `${ctx.originalUrl}\n${JSON.stringify(ctx.request.body, null, 2)}\n `;
-  }
-  return '';
-};
+const reqLogger = ctx => `${ctx.originalUrl}\n${JSON.stringify(ctx.request.body, null, 2)}\n `;
 
 const resLogger = (ctx) => {
   const log = [];
-  if (config.logger.koa) {
-    if (ctx.type === 'application/json') log.push(JSON.stringify(ctx.body, null, 2));
-    else log.push('index.html');
-    return log.join('\n');
-  }
-  return '';
+  if (ctx.type === 'application/json') {
+    let string = JSON.stringify(ctx.body, null, 2);
+    if (string.length >= 600) {
+      string = string.substr(0, 600);
+      string = string.concat('\n...');
+    }
+    log.push(string);
+    log.push('\n');
+  } else log.push('index.html');
+  return log.join('\n');
 };
 
-
-module.exports = () => createLogger({
+const options = {
   req: reqLogger,
   res: resLogger,
-});
+};
+
+// const options = {};
+
+module.exports = () => {
+  if (config.logger.koa) {
+    return createLogger(options);
+  }
+  return async (ctx, next) => next();
+};
