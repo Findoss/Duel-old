@@ -26,8 +26,6 @@ async function createApp() {
 
   //  REQ   RES
   //   ↓     ↑
-  app.use(error());
-  //   ↓     ↑
   app.use(time());
   //   ↓     ↑
   //   ↓     ↑--------------------------←
@@ -45,6 +43,8 @@ async function createApp() {
   //   ↓     →--------------------------↑
   //   ↓     ↑
   app.use(logger());
+  //   ↓     ↑
+  app.use(error());
   //   ↓     ↑
   //   ↓     ↑--------------------------←
   //   ↓                                ↑
