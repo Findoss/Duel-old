@@ -5,7 +5,7 @@
   "author": "Findoss",
   "license": "MIT",
   "scripts": {
-    "dev": "env MODE=develop nodemon index.js --watch server/*",
+    "dev": "clear && env MODE=develop nodemon index.js --watch server/*",
     "start": "MODE=production node --optimize_for_size --max_old_space_size=460 index.js ",
     "start-win": "env MODE=develop node index.js",
     "test-watch": "nodemon --exec \"npm test\"",
@@ -13,11 +13,11 @@
   },
   "dependencies": {
     "@koa/cors": "^2.2.2",
+    "concurrency-logger": "^2.1.0",
     "jsonwebtoken": "^8.3.0",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",
     "koa-helmet": "^4.0.0",
-    "koa-logger": "^3.2.0",
     "koa-passport": "^4.1.0",
     "koa-router": "^7.4.0",
     "koa-send": "^5.0.0",
