@@ -12,7 +12,7 @@ router
   .patch('/nickname', ctrlMe.setNickname)
   .patch('/password', ctrlMe.setPassword)
   .post('/buyskill', ctrlMe.buySkill)
-  .post('/skillset', ctrlMe.addManyInSkillSet)
-  .delete('/skillset', ctrlMe.delManyInSkillSet);
+  .post('/skillset', ctrlMe.addInSkillSet)
+  .delete('/skillset', ctrlMe.delInSkillSet);
 
 module.exports = router;

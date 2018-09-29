@@ -4,19 +4,17 @@ const config = require('./config/index');
 const Koa = require('koa');
 const cors = require('@koa/cors');
 const serve = require('koa-static');
-const logger = require('koa-logger');
 const helmet = require('koa-helmet');
 const passport = require('koa-passport');
 const bodyParser = require('koa-bodyparser');
-const client = require('koa-static');
 
 // middleware
 const time = require('./middleware/time');
 const error = require('./middleware/error');
-const routes = require('./middleware/routes/index.js');
+const logger = require('./middleware/logger');
+const routes = require('./middleware/routes');
 const headers = require('./middleware/headers');
 const sendIndex = require('./middleware/sendIndex');
-const loggerBody = require('./middleware/loggerBody');
 
 // db
 const mongoose = require('mongoose');
@@ -26,18 +24,41 @@ require('./controllers/passport');
 async function createApp() {
   const app = new Koa();
 
-  app.use(error);
-  app.use(helmet());
-  app.use(time);
-  app.use(cors());
-  app.use(headers);
-  app.use(bodyParser());
-  app.use(passport.initialize());
-  app.use(sendIndex);
-  app.use(serve('../client/build/'));
-  app.use(routes.routes());
-  if (config.logger.koa) app.use(logger());
-  if (config.logger.koa) app.use(loggerBody);
+  //  REQ   RES
+  //   ↓     ↑
+  app.use(time());
+  //   ↓     ↑
+  //   ↓     ↑--------------------------←
+  //   ↓                                ↑
+  app.use(cors());//                    ↑
+  //   ↓                                ↑
+  app.use(helmet());//                  ↑
+  //   ↓                                ↑
+  app.use(headers());//                 ↑
+  //   ↓                                ↑
+  app.use(passport.initialize());//     ↑
+  //   ↓                                ↑
+  app.use(bodyParser());//              ↑
+  //   ↓                                ↑
+  //   ↓     →--------------------------↑
+  //   ↓     ↑
+  app.use(logger());
+  //   ↓     ↑
+  app.use(error());
+  //   ↓     ↑
+  //   ↓     ↑--------------------------←
+  //   ↓                                ↑
+  app.use(serve('../client/build/'));// ↑
+  //  err    ok                         ↑
+  //   ↓     →--------------------------↑
+  //   ↓                                ↑
+  app.use(routes.routes());//           ↑
+  //  err    ok                         ↑
+  //   ↓     →--------------------------↑
+  //   ↓                                ↑
+  app.use(sendIndex());//               ↑
+  //   ↓                                ↑
+  //   →--------------------------------↑
 
 
   await mongoose.connect(
