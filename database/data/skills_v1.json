@@ -1,4 +1,91 @@
-{"_id":{"$oid":"5b955314977bd66e0b6a8768"},"title":"Magic Square","author":"Findoss","description":"The effect of the skill is expressed in the collection from the playing field of the runes in a square area of 3x3, specified by you","duration":{"$numberInt":"1"},"cooldown":{"$numberInt":"2"},"changeTurn":true,"triggeringEvent":"at once","resources":{"energy_1":{"$numberInt":"2"},"energy_2":{"$numberInt":"4"},"energy_3":{"$numberInt":"4"}},"points":{"$numberInt":"3"},"priceInGold":{"$numberInt":"150"},"minLevel":{"$numberInt":"0"},"limitCopy":{"$numberInt":"3"}}
-{"_id":{"$oid":"5b955316977bd66e0b6a876f"},"title":"Lightning","author":"Findoss","description":"Inflicts lightning damage to an enemy","duration":{"$numberInt":"1"},"icon":{"$numberInt":"2"},"cooldown":{"$numberInt":"1"},"changeTurn":false,"triggeringEvent":"at once","resources":{"energy_1":{"$numberInt":"2"},"energy_2":{"$numberInt":"2"},"energy_3":{"$numberInt":"2"}},"points":{"$numberInt":"3"},"priceInGold":{"$numberInt":"100"},"minLevel":{"$numberInt":"0"},"limitCopy":{"$numberInt":"2"}}
-{"_id":{"$oid":"5b95531a977bd66e0b6a8782"},"title":"Evolution","author":"Findoss","icon":{"$numberInt":"3"},"description":"Increases the positive effect of your random skill until the end of the fight.","duration":{"$numberInt":"1"},"cooldown":{"$numberInt":"3"},"changeTurn":false,"triggeringEvent":"when сhanging еhe stroke","resources":{"energy_1":{"$numberInt":"2"},"energy_2":{"$numberInt":"7"},"energy_3":{"$numberInt":"2"}},"points":{"$numberInt":"4"},"priceInGold":{"$numberInt":"70"},"minLevel":{"$numberInt":"3"},"limitCopy":{"$numberInt":"8"},"modifiers":{"force":{"$numberInt":"2"},"block":{"$numberInt":"7"}}}
-{"_id":{"$oid":"5bae75013dce25479c507714"},"title":"More skill","author":"author Findoss","description":"Inflicts lightning damage to an enemy Inflicts lightning damage to an enemy Inflicts lightning damage to an enemy Inflicts lightning damage to an enemy","duration":{"$numberInt":"2"},"icon":{"$numberInt":"3"},"cooldown":{"$numberInt":"1"},"changeTurn":false,"triggeringEvent":"at once","resources":{"energy_1":{"$numberInt":"1"},"energy_2":{"$numberInt":"2"},"energy_3":{"$numberInt":"3"}},"points":{"$numberInt":"4"},"priceInGold":{"$numberInt":"65"},"minLevel":{"$numberInt":"1"},"limitCopy":{"$numberInt":"5"}}
+{
+	"_id": {
+		"$oid": "5b955314977bd66e0b6a8768"
+	},
+	"title": "Magic Square",
+	"author": "Findoss",
+	"description": "The effect of the skill is expressed in the collection from the playing field of the runes in a square area of 3x3, specified by you",
+	"duration": 1,
+	"cooldown": 2,
+	"changeTurn": true,
+	"triggeringEvent": "at once",
+	"resources": {
+		"energy_1": 2,
+		"energy_2": 4,
+		"energy_3": 4
+	},
+	"points": 3,
+	"priceInGold": 150,
+	"minLevel": 0,
+	"limitCopy": 3
+}
+{
+	"_id": {
+		"$oid": "5b955316977bd66e0b6a876f"
+	},
+	"title": "Lightning",
+	"author": "Findoss",
+	"description": "Inflicts lightning damage to an enemy",
+	"duration": 1,
+	"icon": 2,
+	"cooldown": 1,
+	"changeTurn": false,
+	"triggeringEvent": "at once",
+	"resources": {
+		"energy_1": 2,
+		"energy_2": 2,
+		"energy_3": 2
+	},
+	"points": 3,
+	"priceInGold": 100,
+	"minLevel": 0,
+	"limitCopy": 2
+}
+{
+	"_id": {
+		"$oid": "5b95531a977bd66e0b6a8782"
+	},
+	"title": "Evolution",
+	"author": "Findoss",
+	"icon": 3,
+	"description": "Increases the positive effect of your random skill until the end of the fight.",
+	"duration": 1,
+	"cooldown": 3,
+	"changeTurn": false,
+	"triggeringEvent": "when сhanging еhe stroke",
+	"resources": {
+		"energy_1": 2,
+		"energy_2": 7,
+		"energy_3": 2
+	},
+	"points": 4,
+	"priceInGold": 70,
+	"minLevel": 3,
+	"limitCopy": 8,
+	"modifiers": {
+		"force": 2,
+		"block": 7
+	}
+}
+{
+	"_id": {
+		"$oid": "5bae75013dce25479c507714"
+	},
+	"title": "More skill",
+	"author": "author Findoss",
+	"description": "Inflicts lightning damage to an enemy Inflicts lightning damage to an enemy Inflicts lightning damage to an enemy Inflicts lightning damage to an enemy",
+	"duration": 2,
+	"icon": 3,
+	"cooldown": 1,
+	"changeTurn": false,
+	"triggeringEvent": "at once",
+	"resources": {
+		"energy_1": 1,
+		"energy_2": 2,
+		"energy_3": 3
+	},
+	"points": 4,
+	"priceInGold": 65,
+	"minLevel": 1,
+	"limitCopy": 5
+}
