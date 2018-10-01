@@ -4,11 +4,12 @@ const User = require('../models/user');
 
 module.exports.userCreate = async (ctx) => {
   try {
-    await User
-      .create(ctx.request.body)
-      .then(() => {
+    await User.create(ctx.request.body)
+      .then((user) => {
         ctx.status = 201;
         ctx.response.body = {
+          id: user.id,
+          nickname: user.nickname,
           message: 'Accaunt has been created',
         };
       });
