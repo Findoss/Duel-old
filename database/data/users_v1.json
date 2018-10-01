@@ -16,13 +16,13 @@
   "password": "PASSWORD_USER_1"
 }
 {
-  "_id": { "$oid": "5bb230e31ce12b665c48f3a5" },
+  "_id": { "$oid": "5bb230e31ce12b665c48f3a1" },
   "gold": 70,
-  "points": 0,
+  "points": 25,
   "avatar": "null",
   "email": "EMAIL_USER_2@EMAIL.COM",
   "karma": 1,
-  "experience": 55,
+  "experience": 370,
   "rank": 2105,
   "limitSlots": 8,
   "openSlots": 3,
@@ -30,4 +30,20 @@
   "skillsUnlocked": [],
   "nickname": "NICKNAME_USER_2",
   "password": "PASSWORD_USER_2"
+}
+{
+  "_id": { "$oid": "5bb230e31ce12b665c48f3a0" },
+  "gold": 60,
+  "points": 10,
+  "avatar": "null",
+  "email": "EMAIL_USER_3@EMAIL.COM",
+  "karma": 1,
+  "experience": 25,
+  "rank": 1200,
+  "limitSlots": 8,
+  "openSlots": 5,
+  "skillSet": [],
+  "skillsUnlocked": [],
+  "nickname": "NICKNAME_USER_3",
+  "password": "PASSWORD_USER_3"
 }

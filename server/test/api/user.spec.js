@@ -87,7 +87,7 @@ describe('USER API', () => {
         .get('/users')
         .query({ skip: 2, limit: 1 })
         .expect((res) => {
-          expect(res.body[0].nickname).to.have.string('admin_gold');
+          expect(res.body[0].nickname).to.have.string('NICKNAME_USER_3');
         })
         .expect(200);
     });

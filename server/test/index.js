@@ -14,5 +14,5 @@ describe('TESTS', () => {
   });
 
   require('./api/index');
-  require('./scenarios');
+  // require('./scenarios');
 });
