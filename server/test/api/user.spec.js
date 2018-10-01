@@ -51,7 +51,7 @@ describe('USER API', () => {
   //     .expect(400);
   // });
 
-  describe('заполняем базу - users.json', async () => {
+  describe('заполняем базу - users_v1.json', async () => {
     beforeEach(async () => {
       await helpers.loadCollection('users', '../database/data/users_v1.json');
     });
@@ -96,7 +96,7 @@ describe('USER API', () => {
       // игнорируем плохие фильтры и отдаем топ-10
       await api
         .get('/users')
-        .query({ skip: 'a', limt: 1 })
+        .query({ skip: 'a', limt: 'b' })
         .expect(200);
     });
   });

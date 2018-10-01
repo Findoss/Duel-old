@@ -8,7 +8,7 @@ describe('SKILLS API', () => {
   after(() => console.log());
 
   beforeEach(async () => {
-    await helpers.clearSkill();
+    await helpers.clearSkills();
   });
 
   it('получить информацию о всех умениях (в базе нет умений)', async () => {
@@ -17,7 +17,7 @@ describe('SKILLS API', () => {
       .expect(404);
   });
 
-  describe('заполняем базу - skills.json', () => {
+  describe('заполняем базу - skills_v1.json', () => {
     beforeEach(async () => {
       await helpers.loadCollection('skills', '../database/data/skills_v1.json');
     });
