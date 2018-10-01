@@ -6,7 +6,6 @@ const helpers = require('../helpers');
 const api = supertest(`${config.node.host}:${config.node.port}/api`);
 
 // fake data
-const dataUsers = require('./data/users.json');
 const dataNewUser = require('./data/new_users.json');
 
 describe('USER API', () => {
@@ -28,13 +27,6 @@ describe('USER API', () => {
       .expect(400);
   });
 
-  it('получить пользователя по id', async () => {
-    const newUser = await helpers.loadUsers(dataUsers[0]);
-    await api
-      .get(`/users/${newUser.id}`)
-      .expect(200);
-  });
-
   it('получить список пользователей (в базе нет пользователей)', async () => {
     await api
       .get('/users')
@@ -44,7 +36,10 @@ describe('USER API', () => {
   it('регистрация пользователя', async () => {
     await api
       .post('/users')
-      .send(dataNewUser[2])
+      .send(dataNewUser[0])
+      .expect((res) => {
+        expect(res.body.nickname).to.have.string('NEW_USER_1');
+      })
       .expect(201);
   });
 
@@ -58,13 +53,26 @@ describe('USER API', () => {
 
   describe('заполняем базу - users.json', async () => {
     beforeEach(async () => {
-      await helpers.loadUsers(dataUsers);
+      await helpers.loadCollection('users', '../database/data/users_v1.json');
     });
 
-    it('регистрация пользователя (ник или почта уже занят)', async () => {
+    it('получить пользователя по id', async () => {
+      await api
+        .get('/users/5bb230e31ce12b665c48f3a2')
+        .expect(200);
+    });
+
+    it('регистрация пользователя (ник уже занят)', async () => {
       await api
         .post('/users')
-        .send(dataNewUser[0])
+        .send(dataNewUser[1])
+        .expect(400);
+    });
+
+    it('регистрация пользователя (почта уже занята)', async () => {
+      await api
+        .post('/users')
+        .send(dataNewUser[2])
         .expect(400);
     });
 
