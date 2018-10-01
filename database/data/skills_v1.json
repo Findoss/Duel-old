@@ -89,3 +89,69 @@
 	"minLevel": 1,
 	"limitCopy": 5
 }
+{
+	"_id": {
+		"$oid": "5bae75013dce25479c507740"
+	},
+	"title": "Expensive skill",
+	"author": "author Findoss",
+	"description": "enemy",
+	"duration": 2,
+	"icon": 3,
+	"cooldown": 1,
+	"changeTurn": false,
+	"triggeringEvent": "at once",
+	"resources": {
+		"energy_1": 1,
+		"energy_2": 2,
+		"energy_3": 3
+	},
+	"points": 4,
+	"priceInGold": 3000,
+	"minLevel": 1,
+	"limitCopy": 5
+}
+{
+	"_id": {
+		"$oid": "5bae75013dce25479c507741"
+	},
+	"title": "High lvl skill",
+	"author": "author Findoss",
+	"description": "Inflicts lightning damage to an enemy Inflicts lightning damage to an enemy Inflicts lightning damage to an enemy Inflicts lightning damage to an enemy",
+	"duration": 2,
+	"icon": 3,
+	"cooldown": 1,
+	"changeTurn": false,
+	"triggeringEvent": "at once",
+	"resources": {
+		"energy_1": 3,
+		"energy_2": 2,
+		"energy_3": 1
+	},
+	"points": 4,
+	"priceInGold": 6500,
+	"minLevel": 60,
+	"limitCopy": 6
+}
+{
+	"_id": {
+		"$oid": "5bae75013dce25479c507745"
+	},
+	"title": "High points skill",
+	"author": "author Findoss",
+	"description": "Iemy Inflicts lightningage to an enemy",
+	"duration": 2,
+	"icon": 3,
+	"cooldown": 1,
+	"changeTurn": false,
+	"triggeringEvent": "at once",
+	"resources": {
+		"energy_1": 3,
+		"energy_2": 2,
+		"energy_3": 1
+	},
+	"points": 400,
+	"priceInGold": 60,
+	"minLevel": 60,
+	"limitCopy": 5
+}
