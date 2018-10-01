@@ -1,18 +1,28 @@
+const config = require('../config');
+const { exec } = require('child_process');
+
 // models
 const User = require('./../models/user');
 const Session = require('./../models/session');
 const Skill = require('./../models/skill');
 
+// const
+const mongoImport = `mongoimport -d ${config.db.name}`;
+
 // controllers
 const { generateToken } = require('./../controllers/token');
 
-module.exports.clearSessions = async () => Session.remove({});
+const cmd = command => new Promise((res, rej) => exec(command, err => (err ? rej(err) : res())));
+
+
+module.exports.loadCollection = async (collection, file) => cmd(`${mongoImport} -c ${collection} --file ${file}`);
 
 module.exports.clearUsers = async () => User.remove({});
-module.exports.loadUsers = async users => User.create(users);
+module.exports.clearSkill = async () => Skill.remove({});
+module.exports.clearSessions = async () => Session.remove({});
 
-module.exports.clearSkills = async () => Skill.remove({});
-module.exports.loadSkills = async skills => Skill.create(skills);
+
+// todo
 
 module.exports.buySkills = async (userId, skills) => {
   const users = await User.find({});
