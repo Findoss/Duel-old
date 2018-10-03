@@ -81,8 +81,6 @@ const actions = {
   },
 
   signOut({ commit, dispatch }) {
-    commit('DEL_MY_ID', undefined, { root: true });
-    localStorage.removeItem('session-token');
     Http.send('DELETE', '/auth/signout')
       .then((response) => {
         dispatch('showAlertSignin', {
@@ -96,6 +94,10 @@ const actions = {
           type: 'error',
           message: error.message,
         });
+      })
+      .finally(() => {
+        commit('DEL_MY_ID', undefined, { root: true });
+        localStorage.removeItem('session-token');
       });
   },
 };
