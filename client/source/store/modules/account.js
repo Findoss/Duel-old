@@ -87,7 +87,6 @@ const actions = {
           type: 'info',
           message: response.message,
         });
-        Router.push({ path: '/signin' });
       })
       .catch((error) => {
         dispatch('showAlertSignin', {
@@ -98,6 +97,7 @@ const actions = {
       .finally(() => {
         commit('DEL_MY_ID', undefined, { root: true });
         localStorage.removeItem('session-token');
+        Router.push({ path: '/signin' });
       });
   },
 };
