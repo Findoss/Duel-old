@@ -19,7 +19,7 @@ module.exports.signin = async (ctx, next) => {
   await next();
 };
 
-module.exports.signout = async function signout(ctx, next) {
+module.exports.signout = async (ctx, next) => {
   if (ctx.isAuthenticated()) {
     await Token.deleteKey(ctx.state.user.id);
     ctx.response.body = {
