@@ -4,17 +4,21 @@ const User = require('../models/user');
 
 module.exports.userCreate = async (ctx) => {
   try {
-    await User.create(ctx.request.body)
-      .then((user) => {
-        ctx.status = 201;
-        ctx.response.body = {
-          id: user.id,
-          nickname: user.nickname,
-          message: 'Accaunt has been created',
-        };
-      });
+    const newUser = new User();
+    newUser.nickname = ctx.request.body.nickname;
+    newUser.email = ctx.request.body.email.toLowerCase();
+    newUser.setPassword(ctx.request.body.password);
+
+    const user = await newUser.save();
+
+    ctx.status = 201;
+    ctx.response.body = {
+      id: user.id,
+      nickname: user.nickname,
+      message: 'Accaunt has been created',
+    };
   } catch (error) {
-    throw new ResponseError(400, 'Invalid user params');
+    throw new ResponseError(400, 'Invalid user param');
   }
 };
 

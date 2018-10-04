@@ -1,5 +1,7 @@
+const crypto = require('crypto');
 const mongoose = require('mongoose');
 const mongooseHidden = require('mongoose-hidden')();
+
 const Levels = require('../static/levels.json');
 
 const userSchema = new mongoose.Schema({
@@ -18,11 +20,13 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
     default: 'null',
+    lowercase: true,
   },
   email: {
     type: String,
-    default: 'email',
     unique: true,
+    required: true,
+    lowercase: true,
   },
   karma: {
     type: Number,
@@ -50,8 +54,12 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
   password: {
-    type: String,
-    required: true,
+    salt: {
+      type: String,
+    },
+    hash: {
+      type: String,
+    },
   },
   openSlots: {
     type: Number,
@@ -75,17 +83,22 @@ userSchema.set('toObject', {
   virtuals: true,
 });
 
-userSchema.virtual('level').get(function () {
-  const level = Levels.findIndex(experience => this.experience < experience);
-  return level;
-});
+userSchema.virtual('level')
+  .get(function () {
+    const level = Levels.findIndex(experience => this.experience < experience);
+    return level;
+  });
 
 userSchema.plugin(mongooseHidden);
 
-// userSchema.methods.checkPassword = function (password) {
-//   if (!password) return false;
-//   if (!this.passwordHash) return false;
-//   return crypto.pbkdf2Sync(password, this.salt, 1, 128, 'sha1') == this.passwordHash;
-// };
+userSchema.methods.setPassword = function (password) {
+  this.password.salt = crypto.randomBytes(16).toString('hex');
+  this.password.hash = crypto.pbkdf2Sync(password, this.password.salt, 128, 64, 'sha256').toString('hex');
+};
+
+userSchema.methods.checkPassword = function (password) {
+  const hash = crypto.pbkdf2Sync(password, this.password.salt, 128, 64, 'sha256').toString('hex');
+  return this.password.hash === hash;
+};
 
 module.exports = mongoose.model('User', userSchema);
