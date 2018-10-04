@@ -38,6 +38,7 @@ module.exports = {
         {
           filename: `${PATHS.build}/index.html`,
           template: `${PATHS.statics}/index.html`,
+          favicon: `${PATHS.statics}/favicon.ico`,
         },
       ]);
   },

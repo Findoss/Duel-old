@@ -28,7 +28,7 @@
     "dev-test-client": "cd client && npm run test:unit",
     "db-dump": "",
     "db-export": "sh database/scripts/export.sh",
-    "log-remote": "heroku logs --tail --a wwqq",
+    "log-remote": "heroku logs --tail -a wwqq",
     "test-api": "dredd docs/source/api/*.apib http://127.0.0.1:3003"
   },
   "engines": {

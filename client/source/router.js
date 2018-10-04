@@ -27,6 +27,12 @@ const router = new Router({
   mode: 'history',
   routes: [
     {
+      path: '/',
+      name: 'root',
+      component: Signin,
+      meta: { goProfile: true },
+    },
+    {
       path: '/signin',
       name: 'signin',
       component: Signin,
@@ -95,12 +101,10 @@ router.beforeEach((to, from, next) => {
       message: 'Please login to view this page.',
     });
     next({ path: '/signin' });
-    return false;
   }
 
   if (goProfile && SessionService.isLogin()) {
     next({ path: `/${store.getters.myId}` });
-    return false;
   }
 
   next();
