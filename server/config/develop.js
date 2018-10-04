@@ -4,7 +4,7 @@ module.exports = {
     port: 27017,
     username: '',
     password: '',
-    name: 'test_dev_v1',
+    name: 'test_dev_v2',
   },
   node: {
     host: 'localhost',
