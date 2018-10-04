@@ -4,9 +4,10 @@ const helpers = require('../helpers');
 
 const api = supertest(`${config.node.host}:${config.node.port}/api`);
 
-describe('SKILLS API', () => {
-  after(() => console.log());
+// fake data
+const EJSON_SKILLS = '../database/data/skills.json';
 
+describe('SKILLS API', () => {
   beforeEach(async () => {
     await helpers.clearSkills();
   });
@@ -17,9 +18,9 @@ describe('SKILLS API', () => {
       .expect(404);
   });
 
-  describe('заполняем базу - skills_v1.json', () => {
+  describe(`заполняем базу - ${EJSON_SKILLS}`, () => {
     beforeEach(async () => {
-      await helpers.loadCollection('skills', '../database/data/skills_v1.json');
+      await helpers.loadCollection('skills', EJSON_SKILLS);
     });
 
     it('получить информацию о всех умениях', async () => {
@@ -46,4 +47,6 @@ describe('SKILLS API', () => {
         .expect(400);
     });
   });
+
+  after(() => console.log());
 });

@@ -6,15 +6,15 @@ const helpers = require('../helpers');
 const api = supertest(`${config.node.host}:${config.node.port}/api`);
 
 // fake data
-const dataUsers = require('./data/users.json');
+const EJSON_SESSIONS = '../database/data/sessions.json';
+const EJSON_USERS = '../database/data/users.json';
+const EJSON_SKILLS = '../database/data/skills.json';
 const { token, userId } = require('./data/current_user.json');
 
 describe('ME API', () => {
-  after(() => console.log());
-
   beforeEach(async () => {
-    await helpers.loadCollection('users', '../database/data/users_v1.json');
-    await helpers.loadCollection('skills', '../database/data/skills_v1.json');
+    await helpers.loadCollection('users', EJSON_USERS);
+    await helpers.loadCollection('skills', EJSON_SKILLS);
   });
 
   afterEach(async () => {
@@ -23,9 +23,9 @@ describe('ME API', () => {
     await helpers.clearSessions();
   });
 
-  describe('выполняем вход - #8f3a2', () => {
+  describe(`выполняем вход - ${EJSON_SESSIONS}`, () => {
     beforeEach(async () => {
-      await helpers.loadCollection('sessions', '../database/data/sessions_v1.json');
+      await helpers.loadCollection('sessions', EJSON_SESSIONS);
     });
 
     it('получение информации о своем аккаунте', async () => {
@@ -88,7 +88,7 @@ describe('ME API', () => {
         .patch('/me/password')
         .set('Authorization', token)
         .send({
-          oldPassword: dataUsers[0].password,
+          oldPassword: 'PASSWORD_USER_1',
           newPassword: 'NEW_PASSWORD_USER',
         })
         .expect(200);
@@ -269,4 +269,6 @@ describe('ME API', () => {
         .expect(200);
     });
   });
+
+  after(() => console.log());
 });

@@ -17,9 +17,6 @@ module.exports.clearUsers = async () => User.remove({});
 module.exports.clearSkills = async () => Skill.remove({});
 module.exports.clearSessions = async () => Session.remove({});
 
-
-// todo
-
 module.exports.buySkills = async (userId, ...skillsId) => {
   await User.findByIdAndUpdate(
     userId,
@@ -31,5 +28,26 @@ module.exports.addSkillSet = async (userId, ...skillsId) => {
   await User.findByIdAndUpdate(
     userId,
     { $push: { skillSet: skillsId } },
+  );
+};
+
+module.exports.addGold = async (userId, count) => {
+  await User.findByIdAndUpdate(
+    userId,
+    { $set: { gold: count } },
+  );
+};
+
+module.exports.addPoint = async (userId, count) => {
+  await User.findByIdAndUpdate(
+    userId,
+    { $set: { points: count } },
+  );
+};
+
+module.exports.openSlot = async (userId, count) => {
+  await User.findByIdAndUpdate(
+    userId,
+    { $set: { openSlot: count } },
   );
 };
