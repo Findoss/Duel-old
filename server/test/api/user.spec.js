@@ -6,12 +6,13 @@ const helpers = require('../helpers');
 const api = supertest(`${config.node.host}:${config.node.port}/api`);
 
 // fake data
+const EJSON_USERS = '../database/data/users.json';
 const dataNewUser = require('./data/new_users.json');
 
 describe('USER API', () => {
   after(() => console.log());
 
-  beforeEach(async () => {
+  afterEach(async () => {
     await helpers.clearUsers();
   });
 
@@ -43,7 +44,7 @@ describe('USER API', () => {
       .expect(201);
   });
 
-  // todo НЕТ ВАЛИДАЦИИ ТЕСТ ПАДАЕТ #100
+  // // todo НЕТ ВАЛИДАЦИИ ТЕСТ ПАДАЕТ #100
   // it('регистрация пользователя (не корректные параметры)', () => {
   //   api
   //     .post('/users')
@@ -51,9 +52,9 @@ describe('USER API', () => {
   //     .expect(400);
   // });
 
-  describe('заполняем базу - users_v1.json', async () => {
+  describe(`заполняем базу - ${EJSON_USERS}`, async () => {
     beforeEach(async () => {
-      await helpers.loadCollection('users', '../database/data/users_v1.json');
+      await helpers.loadCollection('users', EJSON_USERS);
     });
 
     it('получить пользователя по id', async () => {

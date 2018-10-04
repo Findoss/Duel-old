@@ -6,15 +6,14 @@ const helpers = require('../helpers');
 const api = supertest(`${config.node.host}:${config.node.port}/api`);
 
 // fake data
+const EJSON_USERS = '../database/data/users.json';
+const EJSON_SESSIONS = '../database/data/sessions.json';
+
 const dataUsers = require('./data/users.json');
 const { token } = require('./data/current_user.json');
 
 describe('AUTHORIZATION API', () => {
-  after(() => console.log());
-
-  beforeEach(async () => {
-    await helpers.loadCollection('users', '../database/data/users_v1.json');
-  });
+  beforeEach(async () => helpers.loadCollection('users', EJSON_USERS));
 
   afterEach(async () => {
     await helpers.clearUsers();
@@ -66,10 +65,8 @@ describe('AUTHORIZATION API', () => {
       .expect(403);
   });
 
-  describe('выполняем вход - #8f3a2', async () => {
-    beforeEach(async () => {
-      await helpers.loadCollection('sessions', '../database/data/sessions_v1.json');
-    });
+  describe(`выполняем вход - ${EJSON_SESSIONS}`, async () => {
+    beforeEach(async () => helpers.loadCollection('sessions', EJSON_SESSIONS));
 
     it('выйти с аккаунта', async () => {
       await api
@@ -85,4 +82,6 @@ describe('AUTHORIZATION API', () => {
         .expect(200);
     });
   });
+
+  after(() => console.log());
 });
