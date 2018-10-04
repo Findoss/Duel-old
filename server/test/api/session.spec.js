@@ -6,14 +6,14 @@ const helpers = require('../helpers');
 const api = supertest(`${config.node.host}:${config.node.port}/api`);
 
 // fake data
-const dataNewUser = require('./data/new_users.json');
+const EJSON_USERS = '../database/data/users.json';
+const EJSON_SESSIONS = '../database/data/sessions.json';
+
+const dataUsers = require('./data/users.json');
+const { token } = require('./data/current_user.json');
 
 describe('AUTHORIZATION API', () => {
-  after(() => console.log());
-
-  beforeEach(async () => {
-    await helpers.loadUsers(dataNewUser[1]);
-  });
+  beforeEach(async () => helpers.loadCollection('users', EJSON_USERS));
 
   afterEach(async () => {
     await helpers.clearUsers();
@@ -23,7 +23,7 @@ describe('AUTHORIZATION API', () => {
   it('зайти через почту и пароль', async () => {
     await api
       .post('/auth/signin')
-      .send(dataNewUser[1])
+      .send(dataUsers[0])
       .expect((res) => {
         expect(res.body.token).to.be.a('string');
       })
@@ -33,7 +33,7 @@ describe('AUTHORIZATION API', () => {
   it('зайти через почту и пароль (не верный логин или пароль)', async () => {
     await api
       .post('/auth/signin')
-      .send(dataNewUser[2])
+      .send(dataUsers[1])
       .expect(403);
   });
 
@@ -65,12 +65,8 @@ describe('AUTHORIZATION API', () => {
       .expect(403);
   });
 
-  describe('выполняем вход - user 0', async () => {
-    let token = '';
-
-    beforeEach(async () => {
-      token = await helpers.signigUser(0);
-    });
+  describe(`выполняем вход - ${EJSON_SESSIONS}`, async () => {
+    beforeEach(async () => helpers.loadCollection('sessions', EJSON_SESSIONS));
 
     it('выйти с аккаунта', async () => {
       await api
@@ -86,4 +82,6 @@ describe('AUTHORIZATION API', () => {
         .expect(200);
     });
   });
+
+  after(() => console.log());
 });

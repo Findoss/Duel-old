@@ -6,14 +6,15 @@ const helpers = require('../helpers');
 const api = supertest(`${config.node.host}:${config.node.port}/api`);
 
 // fake data
-const dataUsers = require('./data/users.json');
-const dataSkills = require('./data/skills.json');
+const EJSON_SESSIONS = '../database/data/sessions.json';
+const EJSON_USERS = '../database/data/users.json';
+const EJSON_SKILLS = '../database/data/skills.json';
+const { token, userId } = require('./data/current_user.json');
 
 describe('ME API', () => {
-  after(() => console.log());
-
   beforeEach(async () => {
-    await helpers.loadUsers(dataUsers);
+    await helpers.loadCollection('users', EJSON_USERS);
+    await helpers.loadCollection('skills', EJSON_SKILLS);
   });
 
   afterEach(async () => {
@@ -22,11 +23,9 @@ describe('ME API', () => {
     await helpers.clearSessions();
   });
 
-  describe('выполняем вход - user 0', () => {
-    let token = '';
-
+  describe(`выполняем вход - ${EJSON_SESSIONS}`, () => {
     beforeEach(async () => {
-      token = await helpers.signigUser(0);
+      await helpers.loadCollection('sessions', EJSON_SESSIONS);
     });
 
     it('получение информации о своем аккаунте', async () => {
@@ -89,7 +88,7 @@ describe('ME API', () => {
         .patch('/me/password')
         .set('Authorization', token)
         .send({
-          oldPassword: dataUsers[0].password,
+          oldPassword: 'PASSWORD_USER_1',
           newPassword: 'NEW_PASSWORD_USER',
         })
         .expect(200);
@@ -106,156 +105,170 @@ describe('ME API', () => {
         .expect(403);
     });
 
-    it('покупка умения', async () => {
-      const { id } = await helpers.loadSkills(dataSkills[0]);
-
+    it('покупка умения - #a8768', async () => {
       await api
         .post('/me/buyskill')
         .set('Authorization', token)
-        .send({ id })
+        .send({ id: '5b955314977bd66e0b6a8768' })
         .expect(200);
     });
 
-    it('покупка умения (не достаточный уровень, надо 60)', async () => {
-      const { id } = await helpers.loadSkills(dataSkills[2]);
-
+    it('покупка умения - #07741 (не достаточный уровень, надо 60)', async () => {
       await api
         .post('/me/buyskill')
         .set('Authorization', token)
-        .send({ id })
+        .send({ id: '5bae75013dce25479c507741' })
         .expect(400);
     });
 
-    it('покупка умения (не достаточно денег, надо 3000)', async () => {
-      const { id } = await helpers.loadSkills(dataSkills[1]);
-
+    it('покупка умения - #07740 (не достаточно денег, надо 3000)', async () => {
       await api
         .post('/me/buyskill')
         .set('Authorization', token)
-        .send({ id })
+        .send({ id: '5bae75013dce25479c507740' })
         .expect(400);
     });
 
-    it('добавление умения в набор умений', async () => {
-      const skills = await helpers.loadSkills(dataSkills);
-      await helpers.buySkills(0, skills);
+    it('добавление умения - #07714 в набор умений', async () => {
+      await helpers.buySkills(
+        userId,
+        '5bae75013dce25479c507714',
+      );
 
       await api
         .post('/me/skillset')
         .set('Authorization', token)
-        .send({ id: skills[0].id })
+        .send({ id: '5bae75013dce25479c507714' })
         .expect(200);
     });
 
-    it('добавление умения в набор умений (несколько одинаковых)', async () => {
-      const skills = await helpers.loadSkills(dataSkills);
-      await helpers.buySkills(0, skills);
+    it('добавление умения - #07714 в набор умений (несколько одинаковых)', async () => {
+      await helpers.buySkills(
+        userId,
+        '5bae75013dce25479c507714',
+      );
 
       await api
         .post('/me/skillset')
         .set('Authorization', token)
-        .send({ id: skills[0].id })
+        .send({ id: '5bae75013dce25479c507714' })
         .expect(200);
 
       await api
         .post('/me/skillset')
         .set('Authorization', token)
-        .send({ id: skills[0].id })
+        .send({ id: '5bae75013dce25479c507714' })
         .expect(200);
     });
 
-    it('добавление умения в набор умений (не достаточно очков)', async () => {
-      const skills = await helpers.loadSkills(dataSkills);
-      await helpers.buySkills(0, skills);
+    it('добавление умения - #07741 в набор умений (не достаточно слотов)', async () => {
+      await helpers.buySkills(
+        userId,
+        '5bae75013dce25479c507741',
+      );
+      await helpers.addSkillSet(
+        userId,
+        '5bae75013dce25479c507741',
+        '5bae75013dce25479c507741',
+        '5bae75013dce25479c507741',
+      );
 
       await api
         .post('/me/skillset')
         .set('Authorization', token)
-        .send({ id: skills[3].id })
+        .send({ id: '5bae75013dce25479c507741' })
         .expect(400);
     });
 
-    it('добавление умения в набор умений (умение не куплено)', async () => {
-      const skills = await helpers.loadSkills(dataSkills);
+    it('добавление умения - #07745 в набор умений (не достаточно очков)', async () => {
+      await helpers.buySkills(
+        userId,
+        '5bae75013dce25479c507745',
+      );
 
       await api
         .post('/me/skillset')
         .set('Authorization', token)
-        .send({ id: skills[1].id })
+        .send({ id: '5bae75013dce25479c507745' })
         .expect(400);
     });
 
-    it('добавление умения в набор умений (не достаточно слотов)', async () => {
-      const skills = await helpers.loadSkills(dataSkills);
-      await helpers.buySkills(0, skills);
-      await helpers.addSkillSet(0, [
-        skills[0],
-        skills[0],
-        skills[0],
-        skills[0],
-        skills[0],
-        skills[0],
-        skills[0],
-      ]);
+    it('добавление умения - #07740 в набор умений (умение не куплено)', async () => {
+      await api
+        .post('/me/skillset')
+        .set('Authorization', token)
+        .send({ id: '5bae75013dce25479c507740' })
+        .expect(400);
+    });
+
+    it('добавление умения - #a876f в набор умений (лимит копий исчерпан)', async () => {
+      await helpers.buySkills(
+        userId,
+        '5b955316977bd66e0b6a876f',
+      );
+      await helpers.addSkillSet(
+        userId,
+        '5b955316977bd66e0b6a876f',
+        '5b955316977bd66e0b6a876f',
+      );
 
       await api
         .post('/me/skillset')
         .set('Authorization', token)
-        .send({ id: skills[4].id })
+        .send({ id: '5b955316977bd66e0b6a876f' })
         .expect(400);
     });
 
-
-    it('добавление умения в набор умений (лимит копий исчерпан)', async () => {
-      const skills = await helpers.loadSkills(dataSkills);
-      await helpers.buySkills(0, skills);
-      await helpers.addSkillSet(0, [skills[0], skills[0]]);
-
+    it('удаление умения - #a876f из набора умений (умение не в наборе)', async () => {
       await api
-        .post('/me/skillset')
+        .delete('/me/skillset')
         .set('Authorization', token)
-        .send({ id: skills[0].id })
+        .send({ id: '5b955316977bd66e0b6a876f' })
         .expect(400);
     });
 
-    it('удаление умения из набора умений (умение не в наборе)', async () => {
-      const skills = await helpers.loadSkills(dataSkills);
+    it('удаление одинаковых умений - #07741 из набора умений', async () => {
+      await helpers.buySkills(
+        userId,
+        '5bae75013dce25479c507741',
+      );
+      await helpers.addSkillSet(
+        userId,
+        '5bae75013dce25479c507741',
+        '5bae75013dce25479c507741',
+        '5bae75013dce25479c507741',
+      );
 
       await api
         .delete('/me/skillset')
         .set('Authorization', token)
-        .send({ id: skills[2].id })
-        .expect(400);
-    });
-
-    it('удаление одинаковых умений из набора умений', async () => {
-      const skills = await helpers.loadSkills(dataSkills);
-      await helpers.buySkills(0, skills);
-      await helpers.addSkillSet(0, [skills[0], skills[0], skills[0]]);
-
-      await api
-        .delete('/me/skillset')
-        .set('Authorization', token)
-        .send({ id: skills[0].id })
+        .send({ id: '5bae75013dce25479c507741' })
         .expect(200);
 
       await api
         .delete('/me/skillset')
         .set('Authorization', token)
-        .send({ id: skills[0].id })
+        .send({ id: '5bae75013dce25479c507741' })
         .expect(200);
     });
 
     it('удаление умения из набора умений', async () => {
-      const skills = await helpers.loadSkills(dataSkills);
-      await helpers.buySkills(0, skills);
-      await helpers.addSkillSet(0, skills);
+      await helpers.buySkills(
+        userId,
+        '5bae75013dce25479c507741',
+      );
+      await helpers.addSkillSet(
+        userId,
+        '5bae75013dce25479c507741',
+      );
 
       await api
         .delete('/me/skillset')
         .set('Authorization', token)
-        .send({ id: skills[0].id })
+        .send({ id: '5bae75013dce25479c507741' })
         .expect(200);
     });
   });
+
+  after(() => console.log());
 });

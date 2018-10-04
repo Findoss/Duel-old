@@ -1,60 +1,157 @@
-[
-  {
-    "title": "Lightning",
-    "author": "Findoss",
-    "description": "Inflicts lightning damage to an enemy",
-    "duration": 1,
-    "cooldown": 1,
-    "changeTurn": false,
-    "triggeringEvent": "at once",
-    "resources": {
-      "energy_1": 2,
-      "energy_2": 2,
-      "energy_3": 2
-    },
-    "points": 3,
-    "priceInGold": 100,
-    "minLevel": 0,
-    "limitCopy": 2
-  },
-  {
-    "title": "Magic Square",
-    "author": "Findoss",
-    "description": "The effect of the skill is expressed in the collection from the playing field of the runes in a square area of 3x3, specified by you",
-    "duration": 1,
-    "cooldown": 2,
-    "changeTurn": true,
-    "triggeringEvent": "at once",
-    "resources": {
-      "energy_1": 2,
-      "energy_2": 4,
-      "energy_3": 4
-    },
-    "points": 3,
-    "priceInGold": 150,
-    "minLevel": 0,
-    "limitCopy": 3
-  },
-  {
-    "title": "Evolution",
-    "author": "Findoss",
-    "description": "Increases the positive effect of your random skill until the end of the fight.",
-    "duration": 1,
-    "cooldown": 3,
-    "changeTurn": false,
-    "triggeringEvent": "when сhanging еhe stroke",
-    "resources": {
-      "energy_1": 2,
-      "energy_2": 7,
-      "energy_3": 2
-    },
-    "points": 4,
-    "priceInGold": 70,
-    "minLevel": 3,
-    "limitCopy": 8,
-    "modifiers": {
-      "force": 2,
-      "block": 7
-    }
-  }
-]
+{
+	"_id": {
+		"$oid": "5b955314977bd66e0b6a8768"
+	},
+	"title": "Magic Square",
+	"author": "Findoss",
+	"description": "The effect of the skill is expressed in the collection from the playing field of the runes in a square area of 3x3, specified by you",
+	"duration": 1,
+	"cooldown": 2,
+	"changeTurn": true,
+	"triggeringEvent": "at once",
+	"resources": {
+		"energy_1": 2,
+		"energy_2": 4,
+		"energy_3": 4
+	},
+	"points": 3,
+	"priceInGold": 150,
+	"minLevel": 0,
+	"limitCopy": 3
+}
+{
+	"_id": {
+		"$oid": "5b955316977bd66e0b6a876f"
+	},
+	"title": "Lightning",
+	"author": "Findoss",
+	"description": "Inflicts lightning damage to an enemy",
+	"duration": 1,
+	"icon": 2,
+	"cooldown": 1,
+	"changeTurn": false,
+	"triggeringEvent": "at once",
+	"resources": {
+		"energy_1": 2,
+		"energy_2": 2,
+		"energy_3": 2
+	},
+	"points": 3,
+	"priceInGold": 100,
+	"minLevel": 0,
+	"limitCopy": 2
+}
+{
+	"_id": {
+		"$oid": "5b95531a977bd66e0b6a8782"
+	},
+	"title": "Evolution",
+	"author": "Findoss",
+	"icon": 3,
+	"description": "Increases the positive effect of your random skill until the end of the fight.",
+	"duration": 1,
+	"cooldown": 3,
+	"changeTurn": false,
+	"triggeringEvent": "when сhanging еhe stroke",
+	"resources": {
+		"energy_1": 2,
+		"energy_2": 7,
+		"energy_3": 2
+	},
+	"points": 4,
+	"priceInGold": 70,
+	"minLevel": 3,
+	"limitCopy": 8,
+	"modifiers": {
+		"force": 2,
+		"block": 7
+	}
+}
+{
+	"_id": {
+		"$oid": "5bae75013dce25479c507714"
+	},
+	"title": "More skill",
+	"author": "author Findoss",
+	"description": "Inflicts lightning damage to an enemy Inflicts lightning damage to an enemy Inflicts lightning damage to an enemy Inflicts lightning damage to an enemy",
+	"duration": 2,
+	"icon": 3,
+	"cooldown": 1,
+	"changeTurn": false,
+	"triggeringEvent": "at once",
+	"resources": {
+		"energy_1": 1,
+		"energy_2": 2,
+		"energy_3": 3
+	},
+	"points": 4,
+	"priceInGold": 65,
+	"minLevel": 1,
+	"limitCopy": 5
+}
+{
+	"_id": {
+		"$oid": "5bae75013dce25479c507740"
+	},
+	"title": "Expensive skill",
+	"author": "author Findoss",
+	"description": "enemy",
+	"duration": 2,
+	"icon": 3,
+	"cooldown": 1,
+	"changeTurn": false,
+	"triggeringEvent": "at once",
+	"resources": {
+		"energy_1": 1,
+		"energy_2": 2,
+		"energy_3": 3
+	},
+	"points": 4,
+	"priceInGold": 3000,
+	"minLevel": 1,
+	"limitCopy": 5
+}
+{
+	"_id": {
+		"$oid": "5bae75013dce25479c507741"
+	},
+	"title": "High lvl skill",
+	"author": "author Findoss",
+	"description": "Inflicts lightning damage to an enemy Inflicts lightning damage to an enemy Inflicts lightning damage to an enemy Inflicts lightning damage to an enemy",
+	"duration": 2,
+	"icon": 3,
+	"cooldown": 1,
+	"changeTurn": false,
+	"triggeringEvent": "at once",
+	"resources": {
+		"energy_1": 3,
+		"energy_2": 2,
+		"energy_3": 1
+	},
+	"points": 4,
+	"priceInGold": 6500,
+	"minLevel": 60,
+	"limitCopy": 6
+}
+{
+	"_id": {
+		"$oid": "5bae75013dce25479c507745"
+	},
+	"title": "High points skill",
+	"author": "author Findoss",
+	"description": "Iemy Inflicts lightningage to an enemy",
+	"duration": 2,
+	"icon": 3,
+	"cooldown": 1,
+	"changeTurn": false,
+	"triggeringEvent": "at once",
+	"resources": {
+		"energy_1": 3,
+		"energy_2": 2,
+		"energy_3": 1
+	},
+	"points": 400,
+	"priceInGold": 60,
+	"minLevel": 60,
+	"limitCopy": 5
+}

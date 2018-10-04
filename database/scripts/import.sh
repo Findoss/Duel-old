@@ -1,0 +1,1 @@
+mongoimport --db $1 --collection $2 --file database/data/$2_v$3.json

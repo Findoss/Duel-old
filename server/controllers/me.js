@@ -9,9 +9,11 @@ const avatars = require('../static/avatars.json');
 
 module.exports.passwordVerification = async (id, password) => {
   try {
-    const user = await User.findById(id, 'password');
-    return user.password === password;
+    const user = await User.findById(id);
+    return user.checkPassword(password);
   } catch (error) {
+    console.log(error);
+
     throw new ResponseError(523, error);
   }
 };
@@ -20,7 +22,6 @@ module.exports.passwordVerification = async (id, password) => {
 module.exports.getMe = async (ctx) => {
   try {
     const user = await User.findById(ctx.state.user.id);
-
     if (user) ctx.response.body = user;
     else throw new ResponseError(404, 'User with id not found');
   } catch (error) {
@@ -85,13 +86,9 @@ module.exports.setPassword = async (ctx) => {
 
   if (isTruePassword) {
     try {
-      await User
-        .findByIdAndUpdate(
-          ctx.state.user.id,
-          {
-            password: ctx.request.body.newPassword,
-          },
-        );
+      const user = await User.findById(ctx.state.user.id);
+      await user.setPassword(ctx.request.body.newPassword);
+      await user.save();
       ctx.response.body = { message: 'New password set successfully' };
     } catch (error) {
       throw new ResponseError(400, 'Invalid params');
