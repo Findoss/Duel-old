@@ -4,7 +4,7 @@
   "gold": 1250,
   "points": 80,
   "avatar": "null",
-  "email": "EMAIL_USER_1@EMAIL.COM",
+  "email": "email_user_1@email.com",
   "karma": 1,
   "experience": 55,
   "rank": 1500,
@@ -13,14 +13,17 @@
   "skillSet": [],
   "skillsUnlocked": [],
   "nickname": "NICKNAME_USER_1",
-  "password": "PASSWORD_USER_1"
+  "password": {
+    "salt": "f524c88f63f063769e6c18cb5226fc47",
+    "hash": "ed5dd4d3f2c606d87d65dc9a6b225617b82dba75dbf0d9270c61e82c2aba802f90fae1e565c58f919dbcc48dcf0e7af2ab8661fd1380b99166b16619c0c9f8c7"
+  }
 }
 {
   "_id": { "$oid": "5bb230e31ce12b665c48f3a1" },
   "gold": 70,
   "points": 25,
   "avatar": "null",
-  "email": "EMAIL_USER_2@EMAIL.COM",
+  "email": "email_user_2@email.com",
   "karma": 1,
   "experience": 370,
   "rank": 2105,
@@ -29,14 +32,17 @@
   "skillSet": [],
   "skillsUnlocked": [],
   "nickname": "NICKNAME_USER_2",
-  "password": "PASSWORD_USER_2"
+  "password": {
+    "salt": "066e023c547ca7fe734d439bae14d00a",
+    "hash": "533ace6012a32992137b398811174fde283be54ce8e2a3ef12f5c93e354189476b4b0073aa74769e35ef568a16321a5c1c98fbed897ffa21bf41d30a1c49c371"
+  }
 }
 {
   "_id": { "$oid": "5bb230e31ce12b665c48f3a0" },
   "gold": 60,
   "points": 10,
   "avatar": "null",
-  "email": "EMAIL_USER_3@EMAIL.COM",
+  "email": "email_user_3@email.com",
   "karma": 1,
   "experience": 25,
   "rank": 1200,
@@ -45,5 +51,8 @@
   "skillSet": [],
   "skillsUnlocked": [],
   "nickname": "NICKNAME_USER_3",
-  "password": "PASSWORD_USER_3"
+  "password": {
+    "salt": "83e84d0485c424aa1f345c30b99b1493",
+    "hash": "c2ed809ed2fea183f3af19cdb6d2d7b6e0b5be6395c719050b63887903c74f32223655f1cd156e6fffaf755a2368cfcade52cb5098f0b0bb46e9b121053b2050"
+  }
 }
