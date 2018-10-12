@@ -1,6 +1,6 @@
-const ResponseError = require('../utils/error');
+const ResponseError = require('../../utils/error');
 const mongoose = require('mongoose');
-const Skill = require('../models/skill');
+const Skill = require('../../models/skill');
 
 
 module.exports.getSkills = async (ctx) => {

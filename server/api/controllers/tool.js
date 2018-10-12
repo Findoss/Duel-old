@@ -1,7 +1,7 @@
-const ResponseError = require('../utils/error');
+const ResponseError = require('../../utils/error');
 
 const mongoose = require('mongoose');
-const User = require('../models/user');
+const User = require('../../models/user');
 
 module.exports.checkNickname = async (ctx) => {
   try {
