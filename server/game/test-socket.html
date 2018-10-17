@@ -1,39 +1,197 @@
 <!doctype html>
 <html>
+
   <head>
-    <title>Socket.IO chat</title>
+    <title>== 1 ==</title>
     <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font: 13px Helvetica, Arial;
+        display: flex;
+        flex-wrap: wrap;
+        background-color: rgb(40, 41, 43);
+      }
+
+      form {
+        padding: 3px;
+        bottom: 0;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+      }
+
+      form input {
+        border: 0;
+        padding: 10px;
+        width: 80%;
+        margin-right: .5%;
+      }
+
+      form button {
+        width: 19%;
+        border: none;
+        padding: 10px;
+      }
+
+      .user {
+        position: relative;
+        width: 400px;
+        height: 400px;
+        padding-bottom: 50px;
+      }
+
+      .user1 {
+        background-color: bisque;
+      }
+
+      .user2 {
+        background-color: khaki;
+      }
+
+      .user3 {
+        background-color: rosybrown;
+      }
+
+      .user4 {
+        background-color: lightblue;
+      }
+
+      .user5 {
+        background-color: aquamarine;
+      }
+
+      .user6 {
+        background-color: indianred;
+      }
+
+      #messages1,
+      #messages2,
+      #messages3,
+      #messages4,
+      #messages5,
+      #messages6 {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      #messages1 li,
+      #messages2 li,
+      #messages3 li,
+      #messages4 li,
+      #messages5 li,
+      #messages6 li {
+        padding: 5px 10px;
+      }
+
+      #messages1 li:nth-child(odd),
+      #messages2 li:nth-child(odd),
+      #messages3 li:nth-child(odd),
+      #messages4 li:nth-child(odd),
+      #messages5 li:nth-child(odd),
+      #messages6 li:nth-child(odd) {
+        background: #eee;
+      }
     </style>
   </head>
+
   <body>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
+    <div class="user user1">
+      <ul id="messages1"></ul>
+      <form id="form1" action="">
+        <input id="m1" autocomplete="off" /><button>Send</button>
+      </form>
+    </div>
+    <div class="user user2">
+      <ul id="messages2"></ul>
+      <form id="form2" action="">
+        <input id="m2" autocomplete="off" /><button>Send</button>
+      </form>
+    </div>
+    <!-- <div class="user user3">
+      <ul id="messages3"></ul>
+      <form id="form3" action="">
+        <input id="m3" autocomplete="off" /><button>Send</button>
+      </form>
+    </div>
+    <div class="user user4">
+      <ul id="messages4"></ul>
+      <form id="form4" action="">
+        <input id="m4" autocomplete="off" /><button>Send</button>
+      </form>
+    </div>
+    <div class="user user5">
+      <ul id="messages5"></ul>
+      <form id="form5" action="">
+        <input id="m5" autocomplete="off" /><button>Send</button>
+      </form>
+    </div>
+    <div class="user user6">
+      <ul id="messages6"></ul>
+      <form id="form6" action="">
+        <input id="m6" autocomplete="off" /><button>Send</button>
+      </form>
+    </div> -->
   </body>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
   <script>
-    $(function () {
-      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYjIzMGUzMWNlMTJiNjY1YzQ4ZjNhMiIsImtleSI6IjY3NTFkYWRhLTg3ZGUtNDAxYy1hYjJiLTM4YzM0YzZiNzNlOSIsImlhdCI6MTUzODg1OTM2MX0.Ewvc-YHyfgrfSumc6HYqA-iQRzBaCrIB5v5H5SEtxE0'
+    $(function() {
 
-      var socket = io('http://localhost:3001?bearer='+token);
-      $('form').submit(function(){
-        socket.emit('chat message', $('#m').val());
-        $('#m').val('');
-        return false;
-      });
-      socket.on('chat message', function(msg){
-        $('#messages').append($('<li>').text(msg));
-      });
+
+
+
+      const tokens=[
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYjIzMGUzMWNlMTJiNjY1YzQ4ZjNhMiIsImtleSI6IjY3NTFkYWRhLTg3ZGUtNDAxYy1hYjJiLTM4YzM0YzZiNzNlOSIsImlhdCI6MTUzODg1OTM2MX0.Ewvc-YHyfgrfSumc6HYqA-iQRzBaCrIB5v5H5SEtxE0',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYjY0MWFhNTY4ZDA5M2RmNDkwZjU5MiIsImtleSI6ImJkZGJmYzMyLTQyOWMtNDk5Zi1iMjMzLTBkZDkwZWUxMmZiZCIsImlhdCI6MTUzOTU5NTc4MH0.ZkwMEbWC9ahApHFROXaJgkHkKyiPw_fSy0h78SGZtqY',
+      ]
+
+      setTimeout(() => {
+        const socket1=io('http://localhost:3001?bearer='+tokens[0],{forceNew: true});
+
+        socket1.emit('lobby',{route: 'add',});
+
+        $('#form1').submit(function() {
+          socket1.emit('chat',{payload: $('#m1').val()});
+
+          $('#m1').val('');
+          return false;
+        });
+
+        socket1.on('chat',function(msg) {
+          $('#messages1').append($('<li>').text(msg));
+        });
+
+
+      },100)
+
+      setTimeout(() => {
+        const socket2=io('http://localhost:3001?bearer='+tokens[1],{forceNew: true});
+
+        socket2.emit('lobby',{route: 'add',});
+
+        $('#form2').submit(function() {
+          socket2.emit('chat',{payload: $('#m2').val()});
+
+          $('#m2').val('');
+          return false;
+        });
+
+        socket2.on('chat',function(msg) {
+          $('#messages2').append($('<li>').text(msg));
+        });
+
+      },5000)
+
+
+
+
     });
   </script>
+
 </html>

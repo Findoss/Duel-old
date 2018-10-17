@@ -1,28 +1,18 @@
-const { checkSocketToken } = require('../api/controllers/token');
+const Lobby = require('./classes/lobby');
 
+const auth = require('./middleware/auth');
+const logger = require('./middleware/logger');
+const router = require('./routes');
 
-module.exports = (socket) => {
-  //
-  socket.on('connection', async (socketUser) => {
-    const userId = await checkSocketToken(socketUser.handshake.query.bearer);
-    console.log(`──‣ ┈┈ CONNECT ┬ ${userId || 'NOT AUTH'}`);
-    console.log(`               │ ${socketUser.id.slice(0, 5)}`);
-    console.log('               ⁞');
+const state = {
+  lobby: new Lobby(),
+};
 
-    socketUser.on('chat message', (msg) => {
-      const newMsg = msg.split('').reverse().join('');
-      socket.emit('chat message', newMsg);
-      console.log('──‣ ┈┈┈┈┈ SEND ┬ /chat message');
-      console.log(`               │ ${msg}`);
-      console.log('               │');
-      console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${newMsg}`);
-    });
+module.exports = (io) => {
+  io.use(async (socket, next) => auth(socket, next));
 
-    socketUser.on('disconnect', () => {
-      console.log('               ⁞');
-      console.log(`──‣ DISCONNECT ┬ ${userId || 'NOT AUTH'}`);
-      console.log(`               │ ${socketUser.id.slice(0, 5)}`);
-      console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴');
-    });
+  io.on('connection', (socket) => {
+    logger({ io, socket, state });
+    router({ io, socket, state });
   });
 };

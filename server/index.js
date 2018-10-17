@@ -21,8 +21,7 @@ async function createApp() {
   const http = await app.listen(config.node.port);
   if (config.logger.node) console.log(`[http    ] start - ${config.node.host}:${config.node.port}`);
 
-  const socket = socketIO(http);
-  socketMiddleware(socket);
+  const socket = socketMiddleware(socketIO(http));
   if (config.logger.node) console.log('[socket  ] start');
 
   return {
