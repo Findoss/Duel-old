@@ -19,8 +19,8 @@ class Lobby {
    * Добавление игрока в очередь подбора
    * @param {Socket} socket Сокет игрока
    * @param {String} id Id игрока
-   * @param {Number} rank
-   * @param {Number} time // ?????
+   * @param {Number} rank todo
+   * @param {Number} time todo
    */
   addUser(socket, id, rank, time) {
     this.lobby.push({
@@ -33,10 +33,7 @@ class Lobby {
    * @param {String} id Id игрока
    */
   deleteUser(id) {
-    const indexUser = this.isUserInLobby(id);
-    if (indexUser > -1) {
-      this.lobby.splice(indexUser, 1);
-    }
+    return this.lobby.splice(this.lobby.findIndex(lobbyUser => lobbyUser.id === id), 1);
   }
 
   /**
@@ -45,7 +42,7 @@ class Lobby {
    * @return {Boolean} Возвращает, true если есть игрок в очереди, иначе false.
    */
   isUserInLobby(id) {
-    return this.lobby.findIndex(lobbyUser => lobbyUser.id === id);
+    return !!this.lobby.find(lobbyUser => lobbyUser.id === id);
   }
 
   /**
@@ -59,21 +56,21 @@ class Lobby {
   }
 
   /**
-   *
+   * todo
    */
   count() {
     return this.lobby.length;
   }
 
   /**
-   *
+   * todo
    */
   listUserId() {
     return this.lobby.map(user => user.id);
   }
 
   /**
-   *
+   * todo
    */
   listSerchTime() {
     return this.lobby.map(user => ({
@@ -83,7 +80,7 @@ class Lobby {
   }
 
   /**
-   *
+   * todo
    */
   serchOpponent() {
     // супер функция подбора
@@ -95,7 +92,7 @@ class Lobby {
   }
 
   /**
-   *
+   * todo
    */
   clear() {
     const deleteUsers = [];
