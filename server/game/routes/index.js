@@ -5,6 +5,11 @@ module.exports = async (ctx) => {
 
   socket.on('lobby', data => routeLobby({ ...ctx, data }));
 
+  socket.on('disconnect', () => {
+    routeLobby({ ...ctx, data: { route: 'del' } });
+  });
+
+  // debug
   socket.on('chat', (data) => {
     const newMsg = data.payload.split('').reverse().join('');
     ctx.io.emit('chat', newMsg);
