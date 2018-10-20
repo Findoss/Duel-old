@@ -113,6 +113,7 @@
         <input type="text" id="payload0">
         <button>+</button>
       </form>
+      <button class="cs6" value="0">clear</button>
       <button class="cs4" value="0">lobby count</button>
       <button class="cs5" value="0">lobby users</button>
       <ul id="messages0"></ul>
@@ -176,29 +177,33 @@
           );
         });
 
-        $('.cs1').click((e) => {
+        $('.cs1').click(e => {
           const user=e.target.value;
           sockets[user].emit('lobby',{route: 'add'});
         });
 
-        $('.cs2').click((e) => {
+        $('.cs2').click(e => {
           const user=e.target.value;
           sockets[user].emit('lobby',{route: 'del'});
         });
 
-        $('.cs3').click((e) => {
+        $('.cs3').click(e => {
           const user=e.target.value;
           sockets[user].disconnect();
         });
 
-        $('.cs4').click((e) => {
+        $('.cs4').click(e => {
           const user=e.target.value;
           sockets[user].emit('lobby',{route: 'count'});
         });
 
-        $('.cs5').click((e) => {
+        $('.cs5').click(e => {
           const user=e.target.value;
           sockets[user].emit('lobby',{route: 'users'});
+        });
+
+        $('.cs6').click(e => {
+          sockets.forEach((socket,i) => $(`#messages${i}`).empty())
         });
 
         sockets.forEach((socket,i) => {
