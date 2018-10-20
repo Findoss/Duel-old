@@ -22,7 +22,8 @@ class Lobby {
    * @param {Number} rank todo
    * @param {Number} time todo
    */
-  addUser(socket, id, rank, time) {
+  addUser(socket, id, rank, timeLimit) {
+    const time = Date.now() + (timeLimit * 1000);
     this.lobby.push({
       socket, id, rank, time,
     });
@@ -75,7 +76,7 @@ class Lobby {
   listSerchTime() {
     return this.lobby.map(user => ({
       socket: user.socket,
-      time: user.time,
+      time: Math.round((user.time - Date.now()) / 1000),
     }));
   }
 
@@ -87,7 +88,6 @@ class Lobby {
     if (this.lobby.length >= 2) {
       return this.pairOfUsers();
     }
-    this.lobby.forEach((user, i) => { this.lobby[i].time -= 1; });
     return false;
   }
 
@@ -97,7 +97,7 @@ class Lobby {
   clear() {
     const deleteUsers = [];
     this.lobby.forEach((user, i) => {
-      if (this.lobby[i].time < 0) {
+      if (this.lobby[i].time < Date.now()) {
         deleteUsers.push(user);
         this.deleteUser(this.lobby[i].id);
       }

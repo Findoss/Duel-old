@@ -47,11 +47,7 @@ module.exports.add = (ctx) => {
     // debug chat
     socket.emit('chat', `${userId} add lobby`);
 
-    if (lobby.count() === 1) {
-      console.log('               ⁞ serch opponent');
-      console.log('               │');
-      this.serchOpponent(ctx);
-    }
+    this.serchOpponent(ctx);
   } else {
     // debug chat
     socket.emit('chat', `${userId} уже в лобби`);
@@ -63,37 +59,46 @@ module.exports.serchOpponent = (ctx) => {
   const { store } = ctx;
   const { lobby } = store;
 
-  const idSerchOpponent = setInterval(() => {
+  if (lobby.count() === 1) {
+    console.log('               ⁞ serch opponent');
+    console.log('               │');
+
+    const idSerchOpponent = setInterval(() => {
+      // очищаем лобби если есть лимиты ожидания
+      lobby.clear().forEach((user) => {
+        console.log('               ⁞ delete lobby (time limit)');
+        console.log('               │');
+        // debug chat
+        user.socket.emit('chat', 'delete you lobby');
+      });
+
+      // если нет в лобби - останавливаем поиск пар
+      if (lobby.count() === 0) {
+        console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ stop serch opponent');
+        clearInterval(idSerchOpponent);
+      }
+
+      // все кто в лобби отправляем время которое осталось
+      lobby.listSerchTime().forEach((user) => {
+        // debug chat
+        user.socket.emit('chat', `time: ${user.time}`);
+      });
+    }, 1000);
+  }
+
+  while (lobby.count() > 1) {
     // ищем пары
     const pair = lobby.serchOpponent();
 
     if (pair) {
-      console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ pair of players');
+      console.log('               │ pair of players');
+      console.log('               │');
+      console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ start game');
 
       pair.forEach((user) => {
         // debug chat
         user.socket.emit('chat', 'go');
       });
     }
-
-    // очищаем лобби если есть лимиты ожидания
-    lobby.clear().forEach((user) => {
-      console.log('               ⁞ delete lobby (time limit)');
-      console.log('               │');
-      // debug chat
-      user.socket.emit('chat', 'delete you lobby');
-    });
-
-    // если нет в лобби - останавливаем поиск пар
-    if (lobby.count() === 0) {
-      console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ stop serch opponent');
-      clearInterval(idSerchOpponent);
-    }
-
-    // все кто в лобби отправляем время которое осталось
-    lobby.listSerchTime().forEach((user) => {
-      // debug chat
-      user.socket.emit('chat', `time: ${user.time}`);
-    });
-  }, 1000);
+  }
 };
