@@ -149,17 +149,50 @@
     <script>
       $(function() {
 
-        const tokens=[
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYjYyZTEyNjM1MDEyNGU1YzUzMWRhNyIsImtleSI6IjIyZmExZWI3LWI2YmMtNGIyNC1iZTgwLTI5M2M1MTQ3ZjExZiIsImlhdCI6MTUzOTk4OTYyMH0.4evQuq9IbJxj-aYoKnfip3zlZOYfhFXFdXSaalVIQno',
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYjIzMGUzMWNlMTJiNjY1YzQ4ZjNhMiIsImtleSI6IjY3NTFkYWRhLTg3ZGUtNDAxYy1hYjJiLTM4YzM0YzZiNzNlOSIsImlhdCI6MTUzODg1OTM2MX0.Ewvc-YHyfgrfSumc6HYqA-iQRzBaCrIB5v5H5SEtxE0',
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYjY0MWFhNTY4ZDA5M2RmNDkwZjU5MiIsImtleSI6ImJkZGJmYzMyLTQyOWMtNDk5Zi1iMjMzLTBkZDkwZWUxMmZiZCIsImlhdCI6MTUzOTU5NTc4MH0.ZkwMEbWC9ahApHFROXaJgkHkKyiPw_fSy0h78SGZtqY',
+
+        let sockets=[]
+        let tokens=['','','',]
+
+        setTimeout(() => {
+          tokens=[
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYjYyZTEyNjM1MDEyNGU1YzUzMWRhNyIsImtleSI6IjIyZmExZWI3LWI2YmMtNGIyNC1iZTgwLTI5M2M1MTQ3ZjExZiIsImlhdCI6MTUzOTk4OTYyMH0.4evQuq9IbJxj-aYoKnfip3zlZOYfhFXFdXSaalVIQno',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYjIzMGUzMWNlMTJiNjY1YzQ4ZjNhMiIsImtleSI6IjY3NTFkYWRhLTg3ZGUtNDAxYy1hYjJiLTM4YzM0YzZiNzNlOSIsImlhdCI6MTUzODg1OTM2MX0.Ewvc-YHyfgrfSumc6HYqA-iQRzBaCrIB5v5H5SEtxE0',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYjY0MWFhNTY4ZDA5M2RmNDkwZjU5MiIsImtleSI6ImJkZGJmYzMyLTQyOWMtNDk5Zi1iMjMzLTBkZDkwZWUxMmZiZCIsImlhdCI6MTUzOTU5NTc4MH0.ZkwMEbWC9ahApHFROXaJgkHkKyiPw_fSy0h78SGZtqY',
+          ]
+
+          console.log(tokens);
+
+
+          sockets.forEach((socket,i) => {
+
+            console.log(socket.io.opts);
+
+            socket.io.opts.query={
+              bearer: tokens[i]
+            }
+            socket.connect();
+          })
+
+        },1000)
+
+
+        sockets=[
+          new io('http://localhost:3001',{
+            forceNew: true,
+            autoConnect: false,
+          }),
+          new io('http://localhost:3001',{
+            forceNew: true,
+            autoConnect: false,
+          }),
+          new io('http://localhost:3001',{
+            forceNew: true,
+            autoConnect: false,
+          }),
         ]
 
-        const sockets=[
-          io('http://localhost:3001?bearer='+tokens[0],{forceNew: true}),
-          io('http://localhost:3001?bearer='+tokens[1],{forceNew: true}),
-          io('http://localhost:3001?bearer='+tokens[2],{forceNew: true}),
-        ]
+        console.log(sockets);
+
 
         $('.form').submit((e) => {
           e.preventDefault();
@@ -207,7 +240,7 @@
         });
 
         sockets.forEach((socket,i) => {
-          socket.on('chat',msg => $(`#messages${i}`).prepend($('<li>').text(msg)));
+          socket.on('Chat',msg => $(`#messages${i}`).prepend($('<li>').text(msg)));
         });
 
       });
