@@ -1,0 +1,15 @@
+.chat {
+  overflow-y: scroll;
+  height: 600px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.chat li {
+  padding: 5px 10px;
+}
+
+.chat li:nth-child(odd) {
+  background: var(--color-gray-norm);
+}

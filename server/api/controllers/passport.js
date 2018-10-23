@@ -1,6 +1,6 @@
-const config = require('../config/index');
+const config = require('../../config/index');
 
-const User = require('../models/user');
+const User = require('../../models/user');
 const Token = require('./token');
 
 const passport = require('koa-passport');

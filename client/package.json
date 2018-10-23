@@ -18,10 +18,12 @@
     "@vue/eslint-config-airbnb": "^3.0.3",
     "@vue/test-utils": "^1.0.0-beta.25",
     "debounce": "^1.2.0",
+    "socket.io-client": "^2.1.1",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
     "vue-template-compiler": "^2.5.17",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "vuex-socketio-plugin": "^0.1.0"
   },
   "devDependencies": {
     "chai": "^4.1.2"

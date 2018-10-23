@@ -1,4 +1,4 @@
-const config = require('../config/index');
+const config = require('../../config/index');
 const createLogger = require('concurrency-logger').default;
 
 const reqLogger = ctx => `${ctx.originalUrl}\n${JSON.stringify(ctx.request.body, null, 2)}\n `;

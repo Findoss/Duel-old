@@ -1,7 +1,7 @@
-const config = require('../config/index');
+const config = require('../../config/index');
 
 const mongoose = require('mongoose');
-const Session = require('../models/session');
+const Session = require('../../models/session');
 
 const uuidv4 = require('uuid/v4');
 const jwt = require('jsonwebtoken');
@@ -43,5 +43,15 @@ module.exports.deleteKey = async (userId) => {
     return isRemove;
   } catch (error) {
     throw new Error(error);
+  }
+};
+
+module.exports.checkSocketToken = async (token) => {
+  try {
+    const { id, key } = jwt.verify(token, config.JWTKey);
+    if (this.checkKey(id, key)) return id;
+    return false;
+  } catch (error) {
+    return false;
   }
 };

@@ -1,4 +1,4 @@
-const ResponseError = require('../utils/error');
+const ResponseError = require('../../utils/error');
 const passport = require('koa-passport');
 const Token = require('./token');
 
