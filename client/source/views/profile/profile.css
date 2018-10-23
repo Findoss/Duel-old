@@ -14,7 +14,7 @@
   grid-area: N;
 
   display: grid;
-  grid-template-columns: repeat(auto-fill, 15%);
+  grid-template-columns: repeat(auto-fill, 13%);
   grid-template-rows: 1fr;
   grid-gap: 10px;
   justify-content: center; 
