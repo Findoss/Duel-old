@@ -14,9 +14,10 @@ import PasswordNew from '@/views/password-new/password-new.vue';
 
 import Game from '@/views/game/game.vue';
 import Profile from '@/views/profile/profile.vue';
-import ProfileOverview from '@/views/profile-overview/profile-overview.vue';
+import ProfileChat from '@/views/profile-chat/profile-chat.vue';
 import ProfileSkills from '@/views/profile-skills/profile-skills.vue';
 import ProfileSetting from '@/views/profile-setting/profile-setting.vue';
+import ProfileOverview from '@/views/profile-overview/profile-overview.vue';
 import ProfileScoreboard from '@/views/profile-scoreboard/profile-scoreboard.vue';
 
 import Design from '@/views/design.vue';
@@ -81,6 +82,10 @@ const router = new Router({
         {
           path: 'skills',
           component: ProfileSkills,
+        },
+        {
+          path: 'chat',
+          component: ProfileChat,
         },
         {
           path: 'scoreboard',
