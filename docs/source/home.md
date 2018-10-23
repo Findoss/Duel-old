@@ -9,6 +9,22 @@ Duel
 ├── client
 │   ├── babel.config.js
 │   ├── build
+│   │   ├── css
+│   │   │   └── app.b48ce40e.css
+│   │   ├── favicon.ico
+│   │   ├── img
+│   │   │   ├── background.0d992d7c.png
+│   │   │   ├── loading.970b441e.png
+│   │   │   ├── locked.3bb60667.png
+│   │   │   ├── rolling_white.54b2d141.gif
+│   │   │   └── switch_orientation.138d4896.png
+│   │   ├── index.html
+│   │   └── js
+│   │       ├── app.7248b192.js
+│   │       ├── app.7248b192.js.map
+│   │       ├── chunk-vendors.94e93c74.js
+│   │       └── chunk-vendors.94e93c74.js.map
+│   ├── config
 │   ├── package-lock.json
 │   ├── package.json
 │   ├── source
@@ -65,7 +81,6 @@ Duel
 │   │   │   │   ├── BaseContainer.css
 │   │   │   │   ├── BaseContainer.html
 │   │   │   │   ├── BaseContainer.js
-│   │   │   │   ├── BaseContainer.spec.js
 │   │   │   │   └── BaseContainer.vue
 │   │   │   ├── BaseLoading
 │   │   │   │   ├── BaseLoading.css
@@ -76,13 +91,11 @@ Duel
 │   │   │   │   ├── BaseTab.css
 │   │   │   │   ├── BaseTab.html
 │   │   │   │   ├── BaseTab.js
-│   │   │   │   ├── BaseTab.spec.js
 │   │   │   │   └── BaseTab.vue
 │   │   │   ├── BaseTabs
 │   │   │   │   ├── BaseTabs.css
 │   │   │   │   ├── BaseTabs.html
 │   │   │   │   ├── BaseTabs.js
-│   │   │   │   ├── BaseTabs.spec.js
 │   │   │   │   └── BaseTabs.vue
 │   │   │   ├── BaseTextField
 │   │   │   │   ├── BaseTextField.css
@@ -93,38 +106,32 @@ Duel
 │   │   │   │   ├── Board.css
 │   │   │   │   ├── Board.html
 │   │   │   │   ├── Board.js
-│   │   │   │   ├── Board.spec.js
 │   │   │   │   └── Board.vue
 │   │   │   ├── BoardRune
 │   │   │   │   ├── BoardRune.css
 │   │   │   │   ├── BoardRune.html
 │   │   │   │   ├── BoardRune.js
-│   │   │   │   ├── BoardRune.spec.js
 │   │   │   │   └── BoardRune.vue
 │   │   │   ├── globals.js
 │   │   │   ├── Skill
 │   │   │   │   ├── Skill.css
 │   │   │   │   ├── Skill.html
 │   │   │   │   ├── Skill.js
-│   │   │   │   ├── Skill.spec.js
 │   │   │   │   └── Skill.vue
 │   │   │   ├── SkillCard
 │   │   │   │   ├── SkillCard.css
 │   │   │   │   ├── SkillCard.html
 │   │   │   │   ├── SkillCard.js
-│   │   │   │   ├── SkillCard.spec.js
 │   │   │   │   └── SkillCard.vue
 │   │   │   ├── SkillGrid
 │   │   │   │   ├── SkillGrid.css
 │   │   │   │   ├── SkillGrid.html
 │   │   │   │   ├── SkillGrid.js
-│   │   │   │   ├── SkillGrid.spec.js
 │   │   │   │   └── SkillGrid.vue
 │   │   │   ├── SkillSet
 │   │   │   │   ├── SkillSet.css
 │   │   │   │   ├── SkillSet.html
 │   │   │   │   ├── SkillSet.js
-│   │   │   │   ├── SkillSet.spec.js
 │   │   │   │   └── SkillSet.vue
 │   │   │   ├── UserEstate
 │   │   │   │   ├── UserEstate.css
@@ -135,13 +142,11 @@ Duel
 │   │   │   │   ├── UserNickname.css
 │   │   │   │   ├── UserNickname.html
 │   │   │   │   ├── UserNickname.js
-│   │   │   │   ├── UserNickname.spec.js
 │   │   │   │   └── UserNickname.vue
 │   │   │   └── UserParametrs
 │   │   │       ├── UserParametrs.css
 │   │   │       ├── UserParametrs.html
 │   │   │       ├── UserParametrs.js
-│   │   │       ├── UserParametrs.spec.js
 │   │   │       └── UserParametrs.vue
 │   │   ├── main.js
 │   │   ├── router.js
@@ -243,9 +248,26 @@ Duel
 │   ├── utils
 │   │   └── create.sh
 │   └── vue.config.js
+├── database
+│   ├── data
+│   │   ├── sessions.json
+│   │   ├── skills.json
+│   │   └── users.json
+│   ├── README.md
+│   ├── scripts
+│   │   ├── export.sh
+│   │   └── import.sh
+│   └── tmp
+│       ├── sessions_v1e.json
+│       ├── skills.json
+│       ├── skill_1.json
+│       ├── skill_2.json
+│       ├── skill_3.json
+│       └── users_v2.json
 ├── docs
 │   ├── build
-│   │   └── progect-structure.txt
+│   │   ├── progect-structure.txt
+│   │   └── webpack-config.js
 │   └── source
 │       ├── api
 │       │   ├── authorization.apib
@@ -267,53 +289,79 @@ Duel
 ├── package.json
 ├── README.md
 └── server
-    ├── config
-    │   ├── develop.json
+    ├── api
+    │   ├── controllers
+    │   │   ├── me.js
+    │   │   ├── passport.js
+    │   │   ├── session.js
+    │   │   ├── skills.js
+    │   │   ├── token.js
+    │   │   ├── tool.js
+    │   │   └── user.js
     │   ├── index.js
-    │   ├── production.json
-    │   └── test.json
-    ├── controllers
-    │   ├── passport.js
-    │   ├── session.js
-    │   ├── token.js
-    │   ├── tool.js
-    │   └── user.js
-    ├── index.js
-    ├── middleware
-    │   ├── error.js
-    │   ├── headers.js
-    │   ├── routes
+    │   ├── middleware
+    │   │   ├── error.js
+    │   │   ├── headers.js
+    │   │   ├── logger.js
+    │   │   ├── sendIndex.js
+    │   │   └── time.js
+    │   └── routes
+    │       ├── auth.js
+    │       ├── index.js
+    │       ├── me.js
+    │       ├── skills.js
+    │       ├── statics.js
+    │       ├── tools.js
+    │       └── users.js
+    ├── config
+    │   ├── develop.js
+    │   ├── index.js
+    │   ├── production.js
+    │   └── test.js
+    ├── game
+    │   ├── classes
+    │   │   └── lobby.js
+    │   ├── controllers
+    │   │   └── lobby.js
+    │   ├── index.js
+    │   ├── middleware
     │   │   ├── auth.js
+    │   │   └── logger.js
+    │   ├── routes
     │   │   ├── index.js
-    │   │   ├── statics.js
-    │   │   ├── tools.js
-    │   │   └── users.js
-    │   └── time.js
+    │   │   └── lobby.js
+    │   └── test-socket.html
+    ├── index.js
     ├── models
-    │   ├── db.js
+    │   ├── index.js
     │   ├── session.js
+    │   ├── skill.js
     │   └── user.js
     ├── package-lock.json
     ├── package.json
     ├── static
     │   ├── avatars.json
     │   ├── levels.json
+    │   ├── lobby.json
     │   └── user_parameters.json
     ├── test
     │   ├── api
     │   │   ├── data
+    │   │   │   ├── current_user.json
     │   │   │   ├── new_users.json
-    │   │   │   ├── skills.json
     │   │   │   └── users.json
-    │   │   ├── helpers.js
     │   │   ├── index.js
     │   │   ├── me.spec.js
     │   │   ├── session.spec.js
     │   │   ├── skills.spec.js
     │   │   └── user.spec.js
-    │   └── index.js
+    │   ├── helpers.js
+    │   ├── index.js
+    │   └── scenarios.js
     └── utils
-        └── error.js
+        ├── error.js
+        ├── password.js
+        └── token.js
 ```
 
 ## Разворачивание проекта
@@ -393,21 +441,58 @@ Duel
 `$ npm run dev-test-server` ( port - 3003 )
 
 Запуск тестов клиента в режиме разработки  
-`$ npm run dev-test-сдшуте` ( port - 3003 )
+`$ npm run dev-test-client` ( port - 3003 )
 
-Сборка дкументации API  
+Сделать дамп базы данных  
+`$ npm run db-dump`
+
+Сделать экспорт коллекции  
+```
+{database} - имя базы
+{collection} - имя коллекции
+{version} - версия коллекции
+```
+`$ npm run db-export {database} {collection} {version}`
+
+Сделать импорт коллекции  
+```
+{database} - имя базы
+{collection} - имя коллекции
+{version} - версия коллекции
+```
+`$ npm run db-export {database} {collection} {version}`
+
+Генерация токена  
+```
+{id} - id пользователя
+[key] - ключ сессии (по умолчанию - гененирует)
+[secret] - секрет для шифрования (по умолчанию - из конфига)
+```
+`$ npm run gen-token {id} [key] [secret]`
+
+Генерация пароля  
+```
+{password} - новый пароль
+```
+`$ npm run gen-pass {password}`
+
+Просмотр логов на Heroku сервере  
+`$ npm run log-remote`
+
+Установка зависимостей клиента  
+`$ npm run install-client`
+
+Установка зависимостей сервера  
+`$ npm run install-server`
+
+Сборка документации API  
 `$ npm run build-api`
 
-Сборка дкументации  
+Сборка документации  
 `$ npm run build-doc`
 
 Вывод структуры проекта  
 `$ npm run build-structure`
-
-#### необходимо добавить
-
-Отправка результата о покрытии тестами  
-`$ npm run test-push-report`
 
 ## Документация по инструментам
 

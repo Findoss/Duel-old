@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <div>statusSocket {{ this.$store.state.statusSocket }}</div>
     <div id="nav">
       fast navigate
       <router-link to="/signin">singin</router-link> |
@@ -11,5 +12,5 @@
 </template>
 
 <style>
-  @import "styles/index.css";
+@import "styles/index.css";
 </style>

@@ -1,8 +1,8 @@
 const Router = require('koa-router');
 
 // controllers
-const ctrlTool = require('../../controllers/tool');
-const ctrlSession = require('../../controllers/session');
+const ctrlTool = require('../controllers/tool');
+const ctrlSession = require('../controllers/session');
 
 const router = new Router();
 

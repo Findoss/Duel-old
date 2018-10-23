@@ -6,6 +6,7 @@
 
 import Http from '@/utils/http';
 import Router from '@/router';
+import socket from '../socket';
 
 const state = {
   alertSignin: { // оповещение при входе
@@ -68,6 +69,7 @@ const actions = {
         .then((response) => {
           commit('SET_MY_ID', response.id, { root: true });
           localStorage.setItem('session-token', response.token);
+          socket.connect();
           Router.push({ path: `/${response.id}` });
         })
         .catch((error) => {
@@ -95,6 +97,7 @@ const actions = {
         });
       })
       .finally(() => {
+        socket.disconnect();
         commit('DEL_MY_ID', undefined, { root: true });
         localStorage.removeItem('session-token');
         Router.push({ path: '/signin' });

@@ -1,10 +1,10 @@
-const ResponseError = require('../utils/error');
+const ResponseError = require('../../utils/error');
 const mongoose = require('mongoose');
-const User = require('../models/user');
-const Skill = require('../models/skill');
-const Session = require('../models/session');
+const User = require('../../models/user');
+const Skill = require('../../models/skill');
+const Session = require('../../models/session');
 
-const avatars = require('../static/avatars.json');
+const avatars = require('../../static/avatars.json');
 
 
 module.exports.passwordVerification = async (id, password) => {

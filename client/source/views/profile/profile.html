@@ -2,40 +2,28 @@
   <div class="profile">
     <div class="navigation">
       <!-- <z-button class="navigation__item" @click="">Play</z-button> -->
-      <router-link 
-        class="navigation__item" 
-        :to="{ path: `/${myId}/gameid` }"
-      >
+      <router-link class="navigation__item" :to="{ path: `/${myId}/gameid` }">
         Play
       </router-link>
-      <router-link 
-        class="navigation__item" 
-        :to="{ path: `/${myId}` }"
-      >
+      <router-link class="navigation__item" :to="{ path: `/${myId}` }">
         Profile
       </router-link>
-      <router-link 
-        class="navigation__item" 
-        :to="{ path: `/${myId}/skills` }"
-      >
+      <router-link class="navigation__item" :to="{ path: `/${myId}/skills` }">
         Skills
       </router-link>
-      <router-link 
-        class="navigation__item" 
-        :to="{ path: `/${myId}/scoreboard` }"
-      >
+      <router-link class="navigation__item" :to="{ path: `/${myId}/scoreboard` }">
         Scoreboard
       </router-link>
-      <router-link 
-        class="navigation__item" 
-        :to="{ path: `/${myId}/settings` }"
-      >
+      <router-link class="navigation__item" :to="{ path: `/${myId}/chat` }">
+        Chat
+      </router-link>
+      <router-link class="navigation__item" :to="{ path: `/${myId}/settings` }">
         Settings
       </router-link>
       <z-button class="navigation__item" @click="signOut()">Sign out</z-button>
     </div>
     <div class="content">
-      <router-view/>
+      <router-view />
     </div>
   </div>
 </z-loading>

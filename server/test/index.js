@@ -10,7 +10,7 @@ describe('TESTS', () => {
 
   after(async () => {
     await mongoose.connection.close();
-    await api.close();
+    await api.http.close();
   });
 
   require('./api/index');
