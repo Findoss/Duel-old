@@ -1,5 +1,5 @@
 <div>
-  <z-container>
+  <z-container class="size-l">
     <z-text-field
       label="You message"
       name="msg"
@@ -10,8 +10,8 @@
     <z-button @click="send(message)">send</z-button>
 
     <ul class="chat">
-      <li v-for="message in messages">
-        {{ message }}
+      <li v-for="message in messages.slice().reverse()">
+        {{ message.user.slice(0, 5).toUpperCase() }} → {{ message.message }}
       </li>
     </ul>
   </z-container>

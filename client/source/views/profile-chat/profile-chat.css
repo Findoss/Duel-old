@@ -1,5 +1,5 @@
 .chat {
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 600px;
   list-style-type: none;
   margin: 0;
