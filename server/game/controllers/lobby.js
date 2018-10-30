@@ -12,7 +12,7 @@ module.exports.count = (ctx) => {
   const { lobby } = store;
 
   // debug chat
-  socket.emit('chat', `count ${lobby.count()}`);
+  socket.emit('Chat', `count ${lobby.count()}`);
   console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${lobby.count()}`);
 };
 
@@ -21,7 +21,7 @@ module.exports.users = (ctx) => {
   const { lobby } = store;
 
   // debug chat
-  socket.emit('chat', `users ${lobby.listUserId()}`);
+  socket.emit('Chat', `users ${lobby.listUserId()}`);
   console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${lobby.listUserId()}`);
 };
 
@@ -33,7 +33,7 @@ module.exports.del = (ctx) => {
   lobby.deleteUser(socket.userId);
 
   // debug chat
-  socket.emit('chat', 'delete you lobby');
+  socket.emit('Chat', 'delete you lobby');
   console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ del lobby');
 };
 
@@ -45,12 +45,12 @@ module.exports.add = (ctx) => {
   if (!lobby.isUserInLobby(userId)) {
     lobby.addUser(socket, userId, 1200, configLobby.timeLimit);
     // debug chat
-    socket.emit('chat', `${userId} add lobby`);
+    socket.emit('Chat', `${userId} add lobby`);
 
     this.serchOpponent(ctx);
   } else {
     // debug chat
-    socket.emit('chat', `${userId} уже в лобби`);
+    socket.emit('Chat', `${userId} уже в лобби`);
     console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ уже в лобби');
   }
 };
@@ -66,10 +66,10 @@ module.exports.serchOpponent = (ctx) => {
     const idSerchOpponent = setInterval(() => {
       // очищаем лобби если есть лимиты ожидания
       lobby.clear().forEach((user) => {
-        console.log('               ⁞ delete lobby (time limit)');
         console.log('               │');
+        console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ delete lobby (time limit)');
         // debug chat
-        user.socket.emit('chat', 'delete you lobby');
+        user.socket.emit('Chat', 'delete you lobby');
       });
 
       // если нет в лобби - останавливаем поиск пар
@@ -81,7 +81,7 @@ module.exports.serchOpponent = (ctx) => {
       // все кто в лобби отправляем время которое осталось
       lobby.listSerchTime().forEach((user) => {
         // debug chat
-        user.socket.emit('chat', `time: ${user.time}`);
+        user.socket.emit('Chat', `time: ${user.time}`);
       });
     }, 1000);
   }
@@ -97,7 +97,7 @@ module.exports.serchOpponent = (ctx) => {
 
       pair.forEach((user) => {
         // debug chat
-        user.socket.emit('chat', 'go');
+        user.socket.emit('Chat', 'go');
       });
     }
   }

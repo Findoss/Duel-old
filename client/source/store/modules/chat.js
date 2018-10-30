@@ -5,7 +5,7 @@ const state = {
 };
 
 const getters = {
-  getMessages: state => (state.messages),
+  getMessages: state => state.messages,
 };
 
 const actions = {
@@ -16,8 +16,8 @@ const actions = {
 
 const mutations = {
 
-  SOCKET_CHAT(state, message) {
-    state.messages.push(message[0]);
+  SOCKET_CHAT(state, data) {
+    state.messages.push(data[0]);
   },
 
 };
