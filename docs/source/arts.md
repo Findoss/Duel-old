@@ -1,3 +1,26 @@
+РЕФЫ
+
+Всё в мрачное, старое, где то стимпанк. 
+Ну конечно же раз повторю можно и в светлых тонах и время и сеттинг 
+(хоть викинги, хоть в 2099 иноплонетяне, хоть маги на бумаге) 
+
+dark is dungeon (отсюда будут приемы для создания анимации из статики) 
+![dark is dungeon](https://torrent-igruha.org/uploads/posts/2015-06/1434803121_ss_04572edc979601b038756f87861c6f8c6c337806.1920x1080.jpg)
+
+thief
+![thief](http://www.theaveragegamer.com/wp-content/uploads/2014/02/Thief-4-Stats-Screen.jpg)
+
+dishonored 
+![dishonored](https://cdn-images-1.medium.com/max/2000/1*b0c9vBQ4iNS4gfzgOubx_w.png)
+
+frost punk 
+![frost punk](https://3dnews.ru/assets/external/illustrations/2018/02/28/966349/f9f31da7bb085e36c19d07a7059f1bf2c077d69c.jpg)
+
+hunt showdown 
+![hunt showdown](https://static1.squarespace.com/static/55ef0e29e4b099e22cdc9eea/t/59851b18e58c62df09388140/1501895596034/?format=1500w)
+
+
+
 + 2 персонажа - по 4-5 состояния у каждого 
     - ожидание
     - выстрел
