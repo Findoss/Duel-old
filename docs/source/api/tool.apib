@@ -1,12 +1,12 @@
 # Group Tool API
 API для сервисных функций
 
-### Ping [HEAD /tools/ping]
+### Ping [HEAD /api/tools/ping]
 Проверка доступности сервиса
 
 + Response 200
 
-### Доступность почты [GET /tools/checkEmail{?email}]
+### Доступность почты [GET /api/tools/checkEmail{?email}]
 
 Проверка доступности почты
 + Parameters
@@ -17,7 +17,7 @@ API для сервисных функций
     + Attributes
         + used: true (boolean) 
 
-### Доступность никнейма [GET /tools/checkNickname{?nickname}] 
+### Доступность никнейма [GET /api/tools/checkNickname{?nickname}] 
 
 Проверка доступности никнейма
 + Parameters
@@ -28,7 +28,7 @@ API для сервисных функций
     + Attributes
         + used: true (boolean)
 
-### Актуальность токена [GET /tools/checkToken] 
+### Актуальность токена [GET /api/tools/checkToken] 
 
 Проверка валидности и актуальности токена
 + Request ()
