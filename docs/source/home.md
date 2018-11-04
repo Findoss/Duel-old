@@ -1,5 +1,42 @@
 # Техническая часть
 
+## Краткая справка
+
+### Документация
+Документацию для **клиента** 
+* по компонентам и ui можно посмотреть в `storybook`  
+* по функционалу можно посмотреть (jsdocs) из vuex (store)
+
+Документацию для **сервера**  
+* по модулю API - можно посмотреть в `build/API.html`
+* по модулю Game - можно посмотреть (jsdocs) из classes
+
+### Тесты
+Для **клиента**  
+* юнит тесты компонентов - 
+
+Для **сервера**  
+* юнит тесты по модулю API - 
+* юнит тесты по модулю Game - 
+* интеграционные тесты - 
+
+### Скрипты  
+База данных  
+* `database/scripts`  
+* `server/utils`  
+
+Клиент  
+* `client/utils`  
+
+### Управление задачами   
+[Разработка](https://github.com/Findoss/Duel/projects/2)  
+* клиент
+* сервер
+
+[Контент](https://github.com/Findoss/Duel/projects/3)  
+* графика
+* музыка 
+
 ## Структура проекта
 
 `│ ├─ └─ •••`
@@ -9,21 +46,6 @@ Duel
 ├── client
 │   ├── babel.config.js
 │   ├── build
-│   │   ├── css
-│   │   │   └── app.b48ce40e.css
-│   │   ├── favicon.ico
-│   │   ├── img
-│   │   │   ├── background.0d992d7c.png
-│   │   │   ├── loading.970b441e.png
-│   │   │   ├── locked.3bb60667.png
-│   │   │   ├── rolling_white.54b2d141.gif
-│   │   │   └── switch_orientation.138d4896.png
-│   │   ├── index.html
-│   │   └── js
-│   │       ├── app.7248b192.js
-│   │       ├── app.7248b192.js.map
-│   │       ├── chunk-vendors.94e93c74.js
-│   │       └── chunk-vendors.94e93c74.js.map
 │   ├── config
 │   ├── package-lock.json
 │   ├── package.json
@@ -386,6 +408,7 @@ Duel
 
 запустим фейк сервер  
 `$ npm run dev-api-mock` ( port - 3001 )  
+
 или настоящий сервер  
 `$ npm run dev-server` ( port - 3001 )
 
@@ -496,6 +519,9 @@ Duel
 
 ## Документация по инструментам
 
+[Vue](https://ru.vuejs.org/v2/guide/)  
+[Mongoosejs](http://mongoosejs.com)  
+[MongoDB](https://docs.mongodb.com/)  
 [ESlint](https://eslint.org)  
 [JSdoc](http://usejsdoc.org/index.html)  
 [JSdoc to markdown](https://github.com/jsdoc2md/jsdoc-to-markdown)  
