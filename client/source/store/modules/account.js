@@ -6,7 +6,7 @@
 
 import Http from '@/utils/http';
 import Router from '@/router';
-import socket from '../socket';
+import socket, { socketAuth } from '../socket';
 
 const state = {
   alertSignin: { // оповещение при входе
@@ -67,9 +67,13 @@ const actions = {
     return new Promise((reject) => {
       Http.send('POST', '/auth/signin', user)
         .then((response) => {
+          // сохраняем в стор
           commit('SET_MY_ID', response.id, { root: true });
+          // сохраняем в localStorage
           localStorage.setItem('session-token', response.token);
-          socket.connect();
+          // запускаем сокеты
+          socketAuth();
+
           Router.push({ path: `/${response.id}` });
         })
         .catch((error) => {
@@ -97,9 +101,9 @@ const actions = {
         });
       })
       .finally(() => {
-        socket.disconnect();
         commit('DEL_MY_ID', undefined, { root: true });
         localStorage.removeItem('session-token');
+        socket.disconnect();
         Router.push({ path: '/signin' });
       });
   },
