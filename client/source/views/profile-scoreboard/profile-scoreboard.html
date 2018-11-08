@@ -1,4 +1,7 @@
 <z-loading :show="users.lenght > 0">
+
+  <z-header-menu class="navigation" />
+
   <div class="scoreboard">
     <h4 class="display-4">
       <router-link :to="{ path: `/${myId}` }">Back my profile</router-link>
@@ -14,17 +17,24 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(user) in users" :key="user.id">
+        <tr
+          v-for="(user) in users"
+          :key="user.id"
+        >
           <td> {{ user.rank }} </td>
           <td>
-            <img :src="pathAvatar(user.avatar)" alt="" width="50px"> </td>
-            <td> {{ user.nickname }} </td>
-            <td> {{ user.level }} </td>
-            <td>
-              <router-link :to="{ path: `/${user.id}` }">profile</router-link>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+            <img
+              :src="pathAvatar(user.avatar)"
+              alt=""
+              width="50px"
+            > </td>
+          <td> {{ user.nickname }} </td>
+          <td> {{ user.level }} </td>
+          <td>
+            <router-link :to="{ path: `/${user.id}` }">profile</router-link>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </z-loading>

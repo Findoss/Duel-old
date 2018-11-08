@@ -1,14 +1,7 @@
 import { mapActions } from 'vuex';
 
 export default {
-  created() {
-    this.loadMe();
-    this.loadUserParameters();
-    this.loadSkills();
-    // ...
-    // ...
-    // ...
-  },
+  name: 'z-header-menu',
 
   computed: {
     myId() {
@@ -16,12 +9,19 @@ export default {
     },
   },
 
+  created() {
+    this.loadMe();
+    this.loadUserParameters();
+    this.loadSkills();
+  },
+
   methods: {
     ...mapActions({
-      loadSkills: 'skills/loadSkills',
       loadMe: 'me/loadMe',
-      signOut: 'me/account/signOut',
+      loadSkills: 'skills/loadSkills',
       loadUserParameters: 'statics/loadUserParameters',
+
+      signOut: 'me/account/signOut',
     }),
   },
 };

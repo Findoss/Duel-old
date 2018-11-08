@@ -1,24 +1,26 @@
 import { mapActions, mapState, mapGetters } from 'vuex';
 
 // Components
-import UserParametrs from '@/components/UserParametrs/UserParametrs.vue';
-import UserNickname from '@/components/UserNickname/UserNickname.vue';
-import UserEstate from '@/components/UserEstate/UserEstate.vue';
+import HeaderMenu from '@/components/HeaderMenu/HeaderMenu.vue';
+import Skill from '@/components/Skill/Skill.vue';
 import SkillCard from '@/components/SkillCard/SkillCard.vue';
 import SkillGrid from '@/components/SkillGrid/SkillGrid.vue';
 import SkillSet from '@/components/SkillSet/SkillSet.vue';
-import Skill from '@/components/Skill/Skill.vue';
+import UserEstate from '@/components/UserEstate/UserEstate.vue';
+import UserNickname from '@/components/UserNickname/UserNickname.vue';
+import UserParametrs from '@/components/UserParametrs/UserParametrs.vue';
 
 export default {
 
   components: {
-    'z-user-parametrs': UserParametrs,
-    'z-user-nickname': UserNickname,
-    'z-user-estate': UserEstate,
+    'z-header-menu': HeaderMenu,
     'z-skill-card': SkillCard,
     'z-skill-grid': SkillGrid,
     'z-skill-set': SkillSet,
     'z-skill': Skill,
+    'z-user-estate': UserEstate,
+    'z-user-nickname': UserNickname,
+    'z-user-parametrs': UserParametrs,
   },
 
   data() {
@@ -32,11 +34,11 @@ export default {
       skills: state => state.skills.skills,
     }),
     ...mapGetters({
+      estate: 'me/estate',
       getCountSkillsClones: 'me/getCountSkillsClones',
       isSkillUnlocked: 'me/isSkillUnlocked',
       skillSet: 'me/getSkillSet',
       user: 'me/getAllData',
-      estate: 'me/estate',
 
       getSkillInfo: 'skills/getSkillInfo',
 

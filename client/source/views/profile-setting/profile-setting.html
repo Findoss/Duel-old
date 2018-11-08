@@ -1,7 +1,16 @@
 <z-loading :show="avatars === null">
+
+  <z-header-menu class="navigation" />
+
   <div class="settings">
     <z-container class="size-xl no-border">
-      <transition-group name="list" tag="p">
+
+      <router-view />
+
+      <transition-group
+        name="list"
+        tag="p"
+      >
         <z-alert
           v-for="(alert, index) in alerts"
           :key="index"
@@ -19,10 +28,10 @@
 
 
       <h4 class="display-4">Select avatar</h4>
-      <img 
-        v-for="(avatar) in avatars" 
-        :src="pathAvatar(avatar)" 
-        :alt="avatar" 
+      <img
+        v-for="(avatar) in avatars"
+        :src="pathAvatar(avatar)"
+        :alt="avatar"
         :class="['avatar', isSelectedAvatar(avatar) ? 'avatar-select' : '']"
         @click="selectAvatar(avatar)"
       >
@@ -30,10 +39,10 @@
     <z-container class="size-m no-border">
 
       <h4 class="display-4">Change password</h4>
-      <form 
-        accept-charset="UTF-8"  
-        @submit.prevent="submitChangePassword" 
-        @keyup.enter="submitChangePassword" 
+      <form
+        accept-charset="UTF-8"
+        @submit.prevent="submitChangePassword"
+        @keyup.enter="submitChangePassword"
         novalidate
       >
         <z-text-field
@@ -70,15 +79,19 @@
           v-model="form.confirmPassword.value"
         />
         <br>
-        <z-button tabindex="4" type="submit" class="base-button">Update password</z-button>
+        <z-button
+          tabindex="4"
+          type="submit"
+          class="base-button"
+        >Update password</z-button>
       </form>
       <br>
       <br>
       <h4 class="display-4">Change username</h4>
-      <form 
-        accept-charset="UTF-8" 
-        @submit.prevent="submitChangeNickname" 
-        @keyup.enter="submitChangeNickname" 
+      <form
+        accept-charset="UTF-8"
+        @submit.prevent="submitChangeNickname"
+        @keyup.enter="submitChangeNickname"
         novalidate
       >
         <z-text-field
@@ -92,19 +105,27 @@
           v-model="form2.newNickname.value"
         />
         <br>
-        <z-button tabindex="6" type="submit" class="base-button">Change my nickname</z-button>
+        <z-button
+          tabindex="6"
+          type="submit"
+          class="base-button"
+        >Change my nickname</z-button>
       </form>
       <br>
       <br>
       <h4>Delete account</h4>
-      <z-alert 
+      <z-alert
         type="error"
         :icon="true"
         :show="true"
       >
         Once you delete your account, there is no going back. Please be certain.
       </z-alert>
-      <z-button tabindex="7" type="submit" @click="deleteAccount()">Delete your account</z-button>
+      <z-button
+        tabindex="7"
+        type="submit"
+        @click="deleteAccount()"
+      >Delete your account</z-button>
     </z-container>
   </div>
 </z-loading>
