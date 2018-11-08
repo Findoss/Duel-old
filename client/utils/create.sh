@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-cd .\\client\\source\\components
+cd .\\source\\components
 cp -r SkillSet $1
 cd $1
 mv SkillSet.css $1.css
