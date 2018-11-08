@@ -2,26 +2,28 @@ import { createSocketioPlugin } from 'vuex-socketio-plugin';
 
 import Vue from 'vue';
 import Vuex from 'vuex';
-import socket from './socket';
+
 import actions from './actions';
-import mutations from './mutations';
 import getters from './getters';
+import mutations from './mutations';
+import socket from './socket';
 
 import user from './modules/user';
 import userPrivate from './modules/user_private';
 
+import account from './modules/account';
+import chat from './modules/chat';
+import game from './modules/game';
+import lobby from './modules/lobby';
 import skills from './modules/skills';
 import statics from './modules/statics';
-import account from './modules/account';
-import game from './modules/game';
-import chat from './modules/chat';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   state: {
-    myId: 0,
+    myId: '0000',
     statusSocket: false,
   },
   actions,
@@ -30,6 +32,7 @@ export default new Vuex.Store({
   modules: {
     game, // модуль игровых объектов
     chat, // todo
+    lobby, // todo
     skills, // модуль скилов
     statics, // модуль статичных набров
     me: { // модуль пользователя

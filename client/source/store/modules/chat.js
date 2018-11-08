@@ -10,7 +10,7 @@ const getters = {
 
 const actions = {
   send({}, message) {
-    socket.emit('chat', { rout: '', payload: message });
+    socket.emit('chat', { route: '', payload: message });
   },
 };
 

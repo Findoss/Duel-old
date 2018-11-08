@@ -31,6 +31,7 @@ module.exports.del = (ctx) => {
   const { lobby } = store;
 
   lobby.deleteUser(socket.userId);
+  socket.emit('LobbyExit', 'exit111');
 
   // debug chat
   socket.emit('Chat', 'delete you lobby');
@@ -66,6 +67,8 @@ module.exports.serchOpponent = (ctx) => {
     const idSerchOpponent = setInterval(() => {
       // очищаем лобби если есть лимиты ожидания
       lobby.clear().forEach((user) => {
+        user.socket.emit('LobbyExit', 'exit222');
+
         console.log('               │');
         console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ delete lobby (time limit)');
         // debug chat
@@ -80,6 +83,8 @@ module.exports.serchOpponent = (ctx) => {
 
       // все кто в лобби отправляем время которое осталось
       lobby.listSerchTime().forEach((user) => {
+        user.socket.emit('LobbyTime', user.time);
+
         // debug chat
         user.socket.emit('Chat', `time: ${user.time}`);
       });
@@ -96,6 +101,7 @@ module.exports.serchOpponent = (ctx) => {
       console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ start game');
 
       pair.forEach((user) => {
+        user.socket.emit('LobbyGo', 'go1111');
         // debug chat
         user.socket.emit('Chat', 'go');
       });
