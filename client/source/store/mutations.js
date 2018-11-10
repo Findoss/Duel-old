@@ -1,6 +1,6 @@
 /* eslint no-param-reassign: 0 */
 
-const muttions = {
+export default {
   SET_MY_ID: (state, id) => {
     localStorage.setItem('myId', id);
     state.myId = id;
@@ -19,5 +19,3 @@ const muttions = {
     state.statusSocket = false;
   },
 };
-
-export default muttions;
