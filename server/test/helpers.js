@@ -40,7 +40,6 @@ module.exports.addSkillSet = async (userId, ...skillsId) => {
   await User.findByIdAndUpdate(
     userId,
     { $push: { skillSet: skillsId } },
-    console.log(asd);
   );
 };
 

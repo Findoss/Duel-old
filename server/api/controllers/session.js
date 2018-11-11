@@ -2,6 +2,10 @@ const ResponseError = require('../../utils/error');
 const passport = require('koa-passport');
 const Token = require('./token');
 
+/**
+ * TODO описание
+ * @param {*}
+ */
 module.exports.signin = async (ctx, next) => {
   await passport.authenticate('local', (error, user) => {
     if (error) throw new ResponseError(523, error);
@@ -19,6 +23,10 @@ module.exports.signin = async (ctx, next) => {
   await next();
 };
 
+/**
+ * TODO описание
+ * @param {*}
+ */
 module.exports.signout = async (ctx, next) => {
   if (ctx.isAuthenticated()) {
     await Token.deleteKey(ctx.state.user.id);
@@ -29,6 +37,10 @@ module.exports.signout = async (ctx, next) => {
   await next();
 };
 
+/**
+ * TODO описание
+ * @param {*}
+ */
 module.exports.tokenVerification = async (ctx, next) => {
   await passport.authenticate('jwt', (error, user) => {
     if (error) throw new ResponseError(523, error);

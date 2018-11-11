@@ -13,14 +13,17 @@ const sessionSchema = new mongoose.Schema({
     required: true,
   },
 });
+
 sessionSchema.set('toJSON', {
   getters: true,
   virtuals: true,
 });
+
 sessionSchema.set('toObject', {
   getters: true,
   virtuals: true,
 });
+
 sessionSchema.plugin(mongooseHidden);
 
 module.exports = mongoose.model('Session', sessionSchema);

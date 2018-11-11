@@ -31,8 +31,8 @@ export default new Vuex.Store({
   getters,
   modules: {
     game, // модуль игровых объектов
-    chat, // todo
-    lobby, // todo
+    chat, // TODO описание
+    lobby, // TODO описание
     skills, // модуль скилов
     statics, // модуль статичных набров
     me: { // модуль пользователя

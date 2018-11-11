@@ -1,5 +1,7 @@
-const routeLobby = require('./lobby');
+/* eslint no-console: 0 */
+// правило отключено потому что это важыный элемент логов, необходимо вынести в модуль
 
+const routeLobby = require('./lobby');
 
 module.exports = async (ctx) => {
   const { socket } = ctx;
@@ -10,7 +12,7 @@ module.exports = async (ctx) => {
     routeLobby({ ...ctx, data: { route: 'del' } });
   });
 
-  // debug
+  // DEBUG chat
   socket.on('chat', (data) => {
     ctx.io.emit('Chat', { user: socket.userId, message: data.payload });
     console.log('──‣ ┈┈┈┈┈ SEND ┬ chat');
@@ -19,4 +21,5 @@ module.exports = async (ctx) => {
     console.log('               │');
     console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${data.payload}`);
   });
+  // DEBUG chat-end
 };

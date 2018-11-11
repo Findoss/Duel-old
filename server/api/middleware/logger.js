@@ -1,3 +1,7 @@
+/**
+ * https://www.npmjs.com/package/concurrency-logger
+ */
+
 const config = require('../../config/index');
 const createLogger = require('concurrency-logger').default;
 

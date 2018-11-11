@@ -34,7 +34,7 @@ const getters = {
   getSkillInfo: state => (id) => {
     const skill = state.skills.find(skill => skill.id === id);
     if (skill !== undefined) return skill;
-    return state.skills[0]; // return stub skill
+    return state.skills[0];
   },
 };
 

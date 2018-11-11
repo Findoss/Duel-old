@@ -2,6 +2,10 @@ import io from 'socket.io-client';
 
 const socket = io(window.location.origin, { autoConnect: false });
 
+/**
+ * TODO описание
+ * @export
+ */
 export function socketAuth() {
   const sessionToken = localStorage.getItem('session-token');
 

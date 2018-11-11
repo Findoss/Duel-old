@@ -21,8 +21,6 @@ describe('ME API', () => {
     await helpers.clearUsers();
     await helpers.clearSkills();
     await helpers.clearSessions();
-    console.log(asd);
-    console.log(asd);
   });
 
   describe(`выполняем вход - ${EJSON_SESSIONS}`, () => {

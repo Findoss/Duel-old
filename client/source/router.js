@@ -101,6 +101,9 @@ router.beforeEach((to, from, next) => {
   const requiresAuthorization = to.matched.some(r => r.meta.requiresAuthorization);
   const goProfile = to.matched.some(r => r.meta.goProfile);
 
+  /**
+   * TODO описане
+  */
   if (requiresAuthorization && !sessionService.isLogin()) {
     store.dispatch('me/account/showAlertSignin', {
       type: 'error',
@@ -109,6 +112,9 @@ router.beforeEach((to, from, next) => {
     next({ path: '/signin' });
   }
 
+  /**
+   * TODO описане
+  */
   if (goProfile && sessionService.isLogin()) {
     next({ path: `/${store.getters.myId}` });
   }

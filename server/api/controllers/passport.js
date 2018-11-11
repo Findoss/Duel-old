@@ -8,6 +8,9 @@ const LocalStrategy = require('passport-local').Strategy;
 const JwtStrategy = require('passport-jwt').Strategy;
 const { ExtractJwt } = require('passport-jwt');
 
+/**
+ * TODO описание
+ */
 passport.use(new LocalStrategy(
   {
     usernameField: 'email',
@@ -31,6 +34,9 @@ passport.use(new LocalStrategy(
   }),
 ));
 
+/**
+ * TODO описание
+ */
 passport.use(new JwtStrategy(
   {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
