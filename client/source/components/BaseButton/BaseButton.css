@@ -6,7 +6,8 @@
   border: 3px solid;
   color: var(--color-red-norm);
   cursor: pointer;
-  /* font-family: King; font todo */ 
+  /* TODO шрифты*/
+  /* font-family: King; */ 
   font-size: 1.7rem;
   letter-spacing: 0.05rem;
   outline: none;

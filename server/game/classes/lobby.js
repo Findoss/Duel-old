@@ -19,8 +19,8 @@ class Lobby {
    * Добавление игрока в очередь подбора
    * @param {Socket} socket Сокет игрока
    * @param {String} id Id игрока
-   * @param {Number} rank todo
-   * @param {Number} time todo
+   * @param {Number} rank TODO описание
+   * @param {Number} time TODO описание
    */
   addUser(socket, id, rank, timeLimit) {
     const time = Date.now() + (timeLimit * 1000);
@@ -57,21 +57,21 @@ class Lobby {
   }
 
   /**
-   * todo
+   * TODO описание
    */
   count() {
     return this.lobby.length;
   }
 
   /**
-   * todo
+   * TODO описание
    */
   listUserId() {
     return this.lobby.map(user => user.id);
   }
 
   /**
-   * todo
+   * TODO описание
    */
   listSerchTime() {
     return this.lobby.map(user => ({
@@ -81,7 +81,7 @@ class Lobby {
   }
 
   /**
-   * todo
+   * TODO описание
    */
   serchOpponent() {
     // супер функция подбора
@@ -92,7 +92,7 @@ class Lobby {
   }
 
   /**
-   * todo
+   * TODO описание
    */
   clear() {
     const deleteUsers = [];

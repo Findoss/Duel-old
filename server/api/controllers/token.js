@@ -1,11 +1,14 @@
 const config = require('../../config/index');
 
-const mongoose = require('mongoose');
 const Session = require('../../models/session');
 
 const uuidv4 = require('uuid/v4');
 const jwt = require('jsonwebtoken');
 
+/**
+ * TODO описание
+ * @param {*}
+ */
 module.exports.generateToken = async (userId) => {
   const key = uuidv4();
 
@@ -28,6 +31,10 @@ module.exports.generateToken = async (userId) => {
   }
 };
 
+/**
+ * TODO описание
+ * @param {*}
+ */
 module.exports.checkKey = async (userId, userKey) => {
   try {
     const session = await Session.findOne({ userId }, 'key');
@@ -37,6 +44,10 @@ module.exports.checkKey = async (userId, userKey) => {
   }
 };
 
+/**
+ * TODO описание
+ * @param {*}
+ */
 module.exports.deleteKey = async (userId) => {
   try {
     const isRemove = await Session.remove({ userId });
@@ -46,6 +57,10 @@ module.exports.deleteKey = async (userId) => {
   }
 };
 
+/**
+ * TODO описание
+ * @param {*}
+ */
 module.exports.checkSocketToken = async (token) => {
   try {
     const { id, key } = jwt.verify(token, config.JWTKey);

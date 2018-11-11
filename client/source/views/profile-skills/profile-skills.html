@@ -1,60 +1,65 @@
-<div class="conteiner">
-  <div class="user">
-    <img 
-      :src="pathAvatarIcon(user.avatar)" 
-      alt="avatar" 
-      class="user-avatar"
-    >
+<div>
 
-    <z-user-nickname
-      :nickname="user.nickname"
-      :level="user.level"
-    ></z-user-nickname>
-  
-    <z-user-parametrs
-      :userParameters="parameters"
-    ></z-user-parametrs>
+  <z-header-menu class="navigation" />
 
-    <z-skill-set>
-      <z-skill
-        v-for="(id, index) in skillSet" 
-        :key="index" 
-        :id="id"
-        class="pointer"
-        @click="pressSkill(id)" 
+  <div class="conteiner">
+
+
+    <div class="user">
+      <img
+        :src="pathAvatarIcon(user.avatar)"
+        alt="avatar"
+        class="user-avatar"
       >
-        <button 
-          @click="delInSkillSet(id)" 
-          class="delete-skill-in-set"
-        ></button>
-      </z-skill>
-    </z-skill-set>
 
-  </div>
+      <z-user-nickname
+        :nickname="user.nickname"
+        :level="user.level"
+      ></z-user-nickname>
+
+      <z-user-parametrs :userParameters="parameters"></z-user-parametrs>
+
+      <z-skill-set>
+        <z-skill
+          v-for="(id, index) in skillSet"
+          :key="index"
+          :id="id"
+          class="pointer"
+          @click="pressSkill(id)"
+        >
+          <button
+            @click="delInSkillSet(id)"
+            class="delete-skill-in-set"
+          ></button>
+        </z-skill>
+      </z-skill-set>
+
+    </div>
 
 
-  <div class="skills">
-    
-    <z-user-estate :estate="estate"></z-user-estate>
-    
-    <z-skill-card :skillId="skillId"></z-skill-card>
-    
-    <div>FILTER</div>
+    <div class="skills">
 
-    <z-skill-grid>
-      <z-skill
-        v-for="(skill, index) in skills" 
-        :key="index" 
-        :id="skill.id"
-        :class="[
+      <z-user-estate :estate="estate"></z-user-estate>
+
+      <z-skill-card :skillId="skillId"></z-skill-card>
+
+      <div>FILTER</div>
+
+      <z-skill-grid>
+        <z-skill
+          v-for="(skill, index) in skills"
+          :key="index"
+          :id="skill.id"
+          :class="[
           'pointer',
           user.skillSet.some(id => id === skill.id) ? 'skill-in-set' : '',
           !isSkillUnlocked(skill.id) ? 'skill-lock' : '',
           skill.id === skillId ? 'skill-pick' : '',
         ]"
-        @click="pressSkill(skill.id)" 
-      ></z-skill>
-    </z-skill-grid> 
-    
+          @click="pressSkill(skill.id)"
+        ></z-skill>
+      </z-skill-grid>
+
+    </div>
   </div>
 </div>

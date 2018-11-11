@@ -1,12 +1,12 @@
 /* eslint no-param-reassign: 0 */
 /* eslint no-shadow: 0 */
 
-/* eslint no-alert: 0 */ // HUCK
-/* eslint no-restricted-globals: 0 */ // HUCK
+/* eslint no-alert: 0 */ // FIFME HUCK
+/* eslint no-restricted-globals: 0 */ // FIFME HUCK
 
 import Http from '@/utils/http';
 import Router from '@/router';
-import socket from '../socket';
+import socket, { socketAuth } from '../socket';
 
 const state = {
   alertSignin: { // оповещение при входе
@@ -18,11 +18,11 @@ const state = {
 const getters = {};
 
 const actions = {
-  showAlertSignin({ commit }, alert) {
+  showAlertSignin ({ commit }, alert) {
     commit('SET_ALERT', alert);
   },
 
-  registration({ dispatch }, user) {
+  registration ({ dispatch }, user) {
     return new Promise((reject) => {
       Http.send('POST', '/users', user)
         .then((response) => {
@@ -39,7 +39,7 @@ const actions = {
   },
 
 
-  deleteAccount({ dispatch }) {
+  deleteAccount ({ dispatch }) {
     return new Promise(() => {
       if (confirm('Once you delete your account, there is no going back. Please be certain.')) {
         Http.send('DELETE', '/me')
@@ -55,21 +55,28 @@ const actions = {
     });
   },
 
+
+  // TODO реализовать методы API
   // newPassword({ dispatch }, password) {
   //   // ...
   // },
 
+  // TODO реализовать методы API
   // resetPassword({ dispatch }, email) {
   //   // ...
   // },
 
-  signIn({ commit, dispatch }, user) {
+  signIn ({ commit, dispatch }, user) {
     return new Promise((reject) => {
       Http.send('POST', '/auth/signin', user)
         .then((response) => {
+          // сохраняем в стор
           commit('SET_MY_ID', response.id, { root: true });
+          // сохраняем в localStorage
           localStorage.setItem('session-token', response.token);
-          socket.connect();
+          // запускаем сокеты
+          socketAuth();
+
           Router.push({ path: `/${response.id}` });
         })
         .catch((error) => {
@@ -82,7 +89,7 @@ const actions = {
     });
   },
 
-  signOut({ commit, dispatch }) {
+  signOut ({ commit, dispatch }) {
     Http.send('DELETE', '/auth/signout')
       .then((response) => {
         dispatch('showAlertSignin', {
@@ -97,9 +104,9 @@ const actions = {
         });
       })
       .finally(() => {
-        socket.disconnect();
         commit('DEL_MY_ID', undefined, { root: true });
         localStorage.removeItem('session-token');
+        socket.disconnect();
         Router.push({ path: '/signin' });
       });
   },
@@ -107,7 +114,7 @@ const actions = {
 
 const mutations = {
 
-  SET_ALERT(state, alert) {
+  SET_ALERT (state, alert) {
     state.alertSignin = alert;
   },
 

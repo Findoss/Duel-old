@@ -44,7 +44,6 @@ const getters = {
 
 const actions = {
 
-  // todo
   loadScoreboard() {
     return new Promise((resolve, reject) => {
       Http.get('/users')

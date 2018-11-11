@@ -9,12 +9,12 @@
 
 html {
   font-family: sans-serif;
-  /* font todo */
+  /* TODO шрифты */
 }
 
 h1, h2, h3, h4, .title, .subtitle {
   font-family: monospace;
-  /* font todo */
+  /* TODO шрифты */
   font-weight: normal;
   letter-spacing: 0.03em;
   color: var(--color-text-heading);

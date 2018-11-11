@@ -1,4 +1,5 @@
 <div>
+  <z-header-menu class="navigation" />
   <z-container class="size-l">
     <z-text-field
       label="You message"
@@ -8,10 +9,12 @@
     />
 
     <z-button @click="send(message)">send</z-button>
+    <z-button @click="add()">add lobby</z-button>
+    <z-button @click="del()">del lobby</z-button>
 
     <ul class="chat">
       <li v-for="message in messages.slice().reverse()">
-        {{ message.user.slice(0, 5).toUpperCase() }} → {{ message.message }}
+        {{ message.user ? message.user.slice(0, 5).toUpperCase() : null }} → {{ message.message }}
       </li>
     </ul>
   </z-container>

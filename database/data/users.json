@@ -1,6 +1,7 @@
-
 {
-  "_id": { "$oid": "5bb230e31ce12b665c48f3a2" },
+  "_id": {
+    "$oid": "5bb230e31ce12b665c48f3a2"
+  },
   "gold": 1250,
   "points": 80,
   "avatar": "null",
@@ -14,12 +15,14 @@
   "skillsUnlocked": [],
   "nickname": "NICKNAME_USER_1",
   "password": {
-    "salt": "f524c88f63f063769e6c18cb5226fc47",
-    "hash": "ed5dd4d3f2c606d87d65dc9a6b225617b82dba75dbf0d9270c61e82c2aba802f90fae1e565c58f919dbcc48dcf0e7af2ab8661fd1380b99166b16619c0c9f8c7"
+    "salt": "0b90525757fc27dd7224e32c01a887ea",
+    "hash": "0fdebe7e267a121f44bb58f7c04c62a2e5f9e8b574fa27f7aff3b045965674d7d6aec8c0ebed3348061bd8f9639ea8f9a4141a8c387d1c220022d8884a034ba3"
   }
 }
 {
-  "_id": { "$oid": "5bb230e31ce12b665c48f3a1" },
+  "_id": {
+    "$oid": "5bb230e31ce12b665c48f3a1"
+  },
   "gold": 70,
   "points": 25,
   "avatar": "null",
@@ -38,7 +41,9 @@
   }
 }
 {
-  "_id": { "$oid": "5bb230e31ce12b665c48f3a0" },
+  "_id": {
+    "$oid": "5bb230e31ce12b665c48f3a0"
+  },
   "gold": 60,
   "points": 10,
   "avatar": "null",

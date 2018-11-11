@@ -23,7 +23,10 @@ describe('AUTHORIZATION API', () => {
   it('зайти через почту и пароль', async () => {
     await api
       .post('/auth/signin')
-      .send(dataUsers[0])
+      .send({
+        email: dataUsers[0].email,
+        password: dataUsers[0].password,
+      })
       .expect((res) => {
         expect(res.body.token).to.be.a('string');
       })
@@ -33,7 +36,10 @@ describe('AUTHORIZATION API', () => {
   it('зайти через почту и пароль (не верный логин или пароль)', async () => {
     await api
       .post('/auth/signin')
-      .send(dataUsers[1])
+      .send({
+        email: dataUsers[1].email,
+        password: dataUsers[1].password,
+      })
       .expect(403);
   });
 

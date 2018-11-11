@@ -1,3 +1,6 @@
+/* eslint no-param-reassign: 0 */
+/* eslint no-shadow: 0 */
+
 import socket from '../socket';
 
 const state = {
@@ -9,8 +12,8 @@ const getters = {
 };
 
 const actions = {
-  send({}, message) {
-    socket.emit('chat', { rout: '', payload: message });
+  send({ }, message) {
+    socket.emit('chat', { route: '', payload: message });
   },
 };
 

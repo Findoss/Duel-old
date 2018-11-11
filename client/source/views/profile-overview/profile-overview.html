@@ -1,33 +1,39 @@
-<div class="overview">
-  <z-user-nickname
-    :nickname="user.nickname"
-    :level="user.level"
-  ></z-user-nickname>
+<div>
 
-  <div class="avatar">
-    <img :src="pathAvatar(user.avatar)" :alt="user.avatar">
+  <z-header-menu class="navigation" />
+
+  <div class="overview">
+    <z-user-nickname
+      :nickname="user.nickname"
+      :level="user.level"
+    ></z-user-nickname>
+
+    <div class="avatar">
+      <img
+        :src="pathAvatar(user.avatar)"
+        :alt="user.avatar"
+      >
+    </div>
+
+    <z-user-estate
+      v-if="isMe"
+      :estate="estate"
+    ></z-user-estate>
+
+    <div v-else>
+      <router-link :to="{ path: `/${myId}` }">Back my profile</router-link>
+    </div>
+
+    <z-user-parametrs :userParameters="parametrs"></z-user-parametrs>
+
+    <z-skill-set>
+      <z-skill
+        v-for="(id, index) in skillSet"
+        :key="index"
+        :id="id"
+      >
+      </z-skill>
+    </z-skill-set>
+
   </div>
-
-  <z-user-estate
-    v-if="isMe" 
-    :estate="estate"
-  ></z-user-estate>
-
-  <div v-else>
-    <router-link :to="{ path: `/${myId}` }">Back my profile</router-link>
-  </div>
-
-  <z-user-parametrs
-    :userParameters="parametrs"
-  ></z-user-parametrs>
-
-  <z-skill-set>
-    <z-skill
-      v-for="(id, index) in skillSet" 
-      :key="index" 
-      :id="id"
-    >
-    </z-skill>
-  </z-skill-set>
-
 </div>

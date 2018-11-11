@@ -235,17 +235,18 @@
 
         },1000)
 
+        const HOST_GAME='http://localhost:3001';
 
         sockets=[
-          new io('http://localhost:3001',{
+          new io(HOST_GAME,{
             forceNew: true,
             autoConnect: false,
           }),
-          new io('http://localhost:3001',{
+          new io(HOST_GAME,{
             forceNew: true,
             autoConnect: false,
           }),
-          new io('http://localhost:3001',{
+          new io(HOST_GAME,{
             forceNew: true,
             autoConnect: false,
           }),

@@ -83,22 +83,31 @@ userSchema.set('toObject', {
   virtuals: true,
 });
 
-userSchema.virtual('level')
-  .get(function () {
-    const level = Levels.findIndex(experience => this.experience < experience);
-    return level;
-  });
+/**
+ * TODO описание
+ */
+userSchema.virtual('level').get(function get() {
+  const level = Levels.findIndex(experience => this.experience < experience);
+  return level;
+});
 
-userSchema.plugin(mongooseHidden);
-
-userSchema.methods.setPassword = function (password) {
+/**
+ * TODO описание
+ * @param {*}
+ */
+userSchema.methods.setPassword = function setPassword(password) {
   this.password.salt = crypto.randomBytes(16).toString('hex');
   this.password.hash = crypto.pbkdf2Sync(password, this.password.salt, 128, 64, 'sha256').toString('hex');
 };
-
-userSchema.methods.checkPassword = function (password) {
+/**
+ * TODO описание
+ * @param {*}
+ */
+userSchema.methods.checkPassword = function checkPassword(password) {
   const hash = crypto.pbkdf2Sync(password, this.password.salt, 128, 64, 'sha256').toString('hex');
   return this.password.hash === hash;
 };
+
+userSchema.plugin(mongooseHidden);
 
 module.exports = mongoose.model('User', userSchema);

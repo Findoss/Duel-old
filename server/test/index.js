@@ -13,6 +13,7 @@ describe('TESTS', () => {
     await api.http.close();
   });
 
-  require('./api/index');
-  // require('./scenarios');
+  // require('./unit/index');
+  require('./integration/index');
+  // require('./system/index');
 });

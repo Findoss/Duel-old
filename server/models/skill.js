@@ -57,14 +57,17 @@ const skillSchema = new mongoose.Schema({
     type: Object,
   },
 });
+
 skillSchema.set('toJSON', {
   getters: true,
   virtuals: true,
 });
+
 skillSchema.set('toObject', {
   getters: true,
   virtuals: true,
 });
+
 skillSchema.plugin(mongooseHidden);
 
 module.exports = mongoose.model('Skill', skillSchema);

@@ -1,4 +1,5 @@
 import { mapActions, mapGetters } from 'vuex';
+import HeaderMenu from '@/components/HeaderMenu/HeaderMenu.vue';
 
 // Utils
 import Rules from '@/utils/validation/rules';
@@ -6,8 +7,8 @@ import validationForm from '@/utils/validation/form';
 
 export default {
 
-  created() {
-    this.loadAvatarsList();
+  components: {
+    'z-header-menu': HeaderMenu,
   },
 
   data() {
@@ -51,6 +52,10 @@ export default {
     ...mapGetters({
       avatars: 'statics/getAvatarList',
     }),
+  },
+
+  created() {
+    this.loadAvatarsList();
   },
 
   methods: {
