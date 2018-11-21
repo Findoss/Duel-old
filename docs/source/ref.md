@@ -1,9 +1,4 @@
-<style>
-  img { 
-    height: 150px;
-    max-width: 100%;
-  }
-</style>
+
 
 ## Dishonored 
 
@@ -17,6 +12,9 @@
 [![](https://d1u5p3l4wpay3k.cloudfront.net/dishonored_gamepedia/thumb/5/54/DunwallTower_pre-coup.jpg/1200px-DunwallTower_pre-coup.jpg)](https://d1u5p3l4wpay3k.cloudfront.net/dishonored_gamepedia/thumb/5/54/DunwallTower_pre-coup.jpg/1200px-DunwallTower_pre-coup.jpg)
 [![](https://www.rocketchainsaw.com.au/wp-content/uploads/2013/08/dishonored_1.jpg)](https://www.rocketchainsaw.com.au/wp-content/uploads/2013/08/dishonored_1.jpg)
 [![](http://www.savecontinue.com/wp-content/uploads/2013/07/Dishonored1.jpg)](http://www.savecontinue.com/wp-content/uploads/2013/07/Dishonored1.jpg)
+[![]()]()
+[![]()]()
+[![]()]()
 
 ###  heros  
 [![](https://i.pinimg.com/originals/cb/63/b1/cb63b141bbbdbad2ef670ef57f601bcc.jpg)](https://i.pinimg.com/originals/cb/63/b1/cb63b141bbbdbad2ef670ef57f601bcc.jpg)
@@ -44,6 +42,9 @@
 [![](https://images.contentful.com/rporu91m20dc/66sXhFmV1Ya40wMGGq2gC6/c1b413f3a7f877c962d972e082a73f1a/data.images.event.209.Dishonored2_Inhabitants_FULL.jpg)](https://images.contentful.com/rporu91m20dc/66sXhFmV1Ya40wMGGq2gC6/c1b413f3a7f877c962d972e082a73f1a/data.images.event.209.Dishonored2_Inhabitants_FULL.jpg)
 [![](https://gpstatic.com/acache/10/61/6/uk/s2-0e5534e1d858a6e3ba270c5145705371.jpg)](https://gpstatic.com/acache/10/61/6/uk/s2-0e5534e1d858a6e3ba270c5145705371.jpg)
 [![](https://gpstatic.com/acache/30/57/1/fr/s6-1465167b6a4c86db239bb939d50f5b42.jpg)](https://gpstatic.com/acache/30/57/1/fr/s6-1465167b6a4c86db239bb939d50f5b42.jpg)
+[![]()]()
+[![]()]()
+[![]()]()
 
 ### UI  
 [![](https://cdn-images-1.medium.com/max/2000/1*BbCNyJoNkfyrpZuzf8SCxw.png)](https://cdn-images-1.medium.com/max/2000/1*BbCNyJoNkfyrpZuzf8SCxw.png)
@@ -59,6 +60,7 @@
 [![]()]()
 [![]()]()
 
+
 # Thief
 
 ### world
@@ -73,6 +75,9 @@
 [![](http://6iee.com/data/uploads/46/387853.jpg)](http://6iee.com/data/uploads/46/387853.jpg)
 [![](http://conceptartworld.com/wp-content/uploads/2014/03/Thief_Game_Concept_Art_MLD_03.jpg)](http://conceptartworld.com/wp-content/uploads/2014/03/Thief_Game_Concept_Art_MLD_03.jpg)
 [![](https://www.gametech.ru/sadm_images/00jin/2014/january/16/screens/thief/3e57c47619a4d88714cc98db2c157635.jpg)](https://www.gametech.ru/sadm_images/00jin/2014/january/16/screens/thief/3e57c47619a4d88714cc98db2c157635.jpg)
+[![]()]()
+[![]()]()
+[![]()]()
 
 ### UI  
 [![](http://ps4n.ru/wp-content/uploads/2013/12/Thief-UI-Difficulty_001.jpg)](http://ps4n.ru/wp-content/uploads/2013/12/Thief-UI-Difficulty_001.jpg)
@@ -124,11 +129,17 @@
 [![]()]()
 [![]()]()
 [![]()]()
-[![]()]()
 
 # Steampunk
 
 [![]()]()
 [![]()]()
 [![]()]()
-[![]()]()
+
+
+<style>
+  img { 
+    height: 250px;
+    max-width: 100%;
+  }
+</style>
