@@ -463,6 +463,12 @@ Duel
 Конфигурация webpack  
 `$ npm run vue-inspect`
 
+Запуск книги компонентов в режиме разработки  
+`$ npm run dev-storybook`
+
+Сборка книги компонентов  
+`$ npm run build-storybook`
+
 ### Сервер (  cd ./server  )
 
 Запуск сервера в режиме разработки  
@@ -481,6 +487,9 @@ Duel
 
 Запуск клиента в режиме разработки  
 `$ npm run dev-client` ( port - 3002 )
+
+Запуск книги компонентов в режиме разработки  
+`$ npm run dev-storybook` ( port - 3004 )
 
 Запуск сервера в режиме разработки  
 `$ npm run dev-server` ( port - 3001 )

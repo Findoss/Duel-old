@@ -9,8 +9,8 @@
     "postinstall": "npm run build",
     "dev": "vue-cli-service serve --port 3002",
     "vue-inspect": "vue inspect > ../docs/build/webpack-config.js",
-    "serve:storybook": "vue-cli-service serve:storybook -p 6006 -c config/storybook",
-    "build:storybook": "vue-cli-service build:storybook -c config/storybook"
+    "dev-storybook": "vue-cli-service serve:storybook -p 3004 -c config/storybook",
+    "build-storybook": "vue-cli-service build:storybook -c config/storybook"
   },
   "dependencies": {
     "@vue/cli-plugin-babel": "^3.0.3",
