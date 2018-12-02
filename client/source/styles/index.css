@@ -1,58 +1,124 @@
 :root {
-  --color-text: hsl(40, 40%, 90%);
-  --color-text-strong: hsl(40, 60%, 65%);
-  --color-text-heading: hsl(40, 65%, 65%);
-  /* #e0b96c */
-  --background-0: hsl(0, 0%, 0%);
-  --background-1: hsl(0, 0%, 5%);
-  --background-2: hsl(0, 0%, 7%);
+  --color-text: hsl(0, 0%, 10%);
+  --color-text-strong: hsl(0, 0%, 5%);
+  --color-text-heading: hsl(0, 0%, 0%);
+  /**/
+  --color-white: #fff;
+  /**/
+  --background-0: hsl(40, 40%, 90%);
+  --background-1: hsl(300, 25%, 80%);
+  --background-2: hsl(100, 25%, 80%);
+  /**/
   --color-red-lite: hsl(360, 80%, 60%);
-  /* #eb4747 */
   --color-red-norm: hsl(355, 80%, 30%);
   --color-red-dark: hsl(355, 80%, 20%);
+  /**/
   --color-gray-lite: hsl(220, 16%, 36%);
-  /* #4d576a */
   --color-gray-norm: hsl(220, 16%, 30%);
   --color-gray-bright: hsl(220, 16%, 22%);
-  /* #2f3541 */
+  /**/
   --color-yellow-lite: hsl(40, 60%, 70%);
   --color-yellow-norm: hsl(40, 60%, 65%);
   --color-yellow-bright: hsl(40, 70%, 60%);
-  /* #e0b152 */
+  /**/
   --color-blue-lite: hsl(180, 25%, 80%);
   --color-blue-norm: hsl(180, 30%, 70%);
   --color-blue-bright: hsl(180, 40%, 60%);
-  /* #70c2c2 */
+  /**/
   --color-green-lite: hsl(92, 28%, 65%);
   --color-green-norm: hsl(92, 49%, 58%);
-  /* #8ad24b */
   --color-green-bright: hsl(92, 60%, 56%);
 }
 
 * {
-  padding: 0;
   margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
   box-sizing: border-box;
 }
 
 html {
-  font-size: 20px;
+  font-size: 1.2vh;
 }
 
 body {
-  font-size: 1rem;
-  background-color: var(--background);
-  color: var(--color-text);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: bottom;
-  background-attachment: fixed;
-  background-color: var(--background-1);
-  background-image: url("../assets/background.png");
+  display: grid;
+  align-items: start;
+  justify-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--background-2);
 }
 
-@import "./reset/typography.css";
-@import "./reset/link.css";
-@import "./reset/table.css";
-@import "./reset/list.css";
+.app {
+  display: grid;
+  height: 100vh;
+  width: 100%;
+  min-height: 600px;
+  max-height: 75vw;
+  min-width: 133vh;
+  max-width: 177vh;
+  font-size: 2rem;
+  background-color: var(--background-1);
+}
+
+.block-size-scren {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-gray-bright);
+  align-items: center;
+  justify-items: center;
+}
+
+.block-size-scren:after {
+  content: url(../assets/stop.svg);
+  width: 50vh;
+  height: 50vh;
+}
+
+.block-orientation {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-gray-bright);
+  align-items: center;
+  justify-items: center;
+}
+
+.block-orientation::after {
+  content: url(../assets/rotate.svg);
+  width: 20vw;
+  height: 20vw;
+  border: 1vw solid var(--color-white);
+  border-radius: 50%;
+  padding: 10vw;
+}
+
+@media all and (orientation:portrait) {
+  .block-orientation {
+    display: grid;
+  }
+  .app {
+    display: none;
+  }
+}
+
+@media all and (orientation:landscape) {
+  .block-orientation {
+    display: none;
+  }
+  .app {
+    display: grid;
+  }
+}
+
+@media (max-height: 550px) {
+  .block-size-scren {
+    display: grid;
+  }
+  .app {
+    display: none;
+  }
+}

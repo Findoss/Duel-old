@@ -1,8 +1,0 @@
-.skillset {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(100px, 1fr));
-  grid-template-rows: repeat(2, minmax(100px, 1fr));
-  grid-gap: 0.5em;
-  padding: 20px 40px 0 40px;
-  justify-items: flex-start;
-}

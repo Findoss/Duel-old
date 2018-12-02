@@ -3,20 +3,20 @@ import { createSocketioPlugin } from 'vuex-socketio-plugin';
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import socket from '../utils/socket';
+
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
-import socket from './socket';
 
-import user from './modules/user';
-import userPrivate from './modules/user_private';
+import user from './modules/user/state';
+import userPrivate from './modules/user_private/state';
 
-import account from './modules/account';
-import chat from './modules/chat';
-import game from './modules/game';
-import lobby from './modules/lobby';
-import skills from './modules/skills';
-import statics from './modules/statics';
+import account from './modules/account/state';
+import chat from './modules/chat/state';
+import lobby from './modules/lobby/state';
+import skills from './modules/skills/state';
+import statics from './modules/statics/state';
 
 Vue.use(Vuex);
 
@@ -30,7 +30,6 @@ export default new Vuex.Store({
   mutations,
   getters,
   modules: {
-    game, // модуль игровых объектов
     chat, // TODO описание
     lobby, // TODO описание
     skills, // модуль скилов
