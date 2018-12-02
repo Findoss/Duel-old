@@ -2,7 +2,7 @@
 /* eslint no-shadow: 0 */
 
 import Http from '@/utils/http';
-import Router from '@/router';
+import Router from '@/routes';
 
 const state = {
   experience: 0, // опыт

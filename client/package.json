@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "build": "vue-cli-service build",
-    "create": "sh utils/create.sh",
+    "test": "vue-cli-service test:unit",
+    "create": "sh tools/create.sh",
     "postinstall": "npm run build",
     "dev": "vue-cli-service serve --port 3002",
-    "test": "vue-cli-service test:unit",
-    "vue-inspect": "vue inspect > ../docs/build/webpack-config.js"
+    "vue-inspect": "vue inspect > ../docs/build/webpack-config.js",
+    "serve:storybook": "vue-cli-service serve:storybook -p 6006 -c config/storybook",
+    "build:storybook": "vue-cli-service build:storybook -c config/storybook"
   },
   "dependencies": {
     "@vue/cli-plugin-babel": "^3.0.3",

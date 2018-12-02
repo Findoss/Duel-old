@@ -5,7 +5,7 @@
 /* eslint no-restricted-globals: 0 */ // FIFME HUCK
 
 import Http from '@/utils/http';
-import Router from '@/router';
+import Router from '@/routes';
 import socket, { socketAuth } from '../socket';
 
 const state = {
@@ -18,11 +18,11 @@ const state = {
 const getters = {};
 
 const actions = {
-  showAlertSignin ({ commit }, alert) {
+  showAlertSignin({ commit }, alert) {
     commit('SET_ALERT', alert);
   },
 
-  registration ({ dispatch }, user) {
+  registration({ dispatch }, user) {
     return new Promise((reject) => {
       Http.send('POST', '/users', user)
         .then((response) => {
@@ -39,7 +39,7 @@ const actions = {
   },
 
 
-  deleteAccount ({ dispatch }) {
+  deleteAccount({ dispatch }) {
     return new Promise(() => {
       if (confirm('Once you delete your account, there is no going back. Please be certain.')) {
         Http.send('DELETE', '/me')
@@ -66,7 +66,7 @@ const actions = {
   //   // ...
   // },
 
-  signIn ({ commit, dispatch }, user) {
+  signIn({ commit, dispatch }, user) {
     return new Promise((reject) => {
       Http.send('POST', '/auth/signin', user)
         .then((response) => {
@@ -89,7 +89,7 @@ const actions = {
     });
   },
 
-  signOut ({ commit, dispatch }) {
+  signOut({ commit, dispatch }) {
     Http.send('DELETE', '/auth/signout')
       .then((response) => {
         dispatch('showAlertSignin', {
@@ -114,7 +114,7 @@ const actions = {
 
 const mutations = {
 
-  SET_ALERT (state, alert) {
+  SET_ALERT(state, alert) {
     state.alertSignin = alert;
   },
 
