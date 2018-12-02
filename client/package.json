@@ -28,7 +28,10 @@
     "vuex-socketio-plugin": "^0.1.0"
   },
   "devDependencies": {
-    "chai": "^4.1.2"
+    "@storybook/addon-actions": "4.0.0-alpha.20",
+    "@storybook/addon-links": "4.0.0-alpha.20",
+    "chai": "^4.1.2",
+    "vue-cli-plugin-storybook": "^0.4.8"
   },
   "postcss": {
     "plugins": {
