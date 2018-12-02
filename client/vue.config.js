@@ -8,6 +8,7 @@ const PATHS = {
 
 module.exports = {
   outputDir: `${PATHS.build}`,
+
   configureWebpack: {
     entry: {
       app: `${PATHS.source}/main.js`,
@@ -31,6 +32,7 @@ module.exports = {
       ],
     },
   },
+
   chainWebpack: (config) => {
     config
       .plugin('html')
@@ -42,7 +44,17 @@ module.exports = {
         },
       ]);
   },
+
   devServer: {
     proxy: 'http://localhost:3001',
+  },
+
+  pluginOptions: {
+    i18n: {
+      locale: 'en',
+      fallbackLocale: 'en',
+      localeDir: 'locales',
+      enableInSFC: false,
+    },
   },
 };

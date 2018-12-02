@@ -1,4 +1,3 @@
-// Core
 import Vue from 'vue';
 import Router from 'vue-router';
 
@@ -6,7 +5,8 @@ import Signin from '@/views/signin';
 
 Vue.use(Router);
 
-const router = new Router({
+
+export default new Router({
   mode: 'history',
   routes: [
     {
@@ -17,5 +17,3 @@ const router = new Router({
     },
   ],
 });
-
-export default router;

@@ -1,10 +1,1 @@
-export default {
-
-  computed: {},
-
-  data() {
-    return {};
-  },
-
-  methods: {},
-};
+export default {};
