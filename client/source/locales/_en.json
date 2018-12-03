@@ -1,3 +1,6 @@
 {
-  "hello": "hello world"
+  "signInDuel": "Sign in to Duel",
+  "signin": "Sign in",
+  "registration": "New to Duel?",
+  "createAccount": "Create an account!"
 }
