@@ -13,6 +13,7 @@
   --color-red-norm: hsl(355, 80%, 30%);
   --color-red-dark: hsl(355, 80%, 20%);
   /**/
+  --color-gray-ccc: #ccc;
   --color-gray-lite: hsl(220, 16%, 36%);
   --color-gray-norm: hsl(220, 16%, 30%);
   --color-gray-bright: hsl(220, 16%, 22%);
@@ -39,7 +40,8 @@
 }
 
 html {
-  font-size: 1.2vh;
+  font-size: 2.2vh;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
@@ -48,7 +50,7 @@ body {
   justify-items: center;
   height: 100vh;
   width: 100vw;
-  background-color: var(--background-2);
+  background-color: var(--background-1);
 }
 
 #app {
@@ -57,10 +59,9 @@ body {
   width: 100%;
   min-height: 600px;
   max-height: 75vw;
-  min-width: 133vh;
-  max-width: 177vh;
-  font-size: 2rem;
-  background-color: var(--background-1);
+  min-width: 133.33333vh;
+  max-width: 177.77777vh;
+  background-color: var(--background-2);
 }
 
 .block-size-scren {
@@ -122,3 +123,5 @@ body {
     display: none;
   }
 }
+
+@import "./reset/link.css";
