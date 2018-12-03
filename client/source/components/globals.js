@@ -1,7 +1,7 @@
 
 import Vue from 'vue';
 
-const requireComponent = require.context('./', true, /Base[A-Z]\w+\.vue$/);
+const requireComponent = require.context('./', true, /index\.vue$/);
 
 requireComponent.keys().forEach((fileName) => {
   const componentConfig = requireComponent(fileName);
