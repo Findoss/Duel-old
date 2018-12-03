@@ -1,7 +1,7 @@
 <template>
   <button
     :type="type"
-    class="classes"
+    :class="classes"
     @click="click($event)"
   >
     <slot></slot>
