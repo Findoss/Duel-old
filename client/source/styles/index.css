@@ -74,7 +74,7 @@ body {
 }
 
 .block-size-scren:after {
-  content: url(../assets/stop.svg);
+  content: url(../assets/icons/adaptive/stop.svg);
   width: 50vh;
   height: 50vh;
 }
@@ -89,7 +89,7 @@ body {
 }
 
 .block-orientation::after {
-  content: url(../assets/rotate.svg);
+  content: url(../assets/icons/adaptive/rotate.svg);
   width: 20vw;
   height: 20vw;
   border: 1vw solid var(--color-white);
