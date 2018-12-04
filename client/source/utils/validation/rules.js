@@ -6,13 +6,13 @@ export default {
   nickname(nickname) {
     return new Promise((resolve, reject) => {
       if (nickname === '') {
-        reject(new Error('Nickname can\'t be blank'));
+        reject(new Error('006'));
       } else if (nickname.length < 4) {
-        reject(new Error('Nickname is too short (minimum is 4 characters)'));
+        reject(new Error('007'));
       } else if (nickname.length > 20) {
-        reject(new Error('Nickname is too long (maximum is 20 characters)'));
+        reject(new Error('008'));
       } else if (!Regexp.nickname.test(nickname)) {
-        reject(new Error('Nickname contains invalid characters'));
+        reject(new Error('009'));
       } else {
         resolve(nickname);
       }
@@ -24,7 +24,7 @@ export default {
       Http.get('/tools/checkNickname', { nickname })
         .then((result) => {
           if (!result.used) resolve(nickname);
-          reject(new Error('Nickname is already taken'));
+          reject(new Error('005'));
         });
     });
   },
@@ -34,7 +34,7 @@ export default {
       Http.get('/tools/checkEmail', { email })
         .then((result) => {
           if (!result.used) resolve(email);
-          reject(new Error('Email is already taken'));
+          reject(new Error('004'));
         });
     });
   },
@@ -42,9 +42,9 @@ export default {
   email(email) {
     return new Promise((resolve, reject) => {
       if (email === '') {
-        reject(new Error('Email can\'t be blank'));
+        reject(new Error('001'));
       } else if (!Regexp.email.test(email)) {
-        reject(new Error('Email is invalid'));
+        reject(new Error('002'));
       } else {
         resolve(email);
       }
@@ -54,20 +54,20 @@ export default {
   required(data) {
     return new Promise((resolve, reject) => {
       if (data !== '') resolve(true);
-      reject(new Error('This field is required'));
+      reject(new Error('003'));
     });
   },
 
   password(password) {
     return new Promise((resolve, reject) => {
       if (password === '') {
-        reject(new Error('Password can\'t be blank'));
+        reject(new Error('010'));
       } else if (password.length < 7) {
-        reject(new Error('Password is too short (minimum is 7 characters)'));
+        reject(new Error('011'));
       } else if (password.length > 20) {
-        reject(new Error('Password is too long (maximum is 20 characters)'));
+        reject(new Error('012'));
       } else if (!Regexp.password.test(password)) {
-        reject(new Error('Password must contain least one number and at be least one characters'));
+        reject(new Error('013'));
       } else {
         resolve(password);
       }
