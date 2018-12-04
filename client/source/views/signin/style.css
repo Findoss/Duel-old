@@ -46,6 +46,9 @@
   grid-column: 1;
   grid-row: 3;
   width: 100%;
+  /**/
+  display: grid;
+  grid-gap: 2vh;
 }
 
 .sidebar_new-account {
@@ -53,4 +56,24 @@
   grid-row: 4;
   width: 100%;
   text-align: center;
+}
+
+.form-signin_forgot-password {
+  text-align: right;
+  font-size: 0.8rem;
+  margin-top: 0.5vh;
+}
+
+.form-signin_or {
+  text-align: center;
+  margin-top: 0.5vh;
+}
+
+.form-signin_socials-networks {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.form-signin_socials-networks img {
+  height: 9vh;
 }
