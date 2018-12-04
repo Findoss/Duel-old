@@ -1,4 +1,23 @@
 export default {
+
+  /*
+   * name
+   * components
+   * props
+   * data
+   * computed
+   * methods
+   * beforeCreate
+   * created
+   * beforeMount
+   * mounted
+   * beforeUpdate
+   * updated
+   * beforeDestroy
+   * destroyed
+   * beforeRouteLeave
+  */
+
   //
   name: 'z-exemple',
 
@@ -83,5 +102,9 @@ export default {
   destroyed() {
     console.log(this); // There's practically nothing here!
     MyCreepyAnalyticsService.informService('Component destroyed. All assets move in on target on my mark.');
+  },
+
+  beforeRouteLeave(to, from, next) {
+    next();
   },
 };
