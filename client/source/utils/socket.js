@@ -15,6 +15,6 @@ export function socketAuth() {
   }
 }
 
-socketAuth();
+// socketAuth();
 
 export default socket;

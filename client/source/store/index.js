@@ -47,7 +47,7 @@ export default new Vuex.Store({
     },
     opponent: user,
   },
-  plugins: [createSocketioPlugin(socket, {
-    actionPrefix: 'socket',
-  })],
+  // plugins: [createSocketioPlugin(socket, {
+  //   actionPrefix: 'socket',
+  // })],
 });
