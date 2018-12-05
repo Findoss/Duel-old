@@ -10,6 +10,8 @@
   "sendPasswordReset": "Send password reset email",
   "or": "or",
   "registration": "New to Duel?",
+  "returnSignIn": "Return to sign in",
+  "sendResetPassword": "Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder.",
   "signin": "Sign in",
   "signInDuel": "Sign in to Duel",
   "anyProblems": "If you have any problems, please contact",
