@@ -22,6 +22,17 @@ module.exports.signin = async (ctx, next) => {
   })(ctx, next);
   await next();
 };
+/**
+ * TODO описание
+ * @param {*}
+ */
+module.exports.passwordReset = async (ctx, next) => {
+  await '555';
+  ctx.response.body = {
+    message: 'Ok',
+  };
+  await next();
+};
 
 /**
  * TODO описание
