@@ -1,10 +1,19 @@
 {
-  "signInDuel": "Sign in to Duel",
-  "signin": "Sign in",
-  "registration": "New to Duel?",
+  "clickingPrivacyStatement": "By clicking “{btn}” below, you agree to our terms of service and privacy statement. We’ll occasionally send you account related emails",
+  "createAccount": "Create an account",
+  "createYourPersonalAccount": "Create your personal account",
   "forgotPassword": "Forgot password?",
+  "haveAnAccount": "Have an account?",
+  "passwordReset": "Reset your password",
+  "yourEmail": "Enter your email address and we will send you a link to reset your password.",
+  "joinDuel": "Join Duel",
+  "sendPasswordReset": "Send password reset email",
   "or": "or",
-  "createAccount": "Create an account!",
+  "registration": "New to Duel?",
+  "signin": "Sign in",
+  "signInDuel": "Sign in to Duel",
+  "anyProblems": "If you have any problems, please contact",
+  "support": "support",
   "form": {
     "errors": {
       "001": "Email can't be blank",
