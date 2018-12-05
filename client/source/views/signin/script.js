@@ -23,16 +23,10 @@ export default {
     };
   },
 
-  computed: {
-    // alert() {
-    //   return this.$store.state.me.account.alertSignin;
-    // },
-  },
 
   methods: {
     ...mapActions({
       signIn: 'me/account/signIn',
-      // showAlert: 'me/account/showAlertSignin',
     }),
 
     submit() {
@@ -49,20 +43,6 @@ export default {
           this.form.password.status = false;
         });
     },
-
-    // closeAlert() {
-    //   this.showAlert({
-    //     type: 'error',
-    //     message: null,
-    //   });
-    // },
   },
 
-  // beforeRouteLeave(to, from, next) {
-  //   this.showAlert({
-  //     type: 'info',
-  //     message: '',
-  //   });
-  //   next();
-  // },
 };

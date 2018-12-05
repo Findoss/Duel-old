@@ -15,17 +15,8 @@
         @submit.prevent="submit"
         @keyup.enter="submit"
         novalidate="true"
-        class="sidebar_form-signin"
+        class="sidebar_form"
       >
-        <!-- <z-alert
-            :icon="true"
-            :dismissible="true"
-            :type="alert.type"
-            :show="alert.message"
-            @close="closeAlert()"
-          >
-            {{ alert.message }}
-          </z-alert> -->
 
         <z-input
           :validationIcon="false"
@@ -52,8 +43,8 @@
             type="password"
             v-model="form.password.value"
           />
-          <div class="form-signin_forgot-password">
-            <router-link to="/password-reset">{{ $t('forgotPassword') }}</router-link>
+          <div class="form_forgot-password">
+            <router-link :to="{name: 'passwordReset'}">{{ $t('forgotPassword') }}</router-link>
           </div>
         </div>
 
@@ -62,9 +53,9 @@
           type="submit"
         >{{ $t('signin')}}</z-button>
 
-        <span class="form-signin_or">{{ $t('or') }}</span>
+        <span class="form_or">{{ $t('or') }}</span>
 
-        <div class="form-signin_socials-networks">
+        <div class="form_socials-networks">
           <img
             src="../../assets/icons/social_networks/fb.png"
             alt="fb"
@@ -80,9 +71,9 @@
         </div>
       </form>
 
-      <span class="sidebar_new-account">
+      <span class="sidebar_footer">
         {{ $t('registration')}}
-        <router-link to="/registration">
+        <router-link :to="{name: 'passwordReset'}">
           {{ $t('createAccount') }}
         </router-link>
       </span>
