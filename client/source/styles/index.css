@@ -121,3 +121,4 @@ body {
 
 @import "./reset/link.css";
 @import "./reset/typography.css";
+@import "./fix_grid.css";
