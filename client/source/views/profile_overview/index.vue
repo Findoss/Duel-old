@@ -1,10 +1,7 @@
 <template>
-  <div class="container">
-    AAA
-    <z-button
-      class="navigation__item"
-      @click="signOut()"
-    >
+  <div class="a">
+    <z-button @click="signOut()">sign out</z-button>
+    <z-button @click="private()">private click</z-button>
   </div>
 </template>
 <script src="./script.js"></script>
