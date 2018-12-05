@@ -1,0 +1,8 @@
+.sb-show-main {
+  display: block;
+  align-items: start;
+  justify-items: start;
+  height: 100vh;
+  width: 100vw;
+  padding: 30px;
+}
