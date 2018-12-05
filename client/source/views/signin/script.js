@@ -32,12 +32,10 @@ export default {
     submit() {
       if (!validationForm(this, 'form')) return false;
 
-      const user = {
+      this.signIn({
         email: this.form.email.value,
         password: this.form.password.value,
-      };
-
-      this.signIn(user)
+      })
         .catch(() => {
           this.$refs.password.reset();
           this.form.password.status = false;

@@ -57,14 +57,17 @@
 
         <div class="form_socials-networks">
           <img
+            tabindex="4"
             src="../../assets/icons/social_networks/fb.png"
             alt="fb"
           >
           <img
+            tabindex="5"
             src="../../assets/icons/social_networks/vk.png"
             alt="vk"
           >
           <img
+            tabindex="6"
             src="../../assets/icons/social_networks/gh.png"
             alt="gh"
           >
@@ -73,7 +76,7 @@
 
       <span class="sidebar_footer">
         {{ $t('registration')}}
-        <router-link :to="{name: 'passwordReset'}">
+        <router-link :to="{name: 'registration'}">
           {{ $t('createAccount') }}
         </router-link>
       </span>

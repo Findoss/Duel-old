@@ -71,9 +71,15 @@
 
 .form_socials-networks {
   display: flex;
+  justify-content: center;
   justify-content: space-evenly;
 }
 
 .form_socials-networks img {
   height: 9vh;
+  margin-right: 1vh;
+}
+
+.form_socials-networks img:last-child {
+  margin-right: 0;
 }
