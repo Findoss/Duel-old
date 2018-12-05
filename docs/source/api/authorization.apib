@@ -60,3 +60,43 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSI
 Переданы неверные параметры входа
     + Attributes
         + message: Forbidden (string)
+
+### Сброс пароля [POST /api/auth/password-reset]
+Осуществляет сброс пароля.
+
++ Request (application/json)
+    + Attributes
+        + email: ivan@mail.ru (string, required)
+
++ Response 200 (application/json; charset=utf-8)
+Сообщение с ссылкой для сброса пароля успешно отправлена на указанную почту
+    + Attributes
+        + message: Ok (string)
+
++ Response 400 (application/json; charset=utf-8)
+Заданы неверные параметры
+    + Attributes
+        + message: Invalid user params (string)
+
+### Обновление пароля [POST /api/auth/password-new]
+Осуществляет обновление пароля.
+
++ Request (application/json)
+    + Attributes
+        + newPassword: 1234pass (string, required)
+        + hash: 533ace6012a32992137b398811174fde283be54ce8e2a3ef12f5c93e354189476b4b0073aa74769e35ef568a16321a5c1c98fbed897ffa21bf41d30a1c49c371 (string, required)
+
++ Response 200 (application/json; charset=utf-8)
+Пароль успешно обновлен
+    + Attributes
+        + message: Ok (string)
+
++ Response 400 (application/json; charset=utf-8)
+Заданы неверные параметры
+    + Attributes
+        + message: Invalid user params (string)
+
++ Response 403 (application/json; charset=utf-8)
+Заданы неверный hash
+    + Attributes
+        + message: Invalid hash (string)
