@@ -2,12 +2,7 @@ import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
 
-const state = {
-  alertSignin: { // оповещение при входе
-    type: 'error', // тип оповещения
-    message: '', // сообщение оповещения
-  },
-};
+const state = {};
 
 export default {
   namespaced: true,
