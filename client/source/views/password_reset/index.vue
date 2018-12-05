@@ -16,6 +16,7 @@
         @keyup.enter="submit"
         novalidate="true"
         class="sidebar_form"
+        v-show="!isSendResetPassword"
       >
 
         <small>
@@ -34,9 +35,22 @@
           v-model="form.email.value"
         />
 
-        <z-button>{{ $t('sendPasswordReset') }}</z-button>
+        <z-button
+          tabindex="2"
+          type="submit"
+        >{{ $t('sendPasswordReset') }}</z-button>
 
       </form>
+
+      <div
+        class="sidebar_success"
+        v-show="isSendResetPassword"
+      >
+        <p>{{ $t('sendResetPassword') }}</p>
+        <br>
+        <z-button @click="goSignin()">{{ $t('returnSignIn') }}</z-button>
+
+      </div>
 
       <span class="sidebar_footer">
         {{ $t('anyProblems')}}

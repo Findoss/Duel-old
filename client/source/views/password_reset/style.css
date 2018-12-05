@@ -51,6 +51,12 @@
   grid-gap: 2vh;
 }
 
+.sidebar_success {
+  grid-column: 1;
+  grid-row: 3;
+  width: 100%;
+}
+
 .sidebar_footer {
   grid-column: 1;
   grid-row: 4;
