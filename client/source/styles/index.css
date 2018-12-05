@@ -2,30 +2,23 @@
   --color-text: hsl(0, 0%, 10%);
   --color-text-strong: hsl(0, 0%, 5%);
   --color-text-heading: hsl(0, 0%, 0%);
-  /**/
   --color-white: #fff;
-  /**/
   --background-0: hsl(40, 40%, 90%);
   --background-1: hsl(300, 25%, 80%);
   --background-2: hsl(100, 25%, 80%);
-  /**/
   --color-red-lite: hsl(360, 80%, 60%);
   --color-red-norm: hsl(355, 80%, 30%);
   --color-red-dark: hsl(355, 80%, 20%);
-  /**/
   --color-gray-ccc: #ccc;
   --color-gray-lite: hsl(220, 16%, 36%);
   --color-gray-norm: hsl(220, 16%, 30%);
   --color-gray-bright: hsl(220, 16%, 22%);
-  /**/
   --color-yellow-lite: hsl(40, 60%, 70%);
   --color-yellow-norm: hsl(40, 60%, 65%);
   --color-yellow-bright: hsl(40, 70%, 60%);
-  /**/
   --color-blue-lite: hsl(180, 25%, 80%);
   --color-blue-norm: hsl(180, 30%, 70%);
   --color-blue-bright: hsl(180, 40%, 60%);
-  /**/
   --color-green-lite: hsl(92, 28%, 65%);
   --color-green-norm: hsl(92, 49%, 58%);
   --color-green-bright: hsl(92, 60%, 56%);
@@ -50,7 +43,9 @@ body {
   justify-items: center;
   height: 100vh;
   width: 100vw;
-  background-color: var(--background-1);
+  overflow-x: hidden;
+  overflow-y: hidden;
+  /* background-color: var(--background-1); */
 }
 
 #app {
@@ -61,7 +56,7 @@ body {
   max-height: 75vw;
   min-width: 133.33333vh;
   max-width: 177.77777vh;
-  background-color: var(--background-2);
+  /* background-color: var(--background-2); */
 }
 
 .block-size-scren {
@@ -125,3 +120,4 @@ body {
 }
 
 @import "./reset/link.css";
+@import "./reset/typography.css";
