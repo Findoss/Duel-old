@@ -42,15 +42,12 @@ export default {
     submit() {
       if (!validationForm(this, 'form')) return false;
 
-      const user = {
+      this.registration({
         nickname: this.form.nickname.value,
         email: this.form.email.value,
         password: this.form.password.value,
-      };
-
-      this.registration(user)
-        .catch((error) => {
-          this.error = error.message;
+      })
+        .catch(() => {
           this.$refs.password.reset();
           this.form.password.status = false;
         });
