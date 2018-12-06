@@ -4,7 +4,7 @@ export default {
   methods: {
     ...mapActions({
       signOut: 'me/account/signOut',
-      private: 'me/loadMe',
+      privateSend: 'me/loadMe',
     }),
   },
 };

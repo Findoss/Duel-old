@@ -2,11 +2,11 @@ import { mapActions } from 'vuex';
 
 // Utils
 import Rules from '@/utils/validation/rules';
-import validationForm from '@/utils/validation/form';
+import { validationForm } from '@/utils/validation/form';
 
 export default {
 
-  data() {
+  data () {
     return {
       form: {
         nickname: {
@@ -39,7 +39,7 @@ export default {
       registration: 'me/account/registration',
     }),
 
-    submit() {
+    submit () {
       if (!validationForm(this, 'form')) return false;
 
       this.registration({

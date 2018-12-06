@@ -2,11 +2,11 @@ import { mapActions } from 'vuex';
 
 // Utils
 import Rules from '@/utils/validation/rules';
-import validationForm from '@/utils/validation/form';
+import { validationForm } from '@/utils/validation/form';
 
 export default {
 
-  data() {
+  data () {
     return {
       form: {
         email: {
@@ -29,7 +29,7 @@ export default {
       signIn: 'me/account/signIn',
     }),
 
-    submit() {
+    submit () {
       if (!validationForm(this, 'form')) return false;
 
       this.signIn({

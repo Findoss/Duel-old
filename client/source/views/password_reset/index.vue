@@ -16,7 +16,7 @@
         @keyup.enter="submit"
         novalidate="true"
         class="sidebar_form"
-        v-show="!isSendResetPassword"
+        v-if="!isSendResetPassword"
       >
 
         <small>
@@ -26,9 +26,9 @@
           :icon="false"
           :validationRules="form.email.rules"
           @validation="form.email.status = $event"
+          :placeholder="$t('emailPlaceholder')"
           autofocus="autofocus"
           name="email"
-          placeholder="Enter your email address"
           ref="email"
           tabindex="1"
           type="email"
@@ -44,7 +44,7 @@
 
       <div
         class="sidebar_success"
-        v-show="isSendResetPassword"
+        v-else
       >
         <p>{{ $t('sendResetPassword') }}</p>
         <br>

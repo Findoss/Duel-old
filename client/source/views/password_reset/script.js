@@ -3,7 +3,7 @@ import { mapActions } from 'vuex';
 
 // Utils
 import Rules from '@/utils/validation/rules';
-import validationForm from '@/utils/validation/form';
+import { validationForm } from '@/utils/validation/form';
 
 export default {
 
@@ -13,10 +13,7 @@ export default {
         email: {
           value: '',
           status: false,
-          rules: [
-            Rules.email,
-            Rules.checkEmail,
-          ],
+          rules: [Rules.email],
         },
       },
       isSendResetPassword: false,
