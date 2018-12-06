@@ -34,6 +34,7 @@ export default {
       validator(val) {
         return ['exemple'].includes(val);
       },
+      required: true,
     },
   },
 
