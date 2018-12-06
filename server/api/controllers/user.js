@@ -76,3 +76,20 @@ module.exports.getUser = async (ctx) => {
     if (error.name !== 'responseError') throw new ResponseError(400, 'Invalid params');
   }
 };
+
+
+/**
+ * TODO описание
+ * @param {*}
+ */
+module.exports.setPassword = async (newPassword, userId) => {
+  // TODO валидация
+  try {
+    const user = await User.findById(userId);
+    await user.setPassword(newPassword);
+    await user.save();
+    return true;
+  } catch (error) {
+    throw new ResponseError(523, error);
+  }
+};

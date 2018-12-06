@@ -3,6 +3,8 @@ const User = require('../../models/user');
 const Skill = require('../../models/skill');
 const Session = require('../../models/session');
 
+const ctrlUser = require('./user');
+
 const avatars = require('../../static/avatars.json');
 
 /**
@@ -94,21 +96,23 @@ module.exports.updateNickname = async (ctx) => {
  * TODO описание
  * @param {*}
  */
-module.exports.setPassword = async (ctx) => {
-  // TODO валидация
-
-  const isTruePassword = await this.passwordVerification(ctx.state.user.id, ctx.request.body.oldPassword);
+module.exports.updatePassword = async (ctx) => {
+  const isTruePassword = await this.passwordVerification(
+    ctx.state.user.id,
+    ctx.request.body.oldPassword,
+  );
 
   if (isTruePassword) {
-    try {
-      const user = await User.findById(ctx.state.user.id);
-      await user.setPassword(ctx.request.body.newPassword);
-      await user.save();
-      ctx.response.body = { message: 'New password set successfully' };
-    } catch (error) {
-      throw new ResponseError(400, 'Invalid params');
+    const result = await ctrlUser.setPassword(ctx.request.body.newPassword, ctx.state.user.id);
+    if (result) {
+      ctx.response.body = {
+        message: 'Your password is updated successfully',
+      };
+    } else {
+      throw new ResponseError(400, 'Incorrect params');
     }
-  } else throw new ResponseError(403, 'Incorrect password');
+  }
+  else throw new ResponseError(403, 'Incorrect password');
 };
 
 /**
