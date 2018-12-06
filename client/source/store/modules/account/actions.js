@@ -6,10 +6,6 @@ export default {
   registration({ dispatch }, user) {
     return Http.send('POST', '/users', user)
       .then((response) => {
-        dispatch('showAlertSignin', {
-          type: 'success',
-          message: response.message,
-        });
         Router.push({ name: 'root' });
       });
   },
@@ -20,10 +16,6 @@ export default {
       return Http.send('DELETE', '/me')
         .then((response) => {
           localStorage.removeItem('session-token');
-          dispatch('showAlertSignin', {
-            type: 'info',
-            message: response.message,
-          });
           Router.push({ name: 'root' });
         });
     }
@@ -32,9 +24,10 @@ export default {
 
 
   // TODO реализовать методы API
-  // passwordNew({ dispatch }, password) {
-  //   // ...
-  // },
+  passwordNew({ dispatch }, payload) {
+    return Http.send('POST', '/auth/password-new', payload)
+      .then(() => Router.push({ name: 'root' }));
+  },
 
   // TODO реализовать методы API
   passwordReset({ dispatch }, email) {
@@ -58,10 +51,6 @@ export default {
   signOut({ commit, dispatch }) {
     return Http.send('DELETE', '/auth/signout')
       .then((response) => {
-        dispatch('showAlertSignin', {
-          type: 'info',
-          message: response.message,
-        });
       })
       .finally(() => {
         commit('DEL_MY_ID', undefined, { root: true });

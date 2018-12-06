@@ -8,6 +8,7 @@ import * as sessionService from '@/services/session';
 import Signin from '@/views/signin';
 import Registration from '@/views/registration';
 import PasswordReset from '@/views/password_reset';
+import passwordNew from '@/views/password_new';
 import ProfileOverview from '@/views/profile_overview';
 
 Vue.use(Router);
@@ -33,6 +34,12 @@ const router = new Router({
       name: 'passwordReset',
       meta: { goProfile: true },
       component: PasswordReset,
+    },
+    {
+      path: '/password-new/:hash',
+      name: 'passwordNew',
+      meta: { goProfile: true },
+      component: passwordNew,
     },
     {
       path: '/:userId',
