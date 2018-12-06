@@ -40,7 +40,7 @@ module.exports.passwordReset = async (ctx, next) => {
  */
 module.exports.signout = async (ctx, next) => {
   if (ctx.isAuthenticated()) {
-    await Token.deleteKey(ctx.state.user.id);
+    await ctrlToken.deleteKey(ctx.state.user.id);
     ctx.response.body = {
       message: 'You are signed out',
     };

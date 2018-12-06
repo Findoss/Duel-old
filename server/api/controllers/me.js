@@ -74,7 +74,7 @@ module.exports.setAvatar = async (ctx) => {
  * TODO описание
  * @param {*}
  */
-module.exports.setNickname = async (ctx) => {
+module.exports.updateNickname = async (ctx) => {
   // TODO валидация
 
   try {

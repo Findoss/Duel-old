@@ -9,7 +9,7 @@ const app = require('./api');
 
 // Game socket server
 const socketIO = require('socket.io');
-const socketMiddleware = require('./game');
+const createSocket = require('./game');
 
 
 async function createApp() {
@@ -21,7 +21,7 @@ async function createApp() {
   const http = await app.listen(config.node.port);
   if (config.logger.node) console.log(`[http    ] start - ${config.node.host}:${config.node.port}`);
 
-  const socket = socketMiddleware(socketIO(http));
+  const socket = createSocket(socketIO(http));
   if (config.logger.node) console.log('[socket  ] start');
 
   return {

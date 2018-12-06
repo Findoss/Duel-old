@@ -74,10 +74,12 @@ const userSchema = new mongoose.Schema({
     type: [String],
   },
 });
+
 userSchema.set('toJSON', {
   getters: true,
   virtuals: true,
 });
+
 userSchema.set('toObject', {
   getters: true,
   virtuals: true,
@@ -99,6 +101,7 @@ userSchema.methods.setPassword = function setPassword(password) {
   this.password.salt = crypto.randomBytes(16).toString('hex');
   this.password.hash = crypto.pbkdf2Sync(password, this.password.salt, 128, 64, 'sha256').toString('hex');
 };
+
 /**
  * TODO описание
  * @param {*}

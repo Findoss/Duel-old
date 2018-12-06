@@ -21,7 +21,7 @@ module.exports.checkNickname = async (ctx) => {
  */
 module.exports.checkEmail = async (ctx) => {
   try {
-    const email = await User.findOne({ nickname: ctx.query.email }, 'email');
+    const email = await User.findOne({ email: ctx.query.email }, 'email');
     ctx.response.body = { used: Boolean(email) };
   } catch (error) {
     throw new ResponseError(400, 'Invalid params');
