@@ -64,7 +64,7 @@ module.exports.passwordReset = async (ctx, next) => {
           name: 'Support game Duel',
           address: config.email.username,
         },
-        to: 'o2221508@nwytg.net',
+        to: ctx.request.body.email,
         subject: 'Please reset your password',
         text: link,
         html: templetePasswordReset(link),

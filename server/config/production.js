@@ -10,6 +10,13 @@ module.exports = {
     host: process.env.NODE_HOST,
     port: process.env.PORT,
   },
+  email: {
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
+    secure: process.env.SMTP_SECURE,
+    username: process.env.SMTP_USERNAME,
+    password: process.env.SMTP_PASSWORD,
+  },
   logger: {
     db: process.env.LOGGER_DB,
     node: process.env.LOGGER_NODE,
