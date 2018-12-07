@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "build": "vue-cli-service build",
-    "create": "sh utils/create.sh",
+    "test": "vue-cli-service test:unit",
+    "create": "sh tools/create.sh",
     "postinstall": "npm run build",
     "dev": "vue-cli-service serve --port 3002",
-    "test": "vue-cli-service test:unit",
-    "vue-inspect": "vue inspect > ../docs/build/webpack-config.js"
+    "vue-inspect": "vue inspect > ../docs/build/webpack-config.js",
+    "dev-storybook": "vue-cli-service serve:storybook -p 3004 -c tools/storybook",
+    "build-storybook": "vue-cli-service build:storybook -c tools/storybook"
   },
   "dependencies": {
     "@vue/cli-plugin-babel": "^3.0.3",
@@ -20,36 +22,20 @@
     "debounce": "^1.2.0",
     "socket.io-client": "^2.1.1",
     "vue": "^2.5.17",
+    "vue-i18n": "^8.4.0",
     "vue-router": "^3.0.1",
     "vue-template-compiler": "^2.5.17",
     "vuex": "^3.0.1",
     "vuex-socketio-plugin": "^0.1.0"
   },
   "devDependencies": {
-    "chai": "^4.1.2"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "@vue/airbnb"
-    ],
-    "rules": {
-      "no-plusplus": [
-        "error",
-        {
-          "allowForLoopAfterthoughts": true
-        }
-      ],
-      "import/extensions": "off",
-      "import/no-unresolved": "off"
-    },
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
+    "@storybook/addon-actions": "4.0.0-alpha.20",
+    "@storybook/addon-knobs": "^4.0.11",
+    "@storybook/addon-links": "4.0.0-alpha.20",
+    "@storybook/addon-notes": "^4.0.11",
+    "chai": "^4.1.2",
+    "vue-cli-plugin-i18n": "^0.5.1",
+    "vue-cli-plugin-storybook": "^0.4.8"
   },
   "postcss": {
     "plugins": {

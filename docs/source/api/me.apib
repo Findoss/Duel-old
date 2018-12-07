@@ -1,7 +1,7 @@
 # Group Me API
 \* - Авторизованн
 
-### * Получение информации [GET /me]
+### * Получение информации [GET /api/me]
 Получение информации о своем аккаунте
 
 + Request ()
@@ -44,13 +44,13 @@
 Профиль текущего пользователя удален успешно
     + Attributes
         + message: Your accaunt is successfully deleted (string)
-   
+
 + Response 403 (application/json; charset=utf-8)
 Переданы неверные параметры входа
     + Attributes
         + message: Forbidden (string)
 
-### * Добавление умения в набор умений [POST /me/skillset]
+### * Добавление умения в набор умений [POST /api/me/skillset]
 Добавление выбранных умений текущего пользователя (то, что было в наборе остается) в его набор умений
 
 + Request (application/json)
@@ -61,7 +61,7 @@
 Выбранные умения текущего пользователя успешно обновлены 
     + Attributes
         + message: Your set of skills is updated successfully (string)
-   
+
 + Response 400 (application/json; charset=utf-8)
 Заданы неверные параметры
     + Attributes
@@ -72,7 +72,7 @@
     + Attributes
         + message: Forbidden (string)
 
-### * Удаление умения из набора умений [DELETE /me/skillset]
+### * Удаление умения из набора умений [DELETE /api/me/skillset]
 Частичое или полное удаление выбранных умений текущего пользователя из его набора умений
 
 + Request (application/json)
@@ -83,7 +83,7 @@
 Выбранные умения текущего пользователя успешно обновлены 
     + Attributes
         + message: Your skills of set is delete successfully (string)
-   
+
 + Response 400 (application/json; charset=utf-8)
 Заданы неверные параметры
     + Attributes
@@ -94,7 +94,7 @@
     + Attributes
         + message: Forbidden (string)
 
-### * Покупка выбранного умения [POST /me/buyskill]
+### * Покупка выбранного умения [POST /api/me/buyskill]
 Покупка выбранного умения
 
 + Request (application/json)
@@ -105,7 +105,7 @@
 Выбранное умение текущего пользователя успешно куплено 
     + Attributes
         + message: Your skill unlocked (string)
-   
+
 + Response 400 (application/json; charset=utf-8)
 Заданы неверные параметры
     + Attributes
@@ -116,7 +116,7 @@
     + Attributes
         + message: Forbidden (string)
 
-### * Изменение аватара [PATCH /me/avatar]
+### * Изменение аватара [PATCH /api/me/avatar]
 Изменение аватара текущего пользователя
 
 + Request (application/json)
@@ -127,7 +127,7 @@
 Аватар текущего пользователя обновлен успешно
     + Attributes
         + message: Your avatar is updated successfully (string)
-   
+
 + Response 400 (application/json; charset=utf-8)
 Заданы неверные параметры
     + Attributes
@@ -138,7 +138,7 @@
     + Attributes
         + message: Forbidden (string)
 
-### * Изменение никнейма [PATCH /me/nickname]
+### * Изменение никнейма [PATCH /api/me/nickname]
 Изменение никнейма текущего пользователя
 
 + Request (application/json)
@@ -149,7 +149,7 @@
 Никнейм текущего пользователя обновлен успешно
     + Attributes
         + message: Your nickname is updated successfully (string)
-   
+
 + Response 400 (application/json; charset=utf-8)
 Заданы неверные параметры
     + Attributes
@@ -160,7 +160,7 @@
     + Attributes
         + message: Forbidden (string)
 
-### * Изменение пароля [PATCH /me/password]
+### * Изменение пароля [PATCH /api/me/password]
 Изменение пароля, для поддверждения необходимо указать старый пароль
 
 + Request (application/json)
@@ -172,7 +172,7 @@
 Профиль текущего пользователя обновлен успешно
     + Attributes
         + message: New password set successfully. (string)
-   
+
 + Response 400 (application/json; charset=utf-8)
 Заданы неверные параметры
     + Attributes

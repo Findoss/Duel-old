@@ -1,5 +1,73 @@
 # Техническая часть
 
+## Краткая справка
+
+### Поддерживаемые браузеры
+
+| Браузер       | Поддержка     |
+|---------------|---------------|
+| Chrome        | Supported     |
+| Firefox       | Supported     |
+| Edge          | Supported     |
+| Safari 10+    | Supported     |
+| IE / Safari 9 | Not supported |
+
+### Поддерживаемые разрешения экрана устройства
+
+| Разрешение | Соотношение сторон                        |
+|------------|-------------------------------------------|
+| 1366x768   | 16/9                                      |
+| 1920x1080  | 16/9                                      |
+| 1440x900   | 16/10                                     |
+| 1600x900   | 16/9                                      |
+| 1536x864   | 16/9                                      |
+| 1280x800   | 16/10                                     |
+| 1280x1024  | 4/3                                       |
+| 1024x768   | 4/3 (нижняя граница для 4/3)              |
+| 1280x720   | 16/9                                      |
+| 1680x1050  | 16/9                                      |
+| 2560x1440  | 16/9 (верхняя граница для 16/9)           |
+| 1360x768   | 16/9 (нижняя граница для 16/9)            |
+| 1920x1200  | 16/10                                     |
+| 360x640    | 4/3 (исключаем, слишком мало + оринтация) |
+| 1280x768   | 4/3                                       |
+
+
+### Документация
+Документацию для **клиента** 
+* по компонентам и ui можно посмотреть в `storybook`  
+* по функционалу можно посмотреть (jsdocs) из vuex (store)
+
+Документацию для **сервера**  
+* по модулю API - можно посмотреть в `build/API.html`
+* по модулю Game - можно посмотреть (jsdocs) из classes
+
+### Тесты
+Для **клиента**  
+* юнит тесты компонентов - 
+
+Для **сервера**  
+* юнит тесты по модулю API - 
+* юнит тесты по модулю Game - 
+* интеграционные тесты - 
+
+### Скрипты  
+База данных  
+* `database/scripts`  
+* `server/utils`  
+
+Клиент  
+* `client/utils`  
+
+### Управление задачами   
+[Разработка](https://github.com/Findoss/Duel/projects/2)  
+* клиент
+* сервер
+
+[Контент](https://github.com/Findoss/Duel/projects/3)  
+* графика
+* музыка 
+
 ## Структура проекта
 
 `│ ├─ └─ •••`
@@ -9,21 +77,6 @@ Duel
 ├── client
 │   ├── babel.config.js
 │   ├── build
-│   │   ├── css
-│   │   │   └── app.b48ce40e.css
-│   │   ├── favicon.ico
-│   │   ├── img
-│   │   │   ├── background.0d992d7c.png
-│   │   │   ├── loading.970b441e.png
-│   │   │   ├── locked.3bb60667.png
-│   │   │   ├── rolling_white.54b2d141.gif
-│   │   │   └── switch_orientation.138d4896.png
-│   │   ├── index.html
-│   │   └── js
-│   │       ├── app.7248b192.js
-│   │       ├── app.7248b192.js.map
-│   │       ├── chunk-vendors.94e93c74.js
-│   │       └── chunk-vendors.94e93c74.js.map
 │   ├── config
 │   ├── package-lock.json
 │   ├── package.json
@@ -386,6 +439,7 @@ Duel
 
 запустим фейк сервер  
 `$ npm run dev-api-mock` ( port - 3001 )  
+
 или настоящий сервер  
 `$ npm run dev-server` ( port - 3001 )
 
@@ -409,6 +463,12 @@ Duel
 Конфигурация webpack  
 `$ npm run vue-inspect`
 
+Запуск книги компонентов в режиме разработки  
+`$ npm run dev-storybook`
+
+Сборка книги компонентов  
+`$ npm run build-storybook`
+
 ### Сервер (  cd ./server  )
 
 Запуск сервера в режиме разработки  
@@ -427,6 +487,9 @@ Duel
 
 Запуск клиента в режиме разработки  
 `$ npm run dev-client` ( port - 3002 )
+
+Запуск книги компонентов в режиме разработки  
+`$ npm run dev-storybook` ( port - 3004 )
 
 Запуск сервера в режиме разработки  
 `$ npm run dev-server` ( port - 3001 )
@@ -496,6 +559,9 @@ Duel
 
 ## Документация по инструментам
 
+[Vue](https://ru.vuejs.org/v2/guide/)  
+[Mongoosejs](http://mongoosejs.com)  
+[MongoDB](https://docs.mongodb.com/)  
 [ESlint](https://eslint.org)  
 [JSdoc](http://usejsdoc.org/index.html)  
 [JSdoc to markdown](https://github.com/jsdoc2md/jsdoc-to-markdown)  

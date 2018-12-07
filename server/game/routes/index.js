@@ -1,9 +1,10 @@
-const routeLobby = require('./lobby');
+/* eslint no-console: 0 */
+// правило отключено потому что это важыный элемент логов, необходимо вынести в модуль
 
+const routeLobby = require('./lobby');
 
 module.exports = async (ctx) => {
   const { socket } = ctx;
-  const gameNa = ctx.io.of('/game');
 
   socket.on('lobby', data => routeLobby({ ...ctx, data }));
 
@@ -11,14 +12,14 @@ module.exports = async (ctx) => {
     routeLobby({ ...ctx, data: { route: 'del' } });
   });
 
-  // debug
+  // DEBUG chat
   socket.on('chat', (data) => {
-    const newMsg = data.payload.split('').reverse().join('');
-    ctx.io.emit('Chat', newMsg);
+    ctx.io.emit('Chat', { user: socket.userId, message: data.payload });
     console.log('──‣ ┈┈┈┈┈ SEND ┬ chat');
     console.log('               │');
     console.log(`               │ ${data.payload}`);
     console.log('               │');
-    console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${newMsg}`);
+    console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${data.payload}`);
   });
+  // DEBUG chat-end
 };

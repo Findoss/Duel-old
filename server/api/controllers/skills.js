@@ -1,8 +1,10 @@
 const ResponseError = require('../../utils/error');
-const mongoose = require('mongoose');
 const Skill = require('../../models/skill');
 
-
+/**
+ * TODO описание
+ * @param {*}
+ */
 module.exports.getSkills = async (ctx) => {
   try {
     const skills = await Skill
@@ -20,6 +22,10 @@ module.exports.getSkills = async (ctx) => {
   }
 };
 
+/**
+ * TODO описание
+ * @param {*}
+ */
 module.exports.getSkill = async (ctx) => {
   try {
     const skill = await Skill.findById(ctx.params.id);

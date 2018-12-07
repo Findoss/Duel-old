@@ -1,7 +1,10 @@
 const ResponseError = require('../../utils/error');
-const mongoose = require('mongoose');
 const User = require('../../models/user');
 
+/**
+ * TODO описание
+ * @param {*}
+ */
 module.exports.userCreate = async (ctx) => {
   try {
     const newUser = new User();
@@ -22,6 +25,10 @@ module.exports.userCreate = async (ctx) => {
   }
 };
 
+/**
+ * TODO описание
+ * @param {*}
+ */
 module.exports.getUsers = async (ctx) => {
   try {
     const users = await User
@@ -41,6 +48,10 @@ module.exports.getUsers = async (ctx) => {
   }
 };
 
+/**
+ * TODO описание
+ * @param {*}
+ */
 module.exports.getUser = async (ctx) => {
   try {
     const user = await User
@@ -49,7 +60,8 @@ module.exports.getUser = async (ctx) => {
         'nickname avatar rank experience level karma openSlots skillSet',
       );
     if (user) {
-      ctx.response.body = { // todo . вернуть поля с помощью плагина скрывающего поля
+      // TODO вернуть поля с помощью плагина скрывающего поля
+      ctx.response.body = {
         id: user.id,
         nickname: user.nickname,
         avatar: user.avatar,
@@ -62,5 +74,22 @@ module.exports.getUser = async (ctx) => {
     } else throw new ResponseError(404, 'User with id not found');
   } catch (error) {
     if (error.name !== 'responseError') throw new ResponseError(400, 'Invalid params');
+  }
+};
+
+
+/**
+ * TODO описание
+ * @param {*}
+ */
+module.exports.setPassword = async (newPassword, userId) => {
+  // TODO валидация
+  try {
+    const user = await User.findById(userId);
+    await user.setPassword(newPassword);
+    await user.save();
+    return true;
+  } catch (error) {
+    throw new ResponseError(523, error);
   }
 };

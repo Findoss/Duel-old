@@ -1,3 +1,9 @@
+
+/**
+ * TODO описание
+ * @param {*} code
+ * @param {*} message
+ */
 function responseError(code, message) {
   this.name = 'responseError';
   this.code = code || 500;

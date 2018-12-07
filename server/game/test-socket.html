@@ -2,7 +2,7 @@
 <html>
 
   <head>
-    <title>== 1 ==</title>
+    <title>== socket ==</title>
     <style>
       * {
         margin: 0;
@@ -107,103 +107,161 @@
 
   <body>
     <div class="user user0">
-      <form action="" class="form" title="0">
-        <input type="text" id="namespase0">
-        <input type="text" id="command0">
-        <input type="text" id="payload0">
+      <form
+        action=""
+        class="form"
+        title="0"
+      >
+        <input
+          type="text"
+          id="namespase0"
+        >
+        <input
+          type="text"
+          id="command0"
+        >
+        <input
+          type="text"
+          id="payload0"
+        >
         <button>+</button>
       </form>
-      <button class="cs6" value="0">clear</button>
-      <button class="cs4" value="0">lobby count</button>
-      <button class="cs5" value="0">lobby users</button>
+      <button
+        class="cs6"
+        value="0"
+      >clear</button>
+      <button
+        class="cs4"
+        value="0"
+      >lobby count</button>
+      <button
+        class="cs5"
+        value="0"
+      >lobby users</button>
       <ul id="messages0"></ul>
     </div>
 
     <div class="user user1">
-      <form action="" class="form" title="1">
-        <input type="text" id="namespase1">
-        <input type="text" id="command1">
-        <input type="text" id="payload1">
+      <form
+        action=""
+        class="form"
+        title="1"
+      >
+        <input
+          type="text"
+          id="namespase1"
+        >
+        <input
+          type="text"
+          id="command1"
+        >
+        <input
+          type="text"
+          id="payload1"
+        >
         <button>+</button>
       </form>
-      <button class="cs1" value="1">lobby add</button>
-      <button class="cs2" value="1">lobby del</button>
-      <button class="cs3" value="1">exit</button>
+      <button
+        class="cs1"
+        value="1"
+      >lobby add</button>
+      <button
+        class="cs2"
+        value="1"
+      >lobby del</button>
+      <button
+        class="cs3"
+        value="1"
+      >exit</button>
       <ul id="messages1"></ul>
     </div>
     <div class="user user2">
-      <form action="" class="form" title="2">
-        <input type="text" id="namespase2">
-        <input type="text" id="command2">
-        <input type="text" id="payload2">
+      <form
+        action=""
+        class="form"
+        title="2"
+      >
+        <input
+          type="text"
+          id="namespase2"
+        >
+        <input
+          type="text"
+          id="command2"
+        >
+        <input
+          type="text"
+          id="payload2"
+        >
         <button>+</button>
       </form>
-      <button class="cs1" value="2">lobby add</button>
-      <button class="cs2" value="2">lobby del</button>
-      <button class="cs3" value="2">exit</button>
+      <button
+        class="cs1"
+        value="2"
+      >lobby add</button>
+      <button
+        class="cs2"
+        value="2"
+      >lobby del</button>
+      <button
+        class="cs3"
+        value="2"
+      >exit</button>
       <ul id="messages2"></ul>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
-      $(function() {
+      $(function () {
 
 
-        let sockets=[]
-        let tokens=['','','',]
+        let sockets = []
+        let tokens = ['', '', '',]
 
         setTimeout(() => {
-          tokens=[
+          tokens = [
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYjYyZTEyNjM1MDEyNGU1YzUzMWRhNyIsImtleSI6IjIyZmExZWI3LWI2YmMtNGIyNC1iZTgwLTI5M2M1MTQ3ZjExZiIsImlhdCI6MTUzOTk4OTYyMH0.4evQuq9IbJxj-aYoKnfip3zlZOYfhFXFdXSaalVIQno',
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYjIzMGUzMWNlMTJiNjY1YzQ4ZjNhMiIsImtleSI6IjY3NTFkYWRhLTg3ZGUtNDAxYy1hYjJiLTM4YzM0YzZiNzNlOSIsImlhdCI6MTUzODg1OTM2MX0.Ewvc-YHyfgrfSumc6HYqA-iQRzBaCrIB5v5H5SEtxE0',
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYjY0MWFhNTY4ZDA5M2RmNDkwZjU5MiIsImtleSI6ImJkZGJmYzMyLTQyOWMtNDk5Zi1iMjMzLTBkZDkwZWUxMmZiZCIsImlhdCI6MTUzOTU5NTc4MH0.ZkwMEbWC9ahApHFROXaJgkHkKyiPw_fSy0h78SGZtqY',
           ]
 
-          console.log(tokens);
-
-
-          sockets.forEach((socket,i) => {
-
-            console.log(socket.io.opts);
-
-            socket.io.opts.query={
+          sockets.forEach((socket, i) => {
+            socket.io.opts.query = {
               bearer: tokens[i]
             }
             socket.connect();
           })
 
-        },1000)
+        }, 1000)
 
+        const HOST_GAME = 'http://localhost:3001';
 
-        sockets=[
-          new io('http://localhost:3001',{
+        sockets = [
+          new io(HOST_GAME, {
             forceNew: true,
             autoConnect: false,
           }),
-          new io('http://localhost:3001',{
+          new io(HOST_GAME, {
             forceNew: true,
             autoConnect: false,
           }),
-          new io('http://localhost:3001',{
+          new io(HOST_GAME, {
             forceNew: true,
             autoConnect: false,
           }),
         ]
 
-        console.log(sockets);
-
-
         $('.form').submit((e) => {
           e.preventDefault();
-          const user=e.target.title;
+          const user = e.target.title;
 
-          const namespase=$(`#namespase${user}`).val();
-          const command=$(`#command${user}`).val();
-          const payload=$(`#payload${user}`).val();
+          const namespase = $(`#namespase${user}`).val();
+          const command = $(`#command${user}`).val();
+          const payload = $(`#payload${user}`).val();
 
           sockets[user].emit(
-            namespase,{
+            namespase, {
               route: command,
               payload
             }
@@ -211,36 +269,39 @@
         });
 
         $('.cs1').click(e => {
-          const user=e.target.value;
-          sockets[user].emit('lobby',{route: 'add'});
+          const user = e.target.value;
+          sockets[user].emit('lobby', { route: 'add' });
         });
 
         $('.cs2').click(e => {
-          const user=e.target.value;
-          sockets[user].emit('lobby',{route: 'del'});
+          const user = e.target.value;
+          sockets[user].emit('lobby', { route: 'del' });
         });
 
         $('.cs3').click(e => {
-          const user=e.target.value;
+          const user = e.target.value;
           sockets[user].disconnect();
         });
 
         $('.cs4').click(e => {
-          const user=e.target.value;
-          sockets[user].emit('lobby',{route: 'count'});
+          const user = e.target.value;
+          sockets[user].emit('lobby', { route: 'count' });
         });
 
         $('.cs5').click(e => {
-          const user=e.target.value;
-          sockets[user].emit('lobby',{route: 'users'});
+          const user = e.target.value;
+          sockets[user].emit('lobby', { route: 'users' });
         });
 
         $('.cs6').click(e => {
-          sockets.forEach((socket,i) => $(`#messages${i}`).empty())
+          sockets.forEach((socket, i) => $(`#messages${i}`).empty())
         });
 
-        sockets.forEach((socket,i) => {
-          socket.on('Chat',msg => $(`#messages${i}`).prepend($('<li>').text(msg)));
+        sockets.forEach((socket, i) => {
+          socket.on('Chat', msg => $(`#messages${i}`)
+            .prepend($('<li>')
+              .prepend($('<pre>')
+                .text(JSON.stringify(msg, null, 2)))));
         });
 
       });

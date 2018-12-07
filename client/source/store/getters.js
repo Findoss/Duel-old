@@ -1,7 +1,7 @@
 /* eslint global-require: 0 */
 /* eslint import/no-dynamic-require: 0 */
 
-const getters = {
+export default {
   myId: (state) => {
     if (state.myId === '0000') return localStorage.getItem('myId');
     return state.myId;
@@ -14,5 +14,3 @@ const getters = {
   },
   pathRune: () => id => require(`@/assets/runes/${id}.png`),
 };
-
-export default getters;

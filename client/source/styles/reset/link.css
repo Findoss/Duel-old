@@ -1,7 +1,7 @@
 a {
-  color: var(--color-blue-norm);
+  color: var(--color-red-dark);
 }
 
 a:hover {
-  color: var(--color-blue-bright);
+  color: var(--color-red-lite);
 }

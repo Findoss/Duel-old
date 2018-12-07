@@ -1,0 +1,85 @@
+.container {
+  display: grid;
+  grid-template-columns: auto 40vh;
+  grid-template-rows: 1fr;
+  height: 100%;
+  width: 100%;
+}
+
+.paralax {
+  background-color: var(--color-white);
+  display: block;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.sidebar {
+  background-color: var(--color-gray-ccc);
+  grid-column: 2;
+  grid-row: 1;
+  /**/
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 14vh 5vh 64vh 5vh;
+  align-items: start;
+  justify-items: center;
+  grid-gap: 2vh;
+  height: 100%;
+  width: 100%;
+  padding: 3vh;
+}
+
+.sidebar_logo {
+  grid-column: 1;
+  grid-row: 1;
+  width: 100%;
+}
+
+.sidebar_title {
+  grid-column: 1;
+  grid-row: 2;
+  width: 100%;
+  text-align: center;
+}
+
+.sidebar_form {
+  grid-column: 1;
+  grid-row: 3;
+  width: 100%;
+  /**/
+  display: grid;
+  grid-gap: 2vh;
+}
+
+.sidebar_footer {
+  grid-column: 1;
+  grid-row: 4;
+  width: 100%;
+  text-align: center;
+}
+
+.form_forgot-password {
+  text-align: right;
+  font-size: 0.8rem;
+  margin-top: 0.5vh;
+}
+
+.form_or {
+  text-align: center;
+  margin-top: 0.5vh;
+}
+
+.form_socials-networks {
+  display: flex;
+  justify-content: center;
+  justify-content: space-evenly;
+}
+
+.form_socials-networks img {
+  height: 9vh;
+  margin-right: 1vh;
+}
+
+.form_socials-networks img:last-child {
+  margin-right: 0;
+}

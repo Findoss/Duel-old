@@ -1,4 +1,5 @@
-export default function (context, form) {
+
+export const validationForm = (context, form) => {
   let isValid = true;
   Object.keys(context[form]).forEach((field) => {
     if (!context[form][field].status) {
@@ -7,4 +8,6 @@ export default function (context, form) {
     }
   });
   return isValid;
-}
+};
+
+export default validationForm;

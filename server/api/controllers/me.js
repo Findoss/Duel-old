@@ -1,24 +1,29 @@
 const ResponseError = require('../../utils/error');
-const mongoose = require('mongoose');
 const User = require('../../models/user');
 const Skill = require('../../models/skill');
 const Session = require('../../models/session');
 
+const ctrlUser = require('./user');
+
 const avatars = require('../../static/avatars.json');
 
-
+/**
+ * TODO описание
+ * @param {*}
+ */
 module.exports.passwordVerification = async (id, password) => {
   try {
     const user = await User.findById(id);
     return user.checkPassword(password);
   } catch (error) {
-    console.log(error);
-
     throw new ResponseError(523, error);
   }
 };
 
-
+/**
+ * TODO описание
+ * @param {*}
+ */
 module.exports.getMe = async (ctx) => {
   try {
     const user = await User.findById(ctx.state.user.id);
@@ -29,6 +34,10 @@ module.exports.getMe = async (ctx) => {
   }
 };
 
+/**
+ * TODO описание
+ * @param {*}
+ */
 module.exports.deleteMe = async (ctx) => {
   try {
     await Session
@@ -45,6 +54,10 @@ module.exports.deleteMe = async (ctx) => {
   }
 };
 
+/**
+ * TODO описание
+ * @param {*}
+ */
 module.exports.setAvatar = async (ctx) => {
   if (!avatars.some(avatar => avatar === ctx.request.body.avatar)) throw new ResponseError(400, 'Invalid params');
   try {
@@ -59,10 +72,12 @@ module.exports.setAvatar = async (ctx) => {
   }
 };
 
-module.exports.setNickname = async (ctx) => {
-  /*
-  * todo validation
-  */
+/**
+ * TODO описание
+ * @param {*}
+ */
+module.exports.updateNickname = async (ctx) => {
+  // TODO валидация
 
   try {
     await User
@@ -77,25 +92,33 @@ module.exports.setNickname = async (ctx) => {
   }
 };
 
-module.exports.setPassword = async (ctx) => {
-  /*
-  * todo validation
-  */
-
-  const isTruePassword = await this.passwordVerification(ctx.state.user.id, ctx.request.body.oldPassword);
+/**
+ * TODO описание
+ * @param {*}
+ */
+module.exports.updatePassword = async (ctx) => {
+  const isTruePassword = await this.passwordVerification(
+    ctx.state.user.id,
+    ctx.request.body.oldPassword,
+  );
 
   if (isTruePassword) {
-    try {
-      const user = await User.findById(ctx.state.user.id);
-      await user.setPassword(ctx.request.body.newPassword);
-      await user.save();
-      ctx.response.body = { message: 'New password set successfully' };
-    } catch (error) {
-      throw new ResponseError(400, 'Invalid params');
+    const result = await ctrlUser.setPassword(ctx.request.body.newPassword, ctx.state.user.id);
+    if (result) {
+      ctx.response.body = {
+        message: 'Your password is updated successfully',
+      };
+    } else {
+      throw new ResponseError(400, 'Incorrect params');
     }
-  } else throw new ResponseError(403, 'Incorrect password');
+  }
+  else throw new ResponseError(403, 'Incorrect password');
 };
 
+/**
+ * TODO описание
+ * @param {*}
+ */
 module.exports.buySkill = async (ctx) => {
   const user = await User.findById(ctx.state.user.id, 'gold experience level');
   const skill = await Skill.findById(ctx.request.body.id, 'priceInGold minLevel');
@@ -120,6 +143,10 @@ module.exports.buySkill = async (ctx) => {
   } else throw new ResponseError(400, 'Not enough money or level');
 };
 
+/**
+ * TODO описание
+ * @param {*}
+ */
 module.exports.addInSkillSet = async (ctx) => {
   const user = await User.findById(ctx.state.user.id, 'points skillsUnlocked openSlots skillSet');
   const skill = await Skill.findById(ctx.request.body.id, 'points limitCopy');
@@ -162,6 +189,10 @@ module.exports.addInSkillSet = async (ctx) => {
   } else throw new ResponseError(400, 'ne prosho validat');
 };
 
+/**
+ * TODO описание
+ * @param {*}
+ */
 module.exports.delInSkillSet = async (ctx) => {
   const user = await User.findById(ctx.state.user.id, 'points skillSet');
   const skill = await Skill.findById(ctx.request.body.id, 'points');

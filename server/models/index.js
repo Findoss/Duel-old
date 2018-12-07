@@ -1,9 +1,14 @@
+/* eslint no-console: 0 */
+/* правило консоли выключено потому что
+ * это важыный элемент логов, управляется через переменную окружения
+ */
+
 const config = require('../config');
 const mongoose = require('mongoose');
 
 mongoose.set('debug', config.db.debug);
 
-const gracefulShutdown = function (msg, callback) {
+const gracefulShutdown = (msg, callback) => {
   mongoose.connection.close(() => {
     if (config.logger.node) console.log(`[database] disconnected through ${msg}`);
     callback();

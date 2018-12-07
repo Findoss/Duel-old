@@ -2,34 +2,36 @@ import { createSocketioPlugin } from 'vuex-socketio-plugin';
 
 import Vue from 'vue';
 import Vuex from 'vuex';
-import socket from './socket';
+
+import socket from '../utils/socket';
+
 import actions from './actions';
-import mutations from './mutations';
 import getters from './getters';
+import mutations from './mutations';
 
-import user from './modules/user';
-import userPrivate from './modules/user_private';
+import user from './modules/user/state';
+import userPrivate from './modules/user_private/state';
 
-import skills from './modules/skills';
-import statics from './modules/statics';
-import account from './modules/account';
-import game from './modules/game';
-import chat from './modules/chat';
+import account from './modules/account/state';
+import chat from './modules/chat/state';
+import lobby from './modules/lobby/state';
+import skills from './modules/skills/state';
+import statics from './modules/statics/state';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   state: {
-    myId: 0,
+    myId: '0000',
     statusSocket: false,
   },
   actions,
   mutations,
   getters,
   modules: {
-    game, // модуль игровых объектов
-    chat, // todo
+    chat, // TODO описание
+    lobby, // TODO описание
     skills, // модуль скилов
     statics, // модуль статичных набров
     me: { // модуль пользователя
@@ -45,7 +47,7 @@ export default new Vuex.Store({
     },
     opponent: user,
   },
-  plugins: [createSocketioPlugin(socket, {
-    actionPrefix: 'socket',
-  })],
+  // plugins: [createSocketioPlugin(socket, {
+  //   actionPrefix: 'socket',
+  // })],
 });
