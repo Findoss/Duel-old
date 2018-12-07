@@ -14,6 +14,7 @@ module.exports = {
     host: process.env.SMTP_HOST,
     port: process.env.SMTP_PORT,
     secure: process.env.SMTP_SECURE,
+    address: process.env.SMTP_ADDRESS,
     username: process.env.SMTP_USERNAME,
     password: process.env.SMTP_PASSWORD,
   },

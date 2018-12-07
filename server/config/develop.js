@@ -10,6 +10,7 @@ module.exports = {
     host: 'smtp.mail.ru',
     port: 465,
     secure: true,
+    address: 'aengorg@bk.ru',
     username: 'aengorg@bk.ru',
     password: '8MGj2wDH29P2jAxc',
   },

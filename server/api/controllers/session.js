@@ -53,7 +53,7 @@ module.exports.passwordReset = async (ctx, next) => {
       { upsert: true, new: true },
     );
 
-    const link = `http://localhost:3002/password-new/${hashPasswordReset.hash}`;
+    const link = `${config.node.host}password-new/${hashPasswordReset.hash}`;
 
     // отправим по почте
     // console.log('send mail ', `http://localhost:3002/password-new/${hashPasswordReset.hash}`);
@@ -62,7 +62,7 @@ module.exports.passwordReset = async (ctx, next) => {
       {
         from: {
           name: 'Support game Duel',
-          address: config.email.username,
+          address: config.email.address,
         },
         to: ctx.request.body.email,
         subject: 'Please reset your password',
