@@ -50,13 +50,11 @@ export default {
 
   signOut({ commit, dispatch }) {
     return Http.send('DELETE', '/auth/signout')
-      .then((response) => {
-      })
       .finally(() => {
         commit('DEL_MY_ID', undefined, { root: true });
         localStorage.removeItem('session-token');
         socket.disconnect();
-        Router.push({ path: '/signin' });
+        Router.push({ name: 'root' });
       });
   },
 };

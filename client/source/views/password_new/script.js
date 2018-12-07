@@ -1,4 +1,3 @@
-import Router from '@/routes';
 import { mapActions } from 'vuex';
 
 // Utils
@@ -48,10 +47,8 @@ export default {
         hash: this.$route.params.hash,
       })
         .catch(() => {
-          // this.$refs.password.reset();
-          // this.$refs.confirmPassword.reset();
-          console.log('nope');
-
+          this.$refs.password.reset();
+          this.$refs.confirmPassword.reset();
           this.form.password.status = false;
           this.form.confirmPassword.status = false;
         });
