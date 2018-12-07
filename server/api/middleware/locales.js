@@ -1,3 +1,5 @@
+const config = require('../../config');
+
 const i18next = require('i18next');
 const i18nextFs = require('i18next-sync-fs-backend');
 const koaI18next = require('koa-i18next');
@@ -15,7 +17,7 @@ const resurces = i18next
     fallbackLng: 'en',
     ns: '_',
     defaultNS: '_',
-    debug: true,
+    debug: config.logger.koa,
   });
 
 module.exports = () => koaI18next(resurces, {
@@ -29,10 +31,3 @@ module.exports = () => koaI18next(resurces, {
 
   next: true,
 });
-
-// console.log(i18next);
-
-
-// module.exports = () => async (ctx, next) => {
-//   await next();
-// };
