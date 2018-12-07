@@ -12,9 +12,6 @@ const PasswordReset = require('../../models/password_reset');
 const transporterEmail = require('./smtp');
 const templetePasswordReset = require('../templates/password_reset');
 
-console.log(templetePasswordReset);
-
-
 /**
  * TODO описание
  * @param {*}
