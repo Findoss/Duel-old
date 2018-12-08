@@ -17,7 +17,7 @@ const resurces = i18next
     fallbackLng: 'en',
     ns: '_',
     defaultNS: '_',
-    debug: config.logger.koa,
+    debug: config.logger.i18n,
   });
 
 module.exports = () => koaI18next(resurces, {

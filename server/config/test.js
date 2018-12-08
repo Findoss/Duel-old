@@ -14,6 +14,7 @@ module.exports = {
     db: false,
     node: false,
     koa: false,
+    i18n: false,
   },
   JWTKey: 'mysecretkey',
 };
