@@ -1,3 +1,9 @@
+console.log(process.env.LOGGER_KOA);
+console.log(typeof process.env.LOGGER_KOA);
+console.log(!!process.env.LOGGER_KOA);
+console.log(process.env.LOGGER_KOA !== 'false');
+
+
 module.exports = {
   db: {
     host: process.env.MONGODB_HOST,
