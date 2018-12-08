@@ -22,6 +22,7 @@ module.exports = {
     db: process.env.LOGGER_DB,
     node: process.env.LOGGER_NODE,
     koa: process.env.LOGGER_KOA,
+    i18n: process.env.LOGGER_I18N,
   },
   JWTKey: process.env.JWT_KEY,
 };
