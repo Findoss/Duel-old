@@ -1,0 +1,94 @@
+.flash-alert {
+  background-color: var(--background-0);
+  background-position: left 8px center;
+  background-repeat: no-repeat;
+  /**/
+  border-color: var(--color-gray-lite);
+  border: 0.2vh solid;
+  border-top: 0.5vh solid;
+  /**/
+  padding: 1vh;
+  padding-left: 1.5vh;
+  padding-right: 4.5vh;
+  width: 100%;
+  /**/
+  pointer-events: all;
+}
+
+.button-close {
+  background-color: var(--background-2);
+  border: 0;
+  display: inline-block;
+  float: right;
+  height: 2.5vh;
+  position: relative;
+  right: -3.5vh;
+  width: 2.5vh;
+}
+
+.button-close::before, .button-close::after {
+  background-color: var(--color-gray-lite);
+  content: "";
+  height: 0.2vh;
+  width: 1.6vh;
+  position: absolute;
+  left: 18%;
+  top: 46%;
+}
+
+.button-close::before {
+  transform: rotate(45deg);
+}
+
+.button-close::after {
+  transform: rotate(-45deg);
+}
+
+.button-close:hover {
+  background-color: var(--color-gray-bright);
+  cursor: pointer;
+}
+
+.button-close:focus {
+  outline: none;
+}
+
+.button-close:hover::before, .button-close:hover::after {
+  background: var(--color-red-lite);
+}
+
+.flash-alert_icon {
+  padding-left: 32px;
+}
+
+.flash-alert_icon-success {
+  background-image: url(../../assets/icons/status/success.png);
+}
+
+.flash-alert_icon-error {
+  background-image: url(../../assets/icons/status/error.png);
+}
+
+.flash-alert_icon-info {
+  background-image: url(../../assets/icons/status/info.png);
+}
+
+.flash-alert_icon-warning {
+  background-image: url(../../assets/icons/status/warning.png);
+}
+
+.flash-alert_color-success {
+  border-color: var(--color-green-norm);
+}
+
+.flash-alert_color-error {
+  border-color: var(--color-red-norm);
+}
+
+.flash-alert_color-info {
+  border-color: var(--color-blue-norm);
+}
+
+.flash-alert_color-warning {
+  border-color: var(--color-yellow-norm);
+}
