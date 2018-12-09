@@ -14,4 +14,12 @@ export default {
   socketLobbyGo({ commit }, { data }) {
     commit('chat/SOCKET_CHAT', [{ user: 'you', message: data[0] }]);
   },
+
+  addNotification({ commit }, notification) {
+    commit('ADD_NOTIFICATION', notification);
+  },
+
+  delNotification({ commit }, index) {
+    commit('DEL_NOTIFICATION', index);
+  },
 };

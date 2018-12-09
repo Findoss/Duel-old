@@ -25,6 +25,7 @@ export default new Vuex.Store({
   state: {
     myId: '0000',
     statusSocket: false,
+    notifications: [],
   },
   actions,
   mutations,

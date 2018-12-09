@@ -6,6 +6,7 @@ export default {
   registration({ dispatch }, user) {
     return Http.send('POST', '/users', user)
       .then((response) => {
+        dispatch('addNotification', { type: 'success', message: response.message }, { root: true });
         Router.push({ name: 'root' });
       });
   },

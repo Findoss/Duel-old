@@ -13,4 +13,5 @@ export default {
     return require(`@/assets/skills/${icon}.png`);
   },
   pathRune: () => id => require(`@/assets/runes/${id}.png`),
+  notifications: state => state.notifications,
 };
