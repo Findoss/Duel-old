@@ -88,6 +88,47 @@
 [![]()]()
 
 
+# The Order: 1886
+
+### World  
+[![](https://cdn.shazoo.ru/c1430x645/101603_7oTMpoYJQY_the_order_1886_walkthrough.jpg)](https://cdn.shazoo.ru/c1430x645/101603_7oTMpoYJQY_the_order_1886_walkthrough.jpg)
+[![](https://i.playground.ru/i/blog/163484/content/nqew5f3h.jpg)](https://i.playground.ru/i/blog/163484/content/nqew5f3h.jpg)
+[![](http://wallpapershdnow.com/images/games/action/the-order-1886/the-order-1886-wallpaper-1.jpg)](http://wallpapershdnow.com/images/games/action/the-order-1886/the-order-1886-wallpaper-1.jpg)
+[![](https://i.pinimg.com/originals/e7/e6/e0/e7e6e0c563a3f4b488f5bb34480ab353.jpg)](https://i.pinimg.com/originals/e7/e6/e0/e7e6e0c563a3f4b488f5bb34480ab353.jpg)
+[![](https://ic.pics.livejournal.com/artefactgz/32251718/25927/25927_900.jpg)](https://ic.pics.livejournal.com/artefactgz/32251718/25927/25927_900.jpg)
+[![](http://cdn4.gamepur.com/images/feature/the-order-1886-set-in-berlin.jpg)](http://cdn4.gamepur.com/images/feature/the-order-1886-set-in-berlin.jpg)
+[![](http://enemyslime.com/wp-content/uploads/2015/02/The-Order_-1886_2.jpg)](http://enemyslime.com/wp-content/uploads/2015/02/The-Order_-1886_2.jpg)
+[![](https://s2.glbimg.com/p2JNftZzhSTMNC7ZrmE-tGo_Bt0=/0x600/s.glbimg.com/po/tt2/f/original/2015/02/18/the-order-1886-2.png)](https://s2.glbimg.com/p2JNftZzhSTMNC7ZrmE-tGo_Bt0=/0x600/s.glbimg.com/po/tt2/f/original/2015/02/18/the-order-1886-2.png)
+[![](https://cdn.vox-cdn.com/thumbor/kPK3nl2nAyGsKjDRRP-23bQm18o=/1200x0/filters:no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/3423638/superwide1.0.jpg)](https://cdn.vox-cdn.com/thumbor/kPK3nl2nAyGsKjDRRP-23bQm18o=/1200x0/filters:no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/3423638/superwide1.0.jpg)
+[![](https://stmed.net/sites/default/files/the-order%3A-1886-hd-wallpapers-33798-7820034.jpg)](https://stmed.net/sites/default/files/the-order%3A-1886-hd-wallpapers-33798-7820034.jpg)
+[![]()]()
+[![]()]()
+
+### Heros
+[![](https://i.playground.ru/i/blog/312662/content/m3wgqmcp.jpg)](https://i.playground.ru/i/blog/312662/content/m3wgqmcp.jpg)
+[![](https://www.pwrdown.com/wp-content/uploads/2018/09/The-Order-1886-Reveal-1.jpeg)](https://www.pwrdown.com/wp-content/uploads/2018/09/The-Order-1886-Reveal-1.jpeg)
+[![](https://cdn3.dualshockers.com/wp-content/uploads/2015/02/TheOrder1886LS-48.png)](https://cdn3.dualshockers.com/wp-content/uploads/2015/02/TheOrder1886LS-48.png)
+[![](http://www.zbrushcentral.com/attachment.php?attachmentid=452844)](http://www.zbrushcentral.com/attachment.php?attachmentid=452844)
+[![](http://www.zbrushcentral.com/attachment.php?attachmentid=452882)](http://www.zbrushcentral.com/attachment.php?attachmentid=452882)
+[![](https://media.playstation.com/is/image/SCEA/the-order-1886-screen-01-ps4-us-05feb15?$MediaCarousel_Original$)](https://media.playstation.com/is/image/SCEA/the-order-1886-screen-01-ps4-us-05feb15?$MediaCarousel_Original$)
+[![](https://www.gamesknit.com/wp-content/uploads/2015/08/TheOrder1886-410.jpg)](https://www.gamesknit.com/wp-content/uploads/2015/08/TheOrder1886-410.jpg)
+[![](http://img.playground.ru/images/0/9/order-psx-3.png)](http://img.playground.ru/images/0/9/order-psx-3.png)
+[![](https://cdnb.artstation.com/p/assets/images/images/000/518/987/large/david-lieu-david-lieu-eih-060-01.jpg?1425410131)](https://cdnb.artstation.com/p/assets/images/images/000/518/987/large/david-lieu-david-lieu-eih-060-01.jpg?1425410131)
+[![]()]()
+[![]()]()
+[![]()]()
+
+### UI
+[![](https://www.mobygames.com/images/shots/l/773067-the-order-1886-playstation-4-screenshot-main-menu.jpg)](https://www.mobygames.com/images/shots/l/773067-the-order-1886-playstation-4-screenshot-main-menu.jpg)
+[![](https://www.gamerguides.com/assets/guides/97/97468-1424908800.png)](https://www.gamerguides.com/assets/guides/97/97468-1424908800.png)
+[![](http://img.playground.ru/images/3/4/The_Order__1886_20180822200350.png)](http://img.playground.ru/images/3/4/The_Order__1886_20180822200350.png)
+[![]()]()
+[![]()]()
+[![]()]()
+
+
+
+
 # Frostpunk
 
 ### UI  
@@ -100,6 +141,9 @@
 [![]()]()
 [![]()]()
 [![]()]()
+
+
+
 
 
 # Hunt showdown 
@@ -130,8 +174,27 @@
 [![]()]()
 [![]()]()
 
+
+
+# Bioshok
+
+### World  
+[![](https://m.media-amazon.com/images/M/MV5BODBkNmIwMDUtYjU5Mi00ZjlkLWEzMWUtYTYwNzkzYmE0ZjBkXkEyXkFqcGdeQXVyNjYwMTAzNDU@._V1_SX1777_CR0,0,1777,999_AL_.jpg)](https://m.media-amazon.com/images/M/MV5BODBkNmIwMDUtYjU5Mi00ZjlkLWEzMWUtYTYwNzkzYmE0ZjBkXkEyXkFqcGdeQXVyNjYwMTAzNDU@._V1_SX1777_CR0,0,1777,999_AL_.jpg)
+[![](https://secondaryfire.files.wordpress.com/2013/06/bioshockinfiniteshot1.png)](https://secondaryfire.files.wordpress.com/2013/06/bioshockinfiniteshot1.png)
+[![](https://tehnot.com/wp-content/uploads/2018/01/sm.e15e8b3ab3af16e0de3d77c4eb9f87cd.750.jpg)](https://tehnot.com/wp-content/uploads/2018/01/sm.e15e8b3ab3af16e0de3d77c4eb9f87cd.750.jpg)
+[![](https://i.pinimg.com/originals/bd/e6/39/bde639804357ef82c22150e3e69fe334.jpg)](https://i.pinimg.com/originals/bd/e6/39/bde639804357ef82c22150e3e69fe334.jpg)
+[![](http://level-design.ru/wp-content/uploads/2017/04/bioshock_infinite_combat_arena.jpg)](http://level-design.ru/wp-content/uploads/2017/04/bioshock_infinite_combat_arena.jpg)
+[![](https://i.pinimg.com/originals/f1/eb/cf/f1ebcf6104982d02841e4267cd0ce490.jpg)](https://i.pinimg.com/originals/f1/eb/cf/f1ebcf6104982d02841e4267cd0ce490.jpg)
+[![]()]()
+[![]()]()
+[![]()]()
+
 # Steampunk
 
+[![](https://www.mirf.ru/wp-content/uploads/2017/01/1920_harvest_JR.png)](https://www.mirf.ru/wp-content/uploads/2017/01/1920_harvest_JR.png)
+[![](https://www.mirf.ru/wp-content/uploads/2017/01/1920_wojtek_GOOD_BIG.png)](https://www.mirf.ru/wp-content/uploads/2017/01/1920_wojtek_GOOD_BIG.png)
+[![](https://www.mirf.ru/wp-content/uploads/2017/01/1920_retired_veteran_70na100.png)](https://www.mirf.ru/wp-content/uploads/2017/01/1920_retired_veteran_70na100.png)
+[![](https://ki-design.ru/wp-content/uploads/2018/02/%D0%A1%D1%82%D0%B8%D0%BC%D0%BF%D0%B0%D0%BD%D0%BA.jpg)](https://ki-design.ru/wp-content/uploads/2018/02/%D0%A1%D1%82%D0%B8%D0%BC%D0%BF%D0%B0%D0%BD%D0%BA.jpg)
 [![]()]()
 [![]()]()
 [![]()]()
