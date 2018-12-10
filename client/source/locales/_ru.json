@@ -1,3 +1,11 @@
 {
-  "hello": "урод"
+  "hello": "урод",
+  "menu": {
+    "profile": "Профиль",
+    "skills": "Магия",
+    "inventory": "Арсенал",
+    "play": "    Играть!    ",
+    "shop": "Лавка",
+    "scoreboard": "Лидеры"
+  }
 }

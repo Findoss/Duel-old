@@ -44,5 +44,13 @@
       "013": "Password must contain least one number and at be least one characters",
       "014": "Password confirmation doesn't match the password."
     }
+  },
+  "menu": {
+    "profile": "Profile",
+    "skills": "Skills",
+    "inventory": "Inventory",
+    "play": "    Play    ",
+    "shop": "Shop",
+    "scoreboard": "Scoreboard"
   }
 }
