@@ -11,40 +11,44 @@
       </z-title>
 
       <form
+        v-if="!form.isSuccessSend"
         accept-charset="UTF-8"
         @submit.prevent="submit"
         @keyup.enter="submit"
         novalidate="true"
         class="sidebar_form"
-        v-if="!isSendResetPassword"
       >
+
+        <z-block :show="!form.isAvailable" />
 
         <small>
           {{ $t('yourEmail') }}
         </small>
         <z-input
-          :icon="false"
-          :validationRules="form.email.rules"
-          @validation="form.email.status = $event"
+          v-model="fields.email.value"
+          @update="validation($event)"
+          :error="fields.email.error"
+          :status="fields.email.status"
           :placeholder="$t('emailPlaceholder')"
+          :statusIcon="false"
           autofocus="autofocus"
           name="email"
-          ref="email"
-          tabindex="1"
           type="email"
-          v-model="form.email.value"
+          tabindex="1"
         />
 
         <z-button
-          tabindex="2"
+          :disabled="!form.isAvailable"
+          :class="{'base-button_wait' : !form.isAvailable}"
           type="submit"
+          tabindex="2"
         >{{ $t('sendPasswordReset') }}</z-button>
 
       </form>
 
       <div
-        class="sidebar_success"
         v-else
+        class="sidebar_success"
       >
         <p>{{ $t('sendResetPassword') }}</p>
         <br>

@@ -20,46 +20,52 @@
         class="sidebar_form"
       >
 
+        <z-block :show="!form.isAvailable" />
+
         <z-input
-          :validationRules="form.nickname.rules"
-          v-model="form.nickname.value"
-          @validation="form.nickname.status = $event"
+          v-model="fields.nickname.value"
+          @update="validation($event)"
+          :error="fields.nickname.error"
+          :status="fields.nickname.status"
           :placeholder="$t('nicknamePlaceholder')"
           autofocus="autofocus"
           name="nickname"
-          ref="nickname"
           tabindex="1"
         />
 
         <z-input
-          :validationRules="form.email.rules"
-          v-model="form.email.value"
-          @validation="form.email.status = $event"
+          v-model="fields.email.value"
+          @update="validation($event)"
+          :error="fields.email.error"
+          :status="fields.email.status"
           :placeholder="$t('emailPlaceholder')"
           name="email"
-          ref="email"
-          tabindex="2"
           type="email"
+          tabindex="2"
         />
 
         <z-input
-          :validationRules="form.password.rules"
-          v-model="form.password.value"
-          @validation="form.password.status = $event"
+          v-model="fields.password.value"
+          @update="validation($event)"
+          :error="fields.password.error"
+          :status="fields.password.status"
           :placeholder="$t('passwordPlaceholder')"
           name="password"
-          ref="password"
-          tabindex="3"
           type="password"
+          tabindex="3"
         />
 
         <small>
           {{ $t('clickingPrivacyStatement', { btn: $t('createAccount') }) }}
         </small>
+
         <z-button
-          tabindex="4"
+          :disabled="!form.isAvailable"
+          :class="{'base-button_wait' : !form.isAvailable}"
           type="submit"
+          tabindex="4"
         >{{ $t('createAccount')}}</z-button>
+
       </form>
 
       <span class="sidebar_footer">

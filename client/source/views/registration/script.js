@@ -1,17 +1,19 @@
+import debounce from 'debounce';
 import { mapActions } from 'vuex';
 
 // Utils
 import Rules from '@/utils/validation/rules';
-import { validationForm } from '@/utils/validation/form';
+import validation from '@/utils/validation';
 
 export default {
 
-  data () {
+  data() {
     return {
-      form: {
+      fields: {
         nickname: {
           value: '',
-          status: false,
+          status: '',
+          error: '',
           rules: [
             Rules.nickname,
             Rules.checkNickname,
@@ -19,7 +21,8 @@ export default {
         },
         email: {
           value: '',
-          status: false,
+          status: '',
+          error: '',
           rules: [
             Rules.email,
             Rules.checkEmail,
@@ -27,9 +30,13 @@ export default {
         },
         password: {
           value: '',
-          status: false,
+          status: '',
+          error: '',
           rules: [Rules.password],
         },
+      },
+      form: {
+        isAvailable: true,
       },
     };
   },
@@ -39,20 +46,35 @@ export default {
       registration: 'me/account/registration',
     }),
 
-    submit () {
-      if (!validationForm(this, 'form')) return false;
+    submit() {
+      if (!validation.form(this, 'fields')) return false;
+
+      this.form.isAvailable = false;
 
       this.registration({
-        nickname: this.form.nickname.value,
-        email: this.form.email.value,
-        password: this.form.password.value,
+        nickname: this.fields.nickname.value,
+        email: this.fields.email.value,
+        password: this.fields.password.value,
       })
         .catch(() => {
-          this.$refs.password.reset();
-          this.form.password.status = false;
+          this.fields.nickname.value = '';
+          this.fields.nickname.status = '';
+          this.fields.email.value = '';
+          this.fields.email.status = '';
+          this.fields.password.value = '';
+          this.fields.password.status = '';
+        })
+        .finally(() => {
+          this.form.isAvailable = true;
         });
 
       return true;
     },
+  },
+
+  created() {
+    this.validation = debounce((event) => {
+      validation.field(this, 'fields', event.target.name);
+    }, 500);
   },
 };

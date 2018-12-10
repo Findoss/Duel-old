@@ -8,10 +8,13 @@
         :size="2"
         class="sidebar_title"
       >
-        {{ $t('changePassword') }}
+        {{ $t('changePassword') }} {{ $t('for') }}
+        <br>
+        {{ nickname }}
       </z-title>
 
       <form
+        v-if="isValidLink"
         accept-charset="UTF-8"
         @submit.prevent="submit"
         @keyup.enter="submit"
@@ -19,31 +22,44 @@
         class="sidebar_form"
       >
 
+        <z-block :show="form.isAvailable" />
+
+        <z-flash-alert
+          v-if="form.error"
+          :icon="true"
+          :autoDelete="0"
+          type="error"
+        >
+          {{ form.error }}
+        </z-flash-alert>
+
         <z-input
-          :validationRules="form.password.rules"
-          @validation="form.password.status = $event"
+          v-model="fields.password.value"
+          @update="validation($event)"
+          :error="fields.password.error"
+          :status="fields.password.status"
           :placeholder="`${$t('new')} ${$t('password').toLowerCase()}`"
           name="password"
-          ref="password"
-          tabindex="1"
           type="password"
-          v-model="form.password.value"
+          tabindex="1"
         />
 
         <z-input
-          :validationRules="form.confirmPassword.rules"
-          @validation="form.confirmPassword.status = $event"
+          v-model="fields.confirmPassword.value"
+          @update="validation($event)"
+          :error="fields.confirmPassword.error"
+          :status="fields.confirmPassword.status"
           :placeholder="`${$t('confirm')} ${$t('password').toLowerCase()}`"
           name="confirmPassword"
-          ref="confirmPassword"
-          tabindex="2"
           type="password"
-          v-model="form.confirmPassword.value"
+          tabindex="2"
         />
 
         <z-button
-          tabindex="3"
+          :disabled="!form.isAvailable"
+          :class="{'base-button_wait' : !form.isAvailable}"
           type="submit"
+          tabindex="3"
         >{{ $t('changePassword') }}</z-button>
 
       </form>

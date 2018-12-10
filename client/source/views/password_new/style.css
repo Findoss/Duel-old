@@ -20,7 +20,7 @@
   /**/
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 14vh 5vh 64vh 5vh;
+  grid-template-rows: 14vh 8vh 61vh 5vh;
   align-items: start;
   justify-items: center;
   grid-gap: 2vh;
@@ -50,6 +50,7 @@
   grid-column: 1;
   grid-row: 3;
   width: 100%;
+  position: relative;
   /**/
   display: grid;
   grid-gap: 2vh;
