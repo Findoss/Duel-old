@@ -1,0 +1,23 @@
+.profile-header {
+  display: grid;
+  grid-template-columns: 38vh 1fr 25vh;
+  grid-template-rows: 1fr;
+  grid-gap: 0.5%;
+  overflow: hidden;
+}
+
+.profile-header__profile-navigation {
+  grid-column: 2;
+  grid-row: 1;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.profile-header__setting-navigation {
+  grid-column: 3;
+  grid-row: 1;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
