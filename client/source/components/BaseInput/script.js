@@ -1,5 +1,3 @@
-import debounce from 'debounce';
-
 export default {
 
   name: 'z-input',
@@ -33,52 +31,30 @@ export default {
     customClasses: {
       type: String,
     },
-    validationRules: {
-      type: Array,
-    },
-    validationIcon: {
+    statusIcon: {
       type: Boolean,
       default: true,
     },
-  },
-
-  data() {
-    return {
-      status: '',
-      error: '',
-    };
+    status: {
+      type: String,
+      default: '',
+      validator(val) {
+        return ['', 'pending', 'valid', 'invalid'].includes(val);
+      },
+    },
+    error: {
+      type: String,
+      default: '',
+    },
   },
 
   methods: {
-    updateField(value) {
-      if (this.validationRules) {
-        this.$emit('validation', false);
-        this.validation();
-      }
-      this.$emit('input', value);
+    update(event) {
+      // кастомное события для запуска проверок
+      this.$emit('update', event);
+      // нативное событие для v-model
+      this.$emit('input', event.target.value);
     },
-
-    reset() {
-      this.error = '';
-      this.status = '';
-      this.$emit('input', '');
-    },
-  },
-
-  created() {
-    this.validation = debounce(() => {
-      this.error = '';
-      this.status = 'pending';
-      this.validationRules.reduce((acc, rule) => acc.then(rule), Promise.resolve(this.value))
-        .then(() => {
-          this.status = 'valid';
-          this.$emit('validation', true);
-        })
-        .catch((error) => {
-          this.status = 'invalid';
-          this.error = error.message;
-        });
-    }, 500);
   },
 
   computed: {
@@ -87,7 +63,7 @@ export default {
         'base-input': true,
       };
 
-      if (this.validationIcon) {
+      if (this.statusIcon) {
         switch (this.status) {
           case 'valid':
             classes['check-successful'] = true;
