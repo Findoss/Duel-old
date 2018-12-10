@@ -12,3 +12,18 @@
   cursor: pointer;
   background-color: var(--color-green-norm);
 }
+
+.base-button:disabled {
+  border-color: var(--color-gray-norm);
+  border-image: none;
+  color: var(--color-gray-norm);
+  cursor: not-allowed;
+}
+
+.base-button_wait {
+  cursor: wait;
+}
+
+.base-button_wait:disabled {
+  cursor: wait;
+}
