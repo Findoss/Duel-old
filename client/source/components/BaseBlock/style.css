@@ -1,0 +1,20 @@
+.base-block {
+  border-radius: 0.5vh;
+  width: 110%;
+  height: 110%;
+  top: -5%;
+  left: -5%;
+  background-color: var(--color-gray-norm);
+  opacity: 0.7;
+  position: absolute;
+  z-index: 999;
+  cursor: wait;
+  /**/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.base-block::after {
+  content: url(../../assets/icons/status/rolling_white.gif);
+}

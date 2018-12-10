@@ -1,9 +1,10 @@
 <template>
-  <img
+  <router-link
+    :to="{name: 'root'}"
     class="logo"
-    src="../../assets/logo.png"
-    @click="goRoot"
-  />
+  >
+    <img src="../../assets/logo.png" />
+  </router-link>
 </template>
 <script src="./script.js"></script>
 <style src="./style.css" scoped></style>

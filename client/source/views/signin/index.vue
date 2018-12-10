@@ -18,30 +18,42 @@
         class="sidebar_form"
       >
 
+        <z-block :show="!form.isAvailable" />
+
+        <z-flash-alert
+          v-if="form.error"
+          @close="closeAlert()"
+          :icon="true"
+          :dismissible="true"
+          type="error"
+        >
+          {{ form.error }}
+        </z-flash-alert>
+
         <z-input
-          :validationIcon="false"
-          :validationRules="form.email.rules"
-          @validation="form.email.status = $event"
+          v-model="fields.email.value"
+          @update="validation($event)"
+          :error="fields.email.error"
+          :status="fields.email.status"
           :placeholder="$t('emailPlaceholder')"
+          :statusIcon="false"
           autofocus="autofocus"
           name="email"
-          ref="email"
-          tabindex="1"
           type="email"
-          v-model="form.email.value"
+          tabindex="1"
         />
 
         <div>
           <z-input
-            :validationIcon="false"
-            :validationRules="form.password.rules"
-            @validation="form.password.status = $event"
+            v-model="fields.password.value"
+            @update="validation($event)"
+            :error="fields.password.error"
+            :status="fields.password.status"
             :placeholder="$t('passwordPlaceholder')"
+            :statusIcon="false"
             name="password"
-            ref="password"
-            tabindex="2"
             type="password"
-            v-model="form.password.value"
+            tabindex="2"
           />
           <div class="form_forgot-password">
             <router-link :to="{name: 'passwordReset'}">{{ $t('forgotPassword') }}</router-link>
@@ -49,8 +61,8 @@
         </div>
 
         <z-button
-          tabindex="3"
           type="submit"
+          tabindex="3"
         >{{ $t('signin')}}</z-button>
 
         <span class="form_or">{{ $t('or') }}</span>

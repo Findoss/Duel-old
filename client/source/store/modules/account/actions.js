@@ -6,6 +6,7 @@ export default {
   registration({ dispatch }, user) {
     return Http.send('POST', '/users', user)
       .then((response) => {
+        dispatch('addNotification', { type: 'success', message: response.message }, { root: true });
         Router.push({ name: 'root' });
       });
   },
@@ -26,12 +27,24 @@ export default {
   // TODO реализовать методы API
   passwordNew({ dispatch }, payload) {
     return Http.send('POST', '/auth/password-new', payload)
-      .then(() => Router.push({ name: 'root' }));
+      .then((response) => {
+        dispatch('addNotification', { type: 'success', message: response.message }, { root: true });
+        Router.push({ name: 'root' });
+      });
   },
 
   // TODO реализовать методы API
   passwordReset({ dispatch }, email) {
     return Http.send('POST', '/auth/password-reset', email);
+  },
+
+  // TODO реализовать методы API
+  checkLink({ dispatch }, link) {
+    return Http.get('/tools/checkPasswordResetLink', link)
+      .catch((error) => {
+        // dispatch('addNotification', { type: 'error', message: error.message }, { root: true });
+        Router.push({ name: 'passwordReset' });
+      });
   },
 
   signIn({ commit }, user) {

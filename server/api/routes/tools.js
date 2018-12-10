@@ -9,6 +9,7 @@ const router = new Router();
 router
   .get('/checkEmail', ctrlTool.checkEmail)
   .get('/checkNickname', ctrlTool.checkNickname)
+  .get('/checkPasswordResetLink', ctrlTool.checkPasswordResetLink)
   .get('/checkToken', ctrlSession.tokenVerification, async (ctx, next) => {
     ctx.body = { isAuthenticated: ctx.isAuthenticated() };
     next();

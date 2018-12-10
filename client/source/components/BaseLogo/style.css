@@ -4,3 +4,8 @@
   height: 100%;
   cursor: pointer;
 }
+
+.logo img {
+  width: auto;
+  height: 100%;
+}

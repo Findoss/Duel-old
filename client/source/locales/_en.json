@@ -10,6 +10,7 @@
   "joinDuel": "Join Duel",
   "sendPasswordReset": "Send password reset email",
   "or": "or",
+  "for": "for",
   "email": "Email",
   "password": "Password",
   "new": "New",
@@ -40,7 +41,8 @@
       "010": "Password can't be blank",
       "011": "Password is too short (minimum is 7 characters)",
       "012": "Password is too long (maximum is 20 characters)",
-      "013": "Password must contain least one number and at be least one characters"
+      "013": "Password must contain least one number and at be least one characters",
+      "014": "Password confirmation doesn't match the password."
     }
   }
 }

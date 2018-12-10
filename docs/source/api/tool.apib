@@ -45,3 +45,20 @@ API для сервисных функций
 Токен не прошел валиданию  
     + Attributes
         + message: Forbidden (string)
+
+### Актуальность ссылки для сброса пароля [GET /api/tools/checkPasswordResetLink{?link}] 
+
+Проверка валидности и актуальности ссылки для сброса пароля
++ Parameters
+    + link: 2ab93b4e1411dfad9adc039c952a9beaa35eb8ea0eba89549fce8bc1d037a235dae05501061f0cf229e8aaea4fec01b90a7c23cb484958461efd2feca1a0b7aa (string, required) - ссылка
+
++ Response 200 (application/json; charset=utf-8)
+Ссылка прошела валиданию  
+    + Attributes
+        + nickname: Ivan (string)
+
++ Response 400 (application/json; charset=utf-8)
+Ссылка не прошела валиданию  
+    + Attributes
+        + message: Invalid (string)
+        + message2: TimeOut (string)

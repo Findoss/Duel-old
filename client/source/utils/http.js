@@ -1,4 +1,6 @@
 /* eslint guard-for-in: "error" */
+import store from '@/store';
+
 const HOST = `${window.location.origin}/api`;
 
 function request(path, attr) {
@@ -11,8 +13,26 @@ function request(path, attr) {
       .then((data) => {
         const status = data[0];
         const json = data[1];
-        if (status !== 200 && status !== 201) reject(json);
+        if (status !== 200 && status !== 201) {
+          store.dispatch(
+            'addNotification',
+            {
+              type: 'error',
+              message: json.message,
+            },
+          );
+          reject(json);
+        }
         resolve(json);
+      })
+      .catch(() => {
+        store.dispatch(
+          'addNotification',
+          {
+            type: 'error',
+            message: 'Something went wrong, the server feels bad.',
+          },
+        );
       });
   });
 }

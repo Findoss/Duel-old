@@ -10,13 +10,13 @@
       :type="type"
       :class="classes"
       :value="value"
-      @input="updateField($event.target.value)"
+      @input="update($event)"
       v-bind="$attrs"
     >
     <p
       v-if="error"
       class="base-input-group__error"
-    >{{ $t(`form.errors[${error}]`) }}</p>
+    >{{ error }}</p>
   </div>
 </template>
 <script src="./script.js"></script>

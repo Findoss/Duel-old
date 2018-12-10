@@ -1,9 +1,7 @@
 <template>
   <div id="app">
-    <router-view/>
+    <z-global-notifications />
+    <router-view />
   </div>
 </template>
-
-<style>
-@import 'styles/index.css';
-</style>
+<style src="./styles/index.css" ></style>
