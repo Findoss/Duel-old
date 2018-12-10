@@ -65,7 +65,7 @@
           tabindex="3"
         >{{ $t('signin')}}</z-button>
 
-        <span class="form_or">{{ $t('or') }}</span>
+        <!-- <span class="form_or">{{ $t('or') }}</span>
 
         <div class="form_socials-networks">
           <img
@@ -83,7 +83,7 @@
             src="../../assets/icons/social_networks/gh.png"
             alt="gh"
           >
-        </div>
+        </div> -->
       </form>
 
       <span class="sidebar_footer">
