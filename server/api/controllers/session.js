@@ -90,7 +90,6 @@ module.exports.passwordNew = async (ctx, next) => {
   try {
     // найдем пользователя по хэш и удалим хэш (он одноразовый)
     const document = await PasswordReset.findOneAndDelete({ hash: ctx.request.body.hash });
-    // const document = await PasswordReset.findOne({ hash: ctx.request.body.hash }, 'userId');
 
     if (document.userId) {
       // поменяем пароль на новый
