@@ -5,7 +5,7 @@
   background-position: right 8px center;
   border: 0.2vh solid;
   border-color: var(--color-text);
-  border-radius: 0.5vh;
+  border-radius: var(--border-radius);
   outline: none;
   padding: 1vh 4vh 1vh 1.5vh;
   width: 100%;
@@ -51,7 +51,7 @@
   border-color: var(--color-red-norm);
   padding: 0.2vh 4vh 0.2vh 1.5vh;
   margin-top: 0.65555vh;
-  border-radius: 0.5vh;
+  border-radius: var(--border-radius);
 }
 
 .base-input-group__error::before {
