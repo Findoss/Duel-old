@@ -55,29 +55,37 @@ module.exports.passwordReset = async (ctx, next) => {
     // отправим по почте
     // console.log('send mail ', `http://localhost:3002/password-new/${hashPasswordReset.hash}`);
 
-    transporterEmail.sendMail(
-      {
-        from: {
-          name: 'Support game Duel',
-          address: config.email.address,
+    if (process.env.MODE === 'production') {
+      transporterEmail.sendMail(
+        {
+          from: {
+            name: 'Support game Duel',
+            address: config.email.address,
+          },
+          to: ctx.request.body.email,
+          subject: 'Please reset your password',
+          text: link,
+          html: templetePasswordReset(link),
         },
-        to: ctx.request.body.email,
-        subject: 'Please reset your password',
-        text: link,
-        html: templetePasswordReset(link),
-      },
-      (error) => {
-        if (error) throw new ResponseError(500, 'Email SMTP params');
-      },
-    );
+        (error) => {
+          if (error) throw new ResponseError(500, 'Email SMTP params');
+        },
+      );
+
+      ctx.status = 201;
+      ctx.response.body = {
+        message: 'Ok',
+      };
+    } else {
+      ctx.status = 201;
+      ctx.response.body = {
+        message: 'Ok',
+        link,
+      };
+    }
   } catch (error) {
     throw new ResponseError(400, 'Invalid params');
   }
-
-  ctx.status = 201;
-  ctx.response.body = {
-    message: 'Ok',
-  };
 
   await next();
 };
