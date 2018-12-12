@@ -4,7 +4,7 @@
   height: 5vh;
   font-size: 1rem;
   padding: 1vh;
-  border-radius: 0.5vh;
+  border-radius: var(--border-radius);
   background-color: var(--color-blue-bright);
 }
 

@@ -5,6 +5,7 @@
   left: 33%;
   height: 100vh;
   pointer-events: none;
+  z-index: 999;
 }
 
 .notification div {

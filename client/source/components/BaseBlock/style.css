@@ -1,5 +1,5 @@
 .base-block {
-  border-radius: 0.5vh;
+  border-radius: var(--border-radius);
   width: 110%;
   height: 110%;
   top: -5%;

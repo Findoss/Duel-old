@@ -2,11 +2,18 @@ import debounce from 'debounce';
 import Router from '@/routes';
 import { mapActions } from 'vuex';
 
+//
+import ContainerGuest from '@/containers/guest/index.vue';
+
 // Utils
 import Rules from '@/utils/validation/rules';
 import validation from '@/utils/validation';
 
 export default {
+
+  components: {
+    'z-container-guest': ContainerGuest,
+  },
 
   data() {
     return {

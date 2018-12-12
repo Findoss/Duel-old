@@ -1,0 +1,13 @@
+.profile-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 6vh 91vh;
+  grid-gap: 1vh;
+  padding: 1vh;
+}
+
+.profile-container__header {
+  grid-row: 1;
+  grid-column: 1;
+  width: 100%;
+}

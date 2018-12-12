@@ -10,6 +10,9 @@ import Registration from '@/views/registration';
 import PasswordReset from '@/views/password_reset';
 import passwordNew from '@/views/password_new';
 import ProfileOverview from '@/views/profile_overview';
+import ProfileSkills from '@/views/profile_skills';
+import ProfileInventory from '@/views/profile_inventory';
+import ProfileSettings from '@/views/profile_settings';
 
 Vue.use(Router);
 
@@ -17,7 +20,7 @@ const router = new Router({
   mode: 'history',
   routes: [
     {
-      path: '',
+      path: '/',
       alias: '/signin',
       name: 'root',
       meta: { goProfile: true },
@@ -40,6 +43,24 @@ const router = new Router({
       name: 'passwordNew',
       meta: { goProfile: true },
       component: passwordNew,
+    },
+    {
+      path: '/skills',
+      name: 'skills',
+      meta: { requiresAuthorization: true },
+      component: ProfileSkills,
+    },
+    {
+      path: '/inventory',
+      name: 'inventory',
+      meta: { requiresAuthorization: true },
+      component: ProfileInventory,
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      meta: { requiresAuthorization: true },
+      component: ProfileSettings,
     },
     {
       path: '/:userId',
