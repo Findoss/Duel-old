@@ -1,15 +1,15 @@
-.profile-navigation {
+.profile-menu {
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: 1fr;
-  grid-gap: 1vh;
+  grid-column-gap: 1vh;
   grid-auto-flow: column;
   align-items: flex-end;
   width: 100%;
   height: 100%;
 }
 
-.profile-navigation__item {
+.profile-menu__item {
   display: flex;
   text-decoration: none;
   text-align: center;
@@ -17,12 +17,12 @@
   align-items: flex-end;
   padding: 0.5vh;
   height: 100%;
-  border-radius: 0.5vh;
+  border-radius: var(--border-radius);
   background-color: var(--color-gray-ccc);
   position: relative;
 }
 
-.profile-navigation__item:hover {
+.profile-menu__item:hover {
   background-color: var(--color-blue-norm);
   color: var(--color-text);
 }
