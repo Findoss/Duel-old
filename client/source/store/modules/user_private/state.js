@@ -8,6 +8,7 @@ const state = {
   skillsUnlocked: [], // разблокированые умения (доступные для добавления в набор)
   points: 0, // очки (очки умений)
   gold: 0, // золото
+  diamond: 0, // алмазы
 };
 
 export default {

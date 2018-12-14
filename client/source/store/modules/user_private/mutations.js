@@ -4,6 +4,7 @@ export default {
   SET_USER_PRIVATE_DATA(state, userData) {
     state.email = userData.email;
     state.gold = userData.gold;
+    state.diamond = userData.diamond;
     state.experience = userData.experience;
     state.points = userData.points;
     state.skillsUnlocked = userData.skillsUnlocked;
