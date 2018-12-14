@@ -1,6 +1,12 @@
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
 
   name: 'z-user-menu',
+
+  data: () => ({
+    showMenu: false,
+  }),
 
   props: {
     estate: {
@@ -16,7 +22,23 @@ export default {
     },
     level: {
       type: Number,
-      default: 999,
+      default: 9999,
+    },
+  },
+
+  computed: {
+    ...mapGetters({
+      userData: 'me/getAllData',
+    }),
+  },
+
+  methods: {
+    ...mapActions({
+      signOut: 'me/account/signOut',
+    }),
+
+    toggleMenu() {
+      this.showMenu = !this.showMenu;
     },
   },
 };
