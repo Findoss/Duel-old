@@ -2,33 +2,39 @@
   display: grid;
   grid-template-columns: 1fr 9fr;
   grid-template-rows: 1fr 1fr;
-  grid-column-gap: 1vh;
-  background-color: var(--color-gray-ccc);
-  border-radius: var(--border-radius);
+  grid-column-gap: var(--padding-1);
 }
 
-.user-menu__icon {
+.user-menu__navigation {
   grid-row: 1/3;
   grid-column: 1;
   /**/
   cursor: pointer;
   display: flex;
+  position: relative;
   justify-content: center;
   align-items: center;
   background-color: var(--color-green-norm);
 }
 
-.user-menu__icon::before {
+.user-menu__navigation::before {
   content: '≡';
 }
 
 .user-menu__nickname {
+  grid-row: 1;
+  grid-column: 2;
+  /**/
   text-align: center;
+  background-color: var(--color-gray-lite);
+}
+
+.user-menu__nickname a {
+  color: var(--color-white);
 }
 
 .user-menu__nickname:hover {
   cursor: pointer;
-  background-color: var(--color-blue-norm)
 }
 
 .user-menu__nickname a {
@@ -36,39 +42,75 @@
 }
 
 .user-menu__estate {
+  grid-row: 2;
+  grid-column: 2;
+  /**/
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  height: 100%;
+  background-color: var(--color-gray-ccc);
 }
 
-.user-diamond {}
-
-.user-level {}
-
-.user-gold {}
+.user-level, .user-gold, .user-diamond {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .user-level::before {
-  content: '🙫 ';
+  content: '🙫';
+  padding-right: var(--padding-1);
+  color: var(--color-green-bright);
 }
 
 .user-gold::before {
-  content: '⬕ ';
+  content: '⬕';
+  padding-right: var(--padding-1);
+  color: var(--color-yellow-bright);
 }
 
 .user-diamond::before {
-  content: '⬓ ';
+  content: '⬓';
+  padding-right: var(--padding-1);
+  color: var(--color-blue-bright);
 }
 
 .button-buy {
-  display: inline;
-  text-align: center;
-  vertical-align: middle;
+  display: flex;
+  align-items: center;
   width: auto;
-  height: 80%;
-  padding: 0.2vh 0.5vh;
+  padding: 0;
+  padding-left: var(--padding-2);
+  padding-right: var(--padding-2);
   border-radius: 0;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: bold;
   margin-left: 0.5vh;
+  height: 100%;
+}
+
+/***/
+
+.user-menu__navigation__list {
+  padding: var(--padding-2);
+  background-color: var(--color-gray-ccc);
+  position: absolute;
+  top: 7vh;
+  left: 0;
+  width: 38vh;
+}
+
+.user-menu__navigation__list::before {
+  content: '';
+  display: block;
+  width: 3.755555vh;
+  height: 0;
+  border-top: 1vh solid var(--color-gray-ccc);
+  position: absolute;
+  top: -1vh;
+  left: 0vh;
+}
+
+.navigation-item {
+  margin-top: var(--padding-1);
+  text-align: left;
 }

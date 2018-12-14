@@ -2,8 +2,7 @@
   display: grid;
   grid-template-columns: 38vh 1fr 16vh;
   grid-template-rows: 1fr;
-  grid-gap: 0.5%;
-  overflow: hidden;
+  grid-gap: var(--padding-2);
 }
 
 .user-menu {
@@ -11,7 +10,6 @@
   grid-row: 1;
   width: 100%;
   max-width: 100%;
-  overflow: hidden;
 }
 
 .profile-menu {
@@ -19,7 +17,6 @@
   grid-row: 1;
   width: 100%;
   max-width: 100%;
-  overflow: hidden;
 }
 
 .setting-menu {
@@ -27,5 +24,4 @@
   grid-row: 1;
   width: 100%;
   max-width: 100%;
-  overflow: hidden;
 }

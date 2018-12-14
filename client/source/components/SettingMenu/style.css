@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(3vh, 1fr));
   grid-template-rows: 1fr;
-  grid-column-gap: 1vh;
+  grid-column-gap: var(--padding-2);
   grid-auto-flow: column;
   justify-content: center;
   align-items: center;

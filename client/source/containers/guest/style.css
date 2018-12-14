@@ -23,7 +23,7 @@
   grid-template-rows: 14vh 7vh 62vh 5vh;
   align-items: start;
   justify-items: center;
-  grid-gap: 2vh;
+  grid-gap: var(--padding-3);
   height: 100%;
   width: 100%;
   padding: 3vh;

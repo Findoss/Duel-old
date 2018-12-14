@@ -1,21 +1,23 @@
-.sidebar_title {
+.sidebar__title {
   width: 100%;
   text-align: center;
 }
 
-.title_nickname {
-  margin-top: 1vh;
-}
-
-.sidebar_form {
+.sidebar__form {
   width: 100%;
   position: relative;
   /**/
   display: grid;
-  grid-gap: 2vh;
+  grid-gap: var(--padding-3);
 }
 
-.sidebar_footer {
+.sidebar__footer {
   width: 100%;
+  text-align: center;
+}
+
+.nickname {
+  margin-top: 1vh;
+  font-size: 1rem;
   text-align: center;
 }

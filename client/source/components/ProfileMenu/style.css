@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: 1fr;
-  grid-column-gap: 1vh;
+  grid-column-gap: var(--padding-2);
   grid-auto-flow: column;
   align-items: flex-end;
   width: 100%;
@@ -15,7 +15,7 @@
   text-align: center;
   justify-content: center;
   align-items: flex-end;
-  padding: 0.5vh;
+  padding: var(--padding-1);
   height: 100%;
   border-radius: var(--border-radius);
   background-color: var(--color-gray-ccc);

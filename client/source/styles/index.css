@@ -24,6 +24,11 @@
   --color-green-bright: hsl(92, 60%, 56%);
   /**/
   --border-radius: 0.5vh;
+  /**/
+  --padding-1: 0.5vh;
+  --padding-2: 1vh;
+  --padding-3: 2vh;
+  --padding-4: 4vh;
 }
 
 * {

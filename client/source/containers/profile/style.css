@@ -2,8 +2,8 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 6vh 91vh;
-  grid-gap: 1vh;
-  padding: 1vh;
+  grid-gap: var(--padding-2);
+  padding: var(--padding-2);
 }
 
 .profile-container__header {
