@@ -61,7 +61,7 @@
         :disabled="!form.isAvailable"
         type="submit"
         tabindex="3"
-      >{{ $t('signin')}}</z-button>
+      >{{ $t('signIn')}}</z-button>
 
       <!-- <span class="form_or">{{ $t('or') }}</span>
 

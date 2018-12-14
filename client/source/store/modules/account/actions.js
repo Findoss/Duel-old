@@ -61,13 +61,12 @@ export default {
       });
   },
 
-  signOut({ commit, dispatch }) {
-    return Http.send('DELETE', '/auth/signout')
-      .finally(() => {
-        commit('DEL_MY_ID', undefined, { root: true });
-        localStorage.removeItem('session-token');
-        socket.disconnect();
-        Router.push({ name: 'root' });
-      });
+  signOut({ commit }) {
+    Http.send('DELETE', '/auth/signout');
+
+    commit('DEL_MY_ID', undefined, { root: true });
+    localStorage.removeItem('session-token');
+    socket.disconnect();
+    Router.push({ name: 'root' });
   },
 };
