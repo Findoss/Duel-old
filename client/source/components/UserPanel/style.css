@@ -1,0 +1,44 @@
+.user-panel {
+  display: grid;
+  grid-template-columns: 50fr 20fr 1fr;
+  grid-template-rows: 4vh 1fr;
+  justify-content: center;
+  align-items: flex-start;
+  grid-gap: var(--padding-2);
+  column-gap: var(--padding-3);
+  overflow: hidden;
+}
+
+.user-panel__skillset {
+  grid-column: 1;
+  grid-row: 2;
+  width: 100%;
+  height: 100%;
+}
+
+.user-panel__items {
+  grid-column: 2;
+  grid-row: 2;
+  width: 100%;
+  height: 100%;
+}
+
+.user-panel__skills-title, .user-panel__items-title {
+  background-color: #ccc;
+  text-align: center;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: var(--padding-2);
+}
+
+.user-panel__skills-title {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.user-panel__items-title {
+  grid-column: 2;
+  grid-row: 1;
+}
