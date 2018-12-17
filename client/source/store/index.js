@@ -10,9 +10,9 @@ import getters from './getters';
 import mutations from './mutations';
 
 import user from './modules/user/state';
-import userPrivate from './modules/user_private/state';
+import account from './modules/user/account/state';
+import userPrivate from './modules/user/user_private/state';
 
-import account from './modules/account/state';
 import chat from './modules/chat/state';
 import lobby from './modules/lobby/state';
 import skills from './modules/skills/state';
