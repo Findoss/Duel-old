@@ -1,37 +1,49 @@
 
 <template>
   <div class="user-menu">
+    <div class="user-menu__nickname">
+      <router-link :to="{ name: 'profile'}">
+        {{ user.nickname }}
+      </router-link>
+    </div>
+    <div class="user-menu__estate">
+      <div class="user-level">{{ user.level }}</div>
+      <div class="user-gold">{{ user.private.gold }}</div>
+      <div class="user-diamond">
+        {{ user.private.diamond }}
+        <z-button class="button-buy">{{ $t('buy') }}</z-button>
+      </div>
+    </div>
     <div
       class="user-menu__navigation"
-      @click="toggleMenu"
+      @click="showMenu"
     >
       <div
         class="user-menu__navigation__list"
-        v-show="showMenu"
+        v-show="isShowMenu"
       >
+        <router-link
+          class="navigation-item"
+          :to="{ name: 'settings'}"
+        >
+          Help
+        </router-link>
         <router-link
           class="navigation-item"
           :to="{ name: 'settings'}"
         >
           {{ $t('settings') }}
         </router-link>
+        <z-button class="navigation-item">
+          Fullscreen
+        </z-button>
+        <br>
         <z-button
           class="navigation-item"
           @click="signOut()"
-        >{{ $t('signOut') }}</z-button>
-      </div>
-    </div>
-    <div class="user-menu__nickname">
-      <router-link :to="{ name: 'profile'}">
-        {{ userData.nickname }}
-      </router-link>
-    </div>
-    <div class="user-menu__estate">
-      <div class="user-level">{{ userData.level }}</div>
-      <div class="user-gold">{{ userData.private.gold }}</div>
-      <div class="user-diamond">
-        {{ userData.private.diamond }}
-        <z-button class="button-buy">{{ $t('buy') }}</z-button>
+        >
+          {{ $t('signOut') }}
+        </z-button>
       </div>
     </div>
   </div>
