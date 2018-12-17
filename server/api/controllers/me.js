@@ -26,7 +26,7 @@ module.exports.passwordVerification = async (id, password) => {
  */
 module.exports.getMe = async (ctx) => {
   try {
-    const user = await User.findById(ctx.state.user.id);
+    const user = await User.findById(ctx.state.user.id, '-password');
     if (user) ctx.response.body = user;
     else throw new ResponseError(404, 'User with id not found');
   } catch (error) {
@@ -111,8 +111,7 @@ module.exports.updatePassword = async (ctx) => {
     } else {
       throw new ResponseError(400, 'Incorrect params');
     }
-  }
-  else throw new ResponseError(403, 'Incorrect password');
+  } else throw new ResponseError(403, 'Incorrect password');
 };
 
 /**
