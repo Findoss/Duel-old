@@ -64,6 +64,7 @@ body {
   min-width: 133.33333vh;
   max-width: 177.77777vh;
   /* background-color: var(--background-2); */
+  overflow: hidden;
 }
 
 .block-size-scren {
@@ -128,4 +129,6 @@ body {
 
 @import "./reset/link.css";
 @import "./reset/typography.css";
-@import "./fix_grid.css";
+@import "./reset/table.css";
+@import "./reset/scrollbar.css";
+@import "./reset/fix_grid.css";
