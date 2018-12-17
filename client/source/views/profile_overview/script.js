@@ -1,4 +1,4 @@
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import ContainerProfile from '@/containers/profile/index.vue';
 
 export default {
@@ -8,14 +8,26 @@ export default {
   },
 
   computed: {
+    ...mapGetters([
+      'myId',
+    ]),
     ...mapGetters({
       userData: 'me/getAllData',
     }),
+
+    isMe() {
+      return this.myId === this.$route.params.userId;
+    },
   },
 
   methods: {
     ...mapActions({
-      privateSend: 'me/loadMe',
+      getMe: 'me/loadMe',
+      getUser: 'me/loadUser',
     }),
+  },
+
+  created() {
+    console.log('this is me? ', this.isMe ? 'yes!' : 'no!');
   },
 };
