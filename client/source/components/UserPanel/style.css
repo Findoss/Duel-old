@@ -1,6 +1,6 @@
 .user-panel {
   display: grid;
-  grid-template-columns: 50fr 20fr 1fr;
+  grid-template-columns: 50fr 20fr;
   grid-template-rows: 4vh 1fr;
   justify-content: center;
   align-items: flex-start;
