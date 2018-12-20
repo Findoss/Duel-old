@@ -4,6 +4,17 @@ export default {
 
   name: 'z-user-avatar',
 
+  props: {
+    avatar: {
+      type: String,
+      default: 'null',
+    },
+    nickname: {
+      type: String,
+      default: 'null',
+    },
+  },
+
   data: () => ({
     isShowParametrs: false,
   }),
@@ -13,7 +24,6 @@ export default {
       'pathAvatar',
     ]),
     ...mapGetters({
-      user: 'me/getAllData',
       parameters: 'statics/getUserParameters',
     }),
   },
