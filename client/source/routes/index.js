@@ -2,9 +2,6 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import store from '@/store/index';
 
-// Services
-import * as sessionService from '@/services/session';
-
 import Signin from '@/views/signin';
 import Registration from '@/views/registration';
 import PasswordReset from '@/views/password_reset';
@@ -13,6 +10,7 @@ import ProfileOverview from '@/views/profile_overview';
 import ProfileSkills from '@/views/profile_skills';
 import ProfileInventory from '@/views/profile_inventory';
 import ProfileSettings from '@/views/profile_settings';
+
 
 Vue.use(Router);
 
@@ -23,25 +21,25 @@ const router = new Router({
       path: '/',
       alias: '/signin',
       name: 'root',
-      meta: { isPrivate: false },
+      meta: { isGoProfile: true },
       component: Signin,
     },
     {
       path: '/registration',
       name: 'registration',
-      meta: { isPrivate: false },
+      meta: { isGoProfile: true },
       component: Registration,
     },
     {
       path: '/password-reset',
       name: 'passwordReset',
-      meta: { isPrivate: false },
+      meta: { isGoProfile: true },
       component: PasswordReset,
     },
     {
       path: '/password-new/:hash',
       name: 'passwordNew',
-      meta: { isPrivate: false },
+      meta: { isGoProfile: true },
       component: passwordNew,
     },
     {
@@ -65,7 +63,7 @@ const router = new Router({
     {
       path: '/:userId',
       name: 'profile',
-      meta: { isPrivate: true },
+      meta: { isPrivate: false },
       component: ProfileOverview,
     },
   ],
@@ -73,15 +71,18 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   const isPrivate = to.matched.some(r => r.meta.isPrivate);
+  const isGoProfile = to.matched.some(r => r.meta.isGoProfile);
+  const isLogin = store.getters['me/account/isLogin'];
+  const { myId } = store.getters;
 
-  if (isPrivate === sessionService.isLogin()) {
+  if (isPrivate === isLogin) {
     next();
   } else {
-    if (isPrivate && !sessionService.isLogin()) {
+    if (isPrivate && !isLogin) {
       next({ name: 'root' });
     }
-    if (!isPrivate && sessionService.isLogin()) {
-      next({ path: `/${store.getters.myId}` });
+    if (isGoProfile && isLogin) {
+      next({ path: `/${myId}` });
     }
   }
 
