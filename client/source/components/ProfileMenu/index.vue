@@ -4,11 +4,11 @@
       class="profile-menu__item button-play button-icon__skill"
       :to="{ name: 'profile'}"
     >
-      {{ $t('menu.play') }}
+      {{ $t('menu.profile') }}
     </router-link>
     <router-link
       class="profile-menu__item button-icon__skill"
-      :to="{ name: 'profile'}"
+      :to="{ path: `/${this.$store.getters.myId}` }"
     >
       {{ $t('menu.profile') }}
     </router-link>
