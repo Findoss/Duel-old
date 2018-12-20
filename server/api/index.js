@@ -34,7 +34,7 @@ app.use(helmet());//               ↑
 //   ↓                             ↑
 app.use(headers());//              ↑
 //   ↓                             ↑
-app.use(locales());//                ↑
+app.use(locales());//              ↑
 //   ↓                             ↑
 app.use(passport.initialize());//  ↑
 //   ↓                             ↑
