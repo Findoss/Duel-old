@@ -5,10 +5,13 @@
       @click="showParametrs"
       class="user-avatar__toggle"
     ></button>
+    <div class="user-avatar__nickname">
+      {{ nickname }}
+    </div>
     <img
       v-show="!isShowParametrs"
-      :src="pathAvatar(user.avatar)"
-      :alt="user.avatar"
+      :src="pathAvatar(avatar)"
+      alt="avatar"
       class="user-avatar__image"
     >
     <z-user-parametrs

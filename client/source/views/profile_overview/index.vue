@@ -1,7 +1,12 @@
 <template>
   <z-container-profile>
+    <z-block :show="pending" />
     <div class="profile-overview">
-      <z-user-avatar class="profile-overview__user-avatar" />
+      <z-user-avatar
+        :avatar="user.avatar"
+        :nickname="user.nickname"
+        class="profile-overview__user-avatar"
+      />
       <z-user-statistics class="profile-overview__user-statistics" />
       <z-user-panel class="profile-overview__user-panel" />
       <z-user-match-history class="profile-overview__user-match-history" />

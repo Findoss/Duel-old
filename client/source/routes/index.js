@@ -23,70 +23,66 @@ const router = new Router({
       path: '/',
       alias: '/signin',
       name: 'root',
-      meta: { goProfile: true },
+      meta: { isPrivate: false },
       component: Signin,
     },
     {
       path: '/registration',
       name: 'registration',
-      meta: { goProfile: true },
+      meta: { isPrivate: false },
       component: Registration,
     },
     {
       path: '/password-reset',
       name: 'passwordReset',
-      meta: { goProfile: true },
+      meta: { isPrivate: false },
       component: PasswordReset,
     },
     {
       path: '/password-new/:hash',
       name: 'passwordNew',
-      meta: { goProfile: true },
+      meta: { isPrivate: false },
       component: passwordNew,
     },
     {
       path: '/skills',
       name: 'skills',
-      meta: { requiresAuthorization: true },
+      meta: { isPrivate: true },
       component: ProfileSkills,
     },
     {
       path: '/inventory',
       name: 'inventory',
-      meta: { requiresAuthorization: true },
+      meta: { isPrivate: true },
       component: ProfileInventory,
     },
     {
       path: '/settings',
       name: 'settings',
-      meta: { requiresAuthorization: true },
+      meta: { isPrivate: true },
       component: ProfileSettings,
     },
     {
       path: '/:userId',
       name: 'profile',
-      meta: { requiresAuthorization: true },
+      meta: { isPrivate: true },
       component: ProfileOverview,
     },
   ],
 });
 
 router.beforeEach((to, from, next) => {
-  const requiresAuthorization = to.matched.some(r => r.meta.requiresAuthorization);
-  const goProfile = to.matched.some(r => r.meta.goProfile);
+  const isPrivate = to.matched.some(r => r.meta.isPrivate);
 
-  /**
-   * TODO описане
-  */
-  if (requiresAuthorization && !sessionService.isLogin()) {
-    next({ name: 'root' });
-  }
-
-  /**
-   * TODO описане
-  */
-  if (goProfile && sessionService.isLogin()) {
-    next({ path: `/${store.getters.myId}` });
+  if (isPrivate === sessionService.isLogin()) {
+    next();
+  } else {
+    if (isPrivate && !sessionService.isLogin()) {
+      next({ name: 'root' });
+    }
+    if (!isPrivate && sessionService.isLogin()) {
+      next({ path: `/${store.getters.myId}` });
+    }
   }
 
   next();
