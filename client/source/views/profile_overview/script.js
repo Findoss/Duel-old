@@ -35,12 +35,8 @@ export default {
   methods: {
     ...mapActions({
       getMe: 'me/loadMe',
-      getOtherUser: 'opponent/loadUser',
+      getUser: 'opponent/loadUser',
     }),
-
-    getUser() {
-      return this.getOtherUser(this.$route.params.userId);
-    },
   },
 
   created() {
@@ -48,9 +44,10 @@ export default {
 
     if (!this.isMe) {
       this.pending = true;
-      this.getUser().then(() => {
-        this.pending = false;
-      });
+      this.getUser(this.$route.params.userId)
+        .finally(() => {
+          this.pending = false;
+        });
     }
   },
 

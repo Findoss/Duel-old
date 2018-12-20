@@ -3,6 +3,7 @@ import store from '@/store';
 
 const HOST = `${window.location.origin}/api`;
 
+// FIXME TODO
 function request(path, attr) {
   return new Promise((resolve, reject) => {
     fetch(path, attr)
@@ -25,7 +26,7 @@ function request(path, attr) {
         }
         resolve(json);
       })
-      .catch(() => {
+      .catch((error) => {
         store.dispatch(
           'addNotification',
           {
@@ -33,6 +34,7 @@ function request(path, attr) {
             message: 'Something went wrong, the server feels bad.',
           },
         );
+        reject(error);
       });
   });
 }
