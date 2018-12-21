@@ -16,6 +16,7 @@ export default {
   computed: {
     ...mapGetters([
       'myId',
+      'isLogin',
     ]),
     ...mapGetters({
       me: 'me/getAllData',
@@ -42,13 +43,14 @@ export default {
   mounted() {
     console.log('this is me? ', this.isMe ? 'yes!' : 'no!');
 
-    this.pending = true;
     if (!this.isMe) {
+      this.pending = true;
       this.getUser(this.$route.params.userId)
         .finally(() => {
           this.pending = false;
         });
-    } else {
+    } else if (!this.isLogin) {
+      this.pending = true;
       this.getMe().finally(() => {
         this.pending = false;
       });
