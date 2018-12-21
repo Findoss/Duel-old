@@ -2,10 +2,7 @@
 /* eslint import/no-dynamic-require: 0 */
 
 export default {
-  myId: (state) => {
-    if (state.myId === '') return localStorage.getItem('myId');
-    return state.myId;
-  },
+  myId: state => state.myId,
   //
   pathAvatar: () => avatar => require(`@/assets/avatars/${avatar}.png`),
   pathSkill: (state, getters) => (id) => {
@@ -14,8 +11,7 @@ export default {
   },
   pathRune: () => id => require(`@/assets/runes/${id}.png`),
   //
-  getToken: () => localStorage.getItem('session-token'),
-  isLogin: () => Boolean(localStorage.getItem('session-token')),
+  isLogin: state => Boolean(state.token),
   //
   notifications: state => state.notifications,
 };

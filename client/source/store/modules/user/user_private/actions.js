@@ -4,7 +4,7 @@ export default {
   loadMe({ commit }) {
     return Http.get('/me')
       .then((response) => {
-        commit('SET_MY_ID', response.id, { root: true });
+        // commit('SET_MY_ID', response.id, { root: true });
         commit('SET_USER_DATA', response);
         commit('SET_USER_PRIVATE_DATA', response);
       });
@@ -43,7 +43,7 @@ export default {
   // Использовать для данных не хранящихся в сторе
   // FIXME HUCK !!!!
   // eslint-disable-next-line
-  updateAccountDataNoStore ({ }, payload) {
+  updateAccountDataNoStore({ }, payload) {
     const { field } = payload;
     const { data } = payload;
     return Http.send('PATCH', `/me/${field}`, data);
