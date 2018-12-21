@@ -52,16 +52,18 @@ export default new Vuex.Store({
     },
     opponent: user,
   },
-  // plugins: [createSocketioPlugin(socket, {
-  //   actionPrefix: 'socket',
-  // })],
-  plugins: [createPersistedState({
-    key: VERSION_LOCAL_STORAGE,
-    paths: [
-      'myId',
-      'token',
-      'me',
-      'statics',
-    ],
-  })],
+  plugins: [
+    createSocketioPlugin(socket, {
+      actionPrefix: 'socket',
+    }),
+    createPersistedState({
+      key: VERSION_LOCAL_STORAGE,
+      paths: [
+        'me',
+        'myId',
+        'token',
+        'statics',
+      ],
+    }),
+  ],
 });
