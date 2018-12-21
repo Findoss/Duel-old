@@ -92,7 +92,7 @@
 
 .user-menu__navigation__list {
   padding: var(--padding-2);
-  background-color: var(--color-gray-ccc);
+  background-color: var(--color-gray-norm);
   position: absolute;
   top: 7vh;
   right: 0;
@@ -101,6 +101,7 @@
   flex-direction: column;
   align-items: start;
   justify-items: center;
+  z-index: 2;
 }
 
 .user-menu__navigation__list::before {
@@ -108,7 +109,7 @@
   display: block;
   width: 3.755555vh;
   height: 0;
-  border-top: 1vh solid var(--color-gray-ccc);
+  border-top: 1vh solid var(--color-gray-norm);
   position: absolute;
   top: -1vh;
   right: 0;
