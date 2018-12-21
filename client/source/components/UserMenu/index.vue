@@ -1,4 +1,3 @@
-
 <template>
   <div class="user-menu">
     <div class="user-menu__nickname">
@@ -26,7 +25,7 @@
           class="navigation-item"
           :to="{ name: 'settings'}"
         >
-          Help
+          {{ $t('help') }}
         </router-link>
         <router-link
           class="navigation-item"
@@ -34,8 +33,11 @@
         >
           {{ $t('settings') }}
         </router-link>
-        <z-button class="navigation-item">
-          Fullscreen
+        <z-button
+          @click="toggleFullscreen"
+          class="navigation-item"
+        >
+          {{ $t('fullscreen') }}
         </z-button>
         <br>
         <z-button
