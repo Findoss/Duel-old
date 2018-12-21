@@ -10,6 +10,7 @@ import ProfileOverview from '@/views/profile_overview';
 import ProfileSkills from '@/views/profile_skills';
 import ProfileInventory from '@/views/profile_inventory';
 import ProfileSettings from '@/views/profile_settings';
+import Scoreboard from '@/views/scoreboard';
 
 
 Vue.use(Router);
@@ -61,8 +62,13 @@ const router = new Router({
       component: ProfileSettings,
     },
     {
+      path: '/scoreboard',
+      name: 'scoreboard',
+      meta: { isPrivate: false },
+      component: Scoreboard,
+    },
+    {
       path: '/:userId',
-      name: 'profile',
       meta: { isPrivate: false },
       component: ProfileOverview,
     },
