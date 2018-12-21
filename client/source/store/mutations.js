@@ -6,7 +6,15 @@ export default {
   },
 
   DEL_MY_ID: (state) => {
-    state.myId = 0;
+    state.myId = '';
+  },
+
+  SET_MY_TOKEN: (state, token) => {
+    state.token = token;
+  },
+
+  DEL_MY_TOKEN: (state) => {
+    state.token = '';
   },
 
   SOCKET_CONNECT(state) {
