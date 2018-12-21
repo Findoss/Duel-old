@@ -1,11 +1,11 @@
 <template>
   <div class="profile-menu">
-    <router-link
+    <!-- <router-link
       class="profile-menu__item button-play button-icon__skill"
       :to="{ name: 'profile'}"
     >
       {{ $t('menu.profile') }}
-    </router-link>
+    </router-link> -->
     <router-link
       class="profile-menu__item button-icon__skill"
       :to="{ path: `/${this.$store.getters.myId}` }"
@@ -29,13 +29,13 @@
       :to="{ name: 'shop'}"
     >
       {{ $t('menu.shop') }}
-    </router-link>
+    </router-link> -->
     <router-link
       class="profile-menu__item button-icon__skill"
       :to="{ name: 'scoreboard'}"
     >
       {{ $t('menu.scoreboard') }}
-    </router-link> -->
+    </router-link>
   </div>
 </template>
 <script src="./script.js"></script>

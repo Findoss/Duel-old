@@ -45,6 +45,7 @@ module.exports.getUsers = async (ctx) => {
     else throw new ResponseError(404, 'Users with id not found');
   } catch (error) {
     if (error.name !== 'responseError') throw new ResponseError(400, 'Invalid params');
+    throw error;
   }
 };
 
@@ -59,6 +60,7 @@ module.exports.getUser = async (ctx) => {
         ctx.params.id,
         'nickname avatar rank experience level karma openSlots skillSet',
       );
+
     if (user) {
       // TODO вернуть поля с помощью плагина скрывающего поля
       ctx.response.body = {
@@ -74,6 +76,7 @@ module.exports.getUser = async (ctx) => {
     } else throw new ResponseError(404, 'User with id not found');
   } catch (error) {
     if (error.name !== 'responseError') throw new ResponseError(400, 'Invalid params');
+    throw error;
   }
 };
 

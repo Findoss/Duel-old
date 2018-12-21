@@ -1,16 +1,24 @@
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'z-container-profile',
 
+
+  computed: {
+    ...mapGetters(['isLogin']),
+  },
+
+
   methods: {
     ...mapActions({
-      getMe: 'me/loadMe',
       getUserParameters: 'statics/loadUserParameters',
+      getMe: 'me/loadMe',
     }),
+
   },
 
   created() {
+    // предзагрузка
     this.getMe();
     this.getUserParameters();
   },

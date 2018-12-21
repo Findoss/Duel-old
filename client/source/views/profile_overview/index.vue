@@ -1,7 +1,7 @@
 <template>
   <z-container-profile>
-    <z-block :show="pending" />
     <div class="profile-overview">
+      <z-block :show="pending" />
       <z-user-avatar
         :avatar="user.avatar"
         :nickname="user.nickname"

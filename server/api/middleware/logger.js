@@ -10,13 +10,15 @@ const reqLogger = ctx => `${ctx.originalUrl}\n${JSON.stringify(ctx.request.body,
 const resLogger = (ctx) => {
   const log = [];
   if (ctx.type === 'application/json') {
-    let string = JSON.stringify(ctx.body, null, 2);
-    if (string.length >= 600) {
-      string = string.substr(0, 600);
-      string = string.concat('\n...');
+    if (!ctx.bodyd) {
+      let string = JSON.stringify(ctx.body, null, 2);
+      if (string.length >= 600) {
+        string = string.substr(0, 600);
+        string = string.concat('\n...');
+      }
+      log.push(string);
+      log.push('\n');
     }
-    log.push(string);
-    log.push('\n');
   } else log.push('index.html');
   return log.join('\n');
 };

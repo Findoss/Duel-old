@@ -2,7 +2,7 @@
 <template>
   <div class="user-menu">
     <div class="user-menu__nickname">
-      <router-link :to="{ name: 'profile'}">
+      <router-link :to="{ path: `/${this.$store.getters.myId}` }">
         {{ user.nickname }}
       </router-link>
     </div>

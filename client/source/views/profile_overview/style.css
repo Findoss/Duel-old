@@ -6,6 +6,7 @@
   align-items: end;
   height: 100%;
   overflow: hidden;
+  position: relative;
 }
 
 .profile-overview__user-avatar {
