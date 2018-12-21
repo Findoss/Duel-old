@@ -11,6 +11,12 @@ const userSchema = new mongoose.Schema({
     min: 0,
     max: 99999,
   },
+  diamond: {
+    type: Number,
+    default: 0,
+    min: 0,
+    max: 99999,
+  },
   points: {
     type: Number,
     default: 0,

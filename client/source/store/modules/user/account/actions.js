@@ -12,10 +12,10 @@ export default {
   },
 
 
-  deleteAccount({ dispatch }) {
+  deleteAccount({ }) {
     if (confirm('Once you delete your account, there is no going back. Please be certain.')) {
       return Http.send('DELETE', '/me')
-        .then((response) => {
+        .then(() => {
           localStorage.removeItem('session-token');
           Router.push({ name: 'root' });
         });
@@ -34,39 +34,45 @@ export default {
   },
 
   // TODO реализовать методы API
-  passwordReset({ dispatch }, email) {
+  passwordReset({ }, email) {
     return Http.send('POST', '/auth/password-reset', email);
   },
 
   // TODO реализовать методы API
-  checkLink({ dispatch }, link) {
+  checkLink({ }, link) {
     return Http.get('/tools/checkPasswordResetLink', link)
-      .catch((error) => {
+      .catch(() => {
         // dispatch('addNotification', { type: 'error', message: error.message }, { root: true });
         Router.push({ name: 'passwordReset' });
       });
   },
 
-  signIn({ commit }, user) {
+  signIn({ commit, dispatch, state }, user) {
     return Http.send('POST', '/auth/signin', user)
       .then((response) => {
-        // сохраняем в стор
-        commit('SET_MY_ID', response.id, { root: true });
-        // сохраняем в localStorage
-        localStorage.setItem('session-token', response.token);
-        // запускаем сокеты
-        // socketAuth();
+        const { id, token, message } = response;
+        commit('SET_MY_ID', id, { root: true });
+        commit('SET_MY_TOKEN', token, { root: true });
+
+        dispatch('addNotification', { type: 'success', message }, { root: true });
+
+        socketAuth();
+        dispatch('addNotification', { type: 'info', message: `web-socket connect = ${state.statusSocket}` }, { root: true });
 
         Router.push({ path: `/${response.id}` });
       });
   },
 
   signOut({ commit, dispatch }) {
-    return Http.send('DELETE', '/auth/signout')
+    Http.send('DELETE', '/auth/signout')
       .finally(() => {
         commit('DEL_MY_ID', undefined, { root: true });
-        localStorage.removeItem('session-token');
+        commit('DEL_MY_TOKEN', undefined, { root: true });
+
         socket.disconnect();
+
+        dispatch('addNotification', { type: 'info', message: 'web-socket disconnect' }, { root: true });
+
         Router.push({ name: 'root' });
       });
   },

@@ -1,0 +1,7 @@
+.modificator {
+  color: var(--color-green-lite);
+}
+
+.modificator::before {
+  content: '+';
+}

@@ -2,12 +2,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  width: 100%;
   cursor: pointer;
+  position: relative;
+  width: 50%;
+  height: 100%;
 }
 
-.logo img {
-  width: auto;
-  height: 100%;
+.logo::before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+
+.logo__img {
+  max-height: 100%;
 }

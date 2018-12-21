@@ -1,0 +1,42 @@
+.profile-overview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 22vh 22vh;
+  grid-gap: var(--padding-2);
+  align-items: end;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.profile-overview__user-avatar {
+  background-color: beige;
+  grid-column: 1;
+  grid-row: 1/3;
+  width: 100%;
+  height: 100%;
+}
+
+.profile-overview__user-statistics {
+  background-color: bisque;
+  grid-column: 2;
+  grid-row: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.profile-overview__user-panel {
+  background-color: lightblue;
+  grid-column: 1;
+  grid-row: 3;
+  width: 100%;
+  height: 100%;
+}
+
+.profile-overview__user-match-history {
+  background-color: lightpink;
+  grid-column: 2;
+  grid-row: 2/4;
+  width: 100%;
+  height: 100%;
+}

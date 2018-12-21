@@ -2,13 +2,19 @@
 
 export default {
   SET_MY_ID: (state, id) => {
-    localStorage.setItem('myId', id);
     state.myId = id;
   },
 
   DEL_MY_ID: (state) => {
-    state.myId = 0;
-    localStorage.removeItem('myId');
+    state.myId = '';
+  },
+
+  SET_MY_TOKEN: (state, token) => {
+    state.token = token;
+  },
+
+  DEL_MY_TOKEN: (state) => {
+    state.token = '';
   },
 
   SOCKET_CONNECT(state) {

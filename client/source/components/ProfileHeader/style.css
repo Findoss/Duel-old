@@ -1,25 +1,22 @@
 .profile-header {
   display: grid;
-  grid-template-columns: 38vh 1fr 16vh;
+  grid-template-columns: 1fr 38vh;
   grid-template-rows: 1fr;
-  grid-gap: 0.5%;
-  overflow: hidden;
+  grid-gap: var(--padding-2);
 }
 
 .user-menu {
-  grid-column: 1;
-  grid-row: 1;
-  width: 100%;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.profile-menu {
   grid-column: 2;
   grid-row: 1;
   width: 100%;
   max-width: 100%;
-  overflow: hidden;
+}
+
+.profile-menu {
+  grid-column: 1;
+  grid-row: 1;
+  width: 100%;
+  max-width: 100%;
 }
 
 .setting-menu {
@@ -27,5 +24,4 @@
   grid-row: 1;
   width: 100%;
   max-width: 100%;
-  overflow: hidden;
 }

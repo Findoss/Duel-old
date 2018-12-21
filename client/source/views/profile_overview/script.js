@@ -1,4 +1,4 @@
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import ContainerProfile from '@/containers/profile/index.vue';
 
 export default {
@@ -7,16 +7,54 @@ export default {
     'z-container-profile': ContainerProfile,
   },
 
+  data() {
+    return {
+      pending: false,
+    };
+  },
+
   computed: {
+    ...mapGetters([
+      'myId',
+      'isLogin',
+    ]),
     ...mapGetters({
-      userData: 'me/getAllData',
+      me: 'me/getAllData',
+      opponent: 'opponent/getAllData',
     }),
+
+    isMe() {
+      return this.myId === this.$route.params.userId;
+    },
+
+    user() {
+      if (this.isMe) return this.me;
+      return this.opponent;
+    },
   },
 
   methods: {
     ...mapActions({
-      signOut: 'me/account/signOut',
-      privateSend: 'me/loadMe',
+      getMe: 'me/loadMe',
+      getUser: 'opponent/loadUser',
     }),
   },
+
+  mounted() {
+    console.log('this is me? ', this.isMe ? 'yes!' : 'no!');
+
+    if (!this.isMe) {
+      this.pending = true;
+      this.getUser(this.$route.params.userId)
+        .finally(() => {
+          this.pending = false;
+        });
+    } else if (!this.isLogin) {
+      this.pending = true;
+      this.getMe().finally(() => {
+        this.pending = false;
+      });
+    }
+  },
+
 };

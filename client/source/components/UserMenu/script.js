@@ -1,22 +1,34 @@
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
 
   name: 'z-user-menu',
 
-  props: {
-    estate: {
-      type: Object,
-      default: () => ({
-        gold: 9999,
-        diamond: 9999,
-      }),
+  data: () => ({
+    isShowMenu: false,
+  }),
+
+  computed: {
+    ...mapGetters({
+      user: 'me/getAllData',
+    }),
+  },
+
+  methods: {
+    ...mapActions({
+      signOut: 'me/account/signOut',
+    }),
+
+    showMenu() {
+      this.isShowMenu = !this.isShowMenu;
     },
-    nickname: {
-      type: String,
-      default: 'САМЫЙ_ДЛИННЫЙ_НИКНЕЙМ',
-    },
-    level: {
-      type: Number,
-      default: 999,
+
+    toggleFullscreen() {
+      if (window.document.fullscreenElement === null) {
+        window.document.getElementById('app').requestFullscreen();
+      } else {
+        window.document.exitFullscreen();
+      }
     },
   },
 };

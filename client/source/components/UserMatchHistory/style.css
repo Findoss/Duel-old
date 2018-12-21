@@ -1,0 +1,39 @@
+.user-match-history {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 4vh auto;
+  justify-content: center;
+  align-items: start;
+  grid-gap: var(--padding-2);
+  overflow-y: auto;
+}
+
+.user-match-history__title {
+  background-color: #ccc;
+  text-align: center;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: var(--padding-2);
+}
+
+.user-match-history__title {
+  grid-column: 1;
+  grid-row: 1;
+  position: sticky;
+  top: 0;
+}
+
+/******/
+
+.placeholder-slot {
+  width: 100%;
+  height: 9vh;
+  max-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  direction: ltr;
+  background-color: #ccc;
+}

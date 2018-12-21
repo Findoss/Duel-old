@@ -66,7 +66,7 @@
     <span class="sidebar_footer">
       {{ $t('haveAnAccount')}}
       <router-link to="/">
-        {{ $t('signin') }}.
+        {{ $t('signIn') }}.
       </router-link>
       <br>
       <router-link :to="{name: 'passwordReset'}">{{ $t('forgotPassword') }}</router-link>

@@ -2,11 +2,10 @@
   <z-container-guest>
     <z-title
       :size="2"
-      class="sidebar_title"
+      class="sidebar__title"
     >
       {{ $t('changePassword') }} {{ $t('for') }}
-      <br>
-      {{ nickname }}
+      <span class="nickname">{{ nickname }}</span>
     </z-title>
 
     <form
@@ -15,7 +14,7 @@
       @submit.prevent="submit"
       @keyup.enter="submit"
       novalidate="true"
-      class="sidebar_form"
+      class="sidebar__form"
     >
 
       <z-block :show="!form.isAvailable" />
@@ -59,7 +58,7 @@
 
     </form>
 
-    <span class="sidebar_footer">
+    <span class="sidebar__footer">
       {{ $t('anyProblems')}}
       <router-link to="#">
         {{ $t('support') }}.

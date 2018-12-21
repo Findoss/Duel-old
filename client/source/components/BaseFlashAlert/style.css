@@ -7,7 +7,7 @@
   border: 0.2vh solid;
   border-top: 0.5vh solid;
   /**/
-  padding: 1vh;
+  padding: var(--padding-2);
   padding-left: 1.5vh;
   padding-right: 4.5vh;
   width: 100%;

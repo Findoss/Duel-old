@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+import { VERSION_LOCAL_STORAGE } from '../constants';
 
 const socket = io(window.location.origin, { autoConnect: false });
 
@@ -7,14 +8,17 @@ const socket = io(window.location.origin, { autoConnect: false });
  * @export
  */
 export function socketAuth() {
-  const sessionToken = localStorage.getItem('session-token');
+  // FIXME ????
+  const aaa = localStorage.getItem(VERSION_LOCAL_STORAGE); // TODO ????
+  const { token } = JSON.parse(aaa);
 
-  if (sessionToken) {
-    socket.io.opts.query = { bearer: sessionToken };
+
+  if (token) {
+    socket.io.opts.query = { bearer: token };
     socket.connect();
   }
 }
 
-// socketAuth();
+socketAuth();
 
 export default socket;

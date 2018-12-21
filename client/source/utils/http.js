@@ -1,8 +1,10 @@
 /* eslint guard-for-in: "error" */
 import store from '@/store';
 
-const HOST = `${window.location.origin}/api`;
+import { HOST_API } from '@/constants';
 
+
+// FIXME TODO
 function request(path, attr) {
   return new Promise((resolve, reject) => {
     fetch(path, attr)
@@ -25,7 +27,7 @@ function request(path, attr) {
         }
         resolve(json);
       })
-      .catch(() => {
+      .catch((error) => {
         store.dispatch(
           'addNotification',
           {
@@ -33,20 +35,22 @@ function request(path, attr) {
             message: 'Something went wrong, the server feels bad.',
           },
         );
+        reject(error);
       });
   });
 }
 
 const get = (path, params = '') => {
-  const token = localStorage.getItem('session-token');
+  const TOKEN = store.state.token;
+
   const attr = {
     method: 'GET',
     headers: new Headers({
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${TOKEN}`,
     }),
   };
 
-  let query = `${HOST}${path}`;
+  let query = `${HOST_API}${path}`;
   if (params) {
     query += '?';
     Object.keys(params).forEach((param) => {
@@ -58,17 +62,18 @@ const get = (path, params = '') => {
 };
 
 const send = (method, path, body) => {
-  const token = localStorage.getItem('session-token');
+  const TOKEN = store.state.token;
+
   const attr = {
     method,
     headers: new Headers({
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${TOKEN}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
     }),
     body: JSON.stringify(body) || undefined,
   };
-  return request(`${HOST}${path}`, attr);
+  return request(`${HOST_API}${path}`, attr);
 };
 
 export default { get, send };
