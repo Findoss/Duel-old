@@ -23,7 +23,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   state: {
-    myId: '0000',
+    myId: '',
     statusSocket: false,
     notifications: [],
   },
