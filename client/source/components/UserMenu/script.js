@@ -22,5 +22,13 @@ export default {
     showMenu() {
       this.isShowMenu = !this.isShowMenu;
     },
+
+    toggleFullscreen() {
+      if (window.document.fullscreenElement === null) {
+        window.document.getElementById('app').requestFullscreen();
+      } else {
+        window.document.exitFullscreen();
+      }
+    },
   },
 };
