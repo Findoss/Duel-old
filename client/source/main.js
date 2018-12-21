@@ -1,7 +1,6 @@
 import Vue from 'vue';
 
 import './utils/http';
-import './utils/socket';
 import './components/globals';
 
 import app from './app.vue';

@@ -10,12 +10,14 @@ const socket = io(window.location.origin, { autoConnect: false });
 export function socketAuth() {
   // FIXME ????
   const aaa = localStorage.getItem(VERSION_LOCAL_STORAGE); // TODO ????
-  const { token } = JSON.parse(aaa);
+  const json = JSON.parse(aaa);
 
-
-  if (token) {
-    socket.io.opts.query = { bearer: token };
-    socket.connect();
+  if (json) {
+    const { token } = json;
+    if (token) {
+      socket.io.opts.query = { bearer: token };
+      socket.connect();
+    }
   }
 }
 
