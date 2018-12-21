@@ -41,7 +41,7 @@ function request(path, attr) {
 }
 
 const get = (path, params = '') => {
-  const TOKEN = localStorage.getItem('session-token');
+  const TOKEN = store.state.token;
 
   const attr = {
     method: 'GET',
@@ -62,7 +62,7 @@ const get = (path, params = '') => {
 };
 
 const send = (method, path, body) => {
-  const TOKEN = localStorage.getItem('session-token');
+  const TOKEN = store.state.token;
 
   const attr = {
     method,
