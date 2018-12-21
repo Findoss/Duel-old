@@ -5,22 +5,21 @@ export default {
 
 
   computed: {
-    ...mapGetters({
-      isLogin: 'me/account/isLogin',
-    }),
+    ...mapGetters(['isLogin']),
   },
 
 
   methods: {
     ...mapActions({
-      getMe: 'me/loadMe',
       getUserParameters: 'statics/loadUserParameters',
+      getMe: 'me/loadMe',
     }),
 
   },
 
   created() {
-    if (this.isLogin) this.getMe();
+    // предзагрузка
+    this.getMe();
     this.getUserParameters();
   },
 };
