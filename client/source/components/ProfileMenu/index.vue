@@ -1,5 +1,8 @@
 <template>
   <div class="profile-menu">
+    <div class="profile-menu__item button-icon__skill">
+      socket = {{ this.$store.state.statusSocket }}
+    </div>
     <!-- <router-link
       class="profile-menu__item button-play button-icon__skill"
       :to="{ name: 'profile'}"

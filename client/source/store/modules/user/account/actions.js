@@ -47,7 +47,7 @@ export default {
       });
   },
 
-  signIn({ commit, dispatch }, user) {
+  signIn({ commit, dispatch, state }, user) {
     return Http.send('POST', '/auth/signin', user)
       .then((response) => {
         const { id, token, message } = response;
@@ -55,8 +55,10 @@ export default {
         commit('SET_MY_TOKEN', token, { root: true });
 
         dispatch('addNotification', { type: 'success', message }, { root: true });
-        // запускаем сокеты
-        // socketAuth();
+
+        socketAuth();
+        dispatch('addNotification', { type: 'info', message: `web-socket connect = ${state.statusSocket}` }, { root: true });
+
         Router.push({ path: `/${response.id}` });
       });
   },
@@ -68,7 +70,9 @@ export default {
         commit('DEL_MY_TOKEN', undefined, { root: true });
 
         socket.disconnect();
-        dispatch('addNotification', { type: 'success', message: 'message' }, { root: true });
+
+        dispatch('addNotification', { type: 'info', message: 'web-socket disconnect' }, { root: true });
+
         Router.push({ name: 'root' });
       });
   },
