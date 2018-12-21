@@ -39,15 +39,19 @@ export default {
     }),
   },
 
-  created() {
+  mounted() {
     console.log('this is me? ', this.isMe ? 'yes!' : 'no!');
 
+    this.pending = true;
     if (!this.isMe) {
-      this.pending = true;
       this.getUser(this.$route.params.userId)
         .finally(() => {
           this.pending = false;
         });
+    } else {
+      this.getMe().finally(() => {
+        this.pending = false;
+      });
     }
   },
 
