@@ -3,6 +3,7 @@ import store from '@/store';
 
 const HOST = `${window.location.origin}/api`;
 
+
 // FIXME TODO
 function request(path, attr) {
   return new Promise((resolve, reject) => {
@@ -40,11 +41,12 @@ function request(path, attr) {
 }
 
 const get = (path, params = '') => {
-  const token = localStorage.getItem('session-token');
+  const TOKEN = localStorage.getItem('session-token');
+
   const attr = {
     method: 'GET',
     headers: new Headers({
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${TOKEN}`,
     }),
   };
 
@@ -60,11 +62,12 @@ const get = (path, params = '') => {
 };
 
 const send = (method, path, body) => {
-  const token = localStorage.getItem('session-token');
+  const TOKEN = localStorage.getItem('session-token');
+
   const attr = {
     method,
     headers: new Headers({
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${TOKEN}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
     }),
