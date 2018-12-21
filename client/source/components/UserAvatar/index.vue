@@ -8,12 +8,12 @@
     <div class="user-avatar__nickname">
       {{ nickname }}
     </div>
-    <img
+    <z-image
       v-show="!isShowParametrs"
       :src="pathAvatar(avatar)"
       alt="avatar"
       class="user-avatar__image"
-    >
+    />
     <z-user-parametrs
       v-show="isShowParametrs"
       :parameters="parameters"

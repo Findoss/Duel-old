@@ -18,7 +18,6 @@ export default {
   },
 
   created() {
-    // предзагрузка
     this.getMe();
     this.getUserParameters();
   },

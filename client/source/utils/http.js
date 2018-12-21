@@ -1,7 +1,7 @@
 /* eslint guard-for-in: "error" */
 import store from '@/store';
 
-const HOST = `${window.location.origin}/api`;
+import { HOST_API } from '@/constants';
 
 
 // FIXME TODO
@@ -41,7 +41,7 @@ function request(path, attr) {
 }
 
 const get = (path, params = '') => {
-  const TOKEN = localStorage.getItem('session-token');
+  const TOKEN = store.state.token;
 
   const attr = {
     method: 'GET',
@@ -50,7 +50,7 @@ const get = (path, params = '') => {
     }),
   };
 
-  let query = `${HOST}${path}`;
+  let query = `${HOST_API}${path}`;
   if (params) {
     query += '?';
     Object.keys(params).forEach((param) => {
@@ -62,7 +62,7 @@ const get = (path, params = '') => {
 };
 
 const send = (method, path, body) => {
-  const TOKEN = localStorage.getItem('session-token');
+  const TOKEN = store.state.token;
 
   const attr = {
     method,
@@ -73,7 +73,7 @@ const send = (method, path, body) => {
     }),
     body: JSON.stringify(body) || undefined,
   };
-  return request(`${HOST}${path}`, attr);
+  return request(`${HOST_API}${path}`, attr);
 };
 
 export default { get, send };

@@ -51,27 +51,24 @@ export default {
     return Http.send('POST', '/auth/signin', user)
       .then((response) => {
         const { id, token, message } = response;
-
         commit('SET_MY_ID', id, { root: true });
-        dispatch('addNotification', { type: 'success', message }, { root: true });
-        localStorage.setItem('myId', id);
-        localStorage.setItem('session-token', token);
+        commit('SET_MY_TOKEN', token, { root: true });
 
+        dispatch('addNotification', { type: 'success', message }, { root: true });
         // запускаем сокеты
         // socketAuth();
-
         Router.push({ path: `/${response.id}` });
       });
   },
 
-  signOut({ commit }) {
+  signOut({ commit, dispatch }) {
     Http.send('DELETE', '/auth/signout')
       .finally(() => {
         commit('DEL_MY_ID', undefined, { root: true });
-        localStorage.removeItem('myId');
-        localStorage.removeItem('session-token');
+        commit('DEL_MY_TOKEN', undefined, { root: true });
 
         socket.disconnect();
+        dispatch('addNotification', { type: 'success', message: 'message' }, { root: true });
         Router.push({ name: 'root' });
       });
   },

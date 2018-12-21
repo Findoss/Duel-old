@@ -1,4 +1,5 @@
 import { createSocketioPlugin } from 'vuex-socketio-plugin';
+import createPersistedState from 'vuex-persistedstate';
 
 import Vue from 'vue';
 import Vuex from 'vuex';
@@ -18,6 +19,8 @@ import lobby from './modules/lobby/state';
 import skills from './modules/skills/state';
 import statics from './modules/statics/state';
 
+import { VERSION_LOCAL_STORAGE } from '../constants';
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -26,6 +29,7 @@ export default new Vuex.Store({
     myId: '',
     statusSocket: false,
     notifications: [],
+    token: '',
   },
   actions,
   mutations,
@@ -51,4 +55,13 @@ export default new Vuex.Store({
   // plugins: [createSocketioPlugin(socket, {
   //   actionPrefix: 'socket',
   // })],
+  plugins: [createPersistedState({
+    key: VERSION_LOCAL_STORAGE,
+    paths: [
+      'myId',
+      'token',
+      'me',
+      'statics',
+    ],
+  })],
 });

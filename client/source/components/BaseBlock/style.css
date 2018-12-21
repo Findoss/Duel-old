@@ -16,5 +16,5 @@
 }
 
 .base-block::after {
-  content: url(../../assets/icons/status/rolling_white.gif);
+  content: url(../../assets/icons/status/loading_spin.svg);
 }
