@@ -14,20 +14,17 @@ module.exports.count = (ctx) => {
   const { socket, store } = ctx;
   const { lobby } = store;
 
-  // DEBUG chat
-  socket.emit('Chat', `count ${lobby.count()}`);
-  console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${lobby.count()}`);
-  // DEBUG chat-end
+
+  socket.emit('Chat', `count ${lobby.count()}`);// DEBUG chat
+  console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${lobby.count()}`);// DEBUG chat
 };
 
 module.exports.users = (ctx) => {
   const { socket, store } = ctx;
   const { lobby } = store;
 
-  // DEBUG chat
-  socket.emit('Chat', `users ${lobby.listUserId()}`);
-  console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${lobby.listUserId()}`);
-  // DEBUG chat-end
+  socket.emit('Chat', `users ${lobby.listUserId()}`);// DEBUG chat
+  console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${lobby.listUserId()}`);// DEBUG chat
 };
 
 
@@ -38,10 +35,8 @@ module.exports.del = (ctx) => {
   lobby.deleteUser(socket.userId);
   socket.emit('LobbyExit', 'exit111');
 
-  // DEBUG chat
-  socket.emit('Chat', 'delete you lobby');
-  console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ del lobby');
-  // DEBUG chat-end
+  socket.emit('Chat', 'delete you lobby');// DEBUG chat
+  console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ del lobby');// DEBUG chat
 };
 
 module.exports.add = (ctx) => {
@@ -51,16 +46,13 @@ module.exports.add = (ctx) => {
 
   if (!lobby.isUserInLobby(userId)) {
     lobby.addUser(socket, userId, 1200, configLobby.timeLimit);
-    // DEBUG chat
-    socket.emit('Chat', `${userId} add lobby`);
-    // DEBUG chat-end
+    socket.emit('LobbyComeIn');
+    socket.emit('Chat', `${userId} add lobby`);// DEBUG chat
 
     this.serchOpponent(ctx);
   } else {
-    // DEBUG chat
-    socket.emit('Chat', `${userId} уже в лобби`);
-    console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ уже в лобби');
-    // DEBUG chat-end
+    socket.emit('Chat', `${userId} уже в лобби`);// DEBUG chat
+    console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ уже в лобби');// DEBUG chat
   }
 };
 
@@ -77,20 +69,14 @@ module.exports.serchOpponent = (ctx) => {
       lobby.clear().forEach((user) => {
         user.socket.emit('LobbyExit', 'exit222');
 
-        // DEBUG chat
-        console.log('               │');
-        console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ delete lobby (time limit)');
-        // DEBUG chat-end
-        // DEBUG chat
-        user.socket.emit('Chat', 'delete you lobby');
-        // DEBUG chat-end
+        console.log('               │');// DEBUG chat
+        console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ delete lobby (time limit)');// DEBUG chat
+        user.socket.emit('Chat', 'delete you lobby');// DEBUG chat
       });
 
       // если нет в лобби - останавливаем поиск пар
       if (lobby.count() === 0) {
-        // DEBUG chat
-        console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ stop serch opponent');
-        // DEBUG chat-end
+        console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ stop serch opponent');// DEBUG chat
         clearInterval(idSerchOpponent);
       }
 
@@ -98,9 +84,7 @@ module.exports.serchOpponent = (ctx) => {
       lobby.listSerchTime().forEach((user) => {
         user.socket.emit('LobbyTime', user.time);
 
-        // DEBUG chat
-        user.socket.emit('Chat', `time: ${user.time}`);
-        // DEBUG chat-end
+        user.socket.emit('Chat', `time: ${user.time}`);// DEBUG chat
       });
     }, 1000);
   }
@@ -110,19 +94,13 @@ module.exports.serchOpponent = (ctx) => {
     const pair = lobby.serchOpponent();
 
     if (pair) {
-      // DEBUG chat
-      console.log('               │ pair of players');
-      console.log('               │');
-      console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ start game');
-      // DEBUG chat-end
+      console.log('               │ pair of players');// DEBUG chat
+      console.log('               │');// DEBUG chat
+      console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ start game');// DEBUG chat
 
       pair.forEach((user) => {
-        // DEBUG chat
-        user.socket.emit('LobbyGo', 'go1111');
-        // DEBUG chat-end
-        // DEBUG chat
-        user.socket.emit('Chat', 'go');
-        // DEBUG chat-end
+        user.socket.emit('LobbyToGame', { gameId: '5c080b73bc72d1425590ac88' });
+        user.socket.emit('Chat', 'start game');// DEBUG chat
       });
     }
   }
