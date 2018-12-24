@@ -1,1 +1,3 @@
-export default {};
+export default {
+  getTime: state => state.time,
+};

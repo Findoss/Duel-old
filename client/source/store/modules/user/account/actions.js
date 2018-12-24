@@ -47,7 +47,7 @@ export default {
       });
   },
 
-  signIn({ commit, dispatch, state }, user) {
+  signIn({ commit, dispatch }, user) {
     return Http.send('POST', '/auth/signin', user)
       .then((response) => {
         const { id, token, message } = response;
@@ -57,7 +57,6 @@ export default {
         dispatch('addNotification', { type: 'success', message }, { root: true });
 
         socketAuth();
-        dispatch('addNotification', { type: 'info', message: `web-socket connect = ${state.statusSocket}` }, { root: true });
 
         Router.push({ path: `/${response.id}` });
       });
