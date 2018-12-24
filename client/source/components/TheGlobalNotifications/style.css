@@ -1,8 +1,8 @@
 .notification {
   margin-top: 1vh;
   position: absolute;
-  width: 33%;
-  left: 33%;
+  width: 33.33333%;
+  left: 33.33333%;
   height: 100vh;
   pointer-events: none;
   z-index: 999;
