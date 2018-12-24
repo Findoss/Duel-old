@@ -21,6 +21,16 @@
 .lobby__title::after {
   content: url(../../assets/icons/status/loading_dots.svg);
   display: block;
+  margin-top: var(--padding-3);
 }
 
-.lobby__button_cancel {}
+.lobby__buttons {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.lobby__button_cancel {
+  background-color: var(--color-gray-ccc) !important;
+  margin-right: var(--padding-2);
+}

@@ -11,6 +11,7 @@ export default {
 
   methods: {
     ...mapActions({
+      addLobby: 'lobby/add',
       delLobby: 'lobby/del',
     }),
   },
