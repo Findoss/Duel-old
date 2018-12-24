@@ -9,6 +9,12 @@
     >
       {{ $t('menu.profile') }}
     </router-link> -->
+    <div
+      @click="addLobby"
+      class="profile-menu__item button-play button-icon__skill"
+    >
+      {{ $t('menu.play') }}
+    </div>
     <router-link
       class="profile-menu__item button-icon__skill"
       :to="{ path: `/${this.$store.getters.myId}` }"

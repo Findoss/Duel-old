@@ -30,6 +30,7 @@
 .button-play {
   background-color: var(--color-green-norm);
   color: var(--color-white);
+  cursor: pointer;
 }
 
 .button-play:hover {

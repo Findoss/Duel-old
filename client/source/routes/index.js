@@ -11,6 +11,8 @@ import ProfileSkills from '@/views/profile_skills';
 import ProfileInventory from '@/views/profile_inventory';
 import ProfileSettings from '@/views/profile_settings';
 import Scoreboard from '@/views/scoreboard';
+import Lobby from '@/views/lobby';
+import Game from '@/views/game';
 
 
 Vue.use(Router);
@@ -68,6 +70,18 @@ const router = new Router({
       component: Scoreboard,
     },
     {
+      path: '/game',
+      name: 'lobby',
+      // meta: { isPrivate: true },
+      component: Lobby,
+    },
+    {
+      path: '/game/:gameId',
+      name: 'game',
+      // meta: { isPrivate: true },
+      component: Game,
+    },
+    {
       path: '/:userId',
       meta: { isPrivate: false },
       component: ProfileOverview,
@@ -76,10 +90,26 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+  /**
+   * isPrivate
+   * TRUE - страница требует авторизации
+   * FALSE - страница не требует авторизации
+   */
+  /**
+   * isGoProfile
+   * TRUE - требует перейти на страницу профиля
+   * isGoProfile && isLogin
+   * TRUE - требует перейти на страницу профиля если пользователь авторизован
+   */
+  /**
+   * isLogin
+   * TRUE - пользователь авторизован
+   * FALSE - пользователь не авторизован
+   */
+
   const isPrivate = to.matched.some(r => r.meta.isPrivate);
   const isGoProfile = to.matched.some(r => r.meta.isGoProfile);
-  const isLogin = store.getters['me/account/isLogin'];
-  const { myId } = store.getters;
+  const { myId, isLogin } = store.getters;
 
   if (isPrivate === isLogin) {
     next();
