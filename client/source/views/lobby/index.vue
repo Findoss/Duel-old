@@ -1,7 +1,6 @@
 <template>
-  <div class="lobby_conteiner">
+  <z-container-center>
     <div class="lobby">
-
       <z-title
         v-show="time > 0"
         :size="1"
@@ -25,7 +24,7 @@
         </z-button>
       </div>
     </div>
-  </div>
+  </z-container-center>
 </template>
 <script src="./script.js"></script>
 <style src="./style.css" scoped></style>

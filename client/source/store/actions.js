@@ -12,7 +12,7 @@ export default {
   socketLobbyExit({ state, commit }, { data }) {
     if (data[0] === 'exit') {
       commit('lobby/RESET_TIME');
-      Router.push({ path: `/${state.myId}` });
+      Router.replace({ name: 'profile', params: { userId: state.myId, force: true } });
     } else {
       commit('lobby/SET_TIME', 0);
     }
@@ -24,7 +24,7 @@ export default {
 
   socketLobbyToGame({ commit }, { data }) {
     commit('lobby/RESET_TIME');
-    Router.push({ path: `/game/${data[0].gameId}` });
+    Router.replace({ name: 'game', params: { gameId: data[0].gameId, force: true } });
   },
 
   //
@@ -32,7 +32,7 @@ export default {
     commit('ADD_NOTIFICATION', notification);
   },
 
-  delNotification({ commit }, index) {
-    commit('DEL_NOTIFICATION', index);
+  delNotification({ commit }, key) {
+    commit('DEL_NOTIFICATION', key);
   },
 };
