@@ -1,0 +1,55 @@
+.user-parameters {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  width: 100%;
+  height: 100%;
+  grid-gap: var(--padding-1);
+}
+
+.a1 {
+  grid-column: 1;
+  grid-row: 1;
+  background-color: lavenderblush;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.a2 {
+  grid-column: 1;
+  grid-row: 2;
+  background-color: lightpink;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.a3 {
+  grid-column: 1;
+  grid-row: 3;
+  /**/
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.b1, .b2, .b3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.b1 {
+  background-color: lemonchiffon;
+}
+
+.b2 {
+  background-color: lightblue;
+}
+
+.b3 {
+  background-color: lightgreen;
+}
