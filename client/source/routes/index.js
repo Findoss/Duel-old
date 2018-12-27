@@ -13,6 +13,7 @@ import ProfileSettings from '@/views/profile_settings';
 import Scoreboard from '@/views/scoreboard';
 import Lobby from '@/views/lobby';
 import Game from '@/views/game';
+import GameEnd from '@/views/game_end';
 
 
 Vue.use(Router);
@@ -72,17 +73,21 @@ const router = new Router({
     {
       path: '/game',
       name: 'lobby',
-      // meta: { isPrivate: true },
       component: Lobby,
+    },
+    {
+      path: '/game-end',
+      name: 'gameEnd',
+      component: GameEnd,
     },
     {
       path: '/game/:gameId',
       name: 'game',
-      // meta: { isPrivate: true },
       component: Game,
     },
     {
       path: '/:userId',
+      name: 'profile',
       meta: { isPrivate: false },
       component: ProfileOverview,
     },
@@ -106,9 +111,9 @@ router.beforeEach((to, from, next) => {
    * TRUE - пользователь авторизован
    * FALSE - пользователь не авторизован
    */
-
   const isPrivate = to.matched.some(r => r.meta.isPrivate);
   const isGoProfile = to.matched.some(r => r.meta.isGoProfile);
+
   const { myId, isLogin } = store.getters;
 
   if (isPrivate === isLogin) {
@@ -118,11 +123,12 @@ router.beforeEach((to, from, next) => {
       next({ name: 'root' });
     }
     if (isGoProfile && isLogin) {
-      next({ path: `/${myId}` });
+      next({ name: 'profile', params: { userId: myId } });
     }
   }
 
   next();
 });
+
 
 export default router;
