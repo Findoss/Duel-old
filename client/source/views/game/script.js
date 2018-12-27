@@ -1,11 +1,6 @@
-import { mapGetters, mapActions } from 'vuex';
-
-
 export default {
-  methods: {
-    send() {
-      console.log('555');
-    },
+  beforeRouteLeave(to, from, next) {
+    if (to.params.force) next();
+    next(false);
   },
-
 };
