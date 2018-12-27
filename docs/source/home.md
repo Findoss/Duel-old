@@ -396,7 +396,7 @@ Duel
     │   ├── avatars.json
     │   ├── levels.json
     │   ├── lobby.json
-    │   └── user_parameters.json
+    │   └── user_attributes.json
     ├── test
     │   ├── api
     │   │   ├── data

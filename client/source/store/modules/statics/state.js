@@ -3,7 +3,7 @@ import getters from './getters';
 import mutations from './mutations';
 
 const state = {
-  parameters: {
+  attributes: {
     armor: 0, // броня
     block: 0, // блок
     force: 0, // сила

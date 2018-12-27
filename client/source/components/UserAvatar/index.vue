@@ -2,22 +2,22 @@
 <template>
   <div class="user-avatar">
     <button
-      @click="showParametrs"
+      @click="showAttributes"
       class="user-avatar__toggle"
     ></button>
     <div class="user-avatar__nickname">
       {{ nickname }}
     </div>
     <z-image
-      v-show="!isShowParametrs"
+      v-show="!isShowAttributes"
       :src="pathAvatar(avatar)"
       alt="avatar"
       class="user-avatar__image"
     />
-    <z-user-parametrs
-      v-show="isShowParametrs"
-      :parameters="parameters"
-      class="user-avatar__parametrs"
+    <z-user-attributes
+      v-show="isShowAttributes"
+      :attributes="attributes"
+      class="user-avatar__attributes"
     />
   </div>
 </template>
