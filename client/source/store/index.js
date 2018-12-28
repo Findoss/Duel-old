@@ -16,6 +16,7 @@ import userPrivate from './modules/user/user_private/state';
 
 import chat from './modules/chat/state';
 import lobby from './modules/lobby/state';
+import game from './modules/game/state';
 import skills from './modules/skills/state';
 import statics from './modules/statics/state';
 
@@ -36,7 +37,8 @@ export default new Vuex.Store({
   getters,
   modules: {
     chat, // TODO описание
-    lobby, // TODO описание
+    lobby, // модуль лобби
+    game, // модуль игры
     skills, // модуль скилов
     statics, // модуль статичных набров
     me: { // модуль пользователя

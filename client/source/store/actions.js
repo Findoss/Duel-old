@@ -22,9 +22,12 @@ export default {
     commit('lobby/SET_TIME', data[0]);
   },
 
-  socketLobbyToGame({ commit }, { data }) {
-    commit('lobby/RESET_TIME');
-    Router.replace({ name: 'game', params: { gameId: data[0].gameId, force: true } });
+  socketGameChanges({ dispatch }, { data }) {
+    console.log(data);
+
+    data[0].forEach((event) => {
+      dispatch(`game/${event.event}`, event.data);
+    });
   },
 
   //
