@@ -2,6 +2,7 @@
 // правило отключено потому что это важыный элемент логов, необходимо вынести в модуль
 
 const configLobby = require('../../static/lobby.json');
+const ctrlGame = require('./game');
 
 /**
  * io - all
@@ -31,8 +32,9 @@ module.exports.users = (ctx) => {
 module.exports.del = (ctx) => {
   const { socket, store } = ctx;
   const { lobby } = store;
+  const { userId } = socket;
 
-  lobby.deleteUser(socket.userId);
+  lobby.deleteUser(userId);
   socket.emit('LobbyExit', 'exit');
 
   socket.emit('Chat', 'delete you lobby');// DEBUG chat
@@ -94,14 +96,10 @@ module.exports.serchOpponent = (ctx) => {
     const pair = lobby.serchOpponent();
 
     if (pair) {
+      ctrlGame.start(ctx, pair);
       console.log('               │ pair of players');// DEBUG chat
       console.log('               │');// DEBUG chat
       console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ start game');// DEBUG chat
-
-      pair.forEach((user) => {
-        user.socket.emit('LobbyToGame', { gameId: '5c080b73bc72d1425590ac88' });
-        user.socket.emit('Chat', 'start game');// DEBUG chat
-      });
     }
   }
 };

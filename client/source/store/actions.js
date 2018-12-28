@@ -12,7 +12,7 @@ export default {
   socketLobbyExit({ state, commit }, { data }) {
     if (data[0] === 'exit') {
       commit('lobby/RESET_TIME');
-      Router.push({ path: `/${state.myId}` });
+      Router.replace({ name: 'profile', params: { userId: state.myId, force: true } });
     } else {
       commit('lobby/SET_TIME', 0);
     }
@@ -22,9 +22,12 @@ export default {
     commit('lobby/SET_TIME', data[0]);
   },
 
-  socketLobbyToGame({ commit }, { data }) {
-    commit('lobby/RESET_TIME');
-    Router.push({ path: `/game/${data[0].gameId}` });
+  socketGameChanges({ dispatch }, { data }) {
+    console.log(data);
+
+    data[0].forEach((event) => {
+      dispatch(`game/${event.event}`, event.data);
+    });
   },
 
   //
@@ -32,7 +35,7 @@ export default {
     commit('ADD_NOTIFICATION', notification);
   },
 
-  delNotification({ commit }, index) {
-    commit('DEL_NOTIFICATION', index);
+  delNotification({ commit }, key) {
+    commit('DEL_NOTIFICATION', key);
   },
 };

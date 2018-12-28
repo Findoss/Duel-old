@@ -5,7 +5,7 @@
   "rage": 5,
   "luck": 2,
   "healing": 3,
-  "block": 4,
+  "dodge": 4,
   "resources": {
     "energy_1": 3,
     "energy_2": 3,

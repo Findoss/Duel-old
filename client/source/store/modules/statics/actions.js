@@ -1,10 +1,10 @@
 import Http from '@/utils/http';
 
 export default {
-  loadUserParameters({ commit }) {
-    return Http.get('/static/user-parameters')
+  loadUserAttributes({ commit }) {
+    return Http.get('/static/user-attributes')
       .then((response) => {
-        commit('SET_USER_PARAMETERS', response);
+        commit('SET_USER_ATTRIBUTES', response);
       });
   },
 

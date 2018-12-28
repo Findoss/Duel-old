@@ -1,8 +1,8 @@
 export default {
-  name: 'z-user-parametrs',
+  name: 'z-user-attributes',
 
   props: {
-    parameters: {
+    attributes: {
       type: Object,
     },
   },

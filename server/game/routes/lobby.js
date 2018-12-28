@@ -5,10 +5,9 @@ const ctrlLobby = require('../controllers/lobby');
 
 module.exports = (ctx) => {
   const { route } = ctx.data;
-  // DEBUG chat
-  console.log(`──‣ ┈┈┈┈┈ SEND ┬ lobby/${route}`);
-  console.log('               │');
-  // DEBUG chat-end
+
+  console.log(`──‣ ┈┈┈┈┈ SEND ┬ lobby/${route}`); // DEBUG chat
+  console.log('               │'); // DEBUG chat
 
   switch (route) {
     case 'add': return ctrlLobby.add(ctx);

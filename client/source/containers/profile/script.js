@@ -11,7 +11,7 @@ export default {
 
   methods: {
     ...mapActions({
-      getUserParameters: 'statics/loadUserParameters',
+      getUserAttributes: 'statics/loadUserAttributes',
       getMe: 'me/loadMe',
     }),
 
@@ -19,6 +19,6 @@ export default {
 
   created() {
     this.getMe();
-    this.getUserParameters();
+    this.getUserAttributes();
   },
 };

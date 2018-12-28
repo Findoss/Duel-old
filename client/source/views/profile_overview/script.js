@@ -41,8 +41,6 @@ export default {
   },
 
   mounted() {
-    console.log('this is me? ', this.isMe ? 'yes!' : 'no!');
-
     if (!this.isMe) {
       this.pending = true;
       this.getUser(this.$route.params.userId)
@@ -51,9 +49,10 @@ export default {
         });
     } else if (!this.isLogin) {
       this.pending = true;
-      this.getMe().finally(() => {
-        this.pending = false;
-      });
+      this.getMe()
+        .finally(() => {
+          this.pending = false;
+        });
     }
   },
 

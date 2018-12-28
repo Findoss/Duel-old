@@ -1,4 +1,4 @@
 export default {
-  getUserParameters: state => state.parameters,
+  getUserAttributes: state => state.attributes,
   getAvatarList: state => state.avatars,
 };

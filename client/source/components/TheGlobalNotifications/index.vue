@@ -5,14 +5,14 @@
       tag="div"
     >
       <z-flash-alert
-        v-for="(notification, index) in notifications"
-        :key="index"
+        v-for="(notification) in notifications"
+        @close="delNotification(notification.key)"
+        :key="notification.key"
         :icon="!!notification.type"
         :dismissible="true"
         :type="notification.type"
-        class="list-alert"
         :autoDelete="3000"
-        @close="delNotification(index)"
+        class="list-alert"
       >
         {{ notification.message }}
       </z-flash-alert>
