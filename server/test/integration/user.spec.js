@@ -3,6 +3,8 @@ const { expect } = require('chai');
 const supertest = require('supertest');
 const helpers = require('../helpers');
 
+const { it } = helpers;
+
 const api = supertest(`${config.node.host}:${config.node.port}/api`);
 
 // fake data
@@ -45,12 +47,12 @@ describe('USER API', () => {
   });
 
   // TODO НЕТ ВАЛИДАЦИИ ТЕСТ ПАДАЕТ
-  // it('регистрация пользователя (не корректные параметры)', () => {
-  //   api
-  //     .post('/users')
-  //     .send(dataNewUser[0])
-  //     .expect(400);
-  // });
+  it('регистрация пользователя (не корректные параметры)', () => {
+    api
+      .post('/users')
+      .send(dataNewUser[0])
+      .expect(400);
+  });
 
   describe(`заполняем базу - ${EJSON_USERS}`, async () => {
     beforeEach(async () => {
