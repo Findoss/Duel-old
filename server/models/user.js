@@ -79,6 +79,16 @@ const userSchema = new mongoose.Schema({
   skillsUnlocked: {
     type: [String],
   },
+  access: {
+    type: [Number],
+    required: true,
+    default: [0],
+  },
+  status: {
+    type: String,
+    required: true,
+    default: 'null',
+  },
 });
 
 userSchema.set('toJSON', {
@@ -105,7 +115,9 @@ userSchema.virtual('level').get(function get() {
  */
 userSchema.methods.setPassword = function setPassword(password) {
   this.password.salt = crypto.randomBytes(16).toString('hex');
-  this.password.hash = crypto.pbkdf2Sync(password, this.password.salt, 128, 64, 'sha256').toString('hex');
+  this.password.hash = crypto
+    .pbkdf2Sync(password, this.password.salt, 128, 64, 'sha256')
+    .toString('hex');
 };
 
 /**
