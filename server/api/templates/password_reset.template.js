@@ -1,4 +1,4 @@
-module.exports = link => `
+module.exports = `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -148,7 +148,7 @@ module.exports = link => `
                           <center>
                         <![endif]-->
                     <a
-                      href="${link}"
+                      href="{{ data.link }}"
                       style="background-color:#178f8f;border-radius:4px;color:#ffffff;display:inline-block;font-family:Helvetica, Arial, sans-serif;font-size:16px;font-weight:bold;line-height:50px;text-align:center;text-decoration:none;width:200px;-webkit-text-size-adjust:none;"
                     >Reset password</a>
                     <!--[if mso]>

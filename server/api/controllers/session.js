@@ -9,8 +9,9 @@ const ctrlUser = require('./user');
 const User = require('../../models/user');
 const PasswordReset = require('../../models/password_reset');
 
+const templater = require('./templater');
 const transporterEmail = require('./smtp');
-const templetePasswordReset = require('../templates/password_reset');
+const templetePasswordReset = require('../templates/password_reset.template');
 
 /**
  * TODO описание
@@ -55,34 +56,26 @@ module.exports.passwordReset = async (ctx, next) => {
     // отправим по почте
     // console.log('send mail ', `http://localhost:3002/password-new/${hashPasswordReset.hash}`);
 
-    if (process.env.MODE === 'production') {
-      transporterEmail.sendMail(
-        {
-          from: {
-            name: 'Support game Duel',
-            address: config.email.address,
-          },
-          to: ctx.request.body.email,
-          subject: 'Please reset your password',
-          text: link,
-          html: templetePasswordReset(link),
+    transporterEmail.sendMail(
+      {
+        from: {
+          name: 'Support game Duel',
+          address: config.email.address,
         },
-        (error) => {
-          if (error) throw new ResponseError(500, 'Email SMTP params');
-        },
-      );
+        to: ctx.request.body.email,
+        subject: 'Please reset your password',
+        text: link,
+        html: templater.render(templetePasswordReset, { link }),
+      },
+      (error) => {
+        if (error) throw new ResponseError(500, 'Email SMTP params');
+      },
+    );
 
-      ctx.status = 201;
-      ctx.response.body = {
-        message: 'Ok',
-      };
-    } else {
-      ctx.status = 201;
-      ctx.response.body = {
-        message: 'Ok',
-        link,
-      };
-    }
+    ctx.status = 201;
+    ctx.response.body = {
+      message: 'Ok',
+    };
   } catch (error) {
     throw new ResponseError(400, 'Invalid params');
   }
