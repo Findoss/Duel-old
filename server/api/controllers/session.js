@@ -1,37 +1,45 @@
 const config = require('../../config');
 
 const ResponseError = require('../../utils/error');
-const passport = require('koa-passport');
 
-const ctrlToken = require('./token');
+// controllers
+const ctrlToken = require('../../modules/token');
 const ctrlUser = require('./user');
 
+// modules
+const Authentication = require('../../modules/authentication');
+// const Authorization = require('../../modules/authorization');
+// const Identification = require('../../modules/identification');
+
+// models
 const User = require('../../models/user');
 const PasswordReset = require('../../models/password_reset');
 
+// mail
 const templater = require('./templater');
 const transporterEmail = require('./smtp');
 const templetePasswordReset = require('../templates/password_reset.template');
+
 
 /**
  * TODO описание
  * @param {*}
  */
-module.exports.signin = async (ctx, next) => {
-  await passport.authenticate('local', (error, user) => {
-    if (error) throw new ResponseError(523, error);
 
-    if (user) {
-      ctx.response.body = {
-        id: user.id,
-        message: 'You are signed in',
-        token: user.token,
-      };
-    } else {
-      throw new ResponseError(403, 'Incorrect username or password');
-    }
-  })(ctx, next);
-  await next();
+module.exports.signin = async (ctx) => {
+  const user = await Authentication.localStrategy(
+    ctx.request.body.email,
+    ctx.request.body.password,
+  );
+
+  if (user) {
+    ctx.response.body = {
+      ...user,
+      message: 'You are signed in',
+    };
+  } else {
+    throw new ResponseError(403, 'Incorrect username or password');
+  }
 };
 
 /**
@@ -79,7 +87,6 @@ module.exports.passwordReset = async (ctx, next) => {
   } catch (error) {
     throw new ResponseError(400, 'Invalid params');
   }
-
   await next();
 };
 
@@ -93,7 +100,7 @@ module.exports.passwordNew = async (ctx, next) => {
     const document = await PasswordReset.findOneAndDelete({ hash: ctx.request.body.hash });
 
     if (document.userId) {
-      // поменяем пароль на новый
+      // меняем пароль на новый
       await ctrlUser.setPassword(ctx.request.body.newPassword, document.userId);
 
       ctx.response.body = {
@@ -113,12 +120,10 @@ module.exports.passwordNew = async (ctx, next) => {
  * @param {*}
  */
 module.exports.signout = async (ctx, next) => {
-  if (ctx.isAuthenticated()) {
-    await ctrlToken.deleteKey(ctx.state.user.id);
-    ctx.response.body = {
-      message: 'You are signed out',
-    };
-  }
+  await ctrlToken.deleteKey(ctx.state.user.id);
+  ctx.response.body = {
+    message: 'You are signed out',
+  };
   await next();
 };
 
@@ -127,13 +132,17 @@ module.exports.signout = async (ctx, next) => {
  * @param {*}
  */
 module.exports.tokenVerification = async (ctx, next) => {
-  await passport.authenticate('jwt', (error, user) => {
-    if (error) throw new ResponseError(523, error);
-
-    if (user) ctx.state.user = user;
-    else throw new ResponseError(403, 'Forbidden');
-
-    return user;
-  })(ctx, next);
+  if (ctx.header.authorization) {
+    const token = ctx.header.authorization.substring(7);
+    const user = await Authentication.JWTStrategy(token);
+    if (user) {
+      ctx.state.user = {
+        id: user.id,
+        access: user.access,
+        status: user.status,
+        nickname: user.nickname,
+      };
+    } else throw new ResponseError(403, 'Forbidden');
+  } else throw new ResponseError(403, 'Forbidden');
   await next();
 };

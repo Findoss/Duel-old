@@ -80,7 +80,6 @@ module.exports.getUser = async (ctx) => {
   }
 };
 
-
 /**
  * TODO описание
  * @param {*}
