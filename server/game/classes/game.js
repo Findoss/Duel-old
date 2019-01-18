@@ -21,8 +21,6 @@ class Game {
     const playerOne = users[0].id;
     const playerTwo = users[1].id;
 
-    this.isInProcess = true;
-
     this.players = [new Player(playerOne), new Player(playerTwo)];
     this.board = new Board(configRunes);
     this.step = new Step(playerOne, playerTwo);
