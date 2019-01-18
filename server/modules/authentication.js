@@ -1,3 +1,7 @@
+const mongoose = require('mongoose');
+
+const { ObjectId } = mongoose.Types;
+
 const Token = require('./token');
 const Identification = require('./identification');
 
@@ -8,8 +12,7 @@ const Identification = require('./identification');
  */
 module.exports.localStrategy = async (email, password) => {
   try {
-    const user = Identification.byEmail(email);
-
+    const user = await Identification.check({ email });
     if (user.checkPassword(password)) {
       const token = await Token.generateToken(user.id);
       if (token) {
@@ -35,7 +38,7 @@ module.exports.localStrategy = async (email, password) => {
 module.exports.JWTStrategy = async (token) => {
   try {
     const userId = await Token.checkKeyOfToken(token);
-    return await Identification.byId(userId);
+    return await Identification.check({ _id: ObjectId(userId) });
   } catch (error) {
     return null;
   }
