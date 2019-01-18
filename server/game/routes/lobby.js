@@ -12,8 +12,6 @@ module.exports = (ctx) => {
   switch (route) {
     case 'add': return ctrlLobby.add(ctx);
     case 'del': return ctrlLobby.del(ctx);
-    case 'count': return ctrlLobby.count(ctx);
-    case 'users': return ctrlLobby.users(ctx);
 
     default:
       break;
