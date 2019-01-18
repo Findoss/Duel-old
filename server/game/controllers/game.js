@@ -92,6 +92,7 @@ module.exports.surrender = (ctx) => {
   console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ end game (surrender player)');// DEBUG chat
 };
 
+module.exports.action = (ctx) => { };
 
 module.exports.recovery = (ctx) => { };
 
