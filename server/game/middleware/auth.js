@@ -5,19 +5,22 @@
 // правило отключено потому что это важыный элемент логов, необходимо вынести в модуль
 
 
-const { checkSocketToken } = require('../../api/controllers/token');
+const Authentication = require('../../modules/authentication');
 
-module.exports = async (socket, next) => {
-  const userId = await checkSocketToken(socket.handshake.query.bearer);
+module.exports = async (socket, ctx, next) => {
+  const user = await Authentication.JWTStrategy(socket.handshake.query.bearer);
+  if (user) {
+    ctx.state = {
+      userId: user.id,
+      access: user.access,
+      status: user.status,
+      nickname: user.nickname,
+    };
 
-  // DEBUG chat
-  console.log(`──‣ ┈┈┈┈┈ AUTH ┬ ${userId || 'NOT AUTH'}`);
-  console.log(`               │ io #${socket.id}`);
-  console.log(`${!userId ? '┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴' : '               │'}`);
-  // DEBUG chat-end
+    console.log(`──‣ ┈┈┈┈┈ AUTH ┬ ${user.id || 'NOT AUTH'}`); // DEBUG chat
+    console.log(`               │ io #${socket.id}`); // DEBUG chat
+    console.log(`${!user.id ? '┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴' : '               │'}`); // DEBUG chat
 
-  if (userId) {
-    socket.userId = userId;
     return next();
   }
   return new Error('no auth');
