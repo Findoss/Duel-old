@@ -22,6 +22,10 @@
 */
 
 const crypto = require('crypto');
+const mongoose = require('mongoose');
+
+const { ObjectId } = mongoose.Types;
+const User = require('../../models/user');
 
 const Game = require('../classes/game');
 
@@ -32,38 +36,69 @@ const Game = require('../classes/game');
  */
 
 
-module.exports.start = (ctx, pair) => {
+module.exports.start = async (ctx, pair) => {
+  const { store } = ctx;
+  const { io } = store;
+
   const id = crypto
     .randomBytes(4)
     .toString('hex')
     .toUpperCase();
 
-  ctx.store.games[id] = new Game(pair, id);
-  const game = ctx.store.games[id];
+  store.games[id] = new Game(pair, id);
+
+
+  store.games[id].changes.add('startGame', {
+    gameId: id,
+    newBoard: store.games[id].board.generationBoard(store.games[id].seedRandom),
+    players: store.games[id].players,
+    step: store.games[id].step.coinToss(store.games[id].seedRandom),
+  });
+
+  await User.update(
+    {
+      _id: {
+        $in: [
+          ObjectId(pair[0].id),
+          ObjectId(pair[1].id),
+        ],
+      },
+    },
+    {
+      $set: { status: id },
+    },
+    {
+      multi: true,
+    },
+  );
 
   pair.forEach((user) => {
     user.socket.join(id);
     user.socket.join(id);
   });
 
-  game.changes.add('startGame', {
-    gameId: id,
-    newBoard: game.board.generationBoard(game.seedRandom),
-    players: game.players,
-    step: game.step.coinToss(game.seedRandom),
-  });
+  io.to(id).emit('GameChanges', store.games[id].changes.release());
+};
 
-  ctx.io.to(id).emit('GameChanges', game.changes.release());
+module.exports.surrender = (ctx) => {
+  const { state, store } = ctx;
+  const { gameId } = state;
 
-  // const { socket, store } = ctx;
-  // const { lobby } = store;
+  store.io.to(gameId).emit('GameChanges', ['endGame']);
 
+  delete store.games[gameId];
 
-  // socket.emit('Chat', `count ${lobby.count()}`);// DEBUG chat
-  // console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${lobby.count()}`);// DEBUG chat
+  console.log('               │');// DEBUG chat
+  console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ end game (surrender player)');// DEBUG chat
 };
 
 
-module.exports.recovery = (ctx, id) => {
+module.exports.recovery = (ctx) => { };
 
+module.exports.count = (ctx) => {
+  const { state, store, socket } = ctx;
+
+  socket.emit('Chat', `games ${Object.keys(store.games).length}`);
+
+  console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${Object.keys(store.games).length}`);// DEBUG chat
 };

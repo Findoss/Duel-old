@@ -4,63 +4,56 @@
 const configLobby = require('../../static/lobby.json');
 const ctrlGame = require('./game');
 
-/**
- * io - all
- * socket - user
- * room - filter user
- */
-
 
 module.exports.count = (ctx) => {
-  const { socket, store } = ctx;
+  const { store, socket } = ctx;
   const { lobby } = store;
 
-
-  socket.emit('Chat', `count ${lobby.count()}`);// DEBUG chat
+  socket.emit('Chat', `count ${lobby.count()}`);
   console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${lobby.count()}`);// DEBUG chat
 };
 
 module.exports.users = (ctx) => {
-  const { socket, store } = ctx;
+  const { store, socket } = ctx;
   const { lobby } = store;
 
-  socket.emit('Chat', `users ${lobby.listUserId()}`);// DEBUG chat
+  socket.emit('Chat', `users ${lobby.listUserId()}`);
   console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${lobby.listUserId()}`);// DEBUG chat
 };
 
-
 module.exports.del = (ctx) => {
-  const { socket, store } = ctx;
+  const { state, store, socket } = ctx;
+  const { userId } = state;
   const { lobby } = store;
-  const { userId } = socket;
 
   lobby.deleteUser(userId);
   socket.emit('LobbyExit', 'exit');
 
-  socket.emit('Chat', 'delete you lobby');// DEBUG chat
+  socket.emit('Chat', 'delete you lobby');
   console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ del lobby');// DEBUG chat
 };
 
 module.exports.add = (ctx) => {
-  const { socket, store } = ctx;
+  const { state, store, socket } = ctx;
+  const { userId, nickname } = state;
   const { lobby } = store;
-  const { userId } = socket;
 
   if (!lobby.isUserInLobby(userId)) {
     lobby.addUser(socket, userId, 1200, configLobby.timeLimit);
     socket.emit('LobbyComeIn');
-    socket.emit('Chat', `${userId} add lobby`);// DEBUG chat
+    socket.emit('Chat', `${nickname} add lobby`);// DEBUG chat
 
     this.serchOpponent(ctx);
   } else {
-    socket.emit('Chat', `${userId} уже в лобби`);// DEBUG chat
+    socket.emit('Chat', `${nickname} уже в лобби`);// DEBUG chat
     console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ уже в лобби');// DEBUG chat
   }
 };
 
 module.exports.serchOpponent = (ctx) => {
-  const { store } = ctx;
+  const { store, state } = ctx;
   const { lobby } = store;
+  const { nickname } = state;
 
   if (lobby.count() === 1) {
     console.log('               ⁞ serch opponent');
@@ -72,7 +65,7 @@ module.exports.serchOpponent = (ctx) => {
         user.socket.emit('LobbyExit', 'limit');
 
         console.log('               │');// DEBUG chat
-        console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ delete lobby (time limit)');// DEBUG chat
+        console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${nickname} delete lobby (time limit)`);// DEBUG chat
         user.socket.emit('Chat', 'delete you lobby');// DEBUG chat
       });
 
