@@ -9,6 +9,7 @@ const state = {
   points: 0, // очки (очки умений)
   gold: 0, // золото
   diamond: 0, // алмазы
+  gameId: null,
 };
 
 export default {

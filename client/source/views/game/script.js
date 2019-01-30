@@ -20,10 +20,10 @@ export default {
   },
 
   methods: {
-    // ...mapActions({
-    //   getMe: 'me/loadMe',
-    //   getUser: 'opponent/loadUser',
-    // }),
+    ...mapActions({
+      surrender: 'game/surrender',
+      // getUser: 'opponent/loadUser',
+    }),
   },
 
   beforeRouteLeave(to, from, next) {
