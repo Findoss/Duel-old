@@ -7,19 +7,20 @@
 
 const Authentication = require('../../modules/authentication');
 
-module.exports = async (socket, ctx, next) => {
+module.exports = async (ctx, socket, next) => {
   const user = await Authentication.JWTStrategy(socket.handshake.query.bearer);
   if (user) {
-    ctx.state = {
-      userId: user.id,
+    ctx.store.players[user.id] = {
       access: user.access,
-      status: user.status,
-      nickname: user.nickname,
+      gameId: user.gameId,
+      socket,
     };
+    ctx.userId = user.id;
+    ctx.data = {};
 
-    console.log(`──‣ ┈┈┈┈┈ AUTH ┬ ${user.id || 'NOT AUTH'}`); // DEBUG chat
-    console.log(`               │ io #${socket.id}`); // DEBUG chat
-    console.log(`${!user.id ? '┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴' : '               │'}`); // DEBUG chat
+    console.log(`──‣ ┈┈┈┈┈ AUTH ┬ ${user.id || 'NOT AUTH'}`);// ----------------------- DEBUG chat
+    console.log(`               │ io #${socket.id}`);// ------------------------------- DEBUG chat
+    console.log(`${!user.id ? '┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴' : '               │'}`);// ----------- DEBUG chat
 
     return next();
   }
