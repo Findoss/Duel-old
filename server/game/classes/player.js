@@ -13,12 +13,12 @@ class Player {
   /**
    * @constructor
    */
-  constructor(player) {
+  constructor(id) {
     /**
      * id игрока
      * @type {String}
      */
-    this.id = player.id;
+    this.id = id;
     /**
      * Здоровье
      * @type {Object}

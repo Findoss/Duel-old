@@ -7,7 +7,6 @@ const Changes = require('./changes');
 
 const configRunes = require('../../static/runes.json');
 
-
 /**
  * Класс цикла игры
  * @class
@@ -17,14 +16,14 @@ class Game {
    * @constructor
    * @param {Any} var desc
    */
-  constructor(users, id) {
+  constructor(users, id, solt = '') {
     const playerOne = users[0].id;
     const playerTwo = users[1].id;
 
     this.players = [new Player(playerOne), new Player(playerTwo)];
     this.board = new Board(configRunes);
     this.step = new Step(playerOne, playerTwo);
-    this.seedRandom = new SeedRandom(id);
+    this.seedRandom = new SeedRandom(id + solt);
     this.changes = new Changes();
     this.modifiers = {
       aaa: [],
