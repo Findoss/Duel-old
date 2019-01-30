@@ -4,37 +4,34 @@ const auth = require('./middleware/auth');
 const logger = require('./middleware/logger');
 const router = require('./routes');
 
-const store = {
-  lobby: new Lobby(),
-  games: [],
-};
-
-/** REQ
+/**
  *
  * ctx {
- *   io,
- *   socket,
- *   store {
+ *   store {    // глобальные данные игр
+ *     io,
  *     lobby,
- *     games
- *   }
+ *     games,
+ *     players,
+ *   },
  * },
- * data {
- *   route,
- *   payload
- * }
- *
+ * userId       // текущие данные подключения
  */
 
+
 module.exports = (io) => {
-  io.use(async (socket, next) => auth(socket, next));
+  const ctx = {
+    store: {
+      io,
+      lobby: new Lobby(),
+      games: {},
+      players: {},
+    },
+  };
 
-  io.on('connection', (socket) => {
-    logger({ io, socket, store });
-    router({ io, socket, store });
-  });
+  io.use(async (socket, next) => auth(ctx, socket, next));
 
-  io.on('disconnect', (socket) => {
-    router({ io, socket, store });
+  io.on('connection', () => {
+    logger({ ...ctx });
+    router({ ...ctx });
   });
 };

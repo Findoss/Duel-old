@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 const mongooseHidden = require('mongoose-hidden')();
 
+
 const sessionSchema = new mongoose.Schema({
   userId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     unique: true,
     index: true,

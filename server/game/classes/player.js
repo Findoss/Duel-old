@@ -12,14 +12,13 @@ const configUserAttributes = require('../../static/user_attributes.json');
 class Player {
   /**
    * @constructor
-   * @param {String} name Имя игрока
    */
-  constructor(player) {
+  constructor(id) {
     /**
-     * Имя игрока
+     * id игрока
      * @type {String}
      */
-    this.name = player.name;
+    this.id = id;
     /**
      * Здоровье
      * @type {Object}

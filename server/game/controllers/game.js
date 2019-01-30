@@ -1,69 +1,121 @@
-/**
- * io - all
- * socket - user
- * room - filter user
- */
-
-/** REQ
-*
-* ctx {
-*   io,
-*   socket,
-*   store {
-*     lobby,
-*     games
-*   }
-* },
-* data {
-*   route,
-*   payload
-* }
-*
-*/
-
 const crypto = require('crypto');
+const mongoose = require('mongoose');
 
+// models
+const modelUser = require('../../models/user');
+const modelGame = require('../../models/game');
+
+// classes
 const Game = require('../classes/game');
 
-/**
- * иницаця игры
- * отправка стартовых данных
- * получение действия игрока
- */
+const { ObjectId } = mongoose.Types;
 
+module.exports.start = async (ctx, pair) => {
+  const { store } = ctx;
+  const { io } = store;
 
-module.exports.start = (ctx, pair) => {
-  const id = crypto
+  // console.log(socket);
+
+  const solt = crypto
     .randomBytes(4)
     .toString('hex')
     .toUpperCase();
 
-  ctx.store.games[id] = new Game(pair, id);
-  const game = ctx.store.games[id];
+  const { id } = await modelGame.create({
+    userOneId: ObjectId(pair[0].id),
+    userTwoId: ObjectId(pair[1].id),
+    solt,
+  });
+
+  await modelUser.update(
+    {
+      _id: {
+        $in: [
+          ObjectId(pair[0].id),
+          ObjectId(pair[1].id),
+        ],
+      },
+    },
+    { $set: { gameId: id } },
+    { multi: true },
+  );
+
+  store.games[id] = new Game(pair, id, solt);
+
+  store.games[id].changes.add('startGame', {
+    gameId: id,
+    newBoard: store.games[id].board.generationBoard(store.games[id].seedRandom),
+    players: store.games[id].players,
+    step: store.games[id].step.coinToss(store.games[id].seedRandom),
+  });
 
   pair.forEach((user) => {
-    user.socket.join(id);
-    user.socket.join(id);
+    store.players[user.id].socket.join(id);
+    store.players[user.id].gameId = id;
   });
 
-  game.changes.add('startGame', {
-    gameId: id,
-    newBoard: game.board.generationBoard(game.seedRandom),
-    players: game.players,
-    step: game.step.coinToss(game.seedRandom),
-  });
-
-  ctx.io.to(id).emit('GameChanges', game.changes.release());
-
-  // const { socket, store } = ctx;
-  // const { lobby } = store;
-
-
-  // socket.emit('Chat', `count ${lobby.count()}`);// DEBUG chat
-  // console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${lobby.count()}`);// DEBUG chat
+  io.to(id).emit('Chat', `id ${id}`); // ------------------------------------------------ DEBUG chat
+  io.to(id).emit('GameChanges', store.games[id].changes.release());
 };
 
+module.exports.surrender = async (ctx) => {
+  const { store, userId } = ctx;
+  const { io, games, players } = store;
+  const { gameId } = players[userId];
 
-module.exports.recovery = (ctx, id) => {
+  const pair = games[gameId].players;
 
+  await modelGame.update(
+    {
+      _id: ObjectId(gameId),
+    },
+    {
+      $push: {
+        steps: {
+          user: ObjectId(userId),
+          action: 'surrender',
+        },
+      },
+      $set: {
+        result: `${userId} surrender`,
+      },
+    },
+  );
+
+  await modelUser.update(
+    {
+      _id: {
+        $in: [
+          ObjectId(pair[0].id),
+          ObjectId(pair[1].id),
+        ],
+      },
+    },
+    {
+      $set: {
+        gameId: '',
+      },
+    },
+    { multi: true },
+  );
+
+  io.to(gameId).emit('GameChanges', ['endGame']);
+
+  delete games[gameId];
+
+  return 'GameChanges [endGame]';
+};
+
+// module.exports.action = (ctx) => { };
+
+// module.exports.recovery = (ctx) => { };
+
+module.exports.count = (ctx) => {
+  const { store, userId } = ctx;
+  const { players } = store;
+
+  const result = Object.keys(store.games).length;
+
+  players[userId].socket.emit('Chat', `games ${result}`); // ------------------------- DEBUG chat
+  return result;
 };

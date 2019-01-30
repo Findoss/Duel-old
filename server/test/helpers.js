@@ -7,6 +7,8 @@ const Session = require('./../models/session');
 const Skill = require('./../models/skill');
 
 // const
+const { skip } = require('./skip');
+
 const mongoImport = `mongoimport -d ${config.db.name}`;
 const cmd = command => new Promise((res, rej) => exec(command, err => (err ? rej(err) : res())));
 
@@ -74,4 +76,17 @@ module.exports.openSlot = async (userId, count) => {
     userId,
     { $set: { openSlot: count } },
   );
+};
+
+/**
+ * TODO описание
+ * @param {*}
+ */
+const test = it;
+module.exports.it = (name, func) => {
+  if (!skip[name]) {
+    test.apply(this, [name, func]);
+  } else {
+    test.skip;
+  }
 };

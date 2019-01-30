@@ -1,8 +1,7 @@
-const ctrlLobby = require('../controllers/lobby');
+const ctrlGame = require('../controllers/game');
 
 const Router = require('../../utils/socket_router');
 
 module.exports = ctx => new Router(ctx)
-  .on('add', ctrlLobby.add)
-  .on('del', ctrlLobby.del)
+  .on('surrender', ctrlGame.surrender)
   .start();

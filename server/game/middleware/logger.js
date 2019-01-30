@@ -1,12 +1,14 @@
 module.exports = async (ctx) => {
-  const { socket } = ctx;
+  const { store, userId } = ctx;
+  const { socket } = store.players[userId];
 
-  console.log('──‣ ┈┈ CONNECT │');
-  console.log('               ⁞');
+  console.log('               │ CONNECT');
+  console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴');
 
   socket.on('disconnect', () => {
     console.log('               ⁞');
-    console.log(`──‣ DISCONNECT ┬ ${socket.userId || 'NOT AUTH'}`);
-    console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ io #${socket.id}`);
+    console.log(`──‣ DISCONNECT ┬ ${userId || 'NOT AUTH'}`);
+    console.log(`               │ io #${socket.id}`);
+    console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ');
   });
 };

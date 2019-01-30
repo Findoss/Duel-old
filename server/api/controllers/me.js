@@ -1,7 +1,11 @@
+const mongoose = require('mongoose');
+
 const ResponseError = require('../../utils/error');
 const User = require('../../models/user');
 const Skill = require('../../models/skill');
 const Session = require('../../models/session');
+
+const { ObjectId } = mongoose.Types;
 
 const ctrlUser = require('./user');
 
@@ -40,13 +44,11 @@ module.exports.getMe = async (ctx) => {
  */
 module.exports.deleteMe = async (ctx) => {
   try {
-    await Session
-      .remove({
-        userId: ctx.state.user.id,
-      });
+    await Session.remove({
+      userId: ObjectId(ctx.state.user.id),
+    });
 
-    await User
-      .findByIdAndRemove(ctx.state.user.id);
+    await User.findByIdAndRemove(ctx.state.user.id);
 
     ctx.response.body = { message: 'Your accaunt is successfully deleted' };
   } catch (error) {
@@ -61,11 +63,10 @@ module.exports.deleteMe = async (ctx) => {
 module.exports.setAvatar = async (ctx) => {
   if (!avatars.some(avatar => avatar === ctx.request.body.avatar)) throw new ResponseError(400, 'Invalid params');
   try {
-    await User
-      .findByIdAndUpdate(
-        ctx.state.user.id,
-        ctx.request.body,
-      );
+    await User.findByIdAndUpdate(
+      ctx.state.user.id,
+      ctx.request.body,
+    );
     ctx.response.body = { message: 'Your avatar is updated successfully' };
   } catch (error) {
     throw new ResponseError(400, 'Invalid params');
@@ -80,11 +81,10 @@ module.exports.updateNickname = async (ctx) => {
   // TODO валидация
 
   try {
-    await User
-      .findByIdAndUpdate(
-        ctx.state.user.id,
-        ctx.request.body,
-      );
+    await User.findByIdAndUpdate(
+      ctx.state.user.id,
+      ctx.request.body,
+    );
 
     ctx.response.body = { message: 'Your nickname is updated successfully' };
   } catch (error) {
@@ -200,16 +200,15 @@ module.exports.delInSkillSet = async (ctx) => {
     user.skillSet.some(id => id === ctx.request.body.id)
   ) {
     try {
-      await User
-        .findOneAndUpdate(
-          {
-            _id: ctx.state.user.id,
-            skillSet: ctx.request.body.id,
-          },
-          {
-            $unset: { 'skillSet.$': '' },
-          },
-        );
+      await User.findOneAndUpdate(
+        {
+          _id: ObjectId(ctx.state.user.id),
+          skillSet: ctx.request.body.id,
+        },
+        {
+          $unset: { 'skillSet.$': '' },
+        },
+      );
 
       await User
         .findByIdAndUpdate(

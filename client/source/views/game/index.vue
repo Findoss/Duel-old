@@ -10,10 +10,8 @@
       <z-title :size="3">
         gameId: {{ this.$route.params.gameId }}
       </z-title>
-      <z-button>
-        <router-link :to="{ name: `gameEnd`, params: {force: true} } ">
-          game end
-        </router-link>
+      <z-button @click="surrender">
+        surrender
       </z-button>
     </div>
 
