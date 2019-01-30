@@ -39,7 +39,14 @@
       button {
         border: none;
         padding: 5px;
+        margin: 2px;
         cursor: pointer;
+      }
+
+      ul, li {
+        overflow-wrap:break-word;;
+        white-space: normal;
+        overflow-x: hidden;
       }
 
       .user {
@@ -115,14 +122,17 @@
         <input
           type="text"
           id="namespase0"
+          placeholder="namespase"
         >
         <input
           type="text"
           id="command0"
+          placeholder="command"
         >
         <input
           type="text"
           id="payload0"
+          placeholder="payload"
         >
         <button>+</button>
       </form>
@@ -142,6 +152,14 @@
         class="cs7"
         value="0"
       >game count</button>
+      <button
+        class="cs9"
+        value="0"
+      >world users count</button>
+      <button
+        class="cs10"
+        value="0"
+      >world users</button>
       <ul id="messages0"></ul>
     </div>
 
@@ -154,14 +172,17 @@
         <input
           type="text"
           id="namespase1"
+          placeholder="namespase"
         >
         <input
           type="text"
           id="command1"
+          placeholder="command"
         >
         <input
           type="text"
           id="payload1"
+          placeholder="payload"
         >
         <button>+</button>
       </form>
@@ -177,6 +198,10 @@
         class="cs3"
         value="1"
       >exit</button>
+      <button
+        class="cs8"
+        value="1"
+      >surrender</button>
       <ul id="messages1"></ul>
     </div>
     <div class="user user2">
@@ -188,14 +213,17 @@
         <input
           type="text"
           id="namespase2"
+          placeholder="namespase"
         >
         <input
           type="text"
           id="command2"
+          placeholder="command"
         >
         <input
           type="text"
           id="payload2"
+          placeholder="payload"
         >
         <button>+</button>
       </form>
@@ -211,6 +239,10 @@
         class="cs3"
         value="2"
       >exit</button>
+      <button
+        class="cs8"
+        value="2"
+      >surrender</button>
       <ul id="messages2"></ul>
     </div>
 
@@ -218,43 +250,43 @@
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
       $(function() {
-
-
-        let sockets = []
-        let tokens = ['', '', '',]
-
-        setTimeout(() => {
-          tokens = [
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYjIzMGUzMWNlMTJiNjY1YzQ4ZjNhMCIsImtleSI6IjIyZmExZWI3LWI2YmMtNGIyNC1iZTgwLTI5M2M1MTQ3ZjExZiIsImlhdCI6MTU0Nzg0MDY0NH0.cP400VBCutNmR0syjHowC9HkM6cTvuG6ncEzVFAf7FA',
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYjIzMGUzMWNlMTJiNjY1YzQ4ZjNhMSIsImtleSI6ImJkZGJmYzMyLTQyOWMtNDk5Zi1iMjMzLTBkZDkwZWUxMmZiZCIsImlhdCI6MTU0Nzg0MDcxNH0.PntvrUvVYpW6aXjmSTubjKjRFuR_bHJdJPv6U_CVzcU',
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYjIzMGUzMWNlMTJiNjY1YzQ4ZjNhMiIsImtleSI6IjY3NTFkYWRhLTg3ZGUtNDAxYy1hYjJiLTM4YzM0YzZiNzNlOSIsImlhdCI6MTU0Nzg0MTA1MX0.8OE3qbUj-LjqrZWlAVZJREjaL6zStzvqeFf1micCO7M',
-          ]
-
-          sockets.forEach((socket, i) => {
-            socket.io.opts.query = {
-              bearer: tokens[i]
-            }
-            socket.connect();
-          })
-
-        }, 1000)
-
         const HOST_GAME = 'http://localhost:3001';
 
-        sockets = [
-          new io(HOST_GAME, {
-            forceNew: true,
-            autoConnect: false,
-          }),
-          new io(HOST_GAME, {
-            forceNew: true,
-            autoConnect: false,
-          }),
-          new io(HOST_GAME, {
-            forceNew: true,
-            autoConnect: false,
-          }),
+        const tokens = [
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYjIzMGUzMWNlMTJiNjY1YzQ4ZjNhMCIsImtleSI6IjIyZmExZWI3LWI2YmMtNGIyNC1iZTgwLTI5M2M1MTQ3ZjExZiIsImlhdCI6MTU0Nzg0MDY0NH0.cP400VBCutNmR0syjHowC9HkM6cTvuG6ncEzVFAf7FA',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYjIzMGUzMWNlMTJiNjY1YzQ4ZjNhMSIsImtleSI6ImJkZGJmYzMyLTQyOWMtNDk5Zi1iMjMzLTBkZDkwZWUxMmZiZCIsImlhdCI6MTU0Nzg0MDcxNH0.PntvrUvVYpW6aXjmSTubjKjRFuR_bHJdJPv6U_CVzcU',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYjIzMGUzMWNlMTJiNjY1YzQ4ZjNhMiIsImtleSI6IjY3NTFkYWRhLTg3ZGUtNDAxYy1hYjJiLTM4YzM0YzZiNzNlOSIsImlhdCI6MTU0Nzg0MTA1MX0.8OE3qbUj-LjqrZWlAVZJREjaL6zStzvqeFf1micCO7M',
         ]
+
+        const sockets = {
+          '0': new io(HOST_GAME, {
+            forceNew: true,
+            autoConnect: false,
+          }),
+          '1': new io(HOST_GAME, {
+            forceNew: true,
+            autoConnect: false,
+          }),
+          '2': new io(HOST_GAME, {
+            forceNew: true,
+            autoConnect: false,
+          }),
+        }
+
+        setTimeout(() => {
+          Object.keys(sockets).forEach((id) => {
+            sockets[id].io.opts.query = {
+              bearer: tokens[id]
+            }
+            sockets[id].connect();
+
+            $(`#messages${id}`)
+              .prepend($('<li>')
+                .prepend($('<i>')
+                  .text(id + ' ' + tokens[id])))
+
+          })
+        }, 2000)
 
         $('.form').submit((e) => {
           e.preventDefault();
@@ -282,6 +314,7 @@
           sockets[user].emit('lobby', { route: 'del' });
         });
 
+
         $('.cs3').click(e => {
           const user = e.target.value;
           sockets[user].disconnect();
@@ -298,7 +331,7 @@
         });
 
         $('.cs6').click(e => {
-          sockets.forEach((socket, i) => $(`#messages${i}`).empty())
+          Object.keys(sockets).forEach((id) => $(`#messages${id}`).empty())
         });
 
         $('.cs7').click(e => {
@@ -306,7 +339,23 @@
           sockets[user].emit('dashboard', { route: 'game-count' });
         });
 
-        sockets.forEach((socket, i) => {
+        $('.cs8').click(e => {
+          const user = e.target.value;
+          sockets[user].emit('game', { route: 'surrender' });
+        });
+
+        $('.cs9').click(e => {
+          const user = e.target.value;
+          sockets[user].emit('dashboard', { route: 'world-users-count' });
+        });
+
+        $('.cs10').click(e => {
+          const user = e.target.value;
+          sockets[user].emit('dashboard', { route: 'world-users' });
+        });
+
+        Object.keys(sockets).forEach((i) => {
+          const socket = sockets[i];
           socket.on('Chat', msg => $(`#messages${i}`)
             .prepend($('<li>')
               .prepend($('<pre>')
