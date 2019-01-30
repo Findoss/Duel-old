@@ -1,5 +1,6 @@
 const config = require('../../config');
 
+const mongoose = require('mongoose');
 const ResponseError = require('../../utils/error');
 
 // controllers
@@ -8,8 +9,6 @@ const ctrlUser = require('./user');
 
 // modules
 const Authentication = require('../../modules/authentication');
-// const Authorization = require('../../modules/authorization');
-// const Identification = require('../../modules/identification');
 
 // models
 const User = require('../../models/user');
@@ -20,6 +19,7 @@ const templater = require('./templater');
 const transporterEmail = require('./smtp');
 const templetePasswordReset = require('../templates/password_reset.template');
 
+const { ObjectId } = mongoose.Types;
 
 /**
  * TODO описание
@@ -54,8 +54,13 @@ module.exports.passwordReset = async (ctx, next) => {
     // сформируем хэш
     const passwordReset = new PasswordReset();
     const hashPasswordReset = await PasswordReset.findOneAndUpdate(
-      { userId: user.id },
-      { userId: user.id, hash: passwordReset.genHashPasswordReset() },
+      {
+        userId: ObjectId(user.id),
+      },
+      {
+        userId: ObjectId(user.id),
+        hash: passwordReset.genHashPasswordReset(),
+      },
       { upsert: true, new: true },
     );
 
@@ -64,28 +69,31 @@ module.exports.passwordReset = async (ctx, next) => {
     // отправим по почте
     // console.log('send mail ', `http://localhost:3002/password-new/${hashPasswordReset.hash}`);
 
-    transporterEmail.sendMail(
-      {
-        from: {
-          name: 'Support game Duel',
-          address: config.email.address,
+    await new Promise((resolve, reject) => {
+      transporterEmail.sendMail(
+        {
+          from: {
+            name: 'Support game Duel',
+            address: config.email.address,
+          },
+          to: ctx.request.body.email,
+          subject: 'Please reset your password',
+          text: link,
+          html: templater.render(templetePasswordReset, { link }),
         },
-        to: ctx.request.body.email,
-        subject: 'Please reset your password',
-        text: link,
-        html: templater.render(templetePasswordReset, { link }),
-      },
-      (error) => {
-        if (error) throw new ResponseError(500, 'Email SMTP params');
-      },
-    );
+        (error) => {
+          if (error) reject(new Error('Email sent problem'));
+          resolve('Ok');
+        },
+      );
+    });
 
     ctx.status = 201;
     ctx.response.body = {
       message: 'Ok',
     };
   } catch (error) {
-    throw new ResponseError(400, 'Invalid params');
+    throw new ResponseError(500, 'Email sent problem');
   }
   await next();
 };
@@ -139,7 +147,7 @@ module.exports.tokenVerification = async (ctx, next) => {
       ctx.state.user = {
         id: user.id,
         access: user.access,
-        status: user.status,
+        gameId: user.gameId,
         nickname: user.nickname,
       };
     } else throw new ResponseError(403, 'Forbidden');
