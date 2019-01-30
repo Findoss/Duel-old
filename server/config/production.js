@@ -29,4 +29,5 @@ module.exports = {
     i18n: toBoolean(process.env.LOGGER_I18N),
   },
   JWTKey: process.env.JWT_KEY,
+  solt: 'randomSolt',
 };

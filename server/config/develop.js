@@ -25,4 +25,5 @@ module.exports = {
     i18n: false,
   },
   JWTKey: 'mysecretkey',
+  solt: 'randomSolt',
 };
