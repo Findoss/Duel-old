@@ -9,7 +9,7 @@ const User = require('../models/user');
  */
 module.exports.check = async (field) => {
   try {
-    return await User.findOne(field, 'id nickname access status password');
+    return await User.findOne(field, 'id nickname access gameId password');
   } catch (error) {
     throw new ResponseError(404, 'Not found');
   }

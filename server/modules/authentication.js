@@ -19,7 +19,7 @@ module.exports.localStrategy = async (email, password) => {
         return {
           id: user.id,
           access: user.access,
-          status: user.status,
+          gameId: user.gameId,
           token,
         };
       }
