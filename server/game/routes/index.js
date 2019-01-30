@@ -1,29 +1,32 @@
 /* eslint no-console: 0 */
 // правило отключено потому что это важыный элемент логов, необходимо вынести в модуль
 
+const Router = require('../../utils/socket_router');
+
 const routeLobby = require('./lobby');
 const routeGame = require('./game');
 const routeDashboard = require('./dashboard');
 
-module.exports = async (ctx) => {
-  const { socket } = ctx;
 
-  socket.on('lobby', data => routeLobby({ ...ctx, data }));
-  socket.on('game', data => routeGame({ ...ctx, data }));
-  socket.on('dashboard', data => routeDashboard({ ...ctx, data }));
+module.exports = (ctx) => {
+  const router = new Router(ctx);
 
-  socket.on('disconnect', () => {
+  router.use('dashboard', routeDashboard); // TODO добавить проверку на права
+  router.use('game', routeGame); // TODO добавить проверку что игрок в игре
+  router.use('lobby', routeLobby);
+
+  router.use('disconnect', () => {
     routeLobby({ ...ctx, data: { route: 'del' } });
+    delete ctx.store.players[ctx.userId];
   });
 
-  // DEBUG chat
-  socket.on('chat', (data) => {
-    ctx.io.emit('Chat', { user: socket.userId, message: data.payload });
+  router.use('chat', () => {
+    const { data } = ctx;
+    ctx.store.io.emit('Chat', { user: ctx.userId, message: data.payload });
     console.log('──‣ ┈┈┈┈┈ SEND ┬ chat');
     console.log('               │');
     console.log(`               │ ${data.payload}`);
     console.log('               │');
     console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${data.payload}`);
   });
-  // DEBUG chat-end
 };

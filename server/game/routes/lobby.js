@@ -1,20 +1,8 @@
-/* eslint no-console: 0 */
-// правило отключено потому что это важыный элемент логов, необходимо вынести в модуль
-
 const ctrlLobby = require('../controllers/lobby');
 
-module.exports = (ctx) => {
-  const { route } = ctx.data;
+const Router = require('../../utils/socket_router');
 
-  console.log(`──‣ ┈┈┈┈┈ SEND ┬ lobby/${route}`); // DEBUG chat
-  console.log('               │'); // DEBUG chat
-
-  switch (route) {
-    case 'add': return ctrlLobby.add(ctx);
-    case 'del': return ctrlLobby.del(ctx);
-
-    default:
-      break;
-  }
-  return true;
-};
+module.exports = ctx => new Router(ctx)
+  .on('add', ctrlLobby.add)
+  .on('del', ctrlLobby.del)
+  .start();
