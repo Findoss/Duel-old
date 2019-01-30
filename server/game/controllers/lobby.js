@@ -6,80 +6,83 @@ const ctrlGame = require('./game');
 
 
 module.exports.count = (ctx) => {
-  const { store, socket } = ctx;
-  const { lobby } = store;
+  const { store, userId } = ctx;
+  const { lobby, players } = store;
 
-  socket.emit('Chat', `count ${lobby.count()}`);
-  console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${lobby.count()}`);// DEBUG chat
+  const result = lobby.count();
+
+  players[userId].socket.emit('Chat', `users ${result}`);
+  return result;
 };
 
 module.exports.users = (ctx) => {
-  const { store, socket } = ctx;
-  const { lobby } = store;
+  const { store, userId } = ctx;
+  const { lobby, players } = store;
 
-  socket.emit('Chat', `users ${lobby.listUserId()}`);
-  console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${lobby.listUserId()}`);// DEBUG chat
+  const result = lobby.listUserId();
+
+  players[userId].socket.emit('Chat', result);
+  return result;
 };
 
 module.exports.del = (ctx) => {
-  const { state, store, socket } = ctx;
-  const { userId } = state;
-  const { lobby } = store;
+  const { store, userId } = ctx;
+  const { lobby, players } = store;
 
   lobby.deleteUser(userId);
-  socket.emit('LobbyExit', 'exit');
+  players[userId].socket.emit('LobbyExit', 'exit');
 
-  socket.emit('Chat', 'delete you lobby');
-  console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ del lobby');// DEBUG chat
+  players[userId].socket.emit('Chat', 'delete you lobby');// -------------------------- DEBUG chat
+  return 'LobbyExit exit';
 };
 
 module.exports.add = (ctx) => {
-  const { state, store, socket } = ctx;
-  const { userId, nickname } = state;
-  const { lobby } = store;
+  const { store, userId } = ctx;
+  const { lobby, players } = store;
 
   if (!lobby.isUserInLobby(userId)) {
-    lobby.addUser(socket, userId, 1200, configLobby.timeLimit);
-    socket.emit('LobbyComeIn');
-    socket.emit('Chat', `${nickname} add lobby`);// DEBUG chat
+    lobby.addUser(userId, 1200, configLobby.timeLimit);
+    players[userId].socket.emit('LobbyComeIn');
+    players[userId].socket.emit('Chat', `${userId} add lobby`);// --------------------- DEBUG chat
 
     this.serchOpponent(ctx);
-  } else {
-    socket.emit('Chat', `${nickname} уже в лобби`);// DEBUG chat
-    console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ уже в лобби');// DEBUG chat
+    return 'LobbyComeIn';
   }
+  players[userId].socket.emit('Chat', 'already in the lobby');// ---------------------- DEBUG chat
+  return 'already in the lobby';
 };
 
 module.exports.serchOpponent = (ctx) => {
-  const { store, state } = ctx;
-  const { lobby } = store;
-  const { nickname } = state;
+  const { store, userId } = ctx;
+  const { lobby, players } = store;
 
   if (lobby.count() === 1) {
-    console.log('               ⁞ serch opponent');
-    console.log('               │');
+    console.log('               ⁞ serch opponent');// --------------------------------- DEBUG chat
+    console.log('               │');// ------------------------------------------------ DEBUG chat
 
     const idSerchOpponent = setInterval(() => {
       // очищаем лобби если есть лимиты ожидания
       lobby.clear().forEach((user) => {
-        user.socket.emit('LobbyExit', 'limit');
+        players[user.id].socket.emit('LobbyExit', 'limit');
 
-        console.log('               │');// DEBUG chat
-        console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${nickname} delete lobby (time limit)`);// DEBUG chat
-        user.socket.emit('Chat', 'delete you lobby');// DEBUG chat
+        console.log('               │ ');// ------------------------------------------- DEBUG chat
+        console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ⁞ ${userId} delete lobby (time limit)`);// -------- DEBUG chat
+        console.log('               │ ');// ------------------------------------------- DEBUG chat
+        players[user.id].socket.emit('Chat', 'delete you lobby');// ------------------------------- DEBUG chat
       });
 
       // если нет в лобби - останавливаем поиск пар
       if (lobby.count() === 0) {
-        console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ stop serch opponent');// DEBUG chat
+        console.log('               ⁞ ');// ------------------------------------------- DEBUG chat
+        console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ stop serch opponent');// ------------------------ DEBUG chat
+
         clearInterval(idSerchOpponent);
       }
 
       // все кто в лобби отправляем время которое осталось
       lobby.listSerchTime().forEach((user) => {
-        user.socket.emit('LobbyTime', user.time);
-
-        user.socket.emit('Chat', `time: ${user.time}`);// DEBUG chat
+        players[user.id].socket.emit('LobbyTime', user.time);
+        players[user.id].socket.emit('Chat', `time: ${user.time}`);// ----------------- DEBUG chat
       });
     }, 1000);
   }
@@ -90,9 +93,9 @@ module.exports.serchOpponent = (ctx) => {
 
     if (pair) {
       ctrlGame.start(ctx, pair);
-      console.log('               │ pair of players');// DEBUG chat
-      console.log('               │');// DEBUG chat
-      console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ start game');// DEBUG chat
+      console.log('               ⁞ pair of players');// ------------------------------ DEBUG chat
+      console.log('               │');// ---------------------------------------------- DEBUG chat
+      console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ start game');// ----------------------------------- DEBUG chat
     }
   }
 };
