@@ -1,20 +1,13 @@
-
 const ctrlLobby = require('../controllers/lobby');
 const ctrlGame = require('../controllers/game');
+const ctrlDashboard = require('../controllers/dashboard');
 
-module.exports = (ctx) => {
-  const { route } = ctx.data;
+const Router = require('../../utils/socket_router');
 
-  console.log(`──‣ ┈┈┈┈┈ SEND ┬ dashboard/${route}`); // DEBUG chat
-  console.log('               │'); // DEBUG chat
-
-  switch (route) {
-    case 'lobby-users': return ctrlLobby.users(ctx);
-    case 'lobby-count': return ctrlLobby.count(ctx);
-    case 'game-count': return ctrlGame.count(ctx);
-
-    default:
-      break;
-  }
-  return true;
-};
+module.exports = ctx => new Router(ctx)
+  .on('lobby-users', ctrlLobby.users)
+  .on('lobby-count', ctrlLobby.count)
+  .on('game-count', ctrlGame.count)
+  .on('world-users-count', ctrlDashboard.usersCount)
+  .on('world-users', ctrlDashboard.users)
+  .start();
