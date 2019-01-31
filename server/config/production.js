@@ -25,7 +25,8 @@ module.exports = {
   logger: {
     db: toBoolean(process.env.LOGGER_DB),
     node: toBoolean(process.env.LOGGER_NODE),
-    koa: toBoolean(process.env.LOGGER_KOA),
+    api: toBoolean(process.env.LOGGER_KOA),
+    game: false,
     i18n: toBoolean(process.env.LOGGER_I18N),
   },
   JWTKey: process.env.JWT_KEY,

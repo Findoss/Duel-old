@@ -99,7 +99,7 @@ module.exports.surrender = async (ctx) => {
     { multi: true },
   );
 
-  io.to(gameId).emit('GameChanges', ['endGame']);
+  io.to(gameId).emit('GameChanges', [{ event: 'endGame' }]);
 
   delete games[gameId];
 

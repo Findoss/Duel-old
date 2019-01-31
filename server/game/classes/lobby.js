@@ -33,7 +33,10 @@ class Lobby {
    * @param {String} id Id игрока
    */
   deleteUser(id) {
-    return this.lobby.splice(this.lobby.findIndex(lobbyUser => lobbyUser.id === id), 1);
+    const index = this.lobby.findIndex(lobbyUser => lobbyUser.id === id);
+    if (index > -1) {
+      this.lobby.splice(index, 1);
+    }
   }
 
   /**

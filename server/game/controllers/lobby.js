@@ -1,6 +1,7 @@
 /* eslint no-console: 0 */
 // правило отключено потому что это важыный элемент логов, необходимо вынести в модуль
 
+const config = require('../../config');
 const configLobby = require('../../static/lobby.json');
 const ctrlGame = require('./game');
 
@@ -57,24 +58,30 @@ module.exports.serchOpponent = (ctx) => {
   const { lobby, players } = store;
 
   if (lobby.count() === 1) {
-    console.log('               ⁞ serch opponent');// --------------------------------- DEBUG chat
-    console.log('               │');// ------------------------------------------------ DEBUG chat
+    if (config.logger.game) {
+      console.log('               ⁞ serch opponent');// ------------------------------- DEBUG chat
+      console.log('               │');// ---------------------------------------------- DEBUG chat
+    }
 
     const idSerchOpponent = setInterval(() => {
       // очищаем лобби если есть лимиты ожидания
       lobby.clear().forEach((user) => {
         players[user.id].socket.emit('LobbyExit', 'limit');
 
-        console.log('               │ ');// ------------------------------------------- DEBUG chat
-        console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ⁞ ${userId} delete lobby (time limit)`);// -------- DEBUG chat
-        console.log('               │ ');// ------------------------------------------- DEBUG chat
-        players[user.id].socket.emit('Chat', 'delete you lobby');// ------------------------------- DEBUG chat
+        if (config.logger.game) {
+          console.log('               │ ');// ----------------------------------------- DEBUG chat
+          console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ⁞ ${userId} delete lobby (time limit)`);// ------ DEBUG chat
+          console.log('               │ ');// ----------------------------------------- DEBUG chat
+        }
+        players[user.id].socket.emit('Chat', 'delete you lobby');// ------------------- DEBUG chat
       });
 
       // если нет в лобби - останавливаем поиск пар
       if (lobby.count() === 0) {
-        console.log('               ⁞ ');// ------------------------------------------- DEBUG chat
-        console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ stop serch opponent');// ------------------------ DEBUG chat
+        if (config.logger.game) {
+          console.log('               ⁞ ');// ----------------------------------------- DEBUG chat
+          console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ stop serch opponent');// ---------------------- DEBUG chat
+        }
 
         clearInterval(idSerchOpponent);
       }
@@ -93,9 +100,11 @@ module.exports.serchOpponent = (ctx) => {
 
     if (pair) {
       ctrlGame.start(ctx, pair);
-      console.log('               ⁞ pair of players');// ------------------------------ DEBUG chat
-      console.log('               │');// ---------------------------------------------- DEBUG chat
-      console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ start game');// ----------------------------------- DEBUG chat
+      if (config.logger.game) {
+        console.log('               ⁞ pair of players');// ---------------------------- DEBUG chat
+        console.log('               │');// -------------------------------------------- DEBUG chat
+        console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ start game');// --------------------------------- DEBUG chat
+      }
     }
   }
 };
