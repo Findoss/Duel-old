@@ -8,9 +8,8 @@ const socket = io(window.location.origin, { autoConnect: false });
  * @export
  */
 export function socketAuth() {
-  // FIXME ????
-  const aaa = localStorage.getItem(VERSION_LOCAL_STORAGE); // TODO ????
-  const json = JSON.parse(aaa);
+  const store = localStorage.getItem(VERSION_LOCAL_STORAGE);
+  const json = JSON.parse(store);
 
   if (json) {
     const { token } = json;

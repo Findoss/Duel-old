@@ -1,26 +1,41 @@
+import Router from '@/routes';
+
 export default {
   socketChat({ dispatch }, { client, data }) {
-    const message = `${data[0].user} - ${data[0].message}`;
-    dispatch('addNotification', { type: 'info', message }, { root: true });
+    dispatch('addNotification', { type: 'info', message: data[0] }, { root: true });
+  },
+
+  socketLobbyComeIn() {
+    Router.push({ name: 'lobby' });
+  },
+
+  socketLobbyExit({ state, commit }, { data }) {
+    if (data[0] === 'exit') {
+      commit('lobby/RESET_TIME');
+      Router.replace({ name: 'profile', params: { userId: state.myId, force: true } });
+    } else {
+      commit('lobby/SET_TIME', 0);
+    }
   },
 
   socketLobbyTime({ commit }, { data }) {
-    commit('chat/SOCKET_CHAT', [{ user: 'you', message: data[0] }]);
+    commit('lobby/SET_TIME', data[0]);
   },
 
-  socketLobbyExit({ commit }, { data }) {
-    commit('chat/SOCKET_CHAT', [{ user: 'you', message: data[0] }]);
+  socketGameChanges({ dispatch }, { data }) {
+    console.log(data);
+
+    data[0].forEach((event) => {
+      dispatch(`game/${event.event}`, event.data);
+    });
   },
 
-  socketLobbyGo({ commit }, { data }) {
-    commit('chat/SOCKET_CHAT', [{ user: 'you', message: data[0] }]);
-  },
-
+  //
   addNotification({ commit }, notification) {
     commit('ADD_NOTIFICATION', notification);
   },
 
-  delNotification({ commit }, index) {
-    commit('DEL_NOTIFICATION', index);
+  delNotification({ commit }, key) {
+    commit('DEL_NOTIFICATION', key);
   },
 };

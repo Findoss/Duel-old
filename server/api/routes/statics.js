@@ -1,7 +1,7 @@
 const Router = require('koa-router');
 
 const avatars = require('../../static/avatars.json');
-const userParameters = require('../../static/user_parameters.json');
+const userAttributes = require('../../static/user_attributes.json');
 
 const router = new Router();
 
@@ -10,8 +10,8 @@ router
     ctx.body = avatars;
   })
 
-  .get('/user-parameters', async (ctx) => {
-    ctx.body = userParameters;
+  .get('/user-attributes', async (ctx) => {
+    ctx.body = userAttributes;
   });
 
 module.exports = router;

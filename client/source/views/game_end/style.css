@@ -1,0 +1,11 @@
+.game-end {
+  padding: var(--padding-4);
+  width: 30%;
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  background-color: var(--background-2);
+}

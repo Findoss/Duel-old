@@ -1,4 +1,4 @@
-# Group Authorization API
+# Group Session API
 \* - Авторизованн
 
 ### Вход [POST /api/auth/signin]
@@ -34,7 +34,11 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSI
 + Response 200 (application/json; charset=utf-8)
 Вход осуществлен успешно
     + Attributes
+
         + id: 5b955314977bd66e0b6a5050 (string)
+        + access (array)
+            + 0 (number)
+        + gameId: null (string)
         + message: You are signed in (string)
         + token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsImlhdCI6MTUzNDMwNDAyNH0.scgAqUpw7ESY0fVbwJFLpoX0i5EOqYuPox3b1kFWJEA (string)
 

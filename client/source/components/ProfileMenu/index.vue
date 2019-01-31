@@ -10,8 +10,14 @@
       {{ $t('menu.profile') }}
     </router-link> -->
     <router-link
+      class="profile-menu__item button-play button-icon__skill"
+      :to="{ name: `lobby` }"
+    >
+      {{ $t('menu.play') }}
+    </router-link>
+    <router-link
       class="profile-menu__item button-icon__skill"
-      :to="{ path: `/${this.$store.getters.myId}` }"
+      :to="{ name: 'profile', params: { userId: this.$store.getters.myId } }"
     >
       {{ $t('menu.profile') }}
     </router-link>

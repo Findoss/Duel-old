@@ -2,7 +2,6 @@ const bodyParser = require('koa-bodyparser');
 const cors = require('@koa/cors');
 const helmet = require('koa-helmet');
 const Koa = require('koa');
-const passport = require('koa-passport');
 const serve = require('koa-static');
 
 // API middleware
@@ -16,9 +15,6 @@ const routes = require('./routes');
 
 // Client files
 const PATH_CLIENT = '../client/build/';
-
-// Passport starrtegy
-require('./controllers/passport');
 
 const app = new Koa();
 
@@ -36,8 +32,6 @@ app.use(headers());//              ↑
 //   ↓                             ↑
 app.use(locales());//              ↑
 //   ↓                             ↑
-app.use(passport.initialize());//  ↑
-//   ↓                             ↑
 app.use(bodyParser());//           ↑
 //   ↓                             ↑
 //   ↓     →---------------------- ↑
@@ -54,6 +48,9 @@ app.use(serve(PATH_CLIENT));//     ↑
 //   ↓                             ↑
 app.use(routes.routes());//        ↑
 //  err    ok                      ↑
+//   ↓     ↓                       ↑
+//   ↓   controller                ↑
+//   ↓     ↓                       ↑
 //   ↓     →-----------------------↑
 //   ↓                             ↑
 app.use(sendIndex(PATH_CLIENT));// ↑

@@ -3,36 +3,36 @@
     <table>
       <tbody>
         <td colspan="3">
-          <z-title :size="4">Parameters</z-title>
+          <z-title :size="4">attributes</z-title>
         </td>
         <tr>
           <td>⊠ health</td>
-          <td><strong>{{ parameters.health }}</strong></td>
-          <td><span class="modificator">{{ parameters.health }}</span></td>
+          <td><strong>{{ attributes.health }}</strong></td>
+          <td><span class="modificator">{{ attributes.health }}</span></td>
         </tr>
         <tr>
           <td>⊠ force</td>
-          <td><strong>{{ parameters.force }}</strong></td>
-          <td><span class="modificator">{{ parameters.force }}</span></td>
+          <td><strong>{{ attributes.force }}</strong></td>
+          <td><span class="modificator">{{ attributes.force }}</span></td>
         </tr>
         <tr>
           <td>⊠ armor</td>
-          <td><strong>{{ parameters.armor }}</strong></td>
+          <td><strong>{{ attributes.armor }}</strong></td>
           <td></td>
         </tr>
         <tr>
           <td>⊠ rage</td>
-          <td><strong>{{ parameters.rage }}</strong></td>
+          <td><strong>{{ attributes.rage }}</strong></td>
           <td></td>
         </tr>
         <tr>
           <td>⊠ healing</td>
-          <td><strong>{{ parameters.healing }}</strong></td>
+          <td><strong>{{ attributes.healing }}</strong></td>
           <td></td>
         </tr>
         <tr>
           <td>⊠ block</td>
-          <td><strong>{{ parameters.block }}</strong></td>
+          <td><strong>{{ attributes.block }}</strong></td>
           <td></td>
         </tr>
         <td colspan="3">
@@ -40,17 +40,17 @@
         </td>
         <tr>
           <td>⊠ red</td>
-          <td><strong>{{ parameters.resources.energy_1 }}</strong></td>
+          <td><strong>{{ attributes.resources.energy_1 }}</strong></td>
           <td></td>
         </tr>
         <tr>
           <td>⊠ green</td>
-          <td><strong>{{ parameters.resources.energy_2 }}</strong></td>
+          <td><strong>{{ attributes.resources.energy_2 }}</strong></td>
           <td></td>
         </tr>
         <tr>
           <td>⊠ blue</td>
-          <td><strong>{{ parameters.resources.energy_3 }}</strong></td>
+          <td><strong>{{ attributes.resources.energy_3 }}</strong></td>
           <td></td>
         </tr>
       </tbody>

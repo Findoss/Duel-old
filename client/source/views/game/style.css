@@ -1,0 +1,96 @@
+.game {
+  display: grid;
+  grid-template-columns: 1fr 32vh 32vh 1fr;
+  grid-template-rows: 12vh 64vh 22vh;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  text-align: center;
+  padding: var(--padding-2);
+}
+
+.a11 {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.a2 {
+  grid-row: 1;
+  grid-column: 2/4;
+  background-color: lavender;
+}
+
+.a33 {
+  grid-row: 1;
+  grid-column: 4;
+}
+
+.a4 {
+  grid-row: 2;
+  grid-column: 1;
+}
+
+.a5 {
+  grid-row: 2;
+  grid-column: 2/4;
+  /* background-color: lightblue; */
+  /**/
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+
+.a6 {
+  grid-row: 2;
+  grid-column: 4;
+}
+
+.a7 {
+  grid-row: 3;
+  grid-column: 1/3;
+  background-color: lightgreen;
+  margin-right: var(--padding-3);
+}
+
+.a8 {
+  grid-row: 3;
+  grid-column: 3/5;
+  background-color: lightcoral;
+  margin-left: var(--padding-3);
+  direction: rtl;
+}
+
+.rune {
+  background-color: lemonchiffon;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  /**/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rune_type_0 {
+  background-color: black;
+}
+
+.rune_type_1 {
+  background-color: lawngreen;
+}
+
+.rune_type_2 {
+  background-color: lightcoral;
+}
+
+.rune_type_3 {
+  background-color: lightblue;
+}
+
+.rune_type_4 {
+  background-color: lemonchiffon;
+}
+
+.rune_type_5 {
+  background-color: lightpink;
+}

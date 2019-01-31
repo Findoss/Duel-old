@@ -11,12 +11,12 @@ export default {
     },
     nickname: {
       type: String,
-      default: 'null',
+      default: '',
     },
   },
 
   data: () => ({
-    isShowParametrs: false,
+    isShowAttributes: false,
   }),
 
   computed: {
@@ -24,13 +24,13 @@ export default {
       'pathAvatar',
     ]),
     ...mapGetters({
-      parameters: 'statics/getUserParameters',
+      attributes: 'statics/getUserAttributes',
     }),
   },
 
   methods: {
-    showParametrs() {
-      this.isShowParametrs = !this.isShowParametrs;
+    showAttributes() {
+      this.isShowAttributes = !this.isShowAttributes;
     },
   },
 

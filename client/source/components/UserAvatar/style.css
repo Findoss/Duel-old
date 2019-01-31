@@ -7,11 +7,11 @@
   align-items: center;
   position: relative;
   overflow: hidden;
+  padding: var(--padding-2);
 }
 
 .user-avatar__image {
-  max-width: calc(50% - 2vh);
-  height: auto;
+  max-width: 33vh;
 }
 
 .user-avatar__nickname {
@@ -36,7 +36,7 @@
   content: 'ℹ';
 }
 
-.user-avatar__parametrs {
+.user-avatar__attributes {
   max-width: calc(50% - 2vh);
   height: 100%;
   /* huck */

@@ -3,6 +3,8 @@ const { expect } = require('chai');
 const supertest = require('supertest');
 const helpers = require('../helpers');
 
+const { it } = helpers;
+
 const api = supertest(`${config.node.host}:${config.node.port}/api`);
 
 // fake data
@@ -12,7 +14,7 @@ const EJSON_SESSIONS = '../database/data/sessions.json';
 const dataUsers = require('./data/users.json');
 const { token } = require('./data/current_user.json');
 
-describe('AUTHORIZATION API', () => {
+describe('SESSION API', () => {
   beforeEach(async () => helpers.loadCollection('users', EJSON_USERS));
 
   afterEach(async () => {

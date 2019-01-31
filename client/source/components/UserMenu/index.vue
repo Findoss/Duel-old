@@ -1,7 +1,7 @@
 <template>
   <div class="user-menu">
     <div class="user-menu__nickname">
-      <router-link :to="{ path: `/${this.$store.getters.myId}` }">
+      <router-link :to="{ name: 'profile', params: { userId: this.$store.getters.myId }}">
         {{ user.nickname }}
       </router-link>
     </div>

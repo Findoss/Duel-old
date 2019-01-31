@@ -17,15 +17,14 @@ class Lobby {
 
   /**
    * Добавление игрока в очередь подбора
-   * @param {Socket} socket Сокет игрока
    * @param {String} id Id игрока
    * @param {Number} rank TODO описание
    * @param {Number} time TODO описание
    */
-  addUser(socket, id, rank, timeLimit) {
+  addUser(id, rank, timeLimit) {
     const time = Date.now() + (timeLimit * 1000);
     this.lobby.push({
-      socket, id, rank, time,
+      id, rank, time,
     });
   }
 
@@ -34,7 +33,10 @@ class Lobby {
    * @param {String} id Id игрока
    */
   deleteUser(id) {
-    return this.lobby.splice(this.lobby.findIndex(lobbyUser => lobbyUser.id === id), 1);
+    const index = this.lobby.findIndex(lobbyUser => lobbyUser.id === id);
+    if (index > -1) {
+      this.lobby.splice(index, 1);
+    }
   }
 
   /**
@@ -75,7 +77,7 @@ class Lobby {
    */
   listSerchTime() {
     return this.lobby.map(user => ({
-      socket: user.socket,
+      id: user.id,
       time: Math.round((user.time - Date.now()) / 1000),
     }));
   }

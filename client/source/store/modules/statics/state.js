@@ -3,9 +3,9 @@ import getters from './getters';
 import mutations from './mutations';
 
 const state = {
-  parameters: {
+  attributes: {
     armor: 0, // броня
-    block: 0, // блок
+    dodge: 0, // уворот
     force: 0, // сила
     health: 0, // здоровье
     healing: 0, // лечение

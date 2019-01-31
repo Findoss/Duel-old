@@ -26,10 +26,11 @@ export default {
   },
 
   ADD_NOTIFICATION(state, notification) {
-    state.notifications.push(notification);
+    state.notifications.push({ ...notification, key: new Date().getTime() });
   },
 
-  DEL_NOTIFICATION(state, index = 0) {
-    state.notifications.splice(index, 1);
+  DEL_NOTIFICATION(state, key = 0) {
+    const index = state.notifications.findIndex(element => element.key === key);
+    if (index !== -1) state.notifications.splice(index, 1);
   },
 };

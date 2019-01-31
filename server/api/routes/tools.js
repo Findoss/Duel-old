@@ -11,7 +11,7 @@ router
   .get('/checkNickname', ctrlTool.checkNickname)
   .get('/checkPasswordResetLink', ctrlTool.checkPasswordResetLink)
   .get('/checkToken', ctrlSession.tokenVerification, async (ctx, next) => {
-    ctx.body = { isAuthenticated: ctx.isAuthenticated() };
+    ctx.body = { isAuthenticated: Boolean(ctx.state.user.nickname) };
     next();
   })
   .head('/ping', async (ctx, next) => {

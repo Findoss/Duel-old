@@ -21,8 +21,10 @@ module.exports = {
   logger: {
     db: true,
     node: true,
-    koa: true,
+    api: true,
+    game: true,
     i18n: false,
   },
   JWTKey: 'mysecretkey',
+  solt: 'randomSolt',
 };
