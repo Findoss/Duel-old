@@ -4,7 +4,7 @@ module.exports.usersCount = (ctx) => {
 
   const result = Object.keys(players).length;
 
-  players[userId].socket.emit('Chat', `world users count ${result}`); // -------------- DEBUG chat
+  players[userId].socket.emit('Chat', `world users count ${result}`);
   return result;
 };
 
@@ -14,6 +14,6 @@ module.exports.users = (ctx) => {
 
   const result = Object.keys(players);
 
-  players[userId].socket.emit('Chat', result); // - DEBUG chat
+  players[userId].socket.emit('Chat', result);
   return result;
 };

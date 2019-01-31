@@ -4,6 +4,7 @@
 /* eslint no-console: 0 */
 // правило отключено потому что это важыный элемент логов, необходимо вынести в модуль
 
+const config = require('../../config');
 
 const Authentication = require('../../modules/authentication');
 
@@ -18,9 +19,11 @@ module.exports = async (ctx, socket, next) => {
     ctx.userId = user.id;
     ctx.data = {};
 
-    console.log(`──‣ ┈┈┈┈┈ AUTH ┬ ${user.id || 'NOT AUTH'}`);// ----------------------- DEBUG chat
-    console.log(`               │ io #${socket.id}`);// ------------------------------- DEBUG chat
-    console.log(`${!user.id ? '┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴' : '               │'}`);// ----------- DEBUG chat
+    if (config.logger.game) {
+      console.log(`──‣ ┈┈┈┈┈ AUTH ┬ ${user.id || 'NOT AUTH'}`);
+      console.log(`               │ io #${socket.id}`);
+      console.log(`${!user.id ? '┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴' : '               │'}`);
+    }
 
     return next();
   }

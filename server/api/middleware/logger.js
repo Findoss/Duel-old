@@ -31,7 +31,7 @@ const options = {
 // const options = {};
 
 module.exports = () => {
-  if (config.logger.koa) {
+  if (config.logger.api) {
     return createLogger(options);
   }
   return async (ctx, next) => next();
