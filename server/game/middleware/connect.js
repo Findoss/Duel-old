@@ -8,7 +8,7 @@ const config = require('../../config');
 
 const Authentication = require('../../modules/authentication');
 
-module.exports = async (ctx, socket, next) => {
+module.exports = async (ctx, socket) => {
   const user = await Authentication.JWTStrategy(socket.handshake.query.bearer);
   if (user) {
     ctx.store.players[user.id] = {
@@ -16,6 +16,9 @@ module.exports = async (ctx, socket, next) => {
       gameId: user.gameId,
       socket,
     };
+    if (user.gameId) {
+      ctx.store.players[user.id].socket.join(user.gameId);
+    }
     ctx.userId = user.id;
     ctx.data = {};
 
@@ -25,7 +28,7 @@ module.exports = async (ctx, socket, next) => {
       console.log(`${!user.id ? '┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴' : '               │'}`);
     }
 
-    return next();
+    return true;
   }
   return new Error('no auth');
 };
