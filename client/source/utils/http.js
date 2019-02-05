@@ -3,7 +3,6 @@ import store from '@/store';
 
 import { HOST_API } from '@/constants';
 
-
 // FIXME TODO
 function request(path, attr) {
   return new Promise((resolve, reject) => {
