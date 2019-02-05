@@ -1,6 +1,8 @@
 const crypto = require('crypto');
 const mongoose = require('mongoose');
 
+const config = require('../../config');
+
 // models
 const modelUser = require('../../models/user');
 const modelGame = require('../../models/game');
@@ -54,8 +56,14 @@ module.exports.start = async (ctx, pair) => {
     store.players[user.id].gameId = id;
   });
 
-  io.to(id).emit('Chat', `id ${id}`); // ------------------------------------------------ DEBUG chat
+  io.to(id).emit('Chat', `id ${id}`); // --------------------------------------------- DEBUG chat
   io.to(id).emit('GameChanges', store.games[id].changes.release());
+
+  if (config.logger.game) {
+    console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ start game #${id}`);// ----------------------------- DEBUG chat
+  }
+
+  return 'start game data';
 };
 
 module.exports.surrender = async (ctx) => {
@@ -106,9 +114,68 @@ module.exports.surrender = async (ctx) => {
   return 'GameChanges [endGame]';
 };
 
-// module.exports.action = (ctx) => { };
+// module.exports.action = async (ctx) => { };
 
-// module.exports.recovery = (ctx) => { };
+module.exports.clear = async () => {
+  try {
+    modelGame.update(
+      {
+        result: null,
+      },
+      {
+        $set: {
+          result: 'error',
+        },
+      },
+    );
+
+    modelUser.update(
+      {
+        gameId: { $ne: '' },
+      },
+      {
+        $set: {
+          gameId: '',
+        },
+      },
+      { multi: true },
+    );
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+module.exports.restore = async (ctx) => {
+  const { store, userId, data } = ctx;
+  const { players, games } = store;
+  const gameId = data.payload;
+
+  // восстанавливаем игру из памяти
+  if (games[gameId]) {
+    players[userId].socket.emit('GameChanges', [{
+      event: 'startGame',
+      data: {
+        gameId,
+        newBoard: store.games[gameId].board.getBoard(),
+        players: store.games[gameId].players,
+        step: store.games[gameId].step.getStep(),
+      },
+    }]);
+    return 'game data';
+  }
+
+  // восстанавливаем результат из бд
+  const game = await modelGame.findById(gameId);
+
+  if (game && game.result) {
+    players[userId].socket.emit('GameChanges', [{ event: 'endGame' }]);
+    players[userId].socket.emit('Chat', `games ${game.result}`);
+    return 'endGame';
+  }
+  players[userId].socket.emit('GameChanges', [{ event: 'endGame' }]);
+  players[userId].socket.emit('Chat', 'ERROR');
+  return 'ERROR';
+};
 
 module.exports.count = (ctx) => {
   const { store, userId } = ctx;

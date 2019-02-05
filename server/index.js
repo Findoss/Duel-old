@@ -11,6 +11,9 @@ const app = require('./api');
 const socketIO = require('socket.io');
 const createSocket = require('./game');
 
+//
+const ctrlGame = require('./game/controllers/game');
+
 
 async function createApp() {
   await mongoose.connect(
@@ -23,6 +26,8 @@ async function createApp() {
 
   const socket = createSocket(socketIO(http));
   if (config.logger.node) console.log('[socket  ] start');
+
+  ctrlGame.clear();
 
   return {
     http,

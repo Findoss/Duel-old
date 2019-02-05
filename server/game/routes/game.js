@@ -4,4 +4,5 @@ const Router = require('../../utils/socket_router');
 
 module.exports = ctx => new Router(ctx)
   .on('surrender', ctrlGame.surrender)
+  .on('restore', ctrlGame.restore)
   .start();

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const mongooseHidden = require('mongoose-hidden')();
 
+// TODO пользователей объединить в массив
 const gameSchema = new mongoose.Schema({
   userOneId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -19,6 +20,7 @@ const gameSchema = new mongoose.Schema({
   },
   result: {
     type: Object,
+    default: null,
   },
 });
 

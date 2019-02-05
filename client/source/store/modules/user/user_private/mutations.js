@@ -8,6 +8,7 @@ export default {
     state.experience = userData.experience;
     state.points = userData.points;
     state.skillsUnlocked = userData.skillsUnlocked;
+    state.gameId = userData.gameId;
   },
 
   UNLOCK_SKILL(state, id) {
@@ -24,5 +25,9 @@ export default {
 
   RESET_POINTS(state, number) {
     state.points += number;
+  },
+
+  SET_GAME_ID(state, id) {
+    state.gameId = id;
   },
 };
