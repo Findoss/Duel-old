@@ -7,18 +7,12 @@ const routeLobby = require('./lobby');
 const routeGame = require('./game');
 const routeDashboard = require('./dashboard');
 
-
 module.exports = (ctx) => {
   const router = new Router(ctx);
 
   router.use('dashboard', routeDashboard); // TODO добавить проверку на права
-  router.use('game', routeGame); // TODO добавить проверку что игрок в игре
+  router.use('game', routeGame); // TODO добавить проверку что игрок в игре и такая игра есть
   router.use('lobby', routeLobby);
-
-  router.use('disconnect', () => {
-    routeLobby({ ...ctx, data: { route: 'del' } });
-    delete ctx.store.players[ctx.userId];
-  });
 
   router.use('chat', () => {
     const { data } = ctx;

@@ -49,14 +49,11 @@ module.exports = class Router {
     const { route } = this.ctx.data;
     if (route in this.routes) {
       try {
-        this.routes[route].forEach((middleware) => {
-          try {
-            const result = middleware(this.ctx);
-            this.afterEach(result);
-          } catch (error) {
-            throw error;
-          }
-        });
+        const result = await this.routes[route].reduce(
+          (promiseChain, asyncFunction) => promiseChain.then(() => asyncFunction(this.ctx)),
+          Promise.resolve(),
+        );
+        this.afterEach(result);
       } catch (error) {
         this.error(error);
       }

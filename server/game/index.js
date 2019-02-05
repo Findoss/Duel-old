@@ -1,6 +1,8 @@
 const Lobby = require('./classes/lobby');
 
-const auth = require('./middleware/auth');
+
+const connect = require('./middleware/connect');
+const disconnect = require('./middleware/disconnect');
 const logger = require('./middleware/logger');
 const router = require('./routes');
 
@@ -17,7 +19,6 @@ const router = require('./routes');
  * userId       // текущие данные подключения
  */
 
-
 module.exports = (io) => {
   const ctx = {
     store: {
@@ -28,10 +29,13 @@ module.exports = (io) => {
     },
   };
 
-  io.use(async (socket, next) => auth(ctx, socket, next));
+  io.use(async (socket, next) => {
+    connect(ctx, socket).then(() => next());
+  });
 
   io.on('connection', () => {
     logger({ ...ctx });
     router({ ...ctx });
+    disconnect({ ...ctx });
   });
 };
