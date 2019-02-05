@@ -83,6 +83,7 @@ const router = new Router({
     {
       path: '/game/:gameId',
       name: 'game',
+      meta: { isPrivate: true, isInGame: true },
       component: Game,
     },
     {
@@ -113,10 +114,19 @@ router.beforeEach((to, from, next) => {
    */
   const isPrivate = to.matched.some(r => r.meta.isPrivate);
   const isGoProfile = to.matched.some(r => r.meta.isGoProfile);
+  const isInGame = to.matched.some(r => r.meta.isInGame);
 
-  const { myId, isLogin } = store.getters;
+  const { getters } = store;
+  const { myId, isLogin } = getters;
+  const isGameId = !!getters['me/gameId'];
+
+
+  // const gameRestore = store.actions['game/restore'];
 
   if (isPrivate === isLogin) {
+    if (isInGame !== isGameId) {
+      next({ name: 'profile', params: { userId: myId } });
+    }
     next();
   } else {
     if (isPrivate && !isLogin) {

@@ -38,4 +38,13 @@ export default {
   delNotification({ commit }, key) {
     commit('DEL_NOTIFICATION', key);
   },
+
+  //
+  socketConnect({ getters, dispatch }) {
+    const gameId = getters['me/gameId'];
+    if (gameId) {
+      console.log('game/restore');
+      dispatch('game/restore', gameId);
+    }
+  },
 };
