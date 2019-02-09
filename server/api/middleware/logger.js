@@ -11,7 +11,7 @@ const resLogger = (ctx) => {
   const log = [];
   if (ctx.type === 'application/json') {
     if (!ctx.bodyd) {
-      let string = JSON.stringify(ctx.body, null, 2);
+      let string = String(JSON.stringify(ctx.body, null, 2));
       if (string.length >= 600) {
         string = string.substr(0, 600);
         string = string.concat('\n...');

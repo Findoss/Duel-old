@@ -1,4 +1,4 @@
-// TODO
+// TODO описание
 
 // const config = require('../config');
 // const supertest = require('supertest');

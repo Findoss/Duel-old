@@ -1,17 +1,19 @@
 import Router from '@/routes';
 import socket from '@/utils/socket';
-import { log } from 'util';
 
 export default {
   startGame({ commit }, data) {
     commit('lobby/RESET_TIME', null, { root: true });
     commit('me/SET_GAME_ID', data.gameId, { root: true });
-    commit('SET_BOARD', data.newBoard);
+    commit('START_GAME', data);
+
+    console.log(data);
+
 
     Router.replace({ name: 'game', params: { gameId: data.gameId, force: true } });
   },
 
-  endGame({ commit }, data) {
+  endGame({ commit }) {
     console.log('endGame');
 
     commit('me/SET_GAME_ID', '', { root: true });

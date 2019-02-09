@@ -1,14 +1,16 @@
+const debug = require('../../utils/debug');
+
 module.exports = async (ctx) => {
   const { store, userId } = ctx;
-  const { socket } = store.players[userId];
+  const { socket } = store.users[userId];
 
-  console.log('               │ CONNECT');
-  console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴');
+  debug.log('               │ CONNECT');
+  debug.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴');
 
   socket.on('disconnect', () => {
-    console.log('               ⁞');
-    console.log(`──‣ DISCONNECT ┬ ${userId || 'NOT AUTH'}`);
-    console.log(`               │ io #${socket.id}`);
-    console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ');
+    debug.log('               ⁞');
+    debug.log(`──‣ DISCONNECT ┬ ${userId || 'NOT AUTH'}`);
+    debug.log(`               │ io #${socket.id}`);
+    debug.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ');
   });
 };

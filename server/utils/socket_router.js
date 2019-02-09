@@ -1,7 +1,7 @@
 /* eslint class-methods-use-this: 0 */
 // правило отключено потому что это важыный элемент логов
 
-const config = require('../config');
+const debug = require('../utils/debug');
 
 module.exports = class Router {
   constructor(ctx) {
@@ -9,14 +9,20 @@ module.exports = class Router {
     this.routes = {};
   }
 
+  /**
+   * TODO описание
+   * @param {*} path
+   * @param {*} middlewares
+   * @returns
+   */
   async use(path, ...middlewares) {
-    if (this.ctx.store.players[this.ctx.userId]) {
-      if (this.ctx.store.players[this.ctx.userId].socket === undefined) {
-        console.error('socket');
+    if (this.ctx.store.users[this.ctx.userId]) {
+      if (this.ctx.store.users[this.ctx.userId].socket === undefined) {
+        debug.log('               │ ERROR socket 500');
         return new Error('500');
       }
 
-      const { socket } = this.ctx.store.players[this.ctx.userId];
+      const { socket } = this.ctx.store.users[this.ctx.userId];
 
       socket.on(path, (data) => {
         this.before(path, data);
@@ -40,11 +46,21 @@ module.exports = class Router {
     return this;
   }
 
+  /**
+   * TODO описание
+   * @param {*} path
+   * @param {*} middlewares
+   * @returns
+   */
   on(path, ...middlewares) {
     this.routes[path] = middlewares;
     return this;
   }
 
+  /**
+   * TODO описание
+   *
+   */
   async start() {
     const { route } = this.ctx.data;
     if (route in this.routes) {
@@ -63,40 +79,45 @@ module.exports = class Router {
     this.after();
   }
 
+  /**
+   * Хук перед выполнением промежуточного ПО роута
+   */
   before(path, data) {
-    if (config.logger.game) {
-      const { socket } = this.ctx.store.players[this.ctx.userId];
-      console.log(`──‣ ┈┈┈┈┈ SEND ┬ /${path}/${data.route}`);
-      console.log(`               │ id: ${this.ctx.userId || ''}`);
-      console.log(`               │ io: ${socket.id || ''}`);
-      console.log('               │');
-      console.log('               │ {');
-      if (data.gameId) console.log(`               │   ${data.gameId}`);
-      if (data.payload) console.log(`               │   ${data.payload}`);
-      console.log('               │ }');
-      console.log('               │');
-    }
+    const { socket } = this.ctx.store.users[this.ctx.userId];
+    debug.log(`──‣ ┈┈┈┈┈ SEND ┬ /${path}/${data.route}`);
+    debug.log(`               │ id: ${this.ctx.userId || ''}`);
+    debug.log(`               │ io: ${socket.id || ''}`);
+    debug.log('               │ {');
+    debug.log(data.gameId ? `               │   ${data.gameId}` : '');
+    debug.log(data.payload ? `               │   ${data.payload}` : '');
+    debug.log('               │ }');
+    debug.log('               │');
   }
 
-  beforeEach(data) {
-  }
+  /**
+   * Хук перед выполнением каждого промежуточного ПО роута
+   */
+  beforeEach() { }
 
+  /**
+   * Хук после выполнениея каждого промежуточного ПО роута
+   */
   afterEach(result) {
-    if (config.logger.game) {
-      const string = JSON.stringify(result, null, 2).replace(/\n/g, '\n               │ ');
-      console.log(`               │ ${string}` || '');
-    }
+    const string = JSON.stringify(result, null, 2).replace(/\n/g, '\n               │ ');
+    debug.log(`               │ ${string || ''}`);
   }
 
+  /**
+   * Хук после выполнениея всех промежуточных ПО роута
+   */
   after() {
-    if (config.logger.game) {
-      console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴');
-    }
+    debug.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴');
   }
 
+  /**
+   * Хук исключения при выполнении промежуточного ПО роута
+   */
   error(error) {
-    if (config.logger.game) {
-      console.log(`               │ ${error}`);
-    }
+    debug.log(`               │ ${error}`);
   }
 };

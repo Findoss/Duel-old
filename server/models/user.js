@@ -86,7 +86,6 @@ const userSchema = new mongoose.Schema({
   },
   gameId: {
     type: String,
-    required: true,
     default: '',
   },
 });

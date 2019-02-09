@@ -1,6 +1,5 @@
-const ctrlLobby = require('../controllers/lobby');
-
 const Router = require('../../utils/socket_router');
+const ctrlLobby = require('../controllers/lobby');
 
 module.exports = ctx => new Router(ctx)
   .on('add', ctrlLobby.add)

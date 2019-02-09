@@ -38,7 +38,7 @@ module.exports.localStrategy = async (email, password) => {
 module.exports.JWTStrategy = async (token) => {
   try {
     const userId = await Token.checkKeyOfToken(token);
-    return await Identification.check({ _id: ObjectId(userId) });
+    return Identification.check({ _id: ObjectId(userId) });
   } catch (error) {
     return null;
   }
