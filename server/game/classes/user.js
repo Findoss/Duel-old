@@ -9,7 +9,7 @@ const configUserAttributes = require('../../static/user_attributes.json');
  * Класс игрока
  * @class
  */
-class Player {
+class User {
   /**
    * @constructor
    */
@@ -27,6 +27,11 @@ class Player {
       value: configUserAttributes.health,
       limit: configUserAttributes.health,
     };
+    /**
+     * TODO описание
+     * @type {Number}
+     */
+    this.afkCount = 0;
     /**
      * Урон
      * @type {Number}
@@ -80,10 +85,19 @@ class Player {
 
   /**
    * Возвращает объект игрока
-   * @return {Player} Возвращает, объект игрока
+   * @return {User} Возвращает, объект игрока
    */
-  getPlayer() {
+  getUser() {
     return this;
+  }
+
+  addFineAFK() {
+    this.afkCount += 1;
+    return this.afkCount;
+  }
+
+  getAFK() {
+    return this.afkCount;
   }
 
   /**
@@ -114,4 +128,4 @@ class Player {
   }
 }
 
-module.exports = Player;
+module.exports = User;

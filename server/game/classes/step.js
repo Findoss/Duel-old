@@ -1,6 +1,6 @@
 /* eslint prefer-destructuring: ["error", {AssignmentExpression: {array: false}}] */
 /**
- * TODO
+ * TODO описание
  * Проверить более оптимальные варианты
  * Реализовать механику удачного хода -
  * принимать входящий шанс или сохранять из объекта игрока
@@ -13,19 +13,19 @@
 class Step {
   /**
    * @constructor
-   * @param {Array} players Имена игроков (между кем будет меняться ход)
+   * @param {Array} users Имена игроков (между кем будет меняться ход)
    */
-  constructor(...players) {
+  constructor(...users) {
     /**
      * Массив имен игроков
      * @type {Array}
      */
     this.names = [
-      players[0],
-      players[1],
+      users[0],
+      users[1],
     ];
     /**
-     * Текущий ход (содержит имя игрока)
+     * Текущий ход (содержит id игрока)
      * @type {String}
      */
     this.step = '';
@@ -41,14 +41,15 @@ class Step {
   }
 
   /**
-   * Возвращает текущий ход - имя игрока
-   * @return {String} Возвращает, имя игрока
+   * Возвращает текущий ход - id игрока
+   * @return {String} Возвращает, id игрока
    */
   getStep() {
     return this.step;
   }
 
   /**
+   * TODO
    * Определяет следующий ход
    * @param  {Number=} chance Шанс игрока на удачный ход (смена хода не происходит)
    * @return {String} Имя игрока

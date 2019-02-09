@@ -1,41 +1,46 @@
 const SeedRandom = require('seedrandom');
 
 const Board = require('./board');
-const Player = require('./player');
+const User = require('./user');
 const Step = require('./step');
 const Changes = require('./changes');
 
 const configRunes = require('../../static/runes.json');
 
 /**
- * Класс цикла игры
+ *
  * @class
  */
 class Game {
   /**
    * @constructor
-   * @param {Any} var desc
+   * @param {Any} var TODO
    */
   constructor(users, id, solt = '') {
-    const playerOne = users[0].id;
-    const playerTwo = users[1].id;
+    const userOne = users[0].id;
+    const userTwo = users[1].id;
 
-    this.players = [new Player(playerOne), new Player(playerTwo)];
+    this.users = [new User(userOne), new User(userTwo)];
     this.board = new Board(configRunes);
-    this.step = new Step(playerOne, playerTwo);
+    this.step = new Step(userOne, userTwo);
     this.seedRandom = new SeedRandom(id + solt);
     this.changes = new Changes();
+    this.timer = null;
     this.modifiers = {
       aaa: [],
     };
   }
 
   /**
-   * desc
+   * TODO
    * @return {Any} desc
    */
-  recovery() {
-    return this;
+  restore() {
+    return {
+      newBoard: this.board.getBoard(),
+      users: this.users,
+      step: this.step.getStep(),
+    };
   }
 }
 

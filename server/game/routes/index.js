@@ -1,7 +1,5 @@
-/* eslint no-console: 0 */
-// правило отключено потому что это важыный элемент логов, необходимо вынести в модуль
-
 const Router = require('../../utils/socket_router');
+const debug = require('../../utils/debug');
 
 const routeLobby = require('./lobby');
 const routeGame = require('./game');
@@ -17,10 +15,10 @@ module.exports = (ctx) => {
   router.use('chat', () => {
     const { data } = ctx;
     ctx.store.io.emit('Chat', { user: ctx.userId, message: data.payload });
-    console.log('──‣ ┈┈┈┈┈ SEND ┬ chat');
-    console.log('               │');
-    console.log(`               │ ${data.payload}`);
-    console.log('               │');
-    console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${data.payload}`);
+    debug.log('──‣ ┈┈┈┈┈ SEND ┬ chat');
+    debug.log('               │');
+    debug.log(`               │ ${data.payload}`);
+    debug.log('               │');
+    debug.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${data.payload}`);
   });
 };

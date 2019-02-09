@@ -1,104 +1,93 @@
-/* eslint no-console: 0 */
-// правило отключено потому что это важыный элемент логов, необходимо вынести в модуль
+const debug = require('../../utils/debug');
 
-const config = require('../../config');
 const configLobby = require('../../static/lobby.json');
+
 const ctrlGame = require('./game');
 
-
-module.exports.count = async (ctx) => {
-  const { store, userId } = ctx;
-  const { lobby, players } = store;
-
-  const result = lobby.count();
-
-  players[userId].socket.emit('Chat', `users ${result}`);
-  return result;
-};
-
-module.exports.users = async (ctx) => {
-  const { store, userId } = ctx;
-  const { lobby, players } = store;
-
-  const result = lobby.listUserId();
-
-  players[userId].socket.emit('Chat', result);
-  return result;
-};
-
+/**
+ * Удаление пользователя из лобби
+ */
 module.exports.del = async (ctx) => {
   const { store, userId } = ctx;
-  const { lobby, players } = store;
+  const { lobby, users } = store;
 
   lobby.deleteUser(userId);
-  players[userId].socket.emit('LobbyExit', 'exit');
 
-  players[userId].socket.emit('Chat', 'delete you lobby');// -------------------------- DEBUG chat
-  return 'LobbyExit exit';
+  users[userId].socket.emit('LobbyExit', 'exit');
+  debug.chat(users[userId].socket, 'delete you lobby');
+
+  return 'Exit';
 };
 
+/**
+ * Добавление пользователя из лобби
+ */
 module.exports.add = async (ctx) => {
   const { store, userId } = ctx;
-  const { lobby, players } = store;
+  const { lobby, users } = store;
 
   if (!lobby.isUserInLobby(userId)) {
     lobby.addUser(userId, 1200, configLobby.timeLimit);
-    players[userId].socket.emit('LobbyComeIn');
-    players[userId].socket.emit('Chat', `${userId} add lobby`);// --------------------- DEBUG chat
+
+    users[userId].socket.emit('LobbyComeIn');
+    debug.chat(users[userId].socket, `${userId} add lobby`);
 
     this.serchOpponent(ctx);
-    return 'LobbyComeIn';
+    return 'Come in';
   }
-  players[userId].socket.emit('Chat', 'already in the lobby');// ---------------------- DEBUG chat
-  return 'already in the lobby';
+
+  debug.chat(users[userId].socket, 'already in the lobby');
+
+  return 'Already in the lobby';
 };
 
+/**
+ * Поиск пар пользователей
+ */
 module.exports.serchOpponent = async (ctx) => {
   const { store, userId } = ctx;
-  const { lobby, players } = store;
+  const { lobby, users } = store;
 
+  // запускае поиск если есть пользователь в очереди
   if (lobby.count() === 1) {
-    if (config.logger.game) {
-      console.log('               ⁞ serch opponent');// ------------------------------- DEBUG chat
-    }
+    debug.log('               └───┐');
+    debug.log('                   ⁞ serch opponent');
+    debug.log('               ┌───┘');
 
     const idSerchOpponent = setInterval(() => {
       // очищаем лобби если есть лимиты ожидания
       lobby.clear().forEach((user) => {
-        players[user.id].socket.emit('LobbyExit', 'limit');
+        users[user.id].socket.emit('LobbyExit', 'limit');
 
-        if (config.logger.game) {
-          console.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${userId} delete lobby (time limit)`);// ------ DEBUG chat
-        }
-        players[user.id].socket.emit('Chat', 'delete you lobby');// ------------------- DEBUG chat
+        debug.log(`┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴ ${userId} delete lobby (time limit)`);
+        debug.chat(users[userId].socket, 'delete you lobby (time limit)');
       });
 
       // если нет в лобби - останавливаем поиск пар
       if (lobby.count() === 0) {
-        if (config.logger.game) {
-          console.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ⁞ stop serch opponent');// ---------------------- DEBUG chat
-        }
-
+        debug.log('               └───┐');
+        debug.log('                   ⁞ stop serch opponent');
+        debug.log('               ┌───┘');
         clearInterval(idSerchOpponent);
       }
 
       // все кто в лобби отправляем время которое осталось
       lobby.listSerchTime().forEach((user) => {
-        players[user.id].socket.emit('LobbyTime', user.time);
-        players[user.id].socket.emit('Chat', `time: ${user.time}`);// ----------------- DEBUG chat
+        users[user.id].socket.emit('LobbyTime', user.time);
+        debug.chat(users[user.id].socket, `time: ${user.time}`);
       });
     }, 1000);
   }
 
   while (lobby.count() > 1) {
-    // ищем пары
+    // функция поиска пары
     const pair = lobby.serchOpponent();
 
     if (pair) {
       ctrlGame.start(ctx, pair);
-      if (config.logger.game) {
-        console.log('               ⁞ pair of players');// --------------------------- DEBUG chat
-      }
+      debug.log('               └───┐');
+      debug.log('                   ⁞ pair of users');
+      debug.log('               ┌───┘');
     }
   }
 };

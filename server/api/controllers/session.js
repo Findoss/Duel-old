@@ -109,7 +109,7 @@ module.exports.passwordNew = async (ctx, next) => {
 
     if (document.userId) {
       // меняем пароль на новый
-      await ctrlUser.setPassword(ctx.request.body.newPassword, document.userId);
+      await ctrlUser.setPassword(document.userId, ctx.request.body.newPassword);
 
       ctx.response.body = {
         message: 'New password set successfully',
@@ -143,6 +143,7 @@ module.exports.tokenVerification = async (ctx, next) => {
   if (ctx.header.authorization) {
     const token = ctx.header.authorization.substring(7);
     const user = await Authentication.JWTStrategy(token);
+
     if (user) {
       ctx.state.user = {
         id: user.id,
@@ -150,7 +151,11 @@ module.exports.tokenVerification = async (ctx, next) => {
         gameId: user.gameId,
         nickname: user.nickname,
       };
-    } else throw new ResponseError(403, 'Forbidden');
-  } else throw new ResponseError(403, 'Forbidden');
+    } else {
+      throw new ResponseError(403, 'Forbidden');
+    }
+  } else {
+    throw new ResponseError(403, 'Forbidden');
+  }
   await next();
 };
