@@ -151,7 +151,11 @@ module.exports.tokenVerification = async (ctx, next) => {
         gameId: user.gameId,
         nickname: user.nickname,
       };
-    } else throw new ResponseError(403, 'Forbidden');
-  } else throw new ResponseError(403, 'Forbidden');
+    } else {
+      throw new ResponseError(403, 'Forbidden');
+    }
+  } else {
+    throw new ResponseError(403, 'Forbidden');
+  }
   await next();
 };
