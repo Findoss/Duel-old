@@ -92,6 +92,6 @@ module.exports.setPassword = async (userId, newPassword) => {
     await user.save();
     return true;
   } catch (error) {
-    throw new ResponseError(523, error);
+    throw new ResponseError(500, error);
   }
 };
