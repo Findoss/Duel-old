@@ -18,9 +18,9 @@ const avatars = require('../../static/avatars.json');
 module.exports.passwordVerification = async (id, password) => {
   try {
     const user = await User.findById(id);
-    return user.checkPassword(password);
+    return await user.checkPassword(password);
   } catch (error) {
-    throw new ResponseError(523, error);
+    throw new ResponseError(500, error);
   }
 };
 
@@ -44,15 +44,14 @@ module.exports.getMe = async (ctx) => {
  */
 module.exports.deleteMe = async (ctx) => {
   try {
-    await Session.remove({
+    Session.remove({
       userId: ObjectId(ctx.state.user.id),
     });
-
-    await User.findByIdAndRemove(ctx.state.user.id);
+    User.findByIdAndRemove(ctx.state.user.id);
 
     ctx.response.body = { message: 'Your accaunt is successfully deleted' };
   } catch (error) {
-    throw new ResponseError(523, error);
+    throw new ResponseError(500, error);
   }
 };
 
@@ -103,7 +102,7 @@ module.exports.updatePassword = async (ctx) => {
   );
 
   if (isTruePassword) {
-    const result = await ctrlUser.setPassword(ctx.request.body.newPassword, ctx.state.user.id);
+    const result = await ctrlUser.setPassword(ctx.state.user.id, ctx.request.body.newPassword);
     if (result) {
       ctx.response.body = {
         message: 'Your password is updated successfully',
@@ -183,7 +182,7 @@ module.exports.addInSkillSet = async (ctx) => {
 
       ctx.response.body = { message: 'Your set of skills is updated successfully' };
     } catch (error) {
-      throw new ResponseError(523, error);
+      throw new ResponseError(500, error);
     }
   } else throw new ResponseError(400, 'ne prosho validat');
 };
@@ -200,7 +199,7 @@ module.exports.delInSkillSet = async (ctx) => {
     user.skillSet.some(id => id === ctx.request.body.id)
   ) {
     try {
-      await User.findOneAndUpdate(
+      User.findOneAndUpdate(
         {
           _id: ObjectId(ctx.state.user.id),
           skillSet: ctx.request.body.id,
@@ -210,7 +209,7 @@ module.exports.delInSkillSet = async (ctx) => {
         },
       );
 
-      await User
+      User
         .findByIdAndUpdate(
           ctx.state.user.id,
           {
@@ -221,7 +220,7 @@ module.exports.delInSkillSet = async (ctx) => {
 
       ctx.response.body = { message: 'Your skills of set is delete successfully' };
     } catch (error) {
-      throw new ResponseError(523, error);
+      throw new ResponseError(500, error);
     }
   } else throw new ResponseError(400, 'ne prosho validat');
 };

@@ -84,7 +84,7 @@ module.exports.getUser = async (ctx) => {
  * TODO описание
  * @param {*}
  */
-module.exports.setPassword = async (newPassword, userId) => {
+module.exports.setPassword = async (userId, newPassword) => {
   // TODO валидация
   try {
     const user = await User.findById(userId);
