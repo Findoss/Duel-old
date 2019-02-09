@@ -13,6 +13,16 @@ class Changes {
      * @type {Array}
      */
     this.events = [];
+    /**
+     * TODO описание
+     * @type {Number}
+     */
+    this.allEventCount = 0;
+    /**
+     * TODO описание
+     * @type {Number}
+     */
+    this.lastEventNumber = 0;
   }
 
   /**
@@ -21,7 +31,24 @@ class Changes {
    * @param {Any}    data  Данные события
    */
   add(event, data) {
+    this.allEventCount += 1;
     this.events.push({ event, data });
+  }
+
+  getAllEventCount() {
+    return this.allEventCount;
+  }
+
+  getLastEventNumber() {
+    return this.lastEventNumber;
+  }
+
+  /**
+   * TODO описание
+   */
+  fixEventNumber() {
+    this.lastEventNumber = this.allEventCount;
+    return this.lastEventNumber;
   }
 
   /**
