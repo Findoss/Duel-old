@@ -6,10 +6,9 @@
     />
 
     <div class="a2">
-      timer
-      <z-title :size="3">
-        gameId: {{ this.$route.params.gameId }}
-      </z-title>
+      gameId {{ this.$route.params.gameId }} <br />
+      stepUser {{ this.stepUser }}
+
       <z-button @click="surrender">
         surrender
       </z-button>

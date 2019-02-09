@@ -23,8 +23,6 @@ export default {
     return Promise.reject();
   },
 
-
-  // TODO реализовать методы API
   passwordNew({ dispatch }, payload) {
     return Http.send('POST', '/auth/password-new', payload)
       .then((response) => {
@@ -33,16 +31,13 @@ export default {
       });
   },
 
-  // TODO реализовать методы API
   passwordReset({ }, email) {
     return Http.send('POST', '/auth/password-reset', email);
   },
 
-  // TODO реализовать методы API
   checkLink({ }, link) {
     return Http.get('/tools/checkPasswordResetLink', link)
       .catch(() => {
-        // dispatch('addNotification', { type: 'error', message: error.message }, { root: true });
         Router.push({ name: 'passwordReset' });
       });
   },

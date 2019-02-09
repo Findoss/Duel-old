@@ -16,6 +16,7 @@ export default {
     ...mapGetters({
       me: 'me/getAllData',
       opponent: 'opponent/getAllData',
+      stepUser: 'game/stepUser',
     }),
   },
 

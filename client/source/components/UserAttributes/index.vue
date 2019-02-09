@@ -26,6 +26,11 @@
           <td></td>
         </tr>
         <tr>
+          <td>⊠ luck</td>
+          <td><strong>{{ attributes.luck }}</strong></td>
+          <td></td>
+        </tr>
+        <tr>
           <td>⊠ healing</td>
           <td><strong>{{ attributes.healing }}</strong></td>
           <td></td>
