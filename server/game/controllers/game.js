@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const mongoose = require('mongoose');
 const debug = require('../../utils/debug');
+const logger = require('../middleware/logger');
 
 const configGame = require('../../static/game.json');
 
@@ -19,7 +20,7 @@ const { ObjectId } = mongoose.Types;
  */
 module.exports.start = async (ctx, pair) => {
   const { store } = ctx;
-  const { io } = store;
+  const { io, games } = store;
 
   // генерируем строку для псевдорандома
   const solt = crypto
@@ -52,15 +53,14 @@ module.exports.start = async (ctx, pair) => {
   );
 
   // инициализируем игру
-  store.games[id] = new Game(pair, id, solt);
-  const game = store.games[id];
+  games[id] = new Game(pair, id, solt);
 
   // создаем список изменений в игре
-  game.changes.add('startGame', {
+  games[id].changes.add('startGame', {
     gameId: id,
-    newBoard: game.board.generationBoard(game.seedRandom),
-    users: game.users,
-    step: game.step.coinToss(game.seedRandom),
+    newBoard: games[id].board.generationBoard(games[id].seedRandom),
+    users: games[id].users,
+    step: games[id].step.coinToss(games[id].seedRandom),
   });
 
   // подключаем сокеты пользователей к игровому сокету
@@ -70,23 +70,22 @@ module.exports.start = async (ctx, pair) => {
   });
 
   // фиксируем количество игровых событий
-  game.changes.fixEventNumber();
+  games[id].changes.fixEventNumber();
 
   // инициализируем таймер для обработки лимитов на ход по времени
   // дескриптор указан в поле timer
-  game.timer = new Timer(this.checkTimeStep, configGame.timeStep, ctx);
-  game.timer.start();
+  games[id].timer = new Timer(this.checkTimeStep, configGame.timeStep, ctx);
+  games[id].timer.start();
+
+  // debug
+  debug.chat(io.to(id), `id ${id}`);
+  // debug.log('               └───┐');
+  // debug.log(`                   │ gameId: ${id}`);
+  // debug.log('                   │ start game');
+  // debug.log('               ┌───┘');
 
   // отправляем изменения игры
-  io.to(id).emit('GameChanges', game.changes.release());
-
-  debug.chat(io.to(id), `id ${id}`);
-  debug.log('               └───┐');
-  debug.log(`                   │ gameId: ${id}`);
-  debug.log('                   │ start game');
-  debug.log('               ┌───┘');
-
-  return 'Start game and send game changes';
+  return this.sendGameChanges(ctx);
 };
 
 /**
@@ -120,7 +119,7 @@ module.exports.surrender = async (ctx) => {
  */
 module.exports.end = async (ctx, resultGame) => {
   const { store, userId } = ctx;
-  const { io, games, users } = store;
+  const { games, users } = store;
   const { gameId } = users[userId];
 
   // записываем результат игры
@@ -154,8 +153,11 @@ module.exports.end = async (ctx, resultGame) => {
     { multi: true },
   );
 
+  // создаем список изменений в игре
+  games[gameId].changes.add('GameChanges', { event: 'endGame' });
+
   // отправляем изменения игры
-  io.to(gameId).emit('GameChanges', [{ event: 'endGame' }]);
+  const result = await this.sendGameChanges(ctx);
 
   // удаляем игроков из игрового сокета
   games[gameId].users.forEach((user) => {
@@ -168,7 +170,7 @@ module.exports.end = async (ctx, resultGame) => {
   // удалячем игру
   delete games[gameId];
 
-  return 'GameData [end game]';
+  return result;
 };
 
 /**
@@ -203,6 +205,185 @@ module.exports.clear = async () => {
   );
 };
 
+
+/**
+ * Смена хода
+ */
+module.exports.changeStep = async (ctx) => {
+  const { store, userId } = ctx;
+  const { io, users, games } = store;
+  const { gameId } = users[userId];
+
+  // запускаем смену хода
+  const currentStepUserId = games[gameId].step.nextStep();
+
+  // создаем список изменений в игре
+  games[gameId].changes.add('nextStep', { currentStepUserId });
+
+  // фиксируем количество игровых событий
+  games[gameId].changes.fixEventNumber();
+
+  // debug
+  debug.chat(io.to(gameId), { event: 'nextStep', payload: currentStepUserId });
+
+  // перезапускаем таймер
+  games[gameId].timer.reset();
+
+  // отправляем изменения игры
+  return this.sendGameChanges(ctx);
+};
+
+/**
+ * Проверка на AFK
+ */
+module.exports.checkTimeStep = async (ctx) => {
+  const { store, userId } = ctx;
+  const { games, users } = store;
+  const { gameId } = users[userId];
+
+  // если за пошедшее время не было событий выдаем штраф афк пользователю
+  // передаем ход другому пользователю
+  if (games[gameId].changes.getAllEventCount() === games[gameId].changes.getLastEventNumber()) {
+    const currentStepUserId = games[gameId].step.getStep();
+    const countAFK = games[gameId].users.find(user => user.id === currentStepUserId).addFineAFK();
+
+    debug.log('               │');
+    debug.log(`               ⁞ userId: ${currentStepUserId}`);
+    debug.log(`               ⁞ AFK count: ${countAFK}`);
+    debug.log('               │');
+
+    if (countAFK >= configGame.countAFK) {
+      return this.end(ctx, `${currentStepUserId} afk`);
+    }
+
+    // записываем штраф афк
+    await modelGame.update(
+      {
+        _id: ObjectId(gameId),
+      },
+      {
+        $push: {
+          steps: {
+            user: ObjectId(currentStepUserId),
+            action: 'afk',
+          },
+        },
+      },
+    );
+
+    return this.changeStep(ctx);
+  }
+};
+
+/**
+ *
+ */
+module.exports.fakeAction = async (ctx) => {
+  const { store, userId } = ctx;
+  const { games, users } = store;
+  const { gameId } = users[userId];
+
+
+  if (games[gameId].step.isStep(userId)) {
+    return this.changeStep(ctx);
+  }
+
+  // debug
+  debug.chat(users[userId].socket, { event: 'fakeAction', payload: 'NO!' });
+
+  return '???';
+};
+
+/**
+ *
+ */
+module.exports.sendGameChanges = async (ctx) => {
+  const { store, userId } = ctx;
+  const { io, users, games } = store;
+  const { gameId } = users[userId];
+
+  const data = games[gameId].changes.release();
+
+  // debug
+  logger.sendData(data);
+
+  // отправляем изменения игры
+  try {
+    await io.to(gameId).emit('GameChanges', data);
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
+
+/**
+ *
+ */
+module.exports.check = async (ctx) => {
+  const { store, userId } = ctx;
+  const { users, games } = store;
+  const { gameId } = users[userId];
+
+  if (gameId && games[gameId]) return true;
+
+  throw new Error('WTF NO GAME');
+};
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /**
  * Восстановление игры
  */
@@ -220,7 +401,7 @@ module.exports.restore = async (ctx) => {
         ...store.games[gameId].restore(),
       },
     }]);
-    return 'GameData [current state]';
+    return '???';
   }
 
   // если нет в памяти, скорее всего она уже завершена
@@ -240,84 +421,5 @@ module.exports.restore = async (ctx) => {
   // HACK
   this.clear();
 
-  return 'GameData [end game - error]';
-};
-
-/**
- * Смена хода
- */
-module.exports.changeStep = async (ctx) => {
-  const { store, userId } = ctx;
-  const { io, users, games } = store;
-  const { gameId } = users[userId];
-
-  // запускаем смену хода
-  const currentStepUserId = games[gameId].step.nextStep();
-
-  // отправляем изменения игры
-  io.to(gameId).emit('GameChanges', [{ event: 'nextStep', payload: currentStepUserId }]);
-  debug.chat(io.to(gameId), { event: 'nextStep', payload: currentStepUserId });
-
-  // перезапускаем таймер
-  games[gameId].timer.reset();
-
-
-  debug.log(`               │ GameData [next step - ${currentStepUserId}]`);
-  debug.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴');
-
-  return `GameData [next step - ${currentStepUserId}]`;
-};
-
-/**
- * Проверка на AFK
- */
-module.exports.checkTimeStep = async (ctx) => {
-  const { store, userId } = ctx;
-  const { games, users } = store;
-  const { gameId } = users[userId];
-
-  // если за пошедшее время не было событий выдаем штраф афк пользователю
-  // передаем ход другому пользователю
-  if (games[gameId].changes.getAllEventCount() === games[gameId].changes.getLastEventNumber()) {
-    const currentStepUserId = games[gameId].step.getStep();
-    const countAFK = games[gameId].users.find(user => user.id === currentStepUserId).addFineAFK();
-
-    if (countAFK >= configGame.countAFK) {
-      debug.log('               │ GameData [end game]');
-      debug.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴');
-      return this.end(ctx, `${currentStepUserId} afk`);
-    }
-
-    // записываем штраф афк
-    await modelGame.update(
-      {
-        _id: ObjectId(gameId),
-      },
-      {
-        $push: {
-          steps: {
-            user: ObjectId(currentStepUserId),
-            action: 'afk',
-          },
-        },
-      },
-    );
-
-    debug.log('               │');
-    debug.log(`               ⁞ userId: ${currentStepUserId}`);
-    debug.log(`               ⁞ AFK count: ${countAFK}`);
-    debug.log('               │');
-
-    return this.changeStep(ctx);
-  }
-};
-
-/**
- *
- */
-module.exports.fakeAction = async (ctx) => {
-  const { store, userId } = ctx;
-  const { games, users } = store;
-  const { gameId } = users[userId];
-  //
+  return '???';
 };
