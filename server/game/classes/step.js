@@ -17,7 +17,7 @@ class Step {
    */
   constructor(...users) {
     /**
-     * Массив имен игроков
+     * Массив id игроков
      * @type {Array}
      */
     this.names = [
@@ -33,11 +33,11 @@ class Step {
 
   /**
    * Проверяет ход игрока
-   * @param  {String} name Имя игрока
+   * @param  {String} id id игрока
    * @return {Boolean} Возвращает, true если ход игрока, иначе false.
    */
-  isStep(name) {
-    return this.step === name;
+  isStep(id) {
+    return this.step === id;
   }
 
   /**
