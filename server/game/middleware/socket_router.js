@@ -1,7 +1,5 @@
-/* eslint class-methods-use-this: 0 */
-// правило отключено потому что это важыный элемент логов
-
-const debug = require('../utils/debug');
+const debug = require('../../utils/debug');
+const logger = require('./logger');
 
 module.exports = class Router {
   constructor(ctx) {
@@ -24,18 +22,14 @@ module.exports = class Router {
 
       const { socket } = this.ctx.store.users[this.ctx.userId];
 
-      socket.on(path, (data) => {
+      socket.on(path, async (data) => {
         this.before(path, data);
         this.ctx.data = data;
         try {
-          middlewares.forEach((middleware) => {
-            this.beforeEach(data);
-            try {
-              middleware(this.ctx);
-            } catch (error) {
-              throw error;
-            }
-          });
+          await middlewares.reduce(
+            (promiseChain, asyncFunction) => promiseChain.then(() => asyncFunction(this.ctx)),
+            Promise.resolve(),
+          );
         } catch (error) {
           this.error(error);
           this.after();
@@ -83,15 +77,7 @@ module.exports = class Router {
    * Хук перед выполнением промежуточного ПО роута
    */
   before(path, data) {
-    const { socket } = this.ctx.store.users[this.ctx.userId];
-    debug.log(`──‣ ┈┈┈┈┈ SEND ┬ /${path}/${data.route}`);
-    debug.log(`               │ id: ${this.ctx.userId || ''}`);
-    debug.log(`               │ io: ${socket.id || ''}`);
-    debug.log('               │ {');
-    debug.log(data.gameId ? `               │   ${data.gameId}` : '');
-    debug.log(data.payload ? `               │   ${data.payload}` : '');
-    debug.log('               │ }');
-    debug.log('               │');
+    logger.beforeRoute(this.ctx, path, data);
   }
 
   /**
@@ -102,22 +88,17 @@ module.exports = class Router {
   /**
    * Хук после выполнениея каждого промежуточного ПО роута
    */
-  afterEach(result) {
-    const string = JSON.stringify(result, null, 2).replace(/\n/g, '\n               │ ');
-    debug.log(`               │ ${string || ''}`);
-  }
+  afterEach() { }
 
   /**
    * Хук после выполнениея всех промежуточных ПО роута
    */
-  after() {
-    debug.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴');
-  }
+  after() { }
 
   /**
    * Хук исключения при выполнении промежуточного ПО роута
    */
   error(error) {
-    debug.log(`               │ ${error}`);
+    logger.errorRoute(error);
   }
 };
