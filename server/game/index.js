@@ -2,7 +2,6 @@ const Lobby = require('./classes/lobby');
 
 const connect = require('./middleware/connect');
 const disconnect = require('./middleware/disconnect');
-const logger = require('./middleware/logger');
 const router = require('./routes');
 
 const ctrlGame = require('./controllers/game');
@@ -37,7 +36,6 @@ module.exports = (io) => {
   });
 
   io.on('connection', () => {
-    logger({ ...ctx });
     router({ ...ctx });
     disconnect({ ...ctx });
   });

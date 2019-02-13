@@ -1,11 +1,21 @@
-/* eslint no-param-reassign: "error" */
-/* правило отключено для изменения стейта, что бы задавать userId например */
-
-const debug = require('../../utils/debug');
 const Authentication = require('../../modules/authentication');
+const logger = require('./logger');
+// const debug = require('../../utils/debug');
+// const decorator = require('../../utils/decorators');
 
 module.exports = async (ctx, socket) => {
   const user = await Authentication.JWTStrategy(socket.handshake.query.bearer);
+
+  logger.beforeConnect(ctx, user, socket);
+
+  //
+  // const original = socket.emit;
+  // socket.emit = ((...args) => {
+  //   console.log(';;;');
+  //   return original.apply(this, args);
+  // });
+
+
   if (user) {
     ctx.store.users[user.id] = {
       access: user.access,
@@ -18,9 +28,7 @@ module.exports = async (ctx, socket) => {
     ctx.userId = user.id;
     ctx.data = {};
 
-    debug.log(`──‣ ┈┈┈┈┈ AUTH ┬ ${user.id || 'NOT AUTH'}`);
-    debug.log(`               │ io #${socket.id}`);
-    debug.log(`${!user.id ? '┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴' : '               │'}`);
+    logger.afterConnect(ctx);
 
     return true;
   }
