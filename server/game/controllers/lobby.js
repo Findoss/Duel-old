@@ -14,9 +14,11 @@ module.exports.del = async (ctx) => {
   lobby.deleteUser(userId);
 
   users[userId].socket.emit('LobbyExit', 'exit');
+
+  // debug
   debug.chat(users[userId].socket, 'delete you lobby');
 
-  return 'Exit';
+  return '';
 };
 
 /**
