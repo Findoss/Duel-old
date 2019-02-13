@@ -23,7 +23,7 @@ module.exports = class Router {
       const { socket } = this.ctx.store.users[this.ctx.userId];
 
       socket.on(path, async (data) => {
-        this.before(path, data);
+        Router.before(this.ctx, path, data);
         this.ctx.data = data;
         try {
           await middlewares.reduce(
@@ -31,8 +31,8 @@ module.exports = class Router {
             Promise.resolve(),
           );
         } catch (error) {
-          this.error(error);
-          this.after();
+          Router.error(error);
+          Router.after();
         }
       });
     }
@@ -63,42 +63,42 @@ module.exports = class Router {
           (promiseChain, asyncFunction) => promiseChain.then(() => asyncFunction(this.ctx)),
           Promise.resolve(),
         );
-        this.afterEach(result);
+        Router.afterEach(result);
       } catch (error) {
-        this.error(error);
+        Router.error(error);
       }
     } else {
-      this.error('NOT MATCH');
+      Router.error('NOT MATCH');
     }
-    this.after();
+    Router.after();
   }
 
   /**
    * Хук перед выполнением промежуточного ПО роута
    */
-  before(path, data) {
-    logger.beforeRoute(this.ctx, path, data);
+  static before(ctx, path, data) {
+    logger.beforeRoute(ctx, path, data);
   }
 
   /**
    * Хук перед выполнением каждого промежуточного ПО роута
    */
-  beforeEach() { }
+  static beforeEach() { }
 
   /**
    * Хук после выполнениея каждого промежуточного ПО роута
    */
-  afterEach() { }
+  static afterEach() { }
 
   /**
    * Хук после выполнениея всех промежуточных ПО роута
    */
-  after() { }
+  static after() { }
 
   /**
    * Хук исключения при выполнении промежуточного ПО роута
    */
-  error(error) {
+  static error(error) {
     logger.errorRoute(error);
   }
 };
