@@ -1,4 +1,4 @@
-const Router = require('../../utils/socket_router');
+const Router = require('../middleware/socket_router');
 const ctrlDashboard = require('../controllers/dashboard');
 
 module.exports = ctx => new Router(ctx)
