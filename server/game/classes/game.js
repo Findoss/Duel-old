@@ -17,12 +17,12 @@ class Game {
    * @param {Any} var TODO
    */
   constructor(users, id, solt = '') {
-    const userOne = users[0].id;
-    const userTwo = users[1].id;
-
-    this.users = [new User(userOne), new User(userTwo)];
+    this.users = [
+      new User(users[0].id, users[0].nickname, users[0].avatar),
+      new User(users[1].id, users[1].nickname, users[1].avatar),
+    ];
     this.board = new Board(configRunes);
-    this.step = new Step(userOne, userTwo);
+    this.step = new Step(users[0].id, users[1].id);
     this.seedRandom = new SeedRandom(id + solt);
     this.changes = new Changes();
     this.timer = null;
