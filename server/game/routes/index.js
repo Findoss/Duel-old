@@ -7,13 +7,12 @@ const routeLobby = require('./lobby');
 const routeGame = require('./game');
 const routeDashboard = require('./dashboard');
 
-const ctrlGame = require('../controllers/game');
 
 module.exports = (ctx) => {
   const router = new Router(ctx);
 
   router.use('dashboard', Authorization.checkAccess(1), routeDashboard);
-  router.use('game', ctrlGame.check, routeGame);
+  router.use('game', routeGame);
   router.use('lobby', routeLobby);
 
   router.use('chat', () => {
