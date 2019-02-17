@@ -1,7 +1,7 @@
 /**
  * Количество пользователей в мире
  */
-module.exports.usersCount = (ctx) => {
+module.exports.usersCount = async (ctx) => {
   const { store, userId } = ctx;
   const { users } = store;
 
@@ -14,7 +14,7 @@ module.exports.usersCount = (ctx) => {
 /**
  * Массив пользователей в мире
  */
-module.exports.users = (ctx) => {
+module.exports.users = async (ctx) => {
   const { store, userId } = ctx;
   const { users } = store;
 
@@ -27,7 +27,7 @@ module.exports.users = (ctx) => {
 /**
  * Количество игр в мире
  */
-module.exports.gamesCount = (ctx) => {
+module.exports.gamesCount = async (ctx) => {
   const { store, userId } = ctx;
   const { users } = store;
 
