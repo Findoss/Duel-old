@@ -2,7 +2,7 @@
 
 export default {
   START_GAME: (state, payload) => {
-    state.board = payload.board;
+    state.board = payload.newBoard;
     state.stepUser = payload.step;
   },
 };

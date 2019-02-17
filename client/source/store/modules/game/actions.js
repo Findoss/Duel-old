@@ -2,20 +2,19 @@ import Router from '@/routes';
 import socket from '@/utils/socket';
 
 export default {
-  startGame({ commit }, data) {
+  startGame({ rootState, commit }, data) {
     commit('lobby/RESET_TIME', null, { root: true });
     commit('me/SET_GAME_ID', data.gameId, { root: true });
     commit('START_GAME', data);
 
-    console.log(data);
-
+    const opponent = data.users.find(user => user.id !== rootState.myId);
+    commit('opponent/SET_AVATAR', opponent.avatar, { root: true });
+    commit('opponent/SET_NICKNAME', opponent.nickname, { root: true });
 
     Router.replace({ name: 'game', params: { gameId: data.gameId, force: true } });
   },
 
   endGame({ commit }) {
-    console.log('endGame');
-
     commit('me/SET_GAME_ID', '', { root: true });
     Router.replace({ name: 'gameEnd', params: { force: true } });
   },
