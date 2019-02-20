@@ -7,7 +7,7 @@
   grid-gap: var(--padding-1);
 }
 
-.a1 {
+.user-parameters_nickname {
   grid-column: 1;
   grid-row: 1;
   background-color: lavenderblush;
@@ -16,7 +16,7 @@
   align-items: center;
 }
 
-.a2 {
+.user-parameters_hp {
   grid-column: 1;
   grid-row: 2;
   background-color: lightpink;
@@ -25,7 +25,7 @@
   align-items: center;
 }
 
-.a3 {
+.user-parameters_resources {
   grid-column: 1;
   grid-row: 3;
   /**/
@@ -34,7 +34,7 @@
   align-items: center;
 }
 
-.b1, .b2, .b3 {
+.resources_energy-1, .resources_energy-2, .resources_energy-3 {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,14 +42,14 @@
   width: 100%;
 }
 
-.b1 {
+.resources_energy-1 {
   background-color: lemonchiffon;
 }
 
-.b2 {
+.resources_energy-2 {
   background-color: lightblue;
 }
 
-.b3 {
+.resources_energy-3 {
   background-color: lightgreen;
 }
