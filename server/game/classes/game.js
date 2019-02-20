@@ -5,6 +5,7 @@ const User = require('./user');
 const Step = require('./step');
 const Changes = require('./changes');
 
+const configGame = require('../../static/game.json');
 const configRunes = require('../../static/runes.json');
 
 /**
@@ -40,6 +41,8 @@ class Game {
       newBoard: this.board.getBoard(),
       users: this.users,
       step: this.step.getStep(),
+      stepTime: configGame.timeStep,
+      currentStepTime: this.timer.getCurrentTime(),
     };
   }
 }

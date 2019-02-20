@@ -13,9 +13,10 @@ class Timer {
    */
   constructor(func, time, ctx, ...args) {
     this.func = func;
-    this.time = time;
+    this.time = time + 1000;
     this.ctx = ctx;
     this.args = args;
+    this.currentTime = this.time;
   }
 
   stop() {
@@ -29,7 +30,8 @@ class Timer {
   start() {
     if (!this.idTimer) {
       this.stop();
-      this.idTimer = setInterval(this.func, this.time, this.ctx, this.args);
+      this.currentTime = this.time;
+      this.idTimer = setInterval(() => { this.step(); }, 1000);
     }
     return this;
   }
@@ -37,6 +39,18 @@ class Timer {
   reset(newTime = this.time) {
     this.time = newTime;
     return this.stop().start();
+  }
+
+  step() {
+    this.currentTime -= 1000;
+    if (this.currentTime <= 0) {
+      this.func(this.ctx, this.args);
+    }
+    return this;
+  }
+
+  getCurrentTime() {
+    return this.currentTime;
   }
 }
 
