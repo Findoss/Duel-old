@@ -26,7 +26,7 @@ export default {
   },
 
   ADD_NOTIFICATION(state, notification) {
-    state.notifications.push({ ...notification, key: new Date().getTime() });
+    state.notifications.push({ ...notification, key: new Date().getTime() + Math.random(5) });
   },
 
   DEL_NOTIFICATION(state, key = 0) {

@@ -1,7 +1,5 @@
-/* eslint class-methods-use-this: 0 */
-// правило отключено потому что это важыный элемент логов
-
-const debug = require('../utils/debug');
+const debug = require('../../utils/debug');
+const logger = require('./logger');
 
 module.exports = class Router {
   constructor(ctx) {
@@ -24,21 +22,17 @@ module.exports = class Router {
 
       const { socket } = this.ctx.store.users[this.ctx.userId];
 
-      socket.on(path, (data) => {
-        this.before(path, data);
+      socket.on(path, async (data) => {
+        Router.before(this.ctx, path, data);
         this.ctx.data = data;
         try {
-          middlewares.forEach((middleware) => {
-            this.beforeEach(data);
-            try {
-              middleware(this.ctx);
-            } catch (error) {
-              throw error;
-            }
-          });
+          await middlewares.reduce(
+            (promiseChain, asyncFunction) => promiseChain.then(() => asyncFunction(this.ctx)),
+            Promise.resolve(),
+          );
         } catch (error) {
-          this.error(error);
-          this.after();
+          Router.error(error);
+          Router.after();
         }
       });
     }
@@ -69,55 +63,42 @@ module.exports = class Router {
           (promiseChain, asyncFunction) => promiseChain.then(() => asyncFunction(this.ctx)),
           Promise.resolve(),
         );
-        this.afterEach(result);
+        Router.afterEach(result);
       } catch (error) {
-        this.error(error);
+        Router.error(error);
       }
     } else {
-      this.error('NOT MATCH');
+      Router.error('NOT MATCH');
     }
-    this.after();
+    Router.after();
   }
 
   /**
    * Хук перед выполнением промежуточного ПО роута
    */
-  before(path, data) {
-    const { socket } = this.ctx.store.users[this.ctx.userId];
-    debug.log(`──‣ ┈┈┈┈┈ SEND ┬ /${path}/${data.route}`);
-    debug.log(`               │ id: ${this.ctx.userId || ''}`);
-    debug.log(`               │ io: ${socket.id || ''}`);
-    debug.log('               │ {');
-    debug.log(data.gameId ? `               │   ${data.gameId}` : '');
-    debug.log(data.payload ? `               │   ${data.payload}` : '');
-    debug.log('               │ }');
-    debug.log('               │');
+  static before(ctx, path, data) {
+    logger.beforeRoute(ctx, path, data);
   }
 
   /**
    * Хук перед выполнением каждого промежуточного ПО роута
    */
-  beforeEach() { }
+  static beforeEach() { }
 
   /**
    * Хук после выполнениея каждого промежуточного ПО роута
    */
-  afterEach(result) {
-    const string = JSON.stringify(result, null, 2).replace(/\n/g, '\n               │ ');
-    debug.log(`               │ ${string || ''}`);
-  }
+  static afterEach() { }
 
   /**
    * Хук после выполнениея всех промежуточных ПО роута
    */
-  after() {
-    debug.log('┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ┴');
-  }
+  static after() { }
 
   /**
    * Хук исключения при выполнении промежуточного ПО роута
    */
-  error(error) {
-    debug.log(`               │ ${error}`);
+  static error(error) {
+    logger.errorRoute(error);
   }
 };

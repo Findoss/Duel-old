@@ -43,8 +43,10 @@
         cursor: pointer;
       }
 
-      ul, li {
-        overflow-wrap:break-word;;
+      ul,
+      li {
+        overflow-wrap: break-word;
+        ;
         white-space: normal;
         overflow-x: hidden;
       }
@@ -195,6 +197,10 @@
         value="1"
       >lobby del</button>
       <button
+        class="cs11"
+        value="1"
+      >fake game action</button>
+      <button
         class="cs3"
         value="1"
       >exit</button>
@@ -236,6 +242,10 @@
         value="2"
       >lobby del</button>
       <button
+        class="cs11"
+        value="2"
+      >fake game action</button>
+      <button
         class="cs3"
         value="2"
       >exit</button>
@@ -273,20 +283,19 @@
           }),
         }
 
-        setTimeout(() => {
-          Object.keys(sockets).forEach((id) => {
-            sockets[id].io.opts.query = {
-              bearer: tokens[id]
-            }
-            sockets[id].connect();
+        Object.keys(sockets).forEach((id) => {
+          sockets[id].io.opts.query = {
+            bearer: tokens[id]
+          }
+          sockets[id].connect();
 
-            $(`#messages${id}`)
-              .prepend($('<li>')
-                .prepend($('<i>')
-                  .text(id + ' ' + tokens[id])))
+          $(`#messages${id}`)
+            .prepend($('<li>')
+              .prepend($('<i>')
+                .text(id + ' ' + tokens[id])))
 
-          })
-        }, 2000)
+        })
+
 
         $('.form').submit((e) => {
           e.preventDefault();
@@ -352,6 +361,11 @@
         $('.cs10').click(e => {
           const user = e.target.value;
           sockets[user].emit('dashboard', { route: 'world-users' });
+        });
+
+        $('.cs11').click(e => {
+          const user = e.target.value;
+          sockets[user].emit('game', { route: 'fake-action' });
         });
 
         Object.keys(sockets).forEach((i) => {

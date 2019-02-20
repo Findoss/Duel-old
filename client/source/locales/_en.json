@@ -59,5 +59,9 @@
     "play": "    Play    ",
     "shop": "Shop",
     "scoreboard": "Scoreboard"
+  },
+  "game": {
+    "youStep": "YOU STEP",
+    "opponentStep": "OPPONENT STEP"
   }
 }

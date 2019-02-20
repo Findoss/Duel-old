@@ -1,7 +1,7 @@
 <template>
   <div
     v-show="show"
-    class="base-block"
+    :class="classes"
   />
 </template>
 <script src="./script.js"></script>

@@ -1,15 +1,18 @@
-const Router = require('../../utils/socket_router');
+const Router = require('../middleware/socket_router');
 const debug = require('../../utils/debug');
+
+const Authorization = require('../../modules/authorization');
 
 const routeLobby = require('./lobby');
 const routeGame = require('./game');
 const routeDashboard = require('./dashboard');
 
+
 module.exports = (ctx) => {
   const router = new Router(ctx);
 
-  router.use('dashboard', routeDashboard); // TODO добавить проверку на права
-  router.use('game', routeGame); // TODO добавить проверку что игрок в игре и такая игра есть
+  router.use('dashboard', Authorization.checkAccess(1), routeDashboard);
+  router.use('game', routeGame);
   router.use('lobby', routeLobby);
 
   router.use('chat', () => {
