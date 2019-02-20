@@ -13,12 +13,22 @@ class User {
   /**
    * @constructor
    */
-  constructor(id) {
+  constructor(id, nickname, avatar) {
     /**
      * id игрока
      * @type {String}
      */
     this.id = id;
+    /**
+     * nickname игрока
+     * @type {String}
+     */
+    this.nickname = nickname;
+    /**
+     * avatar игрока
+     * @type {String}
+     */
+    this.avatar = avatar;
     /**
      * Здоровье
      * @type {Object}

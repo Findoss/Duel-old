@@ -28,7 +28,7 @@ module.exports.start = async (ctx, pair) => {
     .toString('hex')
     .toUpperCase();
 
-  // создаем докеумент игры в бд
+  // создаем документ игры в бд
   const { id } = await modelGame.create({
     users: [
       ObjectId(pair[0].id),
@@ -39,21 +39,22 @@ module.exports.start = async (ctx, pair) => {
 
   // обновляем статус пользователя
   // указываем в какой игре пользователь находиться
-  modelUser.update(
+  const userOne = await modelUser.findOneAndUpdate(
     {
-      _id: {
-        $in: [
-          ObjectId(pair[0].id),
-          ObjectId(pair[1].id),
-        ],
-      },
+      _id: ObjectId(pair[0].id),
     },
     { $set: { gameId: id } },
-    { multi: true },
+  );
+
+  const userTwo = await modelUser.findOneAndUpdate(
+    {
+      _id: ObjectId(pair[1].id),
+    },
+    { $set: { gameId: id } },
   );
 
   // инициализируем игру
-  games[id] = new Game(pair, id, solt);
+  games[id] = new Game([userOne, userTwo], id, solt);
 
   // создаем список изменений в игре
   games[id].changes.add('startGame', {
@@ -61,6 +62,8 @@ module.exports.start = async (ctx, pair) => {
     newBoard: games[id].board.generationBoard(games[id].seedRandom),
     users: games[id].users,
     step: games[id].step.coinToss(games[id].seedRandom),
+    stepTime: configGame.timeStep,
+    currentStepTime: configGame.timeStep,
   });
 
   // подключаем сокеты пользователей к игровому сокету
@@ -154,14 +157,16 @@ module.exports.end = async (ctx, resultGame) => {
   );
 
   // создаем список изменений в игре
-  games[gameId].changes.add('GameChanges', { event: 'endGame' });
+  games[gameId].changes.add('endGame');
 
   // отправляем изменения игры
   const result = await this.sendGameChanges(ctx);
 
   // удаляем игроков из игрового сокета
   games[gameId].users.forEach((user) => {
-    users[user.id].socket.leave(gameId);
+    if (users[user.id].socket) {
+      users[user.id].socket.leave(gameId);
+    }
   });
 
   // останавливаем таймер
@@ -241,38 +246,41 @@ module.exports.checkTimeStep = async (ctx) => {
   const { games, users } = store;
   const { gameId } = users[userId];
 
-  // если за пошедшее время не было событий выдаем штраф афк пользователю
-  // передаем ход другому пользователю
-  if (games[gameId].changes.getAllEventCount() === games[gameId].changes.getLastEventNumber()) {
-    const currentStepUserId = games[gameId].step.getStep();
-    const countAFK = games[gameId].users.find(user => user.id === currentStepUserId).addFineAFK();
+  if (games[gameId]) {
+    // если за пошедшее время не было событий выдаем штраф афк пользователю
+    // передаем ход другому пользователю
+    if (games[gameId].changes.getAllEventCount() === games[gameId].changes.getLastEventNumber()) {
+      const currentStepUserId = games[gameId].step.getStep();
+      const countAFK = games[gameId].users.find(user => user.id === currentStepUserId).addFineAFK();
 
-    debug.log('               │');
-    debug.log(`               ⁞ userId: ${currentStepUserId}`);
-    debug.log(`               ⁞ AFK count: ${countAFK}`);
-    debug.log('               │');
+      debug.log('               │');
+      debug.log(`               ⁞ userId: ${currentStepUserId}`);
+      debug.log(`               ⁞ AFK count: ${countAFK}`);
+      debug.log('               │');
 
-    if (countAFK >= configGame.countAFK) {
-      return this.end(ctx, `${currentStepUserId} afk`);
-    }
+      if (countAFK >= configGame.countAFK) {
+        return this.end(ctx, `${currentStepUserId} afk`);
+      }
 
-    // записываем штраф афк
-    await modelGame.update(
-      {
-        _id: ObjectId(gameId),
-      },
-      {
-        $push: {
-          steps: {
-            user: ObjectId(currentStepUserId),
-            action: 'afk',
+      // записываем штраф афк
+      await modelGame.update(
+        {
+          _id: ObjectId(gameId),
+        },
+        {
+          $push: {
+            steps: {
+              user: ObjectId(currentStepUserId),
+              action: 'afk',
+            },
           },
         },
-      },
-    );
+      );
 
-    return this.changeStep(ctx);
+      return this.changeStep(ctx);
+    }
   }
+  return '???';
 };
 
 /**

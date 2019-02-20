@@ -1,7 +1,10 @@
 import io from 'socket.io-client';
 import store from '../store/index';
 
-const socket = io(window.location.origin, { autoConnect: false });
+const socket = io(window.location.origin, {
+  autoConnect: false,
+  transports: ['polling', 'websocket'],
+});
 
 /**
  * TODO описание

@@ -1,6 +1,7 @@
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
+import game from './game/state';
 
 const state = () => ({
   id: '0000', // номер
@@ -20,4 +21,7 @@ export default {
   getters,
   actions,
   mutations,
+  modules: {
+    game, // TODO описание
+  },
 };

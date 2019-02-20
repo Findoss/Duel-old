@@ -8,12 +8,11 @@
         <tr>
           <td>⊠ health</td>
           <td><strong>{{ attributes.health }}</strong></td>
-          <td><span class="modificator">{{ attributes.health }}</span></td>
+          <!-- <td><span class="modificator">{{ attributes.health }}</span></td> -->
         </tr>
         <tr>
           <td>⊠ force</td>
           <td><strong>{{ attributes.force }}</strong></td>
-          <td><span class="modificator">{{ attributes.force }}</span></td>
         </tr>
         <tr>
           <td>⊠ armor</td>

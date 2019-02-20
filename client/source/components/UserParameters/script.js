@@ -2,9 +2,13 @@ export default {
   name: 'z-user-parameters',
 
   props: {
-    nickname: {
-      type: String,
-      default: '',
+    user: {
+      type: Object,
     },
+  },
+
+  //
+  created() {
+    console.log(this.user);
   },
 };

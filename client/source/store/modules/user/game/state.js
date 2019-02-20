@@ -3,11 +3,15 @@ import getters from './getters';
 import mutations from './mutations';
 
 const state = {
-  board: [[]],
-  idStepTimer: null,
-  currentStepTime: 30000,
-  stepTime: 30000,
-  stepUser: '',
+  health: {
+    value: 100,
+    limit: 100,
+  },
+  resources: {
+    energy_1: 0,
+    energy_2: 0,
+    energy_3: 0,
+  },
 };
 
 export default {

@@ -283,20 +283,19 @@
           }),
         }
 
-        setTimeout(() => {
-          Object.keys(sockets).forEach((id) => {
-            sockets[id].io.opts.query = {
-              bearer: tokens[id]
-            }
-            sockets[id].connect();
+        Object.keys(sockets).forEach((id) => {
+          sockets[id].io.opts.query = {
+            bearer: tokens[id]
+          }
+          sockets[id].connect();
 
-            $(`#messages${id}`)
-              .prepend($('<li>')
-                .prepend($('<i>')
-                  .text(id + ' ' + tokens[id])))
+          $(`#messages${id}`)
+            .prepend($('<li>')
+              .prepend($('<i>')
+                .text(id + ' ' + tokens[id])))
 
-          })
-        }, 2000)
+        })
+
 
         $('.form').submit((e) => {
           e.preventDefault();
