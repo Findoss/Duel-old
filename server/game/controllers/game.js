@@ -162,7 +162,9 @@ module.exports.end = async (ctx, resultGame) => {
 
   // удаляем игроков из игрового сокета
   games[gameId].users.forEach((user) => {
-    users[user.id].socket.leave(gameId);
+    if (users[user.id].socket) {
+      users[user.id].socket.leave(gameId);
+    }
   });
 
   // останавливаем таймер
