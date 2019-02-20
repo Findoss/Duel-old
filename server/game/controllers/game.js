@@ -62,6 +62,8 @@ module.exports.start = async (ctx, pair) => {
     newBoard: games[id].board.generationBoard(games[id].seedRandom),
     users: games[id].users,
     step: games[id].step.coinToss(games[id].seedRandom),
+    stepTime: configGame.timeStep,
+    currentStepTime: configGame.timeStep,
   });
 
   // подключаем сокеты пользователей к игровому сокету
