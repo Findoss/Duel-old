@@ -76,7 +76,6 @@ module.exports.serchOpponent = async (ctx) => {
       // все кто в лобби отправляем время которое осталось
       lobby.listSerchTime().forEach((user) => {
         users[user.id].socket.emit('LobbyTime', user.time);
-        debug.chat(users[user.id].socket, `time: ${user.time}`);
       });
     }, 1000);
   }
