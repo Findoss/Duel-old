@@ -12,7 +12,6 @@ export default {
   socketLobbyExit({ state, commit }, { data }) {
     if (data[0] === 'exit') {
       commit('lobby/RESET_TIME');
-      Router.replace({ name: 'profile', params: { userId: state.myId, force: true } });
     } else {
       commit('lobby/SET_TIME', 0);
     }

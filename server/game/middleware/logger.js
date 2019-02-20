@@ -22,15 +22,17 @@ module.exports.afterConnect = async (ctx) => {
 };
 
 module.exports.beforeRoute = async (ctx, path, data) => {
-  const { socket } = ctx.store.users[ctx.userId];
-  debug.log(`──‣ ┈┈┈┈┈ SEND ┬ /${path}/${data.route}`);
-  debug.log(`               │ id: ${ctx.userId || ''}`);
-  debug.log(`               │ io: ${socket.id || ''}`);
-  debug.log('               │ {');
-  debug.log(data.gameId ? `               │   ${data.gameId}` : '');
-  debug.log(data.payload ? `               │   ${data.payload}` : '');
-  debug.log('               │ }');
-  debug.log('               │');
+  if (ctx.store.users[ctx.userId].socket) {
+    const { socket } = ctx.store.users[ctx.userId];
+    debug.log(`──‣ ┈┈┈┈┈ SEND ┬ /${path}/${data.route}`);
+    debug.log(`               │ id: ${ctx.userId || ''}`);
+    debug.log(`               │ io: ${socket.id || ''}`);
+    debug.log('               │ {');
+    debug.log(data.gameId ? `               │   ${data.gameId}` : '');
+    debug.log(data.payload ? `               │   ${data.payload}` : '');
+    debug.log('               │ }');
+    debug.log('               │');
+  }
 };
 
 module.exports.errorRoute = (error) => {
