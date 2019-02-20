@@ -1,52 +1,72 @@
 <template>
   <div class="game">
     <z-user-parameters
-      class="a11"
-      :nickname="me.nickname"
+      class="me-parameters"
+      :user="me"
     />
 
-    <div class="a2">
-      gameId {{ this.$route.params.gameId }} <br />
-      stepUser {{ this.stepUser }}
+    <div class="step-panel">
+      <div class="time-step">
+        {{ currentStepTime }} {{ isMyStep ? $t('game.youStep'):$t('game.opponentStep') }}
+        <z-button @click="surrender">
+          surrender
+        </z-button>
+      </div>
 
-      <z-button @click="surrender">
-        surrender
-      </z-button>
     </div>
 
     <z-user-parameters
-      class="a33"
-      :nickname="opponent.nickname"
+      class="opponent-parameters"
+      :user="opponent"
     />
 
     <z-user-avatar
-      class="a4"
+      class="me-avatar"
       :avatar="me.avatar"
     />
 
-    <div class="a5">
-      <z-container-board>
+    <div class="board">
+      <z-board-container>
+        <z-block
+          :show="!isMyStep"
+          :icon="false"
+          :border="false"
+          :cursor="''"
+          :opacity="3"
+        />
 
-        <template v-for="(row, indexaa) in this.$store.state.game.board">
+        <template v-for="(row, indexaa) in $store.state.game.board">
           <div
             v-for="(rune, index) in row"
             :key="String(indexaa +1) + String(index +1)"
             :class="['rune', `rune_type_${rune}` ]"
+            @click="fakeAction"
           >
             {{ rune }}
           </div>
         </template>
 
-      </z-container-board>
+      </z-board-container>
     </div>
 
     <z-user-avatar
-      class="a6"
+      class="opponent-avatar"
       :avatar="opponent.avatar"
     />
+    <div class="me-panel">
+      <z-block
+        :show="!isMyStep"
+        :icon="false"
+        :border="false"
+        :cursor="''"
+        :opacity="3"
+      />
+      <z-user-panel />
+    </div>
 
-    <z-user-panel class="a7" />
-    <z-user-panel class="a8" />
+    <div class="opponent-panel">
+      <z-user-panel />
+    </div>
   </div>
 </template>
 <script src="./script.js"></script>

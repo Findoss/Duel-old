@@ -13,6 +13,7 @@ import mutations from './mutations';
 import user from './modules/user/state';
 import account from './modules/user/account/state';
 import userPrivate from './modules/user/user_private/state';
+import userGame from './modules/user/game/state';
 
 import chat from './modules/chat/state';
 import lobby from './modules/lobby/state';
@@ -40,7 +41,7 @@ export default new Vuex.Store({
     lobby, // модуль лобби
     game, // модуль игры
     skills, // модуль скилов
-    statics, // модуль статичных набров
+    statics, // модуль статичных наборов
     me: { // модуль пользователя
       namespaced: user.namespaced,
       state: user.state,
@@ -49,6 +50,7 @@ export default new Vuex.Store({
       mutations: user.mutations,
       modules: { // расширающие модули пользователя
         account, // модуль сессия пользователя
+        game: userGame,
         private: userPrivate, // модуль приватных данных и действий пользователя
       },
     },
@@ -61,7 +63,7 @@ export default new Vuex.Store({
     createPersistedState({
       key: VERSION_LOCAL_STORAGE,
       paths: [
-        'me',
+        'me.state',
         'myId',
         'token',
         'statics',

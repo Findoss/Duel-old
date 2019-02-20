@@ -4,7 +4,7 @@ import { mapGetters, mapActions } from 'vuex';
 export default {
 
   components: {
-    'z-container-board': ContainerBoard,
+    'z-board-container': ContainerBoard,
   },
 
 
@@ -16,14 +16,15 @@ export default {
     ...mapGetters({
       me: 'me/getAllData',
       opponent: 'opponent/getAllData',
-      stepUser: 'game/stepUser',
+      isMyStep: 'game/isMyStep',
+      currentStepTime: 'game/currentStepTime',
     }),
   },
 
   methods: {
     ...mapActions({
       surrender: 'game/surrender',
-      // getUser: 'opponent/loadUser',
+      fakeAction: 'game/fakeAction',
     }),
   },
 
