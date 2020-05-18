@@ -1,0 +1,7 @@
+a {
+  color: var(--color-red-dark);
+}
+
+a:hover {
+  color: var(--color-red-lite);
+}

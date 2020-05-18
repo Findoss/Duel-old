@@ -1,0 +1,117 @@
+.colors {
+  display: flex;
+  width: 100%;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.color {
+  width: 150px;
+  height: 150px;
+  margin: 0 5px;
+  display: block;
+  font-size: 10pt;
+  text-align: center;
+  padding-top: 45%;
+  color: #000;
+}
+
+.color-row {
+  margin: 5px;
+  display: flex;
+}
+
+.color-1 {
+  background-color: var(--color-yellow-lite);
+}
+
+.color-2 {
+  background-color: var(--color-yellow-norm);
+}
+
+.color-3 {
+  background-color: var(--color-yellow-bright);
+}
+
+.color-4 {
+  background-color: var(--color-green-lite);
+}
+
+.color-5 {
+  background-color: var(--color-green-norm);
+}
+
+.color-6 {
+  background-color: var(--color-green-bright);
+}
+
+.color-7 {
+  background-color: var(--color-red-lite);
+}
+
+.color-8 {
+  color: #fff;
+  background-color: var(--color-red-norm);
+}
+
+.color-9 {
+  color: #fff;
+  background-color: var(--color-red-dark);
+}
+
+.color-10 {
+  color: #fff;
+  background-color: var(--color-gray-lite);
+}
+
+.color-11 {
+  color: #fff;
+  background-color: var(--color-gray-norm);
+}
+
+.color-12 {
+  color: #fff;
+  background-color: var(--color-gray-bright);
+}
+
+.color-13 {
+  background-color: var(--color-blue-lite);
+}
+
+.color-14 {
+  background-color: var(--color-blue-norm);
+}
+
+.color-15 {
+  background-color: var(--color-blue-bright);
+}
+
+.color-16 {
+  color: #fff;
+  background-color: var(--background-0);
+}
+
+.color-17 {
+  color: #fff;
+  background-color: var(--background-1);
+}
+
+.color-18 {
+  color: #fff;
+  background-color: var(--background-2);
+}
+
+.color-19 {
+  color: #fff;
+  background-color: var(--color-text);
+}
+
+.color-20 {
+  color: #fff;
+  background-color: var(--color-text-strong);
+}
+
+.color-21 {
+  color: #fff;
+  background-color: var(--color-text-heading);
+}

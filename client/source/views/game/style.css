@@ -1,0 +1,110 @@
+.game {
+  display: grid;
+  grid-template-columns: 1fr 32vh 32vh 1fr;
+  grid-template-rows: 12vh 64vh 22vh;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  text-align: center;
+  padding: var(--padding-2);
+}
+
+.me-parameters {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.step-panel {
+  grid-row: 1;
+  grid-column: 2/4;
+  background-color: lavender;
+}
+
+.time-step {
+  font-size: 3.5rem;
+  font-weight: bold;
+}
+
+.opponent-parameters {
+  grid-row: 1;
+  grid-column: 4;
+}
+
+.me-avatar {
+  grid-row: 2;
+  grid-column: 1;
+}
+
+.board {
+  grid-row: 2;
+  grid-column: 2/4;
+  position: relative;
+  /* background-color: lightblue; */
+  /**/
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+
+.opponent-avatar {
+  grid-row: 2;
+  grid-column: 4;
+}
+
+.me-panel {
+  grid-row: 3;
+  grid-column: 1/3;
+  position: relative;
+  background-color: lightgreen;
+  margin-right: var(--padding-3);
+}
+
+.opponent-panel {
+  grid-row: 3;
+  grid-column: 3/5;
+  position: relative;
+  background-color: lightcoral;
+  margin-left: var(--padding-3);
+  direction: rtl;
+}
+
+/* .container-disabled {
+  background-color: black;
+  opacity: 0.8;
+  z-index: 999;
+} */
+
+.rune {
+  background-color: lemonchiffon;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  /**/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rune_type_0 {
+  background-color: black;
+}
+
+.rune_type_1 {
+  background-color: lawngreen;
+}
+
+.rune_type_2 {
+  background-color: lightcoral;
+}
+
+.rune_type_3 {
+  background-color: lightblue;
+}
+
+.rune_type_4 {
+  background-color: lemonchiffon;
+}
+
+.rune_type_5 {
+  background-color: lightpink;
+}

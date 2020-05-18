@@ -1,0 +1,17 @@
+.sidebar_title {
+  width: 100%;
+  text-align: center;
+}
+
+.sidebar_form {
+  width: 100%;
+  position: relative;
+  /**/
+  display: grid;
+  grid-gap: var(--padding-3);
+}
+
+.sidebar_footer {
+  width: 100%;
+  text-align: center;
+}

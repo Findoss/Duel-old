@@ -1,0 +1,128 @@
+# Group Users API
+
+### Создание пользователя [POST /api/users]
+Регистрация пользователя
+
++ Request (application/json; charset=utf-8)
+    + Attributes
+        + nickname: Ivan (string, required)
+        + email: Ivan@email.ru (string, required)
+        + password: password123 (string, required)
+
++ Response 201 (application/json; charset=utf-8)
+Пользователь создан успешно
+    + Attributes
+        + id: 5b955d100f4b474524d04077 (string)
+        + nickname: Ivan (string)
+        + message: Accaunt has been created (string)
+
++ Response 400 (application/json; charset=utf-8)
+Заданы неверные параметры
+    + Attributes
+        + message: Invalid user params (string)
+
+### Список пользователей [GET /api/users{?skip,limit}]
+Получить список лидеров
+
++ Parameters
+    + skip: 0  (number, optional) - Номер страницы.
+    + limit: 10 (number, optional) - Количество элементов на странице.
+
++ Response 200 (application/json; charset=utf-8)
+    + Attributes (array)
+        + (object)
+            + id: 5b955d100f4b474524d040a1 (string)
+            + rank: 2000 (number)
+            + avatar: shooter_1 (string)
+            + nickname: Ivan (string)
+            + level: 10 (number)
+        + (object)
+            + id: 5b955d100f4b474524d04050 (string)
+            + rank: 1990 (number)
+            + avatar: shooter_2 (string)
+            + nickname: Oleg (string)
+            + level: 12 (number)
+        + (object)
+            + id: 5b955d100f4b474524d04060 (string)
+            + rank: 1852 (number)
+            + avatar: shooter_2 (string)
+            + nickname: Makintoshovka (string)
+            + level: 11 (number)
+        + (object)
+            + id: 5b955d100f4b474524d040a61 (string)
+            + rank: 1850 (number)
+            + avatar: null (string)
+            + nickname: Oleg3 (string)
+            + level: 11 (number)
+        + (object)
+            + id: 5b955d100f4b474524d04062 (string)
+            + rank: 5 (number)
+            + avatar: shooter_2 (string)
+            + nickname: Mava (string)
+            + level: 7 (number)
+        + (object)
+            + id: 5b955d100f4b474524d04063 (string)
+            + rank: 500 (number)
+            + avatar: shooter_1 (string)
+            + nickname: Dmitra (string)
+            + level: 5 (number)
+
+
+    + Schema
+
+            {
+                "title": "Users",
+                "description": "",
+                "type": "object",
+                "properties": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "nickname": {
+                                "type": "string"
+                            },
+                            "avatar": {
+                                "type": "string"
+                            },
+                            "rank": {
+                                "type": "number"
+                            },
+                        }
+                    },
+                }
+            }
+
++ Response 404 (application/json; charset=utf-8)
+Нет ни одного пользователя
+    + Attributes
+        + message: Users with id not found (string)
+
+### Информация о пользователе [GET /api/users/{id}]
+Получить информацию о пользователе по id
+
++ Parameters
+    + id: 5b955d100f4b474524d04064 (string) - ID пользователя.
+
++ Response 200 (application/json; charset=utf-8)
+Данные пользователя
+    + Attributes
+        + id: 5b955d100f4b474524d04064 (string) 
+        + nickname: Alex (string) 
+        + avatar: shooter_3 (string) 
+        + rank: 800 (number) 
+        + level: 15 (number) 
+        + karma: 10 (number) 
+        + openSlots: 4 (number) 
+        + skillSet (array) 
+            + 5b955314977bd66e0b6a8770 (string, optional) 
+            + 5b955314977bd66e0b6a8771 (string, optional) 
+            + 5b955314977bd66e0b6a8772 (string, optional) 
+
++ Response 404 (application/json; charset=utf-8)
+Пользователь не найден
+    + Attributes
+        + message: User with id not found (string)

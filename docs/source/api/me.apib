@@ -1,0 +1,185 @@
+# Group Me API
+\* - Авторизованн
+
+### * Получение информации [GET /api/me]
+Получение информации о своем аккаунте
+
++ Request ()
+    + Headers
+
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsImlhdCI6MTUzNDMwNDAyNH0.scgAqUpw7ESY0fVbwJFLpoX0i5EOqYuPox3b1kFWJEA
+
++ Response 200 (application/json; charset=utf-8)
+Пользователь авторизован
+    + Attributes
+        + id: 5b955314977bd66e0b6a5050 (string)
+        + nickname: Ivan (string)
+        + email: Ivan@email.ru (string)
+        + avatar: shooter_1 (string)
+        + rank: 14 (number)
+        + gold: 450 (number)
+        + diamond: 50 (number)
+        + experience: 660 (number)
+        + level: 5 (number)
+        + karma: 10 (number)
+        + points: 35 (number)
+        + limitSlots: 8 (number)
+        + openSlots: 6 (number)
+        + skillSet (array)
+            + 5b955314977bd66e0b6a8770 (string, optional)
+            + 5b955314977bd66e0b6a8772 (string, optional)
+        + skillsUnlocked (array)
+            + 5b955314977bd66e0b6a8770 (string, optional)
+            + 5b955314977bd66e0b6a8772 (string, optional)
+
+
++ Response 403 (application/json; charset=utf-8)
+Переданы неверные параметры входа
+    + Attributes
+        + message: Forbidden (string)
+
+### * Удаление аккаунта [DELETE /me]
+Удаление своего аккаунта
+
++ Response 200 (application/json; charset=utf-8)
+Профиль текущего пользователя удален успешно
+    + Attributes
+        + message: Your accaunt is successfully deleted (string)
+
++ Response 403 (application/json; charset=utf-8)
+Переданы неверные параметры входа
+    + Attributes
+        + message: Forbidden (string)
+
+### * Добавление умения в набор умений [POST /api/me/skillset]
+Добавление выбранных умений текущего пользователя (то, что было в наборе остается) в его набор умений
+
++ Request (application/json)
+    + Attributes
+        + id: 5b955314977bd66e0b6a8771 (string) 
+
++ Response 200 (application/json; charset=utf-8)
+Выбранные умения текущего пользователя успешно обновлены 
+    + Attributes
+        + message: Your set of skills is updated successfully (string)
+
++ Response 400 (application/json; charset=utf-8)
+Заданы неверные параметры
+    + Attributes
+        + message: Invalid user params (string)
+
++ Response 403 (application/json; charset=utf-8)
+Переданы неверные параметры входа
+    + Attributes
+        + message: Forbidden (string)
+
+### * Удаление умения из набора умений [DELETE /api/me/skillset]
+Частичое или полное удаление выбранных умений текущего пользователя из его набора умений
+
++ Request (application/json)
+    + Attributes
+        + id: 5b955314977bd66e0b6a8771 (string) 
+
++ Response 200 (application/json; charset=utf-8)
+Выбранные умения текущего пользователя успешно обновлены 
+    + Attributes
+        + message: Your skills of set is delete successfully (string)
+
++ Response 400 (application/json; charset=utf-8)
+Заданы неверные параметры
+    + Attributes
+        + message: Invalid user params (string)
+
++ Response 403 (application/json; charset=utf-8)
+Переданы неверные параметры входа
+    + Attributes
+        + message: Forbidden (string)
+
+### * Покупка выбранного умения [POST /api/me/buyskill]
+Покупка выбранного умения
+
++ Request (application/json)
+    + Attributes
+        + id: 5b955314977bd66e0b6a8771 (string) 
+
++ Response 200 (application/json; charset=utf-8)
+Выбранное умение текущего пользователя успешно куплено 
+    + Attributes
+        + message: Your skill unlocked (string)
+
++ Response 400 (application/json; charset=utf-8)
+Заданы неверные параметры
+    + Attributes
+        + message: Not enough money or level (string)
+
++ Response 403 (application/json; charset=utf-8)
+Переданы неверные параметры входа
+    + Attributes
+        + message: Forbidden (string)
+
+### * Изменение аватара [PATCH /api/me/avatar]
+Изменение аватара текущего пользователя
+
++ Request (application/json)
+    + Attributes
+        + avatar: shooter_1 (string)
+
++ Response 200 (application/json; charset=utf-8)
+Аватар текущего пользователя обновлен успешно
+    + Attributes
+        + message: Your avatar is updated successfully (string)
+
++ Response 400 (application/json; charset=utf-8)
+Заданы неверные параметры
+    + Attributes
+        + message: Invalid user params (string)
+
++ Response 403 (application/json; charset=utf-8)
+Переданы неверные параметры входа
+    + Attributes
+        + message: Forbidden (string)
+
+### * Изменение никнейма [PATCH /api/me/nickname]
+Изменение никнейма текущего пользователя
+
++ Request (application/json)
+    + Attributes
+        + nickname: Ivan2000 (string)
+
++ Response 200 (application/json; charset=utf-8)
+Никнейм текущего пользователя обновлен успешно
+    + Attributes
+        + message: Your nickname is updated successfully (string)
+
++ Response 400 (application/json; charset=utf-8)
+Заданы неверные параметры
+    + Attributes
+        + message: Invalid user params (string)
+
++ Response 403 (application/json; charset=utf-8)
+Переданы неверные параметры входа
+    + Attributes
+        + message: Forbidden (string)
+
+### * Изменение пароля [PATCH /api/me/password]
+Изменение пароля, для поддверждения необходимо указать старый пароль
+
++ Request (application/json)
+    + Attributes
+        + oldPassword: pass1234 (string)
+        + newPassword: 1234pass (string)
+
++ Response 200 (application/json; charset=utf-8)
+Профиль текущего пользователя обновлен успешно
+    + Attributes
+        + message: New password set successfully. (string)
+
++ Response 400 (application/json; charset=utf-8)
+Заданы неверные параметры
+    + Attributes
+        + message: Invalid user params (string)
+
++ Response 403 (application/json; charset=utf-8)
+Переданы неверные параметры входа
+    + Attributes
+        + message: Incorrect password (string)

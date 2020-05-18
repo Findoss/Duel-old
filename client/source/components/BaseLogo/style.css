@@ -1,0 +1,19 @@
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  width: 50%;
+  height: 100%;
+}
+
+.logo::before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+
+.logo__img {
+  max-height: 100%;
+}

@@ -1,0 +1,1 @@
+mongoexport --db $1 --collection $2 --pretty --out database/data/$2_v$3.json

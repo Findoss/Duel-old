@@ -1,0 +1,29 @@
+.base-button {
+  display: block;
+  width: 100%;
+  height: 5vh;
+  font-size: 1rem;
+  padding: var(--padding-2);
+  border-radius: var(--border-radius);
+  background-color: var(--color-blue-bright);
+}
+
+.base-button:hover, .base-button:focus {
+  cursor: pointer;
+  background-color: var(--color-green-norm);
+}
+
+.base-button:disabled {
+  border-color: var(--color-gray-norm);
+  border-image: none;
+  color: var(--color-gray-norm);
+  cursor: not-allowed;
+}
+
+.base-button_wait {
+  cursor: wait;
+}
+
+.base-button_wait:disabled {
+  cursor: wait;
+}

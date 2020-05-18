@@ -1,0 +1,14 @@
+.profile-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 6vh 91vh;
+  grid-gap: var(--padding-2);
+  padding: var(--padding-2);
+}
+
+.profile-container__header {
+  grid-row: 1;
+  grid-column: 1;
+  width: 100%;
+  text-align: center;
+}

@@ -1,0 +1,106 @@
+# Group Skills API
+
+### Все умения [GET /api/skills{?skip,limit}]
+Получение всех умений
+
++ Parameters
+    + skip: 0  (number, optional) - Номер страницы.
+    + limit:  10 (number, optional) - Количество элементов на странице.
+
++ Response 200 (application/json; charset=utf-8)
+    + Attributes (array)
+        + (object)
+            + id: 5b955314977bd66e0b6a8770 (string)
+            + title: Lightning (string)
+            + author: Findoss (string)
+            + description: Inflicts lightning damage to an enemy (string)
+            + duration: 1 (number)
+            + cooldown: 1 (number)
+            + icon: 1 (number)
+            + changeTurn: false (boolean)
+            + triggeringEvent: at once (string)
+            + resources (object)
+                + energy_1: 2 (number)
+                + energy_2: 2 (number)
+                + energy_3: 2 (number)
+            + points: 3 (number)
+            + priceInGold: 100 (number)
+            + minLevel: 0 (number)
+            + limitCopy: 2 (number)
+            + modifiers (object, optional)
+        + (object)
+            + id: 5b955314977bd66e0b6a8771 (string)
+            + title: Magic Square (string)
+            + author: Findoss (string)
+            + description: The effect of the skill is expressed in the collection from the playing field of the runes in a square area of 3x3, specified by you (string)
+            + duration: 1 (number)
+            + cooldown: 2 (number)
+            + icon: 2 (number)
+            + changeTurn: true (boolean)
+            + triggeringEvent: at once (string)
+            + resources (object)
+                + energy_1: 2 (number)
+                + energy_2: 4 (number)
+                + energy_3: 4 (number)
+            + points: 3 (number)
+            + priceInGold: 150 (number)
+            + minLevel: 0 (number)
+            + limitCopy: 3 (number)
+            + modifiers (object, optional)
+        + (object)
+            + id: 5b955314977bd66e0b6a8772 (string)
+            + title: Evolution (string)
+            + author: Findoss (string)
+            + description: Increases the positive effect of your random skill until the end of the fight. (string)
+            + duration: 1 (number)
+            + cooldown: 3 (number)
+            + icon: 3 (number)
+            + changeTurn: false (boolean)
+            + triggeringEvent: when сhanging еhe stroke (string)
+            + resources (object)
+                + energy_1: 2 (number)
+                + energy_2: 7 (number)
+                + energy_3: 2 (number)
+            + points: 4 (number)
+            + priceInGold: 70 (number)
+            + minLevel: 3 (number)
+            + limitCopy: 8 (number)
+            + modifiers (object, optional)
+                + force: 2 (number)
+                + dodge: 7 (number)
+
++ Response 404 (application/json; charset=utf-8)
+Нет ни одного умения
+    + Attributes
+        + message: Skills with id not found (string)
+
+### Информация о умении [GET /api/skills/{id}]
+Получить информацию о умении по id
+
++ Parameters
+    + id: 5b955314977bd66e0b6a8772 (string) - ID умения.
+
++ Response 200 (application/json; charset=utf-8)
+Данные пользователя
+    + Attributes
+        + id: 5b955314977bd66e0b6a8772 (string)
+        + title: Magic Square (string)
+        + author: Findoss (string)
+        + description: The effect of the skill is expressed in the collection from the playing field of the runes in a square area of 3x3, specified by you (string)
+        + duration: 1 (number)
+        + cooldown: 2 (number)
+        + changeTurn: true (boolean)
+        + triggeringEvent: atOnce (string)
+        + energy_1: 2 (number)
+        + energy_2: 4 (number)
+        + energy_3: 4 (number)
+        + points: 3 (number)
+        + priceInGold: 150 (number)
+        + minLevel: 0 (number)
+        + limitCopy: 0 (number)
+        + modifiers (object, optional)
+
++ Response 404 (application/json; charset=utf-8)
+Умение не найдено
+    + Attributes
+        + message: Skill with id not found (string)

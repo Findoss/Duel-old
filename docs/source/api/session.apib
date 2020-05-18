@@ -1,0 +1,107 @@
+# Group Session API
+\* - Авторизованн
+
+### Вход [POST /api/auth/signin]
+Осуществляет аутентификацию пользователя. Устанавливает TOKEN в localstarage
+```
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+{
+  "id": "000000000000000000000001",
+  "iat": 1534304024
+}
+```
+```
+HMACSHA256(
+  base64UrlEncode(header) + "." +
+  base64UrlEncode(payload),
+  your-256-bit-secret
+) 
+```
+**Result token**
+```
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsImlhdCI6MTUzNDMwNDAyNH0.scgAqUpw7ESY0fVbwJFLpoX0i5EOqYuPox3b1kFWJEA
+```
+
+
++ Request (application/json)
+    + Attributes
+        + email: ivan@mail.ru (string, required)
+        + password: password  (string, required)
+
++ Response 200 (application/json; charset=utf-8)
+Вход осуществлен успешно
+    + Attributes
+
+        + id: 5b955314977bd66e0b6a5050 (string)
+        + access (array)
+            + 0 (number)
+        + gameId: null (string)
+        + message: You are signed in (string)
+        + token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsImlhdCI6MTUzNDMwNDAyNH0.scgAqUpw7ESY0fVbwJFLpoX0i5EOqYuPox3b1kFWJEA (string)
+
++ Response 403 (application/json; charset=utf-8)
+Переданы неверные параметры входа
+    + Attributes
+        + message: Incorrect username or password (string)
+
+### * Выход [DELETE /api/auth/signout]
+Осуществляет выход из приложения.
+
++ Request ()
+    + Headers
+
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsImlhdCI6MTUzNDMwNDAyNH0.scgAqUpw7ESY0fVbwJFLpoX0i5EOqYuPox3b1kFWJEA
+
++ Response 200 (application/json; charset=utf-8)
+Выход из приложения осуществлен залогиненым пользователем
+    + Attributes
+        + message: You are signed out (string)
+    
++ Response 403 (application/json; charset=utf-8)
+Переданы неверные параметры входа
+    + Attributes
+        + message: Forbidden (string)
+
+### Сброс пароля [POST /api/auth/password-reset]
+Осуществляет сброс пароля.
+
++ Request (application/json)
+    + Attributes
+        + email: ivan@mail.ru (string, required)
+
++ Response 200 (application/json; charset=utf-8)
+Сообщение с ссылкой для сброса пароля успешно отправлена на указанную почту
+    + Attributes
+        + message: Ok (string)
+
++ Response 400 (application/json; charset=utf-8)
+Заданы неверные параметры
+    + Attributes
+        + message: Invalid user params (string)
+
+### Обновление пароля [POST /api/auth/password-new]
+Осуществляет обновление пароля.
+
++ Request (application/json)
+    + Attributes
+        + newPassword: 1234pass (string, required)
+        + hash: 533ace6012a32992137b398811174fde283be54ce8e2a3ef12f5c93e354189476b4b0073aa74769e35ef568a16321a5c1c98fbed897ffa21bf41d30a1c49c371 (string, required)
+
++ Response 200 (application/json; charset=utf-8)
+Пароль успешно обновлен
+    + Attributes
+        + message: Ok (string)
+
++ Response 400 (application/json; charset=utf-8)
+Заданы неверные параметры
+    + Attributes
+        + message: Invalid user params (string)
+        + message: Time is over (string)
+
++ Response 403 (application/json; charset=utf-8)
+Задан неверный hash
+    + Attributes
+        + message: Invalid link (string)

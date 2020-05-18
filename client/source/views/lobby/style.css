@@ -1,0 +1,36 @@
+.lobby_conteiner {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.lobby {
+  padding: var(--padding-4);
+  width: 30%;
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  background-color: var(--background-2);
+}
+
+.lobby__title::after {
+  content: url(../../assets/icons/status/loading_dots.svg);
+  display: block;
+  margin-top: var(--padding-3);
+}
+
+.lobby__buttons {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.lobby__button_cancel {
+  background-color: var(--color-gray-ccc) !important;
+  margin-right: var(--padding-2);
+}

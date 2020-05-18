@@ -1,137 +1,36 @@
-/**
- * TODO
- * разделить входящие сообщения на сценарии
- * добавить коментарии
- * добавить логирование
- * добавить запись логирования
- */
+const config = require('./config/index');
 
-// vendor
-const app = require('express');
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
-const log = require('../libs/log');
+// DataBase
+const mongoose = require('mongoose');
+require('./models');
 
-// configs
-const runes = require('./configs/runes');
-const server = require('./configs/server');
+// API HTTP server
+const app = require('./api');
 
-const crypto = require('crypto');
-const SeedRandom = require('seedrandom');
+// Game socket server
+const socketIO = require('socket.io');
+const createSocket = require('./game');
 
-// classes
-const Changes = require('./classes/changes');
-const Board = require('./classes/board');
-const Lobby = require('./classes/lobby');
-const Step = require('./classes/step');
-const Player = require('./classes/player');
+async function createApp() {
+  await mongoose.connect(
+    `mongodb://${config.db.username}:${config.db.password}@${config.db.host}:${config.db.port}/${config.db.name}`,
+    { useNewUrlParser: true }
+  );
 
-const lobby = new Lobby();
-const game = {};
+  const http = await app.listen(config.node.port);
+  if (config.logger.node) console.log(`[http    ] start - ${config.node.host}:${config.node.port}`);
 
-function isGame(id) {
-  return Object.hasOwnProperty.call(game, id);
+  const socket = createSocket(socketIO(http));
+  if (config.logger.node) console.log('[socket  ] start');
+
+  return {
+    http,
+    socket,
+  };
 }
 
-io.on('connection', (socket) => {
-  const userName = socket.id.slice(0, 5);
-  log('server', `[.] ${userName} connected`);
+if (!module.parent) {
+  global.server = createApp();
+}
 
-  socket.on('msg', (msg) => {
-    log('client', `[→] msg: ${msg}`);
-  });
-
-  socket.on('lobby/ready', (name) => {
-    lobby.addPlayer(socket, name);
-    if (lobby.isThereAnEnemy()) {
-      //
-      const id = crypto.randomBytes(4).toString('hex').toUpperCase();
-
-      const players = lobby.pairOfPlayers();
-      players[0].socket.join(id);
-      players[1].socket.join(id);
-
-      game[id] = {
-        changes: new Changes(),
-        board: new Board(runes),
-        players: [
-          new Player(players[0].name),
-          new Player(players[1].name),
-        ],
-        step: new Step(players[0].name, players[1].name),
-        seedRandom: new SeedRandom(id),
-      };
-
-      game[id].changes.add('loadGame', {
-        gameID: id,
-        newBoard: game[id].board.generationBoard(game[id].seedRandom),
-        players: game[id].players,
-        step: game[id].step.coinToss(game[id].seedRandom),
-      });
-      io.to(id).emit('changes', game[id].changes.release());
-      //
-    } else {
-      socket.emit('changes', [{ event: 'waitOpponent', data: 0 }]);
-    }
-  });
-
-  socket.on('game/connect', (id) => {
-    if (isGame(id)) {
-      socket.join(id);
-      game[id].changes.add('loadGame', {
-        gameID: id,
-        newBoard: game[id].board.getBoard(),
-        players: game[id].players,
-        step: game[id].step.getStep(),
-      });
-      socket.emit('changes', game[id].changes.release());
-    } else {
-      socket.emit('changes', [{ event: 'noGame', data: 0 }]);
-    }
-  });
-
-  socket.on('disconnect', () => {
-    lobby.deletePlayer(socket);
-    log('server', `[.] ${userName} disconnected`);
-  });
-
-  // GAME
-  socket.on('board/suggestion', (id) => {
-    if (isGame(id)) {
-      game[id].changes.add('showSuggestion', game[id].board.findMoves());
-      socket.emit('changes', game[id].changes.release());
-    }
-  });
-
-  socket.on('board/swap', (id, name, coordOne, coordTwo) => {
-    if (isGame(id)) {
-      if (game[id].step.isStep(name)) {
-        if (!Board.isEqualCoords(coordOne, coordTwo) &&
-             Board.isAdjacent(coordOne, coordTwo)) {
-          game[id].changes.add('swapRune', game[id].board.swap(coordOne, coordTwo));
-          game[id].board.findClusters(coordOne);
-          game[id].board.findClusters(coordTwo);
-          if (game[id].board.isClusters()) {
-            do {
-              game[id].changes.add('deleteRune', game[id].board.deleteClusters());
-              game[id].changes.add('dropRunes', game[id].board.drop());
-              game[id].changes.add('refillBoard', game[id].board.refill(game[id].seedRandom));
-              game[id].board.findAllClusters();
-            } while (game[id].board.isClusters());
-            // 20 - данные удачи игрока
-            // COMEBACK
-            game[id].changes.add('nextStep', game[id].step.nextStep(game[id].seedRandom, 20));
-          } else {
-            game[id].changes.add('swapRune', game[id].board.swap(coordOne, coordTwo));
-            game[id].board.cleanClusters();
-          }
-          io.to(id).emit('changes', game[id].changes.release());
-        }
-      }
-    }
-  });
-});
-
-http.listen(server.port, () => {
-  log('server', `listening on localhost:${server.port}`);
-});
+module.exports = createApp;

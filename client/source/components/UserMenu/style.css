@@ -1,0 +1,130 @@
+.user-menu {
+  display: grid;
+  grid-template-columns: 9fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-column-gap: var(--padding-1);
+}
+
+.user-menu__navigation {
+  grid-row: 1/3;
+  grid-column: 2;
+  /**/
+  cursor: pointer;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-green-norm);
+}
+
+.user-menu__navigation::before {
+  content: '≡';
+}
+
+.user-menu__nickname {
+  grid-row: 1;
+  grid-column: 1;
+  /**/
+  text-align: center;
+  background-color: var(--color-gray-lite);
+}
+
+.user-menu__nickname a {
+  color: var(--color-white);
+}
+
+.user-menu__nickname:hover {
+  cursor: pointer;
+}
+
+.user-menu__nickname a {
+  text-decoration: none;
+}
+
+.user-menu__estate {
+  grid-row: 2;
+  grid-column: 1;
+  /**/
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--color-gray-ccc);
+}
+
+.user-level, .user-gold, .user-diamond {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-level::before {
+  content: '🙫';
+  padding-right: var(--padding-1);
+  color: var(--color-green-bright);
+}
+
+.user-gold::before {
+  content: '⬕';
+  padding-right: var(--padding-1);
+  color: var(--color-yellow-bright);
+}
+
+.user-diamond::before {
+  content: '⬓';
+  padding-right: var(--padding-1);
+  color: var(--color-blue-bright);
+}
+
+.button-buy {
+  display: flex;
+  align-items: center;
+  width: auto;
+  padding: 0;
+  padding-left: var(--padding-2);
+  padding-right: var(--padding-2);
+  border-radius: 0;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-left: 0.5vh;
+  height: 100%;
+}
+
+/***/
+
+.user-menu__navigation__list {
+  padding: var(--padding-2);
+  background-color: var(--color-gray-norm);
+  position: absolute;
+  top: 7vh;
+  right: 0;
+  width: 38vh;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-items: center;
+  z-index: 2;
+}
+
+.user-menu__navigation__list::before {
+  content: '';
+  display: block;
+  width: 3.755555vh;
+  height: 0;
+  border-top: 1vh solid var(--color-gray-norm);
+  position: absolute;
+  top: -1vh;
+  right: 0;
+}
+
+.navigation-item {
+  margin-top: var(--padding-1);
+  text-align: left;
+}
+
+.navigation-item {
+  margin-top: var(--padding-1);
+  text-align: left;
+  padding: 1vh;
+  background-color: beige;
+  width: 100%;
+  border-radius: var(--border-radius)
+}

@@ -1,0 +1,32 @@
+table {
+  background-color: var(--background-1);
+  border-collapse: collapse;
+  width: 100%;
+  height: 100%;
+}
+
+th {
+  background-color: var(--background-1);
+  color: var(--color-text);
+  padding-top: var(--padding-2);
+}
+
+th, td {
+  padding-top: var(--padding-1);
+  padding-bottom: var(--padding-1);
+  padding-left: var(--padding-2);
+  padding-right: var(--padding-2);
+  text-align: left;
+}
+
+tr:nth-child(1n):hover {
+  background-color: var(--color-blue-lite);
+}
+
+tr:nth-child(odd) {
+  background: var(--background-2);
+}
+
+tr:nth-child(even) {
+  background: var(--background-0);
+}

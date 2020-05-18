@@ -1,50 +1,60 @@
 {
   "name": "duel",
-  "version": "1.0.0",
-  "description": "game",
-  "main": "index.js",
+  "version": "1.1.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Findoss/Duel.git"
+  },
   "author": "Findoss",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Findoss/Duel/issues"
+  },
+  "homepage": "https://github.com/Findoss/Duel#readme",
   "scripts": {
-    "build": "webpack --env production",
-    "start": "node server/index.js",
-    "server": "nodemon server/index.js --watch server",
-    "client": "webpack-dev-server --env development",
-    "doc": "node utils/docs_build.js",
-    "test": "nyc mocha",
-    "test-w": "mocha -w",
-    "travis": "npm run build && npm test",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+    "build-api": "aglio --theme-variables flatly -i docs/source/api/index.apib -o docs/build/API.html",
+    "build-doc": "npm run build-storybook & npm run build-api",
+    "build-structure": "tree -I \"node_modules|.git|.vscode\" -a > docs/build/progect-structure.txt",
+    "db-dump": "",
+    "db-export": "sh database/scripts/export.sh",
+    "db-import": "sh database/scripts/import.sh",
+    "dev-api": "aglio --theme-variables slate -i docs/source/api/index.apib --server",
+    "dev-client": "cd client && npm run dev",
+    "dev-storybook": "cd client && npm run dev-storybook",
+    "dev-server-mock": "drakov -f docs/source/api/*.apib -s docs/source/api/index.apib -p 3001 --watch  --autoOptions --method DELETE --method PATCH --header Authorization --debugMode",
+    "dev-server": "cd server && npm run dev",
+    "dev-test-client": "cd client && npm run test:unit",
+    "dev-test-server": "cd server && npm run test-watch",
+    "gen-token": "node server/tools/token.js",
+    "gen-pass": "node server/tools/password.js",
+    "install-client": "cd client && npm install",
+    "install-server": "cd server && npm install",
+    "log-remote": "heroku logs --tail -a wwqq",
+    "postinstall": "npm run install-server && npm run install-client",
+    "start": "cd server && npm run start",
+    "test-api": "dredd docs/source/api/*.apib http://127.0.0.1:3003"
   },
-  "dependencies": {
-    "express": "^4.16.2",
-    "phaser-ce": "^2.10.0",
-    "seedrandom": "^2.4.3",
-    "socket.io": "^2.0.4"
+  "engines": {
+    "node": "9.9.0",
+    "npm": "5.6.0"
   },
+  "dependencies": {},
   "devDependencies": {
-    "chai": "^4.1.2",
-    "coveralls": "^3.0.0",
-    "css-loader": "^0.28.9",
-    "eslint": "^4.16.0",
+    "aglio": "^2.3.0",
+    "drakov": "^1.0.4",
+    "dredd": "^5.1.5",
+    "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.8.0",
-    "extract-text-webpack-plugin": "^3.0.2",
-    "html-webpack-plugin": "^2.30.1",
-    "jsdoc": "^3.5.5",
-    "jsdoc-to-markdown": "^4.0.1",
-    "mocha": "^5.0.0",
-    "nodemon": "^1.14.11",
-    "nyc": "^11.4.1",
-    "script-loader": "^0.7.2",
-    "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.11.1",
-    "webpack-merge": "^4.1.1"
+    "eslint-plugin-import": "^2.9.0",
+    "tree-node-cli": "^1.2.2"
   },
   "eslintConfig": {
     "extends": "airbnb-base",
     "env": {
       "browser": true,
-      "node": true
+      "node": true,
+      "mocha": true
     },
     "rules": {
       "no-plusplus": [
@@ -52,22 +62,9 @@
         {
           "allowForLoopAfterthoughts": true
         }
-      ]
+      ],
+      "import/extensions": "off",
+      "import/no-unresolved": "off"
     }
-  },
-  "nyc": {
-    "temp-directory": "./docs/.nyc",
-    "exclude": [
-      "**/*.spec.js",
-      "build",
-      "client",
-      "test",
-      "server/configs",
-      "utils"
-    ]
-  },
-  "nodemonConfig": {
-    "delay": "500"
-  },
-  "license": " todo license "
+  }
 }

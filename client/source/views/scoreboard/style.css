@@ -1,0 +1,50 @@
+.scoreboard {
+  display: grid;
+  grid-template-columns: 6fr 4fr;
+  grid-template-rows: 1fr;
+  grid-gap: var(--padding-2);
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+
+.wrapper-table {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.wrapper-table_scroll {
+  max-height: 100%;
+  width: 100%;
+  overflow-y: auto;
+}
+
+.wrapper-table_width-all {
+  grid-column: 1/3;
+  grid-row: 1;
+}
+
+.table {}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+}
+
+.table__item {
+  height: 20vh;
+}
+
+.scoreboard__user-rank {
+  height: 70%;
+}
+
+.placeholder-slot {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  direction: ltr;
+  background-color: #ccc;
+}

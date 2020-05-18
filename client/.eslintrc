@@ -1,0 +1,24 @@
+{
+  "root": true,
+  "env": {
+    "node": true
+  },
+  "extends": [
+    "plugin:vue/essential",
+    "@vue/airbnb"
+  ],
+  "rules": {
+    "eol-last": 0,
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
+    "import/extensions": 0,
+    "import/no-unresolved": 0
+  },
+  "parserOptions": {
+    "parser": "babel-eslint"
+  }
+}

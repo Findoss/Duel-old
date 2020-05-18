@@ -1,7 +1,6 @@
-/build/*/*bundle*
-/build/index.html
-/docs
 /node_modules
-/*lock.json
-/todo.md
-/.coveralls.yml
+/client/node_modules
+/server/node_modules
+/.vscode
+/client2
+*/build/*

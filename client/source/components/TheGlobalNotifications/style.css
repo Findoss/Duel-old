@@ -1,0 +1,29 @@
+.notification {
+  margin-top: 1vh;
+  position: absolute;
+  width: 33.33333%;
+  left: 33.33333%;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.notification div {
+  margin-bottom: 1vh;
+}
+
+/* animation */
+
+.list-enter-active, .list-leave-active {
+  transition: all 500ms;
+}
+
+.list-enter {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
+}

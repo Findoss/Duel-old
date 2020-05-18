@@ -1,0 +1,43 @@
+{
+  "name": "duel-server",
+  "version": "1.1.0",
+  "private": true,
+  "author": "Findoss",
+  "license": "MIT",
+  "scripts": {
+    "dev": "clear && env MODE=develop nodemon index.js --watch server/*",
+    "start": "MODE=production node --optimize_for_size --max_old_space_size=460 index.js ",
+    "start-win": "env MODE=production node index.js",
+    "test-watch": "nodemon --exec \"npm test\"",
+    "test": "clear && env MODE=test mocha --timeout 7000"
+  },
+  "dependencies": {
+    "@koa/cors": "^2.2.2",
+    "concurrency-logger": "^2.1.0",
+    "i18next": "^12.1.0",
+    "i18next-sync-fs-backend": "^1.1.0",
+    "jsonwebtoken": "^8.3.0",
+    "koa": "^2.5.1",
+    "koa-bodyparser": "^4.2.1",
+    "koa-helmet": "^4.0.0",
+    "koa-i18next": "^1.1.1",
+    "koa-router": "^7.4.0",
+    "koa-send": "^5.0.0",
+    "koa-static": "^4.0.3",
+    "mongoose": "^5.1.5",
+    "mongoose-hidden": "^1.5.4",
+    "nodemailer": "^4.7.0",
+    "seedrandom": "^2.4.4",
+    "socket.io": "^2.1.1",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.5",
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "supertest": "^3.1.0"
+  },
+  "nodemonConfig": {
+    "delay": "100"
+  }
+}

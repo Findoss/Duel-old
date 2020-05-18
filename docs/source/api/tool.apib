@@ -1,0 +1,64 @@
+# Group Tool API
+API для сервисных функций
+
+### Ping [HEAD /api/tools/ping]
+Проверка доступности сервиса
+
++ Response 200
+
+### Доступность почты [GET /api/tools/checkEmail{?email}]
+
+Проверка доступности почты
++ Parameters
+    + email: Ivan@email.com (string, optional) - почта
+
++ Response 200 (application/json; charset=utf-8)
+Почту **можно** использовать
+    + Attributes
+        + used: true (boolean) 
+
+### Доступность никнейма [GET /api/tools/checkNickname{?nickname}] 
+
+Проверка доступности никнейма
++ Parameters
+    + nickname: Ivan (string, optional) - никнейм
+
++ Response 200 (application/json; charset=utf-8)
+Никнейм **можно** использовать  
+    + Attributes
+        + used: true (boolean)
+
+### Актуальность токена [GET /api/tools/checkToken] 
+
+Проверка валидности и актуальности токена
++ Request ()
+    + Headers
+
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsImlhdCI6MTUzNDMwNDAyNH0.scgAqUpw7ESY0fVbwJFLpoX0i5EOqYuPox3b1kFWJEA
+
++ Response 200 (application/json; charset=utf-8)
+Токен прошел валиданию  
+    + Attributes
+        + isAuthenticated: true (boolean)
+
++ Response 403 (application/json; charset=utf-8)
+Токен не прошел валиданию  
+    + Attributes
+        + message: Forbidden (string)
+
+### Актуальность ссылки для сброса пароля [GET /api/tools/checkPasswordResetLink{?link}] 
+
+Проверка валидности и актуальности ссылки для сброса пароля
++ Parameters
+    + link: 2ab93b4e1411dfad9adc039c952a9beaa35eb8ea0eba89549fce8bc1d037a235dae05501061f0cf229e8aaea4fec01b90a7c23cb484958461efd2feca1a0b7aa (string, required) - ссылка
+
++ Response 200 (application/json; charset=utf-8)
+Ссылка прошела валиданию  
+    + Attributes
+        + nickname: Ivan (string)
+
++ Response 400 (application/json; charset=utf-8)
+Ссылка не прошела валиданию  
+    + Attributes
+        + message: Invalid (string)
+        + message2: TimeOut (string)

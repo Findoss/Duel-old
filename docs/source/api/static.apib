@@ -1,0 +1,37 @@
+# Group Static API
+
+### Получение аватаров [GET /api/static/avatars]
+Получение всех аватаров
+
++ Response 200 (application/json; charset=utf-8)
+    + Attributes (array)
+        + shooter_1 (string)
+        + shooter_2 (string)
+        + shooter_3 (string)
+
++ Response 404 (application/json; charset=utf-8)
+Файл не найден
+    + Attributes
+        + message: File not found (string)
+
+### Получение игровых параметров пользователя [GET /api/static/user-attributes]
+Начальные значения игровых параметров для пользователя
+
++ Response 200 (application/json; charset=utf-8)
+    + Attributes
+        + health: 100 (number)
+        + force: 10 (number)
+        + armor: 6 (number)
+        + rage: 5 (number)
+        + luck: 2 (number)
+        + healing: 3 (number)
+        + dodge: 4 (number)
+        + resources (object)
+            + energy_1: 3 (number)
+            + energy_2: 3 (number)
+            + energy_3: 3 (number)
+
++ Response 404 (application/json; charset=utf-8)
+Файл не найден
+    + Attributes
+        + message: File not found (string)
