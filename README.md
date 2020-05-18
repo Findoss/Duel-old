@@ -80,7 +80,6 @@
 ## Мир игры
 **Стилизация** - готика.  
 **Время** - 9-10 век.  
-COMBAK - Мир игры
 [Читать полную версию](setting.md)
 
 ## Графика
@@ -267,7 +266,7 @@ COMBAK - Мир игры
 
 
 ## Интерфейс
-[**RealTimeBoard** - interface](https://realtimeboard.com/app/board/o9J_kzsfLhY=/)  
+[**RealTimeBoard** - interface](https://realtimeboard.com/app/board/o9J_k0DLCvk=/)  
 ![Интерфейс](/media/interface.png)
 
 ## Пример боя

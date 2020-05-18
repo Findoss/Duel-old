@@ -118,7 +118,9 @@ io.on('connection', (socket) => {
               game[id].changes.add('refillBoard', game[id].board.refill(game[id].seedRandom));
               game[id].board.findAllClusters();
             } while (game[id].board.isClusters());
-            game[id].changes.add('nextStep', game[id].step.nextStep());
+            // 20 - данные удачи игрока
+            // COMEBACK
+            game[id].changes.add('nextStep', game[id].step.nextStep(game[id].seedRandom, 20));
           } else {
             game[id].changes.add('swapRune', game[id].board.swap(coordOne, coordTwo));
             game[id].board.cleanClusters();
